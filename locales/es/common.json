@@ -1,0 +1,30 @@
+{
+  "nav": {
+    "services": "Servicios",
+    "work": "Proyectos",
+    "process": "Método",
+    "stack": "Stack",
+    "about": "Sobre mí",
+    "contact": "Contacto"
+  },
+  "status": {
+    "available": "Disponible"
+  },
+  "footer": {
+    "tagline": "Dev full-stack en alquiler.",
+    "sitemap_heading": "Mapa",
+    "elsewhere_heading": "En otros sitios",
+    "direct_heading": "Directo",
+    "sitemap_links": ["Servicios", "Proyectos", "Método", "Sobre mí", "Contacto"],
+    "elsewhere_links": ["LinkedIn", "GitHub", "X / Twitter", "Instagram"],
+    "direct_links": ["thomas.augot@gmail.com", "Reservar llamada", "Enviar brief"],
+    "copy": "© 2026 Thomas Augot · Codeado y desplegado a mano desde Las Palmas."
+  },
+  "newsletter": {
+    "title": "Notas",
+    "title_italic": " del Atlántico.",
+    "body": "Una vez al mes. Código que entrego, lo que aprendo, proyectos en los que estoy contratando. Sin spam.",
+    "placeholder": "tu@email.com",
+    "btn": "Suscribirse"
+  }
+}

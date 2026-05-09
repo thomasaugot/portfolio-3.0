@@ -1,0 +1,486 @@
+{
+  "hero": {
+    "eyebrow": "Développeur fullstack · à louer",
+    "h1a": "Je construis",
+    "h1b": "des apps web",
+    "h1c": "prêtes pour la prod",
+    "h1d": "—vite",
+    "h1e": "et bien.",
+    "sub": "Salut, moi c'est Thomas. Je livre des produits web & mobile de A à Z — de l'idée à la prod. Trois ans dans React, Next.js et Node, à coder face à l'océan, à Gran Canaria.",
+    "cta1": "Lancer un projet",
+    "cta2": "Voir les projets",
+    "meta1_k": "Basé",
+    "meta1_v": "Las Palmas, GC",
+    "meta2_k": "Fuseau",
+    "meta2_v": "UTC+0 · GMT/WET",
+    "meta3_k": "Réponse",
+    "meta3_v": "< 24h"
+  },
+  "trusted_label": "Livré pour",
+  "sections": {
+    "services_meta": "[ 01 / SERVICES ]",
+    "services_title": "Ce que vous obtenez quand vous m'engagez.",
+    "process_meta": "[ 02 / MÉTHODE ]",
+    "process_title": "De « on s'appelle ? » à la mise en ligne.",
+    "stack_meta": "[ 03 / STACK ]",
+    "stack_title": "Mes outils, au quotidien.",
+    "work_meta": "[ 04 / PROJETS ]",
+    "work_title": "Sélection, sur 18 mois.",
+    "testimonials_meta": "[ 05 / RETOURS ]",
+    "testimonials_title": "Ce que disent celles et ceux avec qui j'ai bossé.",
+    "about_meta": "[ 06 / À PROPOS ]",
+    "about_title": "Codeur la semaine. Plage le week-end.",
+    "faq_meta": "[ 07 / FAQ ]",
+    "faq_title": "Les questions qu'on me pose avant de commencer.",
+    "contact_meta": "[ 08 / CONTACT ]",
+    "contact_title": "On construit le truc."
+  },
+  "services": [
+    {
+      "n": "S/01",
+      "t": "Apps web, de A à Z",
+      "d": "Applications Next.js & React sur mesure : auth, dashboards, paiements, temps réel — vite livrées, propres en prod.",
+      "tags": [
+        "Next.js 15",
+        "React 18",
+        "TypeScript",
+        "Tailwind/SCSS",
+        "Zustand/Redux"
+      ]
+    },
+    {
+      "n": "S/02",
+      "t": "Backend & infra",
+      "d": "APIs Node + Postgres, déploiements AWS, CI/CD, Docker, CDN/cache. Du chiant qui ne plante pas à 3h du mat.",
+      "tags": [
+        "Node.js",
+        "Express",
+        "PostgreSQL",
+        "AWS",
+        "Docker",
+        "CI/CD"
+      ]
+    },
+    {
+      "n": "S/03",
+      "t": "Apps mobiles (iOS · Android)",
+      "d": "Apps React Native cross-plateforme, sur App Store et Play Store, mode offline, modules natifs, mises à jour OTA.",
+      "tags": [
+        "React Native",
+        "Expo",
+        "Modules natifs",
+        "Offline-first"
+      ]
+    },
+    {
+      "n": "S/04",
+      "t": "Perf, SEO & analytics",
+      "d": "Lighthouse 95+, Core Web Vitals à plat, SEO technique, GA4 + GTM. Des sites qui rankent et qui chargent.",
+      "tags": [
+        "Core Web Vitals",
+        "Schema",
+        "GA4",
+        "GTM"
+      ]
+    },
+    {
+      "n": "S/05",
+      "t": "CMS headless · Sanity",
+      "d": "Intégrations Sanity Studio pour que les équipes non-tech publient sans casser le build. Modèles pensés pour les éditeurs.",
+      "tags": [
+        "Sanity",
+        "GROQ",
+        "Portable Text"
+      ]
+    },
+    {
+      "n": "S/06",
+      "t": "Motion & 3D",
+      "d": "GSAP, Three.js et Framer Motion quand il faut du wow. Avec parcimonie.",
+      "tags": [
+        "GSAP",
+        "Three.js",
+        "Framer Motion"
+      ]
+    }
+  ],
+  "process": [
+    {
+      "n": "01",
+      "t": "Appel découverte",
+      "d": "30 minutes, sans pitch deck. On parle besoin, contraintes, blocages. Je vous dis si c'est pour moi.",
+      "time": "30 min"
+    },
+    {
+      "n": "02",
+      "t": "Périmètre & devis",
+      "d": "Je vous envoie un cahier des charges, des jalons et un délai sous 48h. Clair, fixe, sans surprise.",
+      "time": "48h"
+    },
+    {
+      "n": "03",
+      "t": "Sprints de dev",
+      "d": "Démos hebdo sur une URL de staging. Vous voyez l'avancement chaque vendredi. Async par défaut.",
+      "time": "Hebdo"
+    },
+    {
+      "n": "04",
+      "t": "Lancement",
+      "d": "Mise en prod, bascule DNS, analytics. Je tiens un rodage de 7 jours pour attraper ce que seul le vrai trafic révèle.",
+      "time": "Jour 1"
+    },
+    {
+      "n": "05",
+      "t": "Suivi",
+      "d": "30 jours de bugfixes & ajustements inclus. Ensuite : retainer ou à la feature, comme vous voulez.",
+      "time": "30 jours"
+    }
+  ],
+  "stack": {
+    "buckets": [
+      {
+        "label": "Frontend",
+        "tags": [
+          "Next.js",
+          "React",
+          "TypeScript",
+          "Tailwind CSS",
+          "SCSS",
+          "Redux",
+          "Zustand",
+          "GSAP",
+          "Framer Motion",
+          "Three.js"
+        ]
+      },
+      {
+        "label": "Backend & Infra",
+        "tags": [
+          "Node.js",
+          "Express",
+          "PostgreSQL",
+          "Supabase",
+          "AWS",
+          "Docker",
+          "CI/CD",
+          "VPS / Linux"
+        ]
+      },
+      {
+        "label": "Mobile & Natif",
+        "tags": [
+          "React Native",
+          "Expo",
+          "iOS",
+          "Android",
+          "App Store / Play Store"
+        ]
+      },
+      {
+        "label": "Contenu & Ops",
+        "tags": [
+          "Sanity CMS",
+          "GA4",
+          "Tag Manager",
+          "Sentry",
+          "Jest",
+          "Vitest",
+          "Figma"
+        ]
+      },
+      {
+        "label": "Outils IA",
+        "tags": [
+          "Claude AI",
+          "Claude Code",
+          "Claude Design",
+          "Codex"
+        ]
+      }
+    ],
+    "metrics": [
+      {
+        "n": "3",
+        "u": "a",
+        "lbl": "À livrer du code en prod"
+      },
+      {
+        "n": "20",
+        "u": "+",
+        "lbl": "Projets livrés"
+      },
+      {
+        "n": "3",
+        "u": "",
+        "lbl": "Langues parlées (FR · EN · ES)"
+      },
+      {
+        "n": "0",
+        "u": "",
+        "lbl": "Deadline manquée cette année"
+      }
+    ]
+  },
+  "work": [
+    {
+      "n": "W/01",
+      "client": "Binter Canarias",
+      "tag": "Plateforme opérations terrain",
+      "type": "App web full-stack · PWA",
+      "year": "2025",
+      "role": "Fullstack",
+      "stack": "React 19 · Vite · Node · PostgreSQL · Socket.io · Docker",
+      "body": "PWA pour coordonner les installations de campagnes de marque dans les aéroports des Canaries. Check-ins en temps réel, uploads photo, workflow d'approbation à trois niveaux, support hors ligne.",
+      "link": "Étude de cas →",
+      "slug": "binter-montajes-app",
+      "featured": true
+    },
+    {
+      "n": "W/02",
+      "client": "Dos × Dos Grupo Imagen",
+      "tag": "Site corporate & panel d'administration",
+      "type": "Site éditorial + CMS",
+      "year": "2024",
+      "role": "Fullstack",
+      "stack": "Next.js 15 · GSAP · PostgreSQL · Prisma",
+      "body": "Refonte complète du site du studio de design, avec un panel admin sur éditeur Lexical pour publier services, études de cas et articles sans aide technique.",
+      "link": "dospordosgrupoimagen.com →",
+      "slug": "dosxdosgrupoimagen-web",
+      "href": "https://www.dospordosgrupoimagen.com/",
+      "featured": true
+    },
+    {
+      "n": "W/03",
+      "client": "Dos × Dos Grupo Imagen",
+      "tag": "App native techniciens terrain",
+      "type": "React Native · iOS & Android",
+      "year": "2025",
+      "role": "Lead mobile",
+      "stack": "React Native · Expo · SQLite · PostgreSQL · Zoho CRM",
+      "body": "App native pour équipes d'installation : routes, captures photo/signature, validation GPS, incidents — offline-first avec sync automatique au retour du réseau.",
+      "link": "Étude de cas →",
+      "slug": "dosxdos-montadores-app",
+      "featured": true
+    },
+    {
+      "n": "W/04",
+      "client": "Energía Solar Canarias",
+      "tag": "CRM de supervision solaire",
+      "type": "Plateforme full-stack · Mobile",
+      "year": "2025",
+      "role": "Fullstack",
+      "stack": "Next.js · Redux Toolkit · Framer Motion · WebView",
+      "body": "Plateforme unifiée pour consolider les données Victron, SolarEdge et GoodWe, avec un tableau de bord client et un CRM admin. Déployée en apps iOS et Android via WebView.",
+      "link": "Étude de cas →",
+      "slug": "energia-solar-canarias",
+      "href": "https://app.energiasolarcanarias.com/"
+    },
+    {
+      "n": "W/05",
+      "client": "Galaga Agency",
+      "tag": "Site agence 2.0",
+      "type": "Site marketing",
+      "year": "2025",
+      "role": "Fullstack",
+      "stack": "Next.js 15 · Three.js · GSAP · TypeScript",
+      "body": "Refonte complète du site de l'agence — scènes 3D immersives, animations au scroll cinématographiques, environnements réactifs au mouvement.",
+      "link": "galagaagency.com →",
+      "slug": "galaga-agency-website",
+      "href": "https://galagaagency.com/"
+    },
+    {
+      "n": "W/06",
+      "client": "Galaga Agency",
+      "tag": "Système de pointage numérique",
+      "type": "Plateforme logicielle full-stack",
+      "year": "2025",
+      "role": "Fullstack",
+      "stack": "React 19 · Vite · Node · PostgreSQL · WebSockets · GSAP",
+      "body": "Plateforme PERN pour aider les entreprises espagnoles à se conformer à la loi 2025 — dashboards employé, admin et inspecteur, suivi temps réel, exports PDF mensuels.",
+      "link": "Étude de cas →",
+      "slug": "reloj-laboral-galaga"
+    },
+    {
+      "n": "W/07",
+      "client": "ARECO",
+      "tag": "Site marché espagnol",
+      "type": "Site marketing · CMS",
+      "year": "2025",
+      "role": "Fullstack",
+      "stack": "Next.js 16 · Sanity CMS · GSAP · Lenis · Docker",
+      "body": "Site ciblant le marché hispanophone pour le leader mondial de la nébulisation. Chaque section est éditable depuis Sanity — compteurs animés, parallaxe, marquees et carrousels vidéo.",
+      "link": "areco-nextjs.galagaagency.com →",
+      "slug": "areco-web",
+      "href": "https://areco-nextjs.galagaagency.com"
+    },
+    {
+      "n": "W/08",
+      "client": "Charpente Menuiserie Durand",
+      "tag": "Site vitrine",
+      "type": "Site marketing",
+      "year": "2024",
+      "role": "Frontend",
+      "stack": "Next.js · Tailwind CSS · EmailJS",
+      "body": "Site optimisé SEO pour une entreprise de charpenterie française — zéro présence en ligne au départ. SEO technique, formulaires de contact, design épuré et classement local.",
+      "link": "cmdurand-2-0.vercel.app →",
+      "slug": "charpente-menuiserie-durand",
+      "href": "https://cmdurand-2-0.vercel.app/"
+    },
+    {
+      "n": "W/09",
+      "client": "Adelante Business Consulting",
+      "tag": "Site de consulting",
+      "type": "Site entreprise · WordPress",
+      "year": "2026",
+      "role": "Frontend",
+      "stack": "WordPress · Elementor · Custom CSS",
+      "body": "Site professionnel pour un cabinet de conseil en stratégie — architecture de services claire pour le mentorat exécutif, la gestion de crise et le développement du leadership.",
+      "link": "adelante-bc.com →",
+      "slug": "adelante-business-consulting",
+      "href": "https://adelante-bc.com/"
+    }
+  ],
+  "testimonials": [
+    {
+      "q": "Thomas a transformé un brief flou en produit live en six semaines. Il challenge quand il faut, et c'est exactement ce qu'on voulait.",
+      "name": "—",
+      "role": "Lead projet, agence cliente"
+    },
+    {
+      "q": "On lui a dit « fais que ça paraisse premium », et il l'a fait. Sanity, motion, perf — tout au taquet.",
+      "name": "—",
+      "role": "Fondateur, studio marketing"
+    },
+    {
+      "q": "Fiable, rapide, et franchement agréable à bosser avec. Async, démos hebdo, zéro drama.",
+      "name": "—",
+      "role": "CTO, SaaS B2B"
+    }
+  ],
+  "about": {
+    "lede1": "Thomas, la trentaine, ",
+    "lede_accent": "développeur fullstack",
+    "lede2": " basé à Las Palmas — ",
+    "lede_italic": "le côté venté",
+    "lede3": " de Gran Canaria.",
+    "body": "Reconverti depuis l'hôtellerie (cuisines en Australie, PNC chez Ryanair, ventes chez GoDaddy) avant que le code ne me happe. Autodidacte → bootcamp → mise en prod chaque semaine. Je bosse en remote avec des équipes partout en Europe.",
+    "facts": [
+      {
+        "k": "Lieu",
+        "v": "Las Palmas de Gran Canaria · ES"
+      },
+      {
+        "k": "Langues",
+        "v": "Français · English · Español"
+      },
+      {
+        "k": "TJM",
+        "v": "Sur demande — selon le périmètre"
+      },
+      {
+        "k": "Avec",
+        "v": "Galaga Agency · freelance sélectif"
+      },
+      {
+        "k": "Hors-bureau",
+        "v": "Surf, backpacking, café lent"
+      }
+    ],
+    "trip": [
+      {
+        "yr": "FR",
+        "place": "Rennes"
+      },
+      {
+        "yr": "AU",
+        "place": "Gold Coast"
+      },
+      {
+        "yr": "IE",
+        "place": "Dublin"
+      },
+      {
+        "yr": "ES",
+        "place": "Barcelone"
+      },
+      {
+        "yr": "NZ",
+        "place": "Mt Maunganui"
+      },
+      {
+        "yr": "DE",
+        "place": "Münich"
+      },
+      {
+        "yr": "FR",
+        "place": "Nantes"
+      },
+      {
+        "yr": "ES",
+        "place": "Las Palmas"
+      },
+      {
+        "yr": "AU",
+        "place": "Broome"
+      },
+      {
+        "yr": "ES",
+        "place": "Corralejo"
+      }
+    ]
+  },
+  "faq": [
+    {
+      "q": "Tu peux démarrer quand ?",
+      "a": "En général sous 1 à 2 semaines. Pour les launches serrés j'ai parfois un créneau plus tôt — fais signe."
+    },
+    {
+      "q": "Tu bosses seul ou en équipe ?",
+      "a": "Les deux. Plein temps chez Galaga Agency, plus quelques freelances sélectifs. Pour les gros périmètres je m'intègre à votre équipe ou j'amène des collaborateurs de confiance."
+    },
+    {
+      "q": "Et le tarif ?",
+      "a": "Au projet, périmètre fixe, devis écrit sous 48h après l'appel découverte. TJM disponible pour les retainers."
+    },
+    {
+      "q": "Tu peux reprendre un projet existant ?",
+      "a": "Oui — audits, refacto, reprises. Je vous dis franchement si c'est récupérable ou s'il vaut mieux refondre."
+    },
+    {
+      "q": "Tu es où, sur quels fuseaux ?",
+      "a": "Las Palmas, Espagne (UTC+0 / WET). Je couvre confortablement l'Europe et la côte est US."
+    },
+    {
+      "q": "Tu codes, ou tu chapeautes ?",
+      "a": "Je code. Toutes les lignes. La personne que vous Slackez à 14h est la même qui déploie à minuit."
+    }
+  ],
+  "contact": {
+    "heading1": "On",
+    "heading_accent": "construit",
+    "heading_italic": " le truc.",
+    "body": "Dites-moi ce que vous mijotez. Je lis chaque message moi-même. Si je ne suis pas le bon profil je vous le dis sous 24h et je vous oriente.",
+    "direct": "Ou écrivez directement :",
+    "f_name": "Nom",
+    "f_email": "Email",
+    "f_company": "Société",
+    "f_project": "Type de projet",
+    "f_message": "Le brief, en deux mots ?",
+    "f_budget": "Budget approx.",
+    "f_submit": "Envoyer",
+    "projects": [
+      "App web",
+      "Site marketing",
+      "App mobile",
+      "Audit / refacto",
+      "Autre"
+    ],
+    "budgets": [
+      "< 5k €",
+      "5–15k €",
+      "15–40k €",
+      "40k+ €",
+      "On en parle"
+    ]
+  }
+}

@@ -1,0 +1,486 @@
+{
+  "hero": {
+    "eyebrow": "Full-stack developer · for hire",
+    "h1a": "I build",
+    "h1b": "production-ready",
+    "h1c": "web apps",
+    "h1d": "fast",
+    "h1e": "—and well.",
+    "sub": "Hi, I'm Thomas. I ship modern web & mobile products end-to-end — from idea to staging to scale. Three years deep in React, Next.js and Node, coding by the ocean in Gran Canaria.",
+    "cta1": "Start a project",
+    "cta2": "View work",
+    "meta1_k": "Based",
+    "meta1_v": "Las Palmas, GC",
+    "meta2_k": "Timezone",
+    "meta2_v": "UTC+0 · GMT/WET",
+    "meta3_k": "Response",
+    "meta3_v": "< 24h"
+  },
+  "trusted_label": "Shipped for",
+  "sections": {
+    "services_meta": "[ 01 / SERVICES ]",
+    "services_title": "What you get when you hire me.",
+    "process_meta": "[ 02 / PROCESS ]",
+    "process_title": "From 'let’s talk' to live.",
+    "stack_meta": "[ 03 / STACK ]",
+    "stack_title": "The tools I lean on, daily.",
+    "work_meta": "[ 04 / WORK ]",
+    "work_title": "Selected work, last 18 months.",
+    "testimonials_meta": "[ 05 / WORD-OF-MOUTH ]",
+    "testimonials_title": "What the people I've shipped with say.",
+    "about_meta": "[ 06 / ABOUT ]",
+    "about_title": "Coder by trade. Beach bum on weekends.",
+    "faq_meta": "[ 07 / FAQ ]",
+    "faq_title": "Things people ask before we start.",
+    "contact_meta": "[ 08 / CONTACT ]",
+    "contact_title": "Let's build the thing."
+  },
+  "services": [
+    {
+      "n": "S/01",
+      "t": "Web apps, end-to-end",
+      "d": "Custom Next.js & React applications with auth, dashboards, payments, real-time data — built fast, shipped clean.",
+      "tags": [
+        "Next.js 15",
+        "React 18",
+        "TypeScript",
+        "Tailwind/SCSS",
+        "Zustand/Redux"
+      ]
+    },
+    {
+      "n": "S/02",
+      "t": "Backend & infrastructure",
+      "d": "Node + Postgres APIs, AWS deploys, CI/CD pipelines, Docker, CDN/caching. Boring stuff that doesn't break at 3am.",
+      "tags": [
+        "Node.js",
+        "Express",
+        "PostgreSQL",
+        "AWS",
+        "Docker",
+        "CI/CD"
+      ]
+    },
+    {
+      "n": "S/03",
+      "t": "Mobile apps (iOS · Android)",
+      "d": "Cross-platform React Native apps, on the App Store and Play Store, with offline mode, native modules, and OTA updates.",
+      "tags": [
+        "React Native",
+        "Expo",
+        "Native modules",
+        "Offline-first"
+      ]
+    },
+    {
+      "n": "S/04",
+      "t": "Performance, SEO & analytics",
+      "d": "Lighthouse 95+, Core Web Vitals fixed, technical SEO, GA4 + GTM dashboards. Sites that show up and load faster than the competition.",
+      "tags": [
+        "Core Web Vitals",
+        "Schema",
+        "GA4",
+        "GTM"
+      ]
+    },
+    {
+      "n": "S/05",
+      "t": "Headless CMS · Sanity",
+      "d": "Sanity Studio integrations so non-technical teams can publish without breaking the build. Editor-first content models.",
+      "tags": [
+        "Sanity",
+        "GROQ",
+        "Portable Text"
+      ]
+    },
+    {
+      "n": "S/06",
+      "t": "Motion & 3D interactions",
+      "d": "GSAP, Three.js and Framer Motion when the brief calls for delight, not just function. Used responsibly.",
+      "tags": [
+        "GSAP",
+        "Three.js",
+        "Framer Motion"
+      ]
+    }
+  ],
+  "process": [
+    {
+      "n": "01",
+      "t": "Discovery call",
+      "d": "30 minutes, no pitch deck. We talk about what you need, what's done, what's blocking. I tell you if I'm the right fit.",
+      "time": "30 min"
+    },
+    {
+      "n": "02",
+      "t": "Scope & estimate",
+      "d": "I send a written scope, milestones, and a fixed timeline within 48h. Clear deliverables, clear price, no surprises.",
+      "time": "48h"
+    },
+    {
+      "n": "03",
+      "t": "Build sprints",
+      "d": "Weekly demos on a staging URL. You see progress every Friday and can redirect at any point. Slack/email async, calls only when useful.",
+      "time": "Weekly"
+    },
+    {
+      "n": "04",
+      "t": "Launch",
+      "d": "Production deploy, DNS cutover, analytics dialed in. I run a 7-day burn-in to catch what only real traffic can show.",
+      "time": "Day 1"
+    },
+    {
+      "n": "05",
+      "t": "Aftercare",
+      "d": "30 days of bugfixes & small adjustments included. After that, retainers or per-feature — whichever you prefer.",
+      "time": "30 days"
+    }
+  ],
+  "stack": {
+    "buckets": [
+      {
+        "label": "Frontend",
+        "tags": [
+          "Next.js",
+          "React",
+          "TypeScript",
+          "Tailwind CSS",
+          "SCSS",
+          "Redux",
+          "Zustand",
+          "GSAP",
+          "Framer Motion",
+          "Three.js"
+        ]
+      },
+      {
+        "label": "Backend & Infra",
+        "tags": [
+          "Node.js",
+          "Express",
+          "PostgreSQL",
+          "Supabase",
+          "AWS",
+          "Docker",
+          "CI/CD",
+          "VPS / Linux"
+        ]
+      },
+      {
+        "label": "Mobile & Native",
+        "tags": [
+          "React Native",
+          "Expo",
+          "iOS",
+          "Android",
+          "App Store / Play Store"
+        ]
+      },
+      {
+        "label": "Content & Ops",
+        "tags": [
+          "Sanity CMS",
+          "GA4",
+          "Tag Manager",
+          "Sentry",
+          "Jest",
+          "Vitest",
+          "Figma"
+        ]
+      },
+      {
+        "label": "AI Tools",
+        "tags": [
+          "Claude AI",
+          "Claude Code",
+          "Claude Design",
+          "Codex"
+        ]
+      }
+    ],
+    "metrics": [
+      {
+        "n": "3",
+        "u": "y",
+        "lbl": "Shipping production code"
+      },
+      {
+        "n": "20",
+        "u": "+",
+        "lbl": "Projects delivered"
+      },
+      {
+        "n": "3",
+        "u": "",
+        "lbl": "Languages spoken (FR · EN · ES)"
+      },
+      {
+        "n": "0",
+        "u": "",
+        "lbl": "Missed deadlines this year"
+      }
+    ]
+  },
+  "work": [
+    {
+      "n": "W/01",
+      "client": "Binter Canarias",
+      "tag": "Field operations platform",
+      "type": "Full-stack web app · PWA",
+      "year": "2025",
+      "role": "Full-stack",
+      "stack": "React 19 · Vite · Node · PostgreSQL · Socket.io · Docker",
+      "body": "PWA for the regional airline to coordinate brand-campaign installations across Canary Islands airports. Real-time check-ins, photo uploads, three-role approval workflow, offline support.",
+      "link": "Case study →",
+      "slug": "binter-montajes-app",
+      "featured": true
+    },
+    {
+      "n": "W/02",
+      "client": "Dos × Dos Grupo Imagen",
+      "tag": "Corporate site & admin panel",
+      "type": "Marketing site + CMS",
+      "year": "2024",
+      "role": "Full-stack",
+      "stack": "Next.js 15 · GSAP · PostgreSQL · Prisma",
+      "body": "Complete redesign of the luxury design studio's site, with a custom admin panel built on a Lexical editor so the team can publish services, case studies, and blog posts without developer help.",
+      "link": "dospordosgrupoimagen.com →",
+      "slug": "dosxdosgrupoimagen-web",
+      "href": "https://www.dospordosgrupoimagen.com/",
+      "featured": true
+    },
+    {
+      "n": "W/03",
+      "client": "Dos × Dos Grupo Imagen",
+      "tag": "Field-worker native app",
+      "type": "React Native · iOS & Android",
+      "year": "2025",
+      "role": "Mobile lead",
+      "stack": "React Native · Expo · SQLite · PostgreSQL · Zoho CRM",
+      "body": "Native app for installation teams: job routing, photo/signature capture, GPS validation, incident reporting — all offline-first with automatic sync when connectivity returns.",
+      "link": "Case study →",
+      "slug": "dosxdos-montadores-app",
+      "featured": true
+    },
+    {
+      "n": "W/04",
+      "client": "Energía Solar Canarias",
+      "tag": "Solar monitoring CRM",
+      "type": "Full-stack platform · Mobile",
+      "year": "2025",
+      "role": "Full-stack",
+      "stack": "Next.js · Redux Toolkit · Framer Motion · WebView",
+      "body": "Unified platform consolidating Victron, SolarEdge, and GoodWe data into a single client dashboard, paired with an admin CRM for plant and user management. Delivered as native iOS and Android apps via WebView.",
+      "link": "Case study →",
+      "slug": "energia-solar-canarias",
+      "href": "https://app.energiasolarcanarias.com/"
+    },
+    {
+      "n": "W/05",
+      "client": "Galaga Agency",
+      "tag": "Agency website 2.0",
+      "type": "Marketing site",
+      "year": "2025",
+      "role": "Full-stack",
+      "stack": "Next.js 15 · Three.js · GSAP · TypeScript",
+      "body": "Complete rebuild of the agency's online presence — immersive 3D scenes, cinematic scroll animations, motion-reactive environments. The site positions Galaga as both a technical and creative leader.",
+      "link": "galagaagency.com →",
+      "slug": "galaga-agency-website",
+      "href": "https://galagaagency.com/"
+    },
+    {
+      "n": "W/06",
+      "client": "Galaga Agency",
+      "tag": "Digital time-tracking system",
+      "type": "Full-stack software platform",
+      "year": "2025",
+      "role": "Full-stack",
+      "stack": "React 19 · Vite · Node · PostgreSQL · WebSockets · GSAP",
+      "body": "PERN stack platform to help Spanish companies comply with the 2025 digital labor law — employee, admin, and inspector dashboards, real-time tracking, monthly PDF exports, and full audit trail.",
+      "link": "Case study →",
+      "slug": "reloj-laboral-galaga"
+    },
+    {
+      "n": "W/07",
+      "client": "ARECO",
+      "tag": "Spanish market landing site",
+      "type": "Marketing site · CMS",
+      "year": "2025",
+      "role": "Full-stack",
+      "stack": "Next.js 16 · Sanity CMS · GSAP · Lenis · Docker",
+      "body": "Dedicated landing site for the global nebulization leader's Spanish-speaking market. Every section is editable from Sanity studio — animated counters, parallax, marquees, and video carousels.",
+      "link": "areco-nextjs.galagaagency.com →",
+      "slug": "areco-web",
+      "href": "https://areco-nextjs.galagaagency.com"
+    },
+    {
+      "n": "W/08",
+      "client": "Charpente Menuiserie Durand",
+      "tag": "Business website",
+      "type": "Marketing site",
+      "year": "2024",
+      "role": "Frontend",
+      "stack": "Next.js · Tailwind CSS · EmailJS",
+      "body": "SEO-optimized business site for a French carpentry company — zero previous web presence. Technical SEO, contact forms via EmailJS, and a clean design that ranks locally.",
+      "link": "cmdurand-2-0.vercel.app →",
+      "slug": "charpente-menuiserie-durand",
+      "href": "https://cmdurand-2-0.vercel.app/"
+    },
+    {
+      "n": "W/09",
+      "client": "Adelante Business Consulting",
+      "tag": "Consulting website",
+      "type": "Business website · WordPress",
+      "year": "2026",
+      "role": "Frontend",
+      "stack": "WordPress · Elementor · Custom CSS",
+      "body": "Professional website for a CEO advisory firm — clear service architecture for executive mentoring, crisis management, and leadership development. Fully editable by the client via Elementor.",
+      "link": "adelante-bc.com →",
+      "slug": "adelante-business-consulting",
+      "href": "https://adelante-bc.com/"
+    }
+  ],
+  "testimonials": [
+    {
+      "q": "Thomas turned a vague brief into a live product in six weeks. He pushes back when needed, and that's exactly what we wanted.",
+      "name": "—",
+      "role": "Project lead, agency client"
+    },
+    {
+      "q": "We told him 'make it feel premium', and he did. Sanity, motion, performance — all dialed.",
+      "name": "—",
+      "role": "Founder, marketing studio"
+    },
+    {
+      "q": "Reliable, fast, and actually fun to work with. Async communication, weekly demos, no drama.",
+      "name": "—",
+      "role": "CTO, B2B SaaS"
+    }
+  ],
+  "about": {
+    "lede1": "Thomas, 30-something, ",
+    "lede_accent": "fullstack developer",
+    "lede2": " based in Las Palmas — ",
+    "lede_italic": "the windy side",
+    "lede3": " of Gran Canaria.",
+    "body": "I started in hospitality (kitchens in Australia, cabin crew at Ryanair, sales at GoDaddy) before code grabbed me and didn't let go. Career-changer, self-taught into bootcamp into shipping production every week. I work remotely with teams across Europe.",
+    "facts": [
+      {
+        "k": "Location",
+        "v": "Las Palmas de Gran Canaria · ES"
+      },
+      {
+        "k": "Languages",
+        "v": "Français · English · Español"
+      },
+      {
+        "k": "Day rate",
+        "v": "On request — depends on scope"
+      },
+      {
+        "k": "Working with",
+        "v": "Galaga Agency · select freelance"
+      },
+      {
+        "k": "Off-hours",
+        "v": "Beach, backpacking, slow coffee"
+      }
+    ],
+    "trip": [
+      {
+        "yr": "FR",
+        "place": "Rennes"
+      },
+      {
+        "yr": "AU",
+        "place": "Gold Coast"
+      },
+      {
+        "yr": "IE",
+        "place": "Dublin"
+      },
+      {
+        "yr": "ES",
+        "place": "Barcelona"
+      },
+      {
+        "yr": "NZ",
+        "place": "Mt Maunganui"
+      },
+      {
+        "yr": "DE",
+        "place": "München"
+      },
+      {
+        "yr": "FR",
+        "place": "Nantes"
+      },
+      {
+        "yr": "ES",
+        "place": "Las Palmas"
+      },
+      {
+        "yr": "AU",
+        "place": "Broome"
+      },
+      {
+        "yr": "ES",
+        "place": "Corralejo"
+      }
+    ]
+  },
+  "faq": [
+    {
+      "q": "How fast can you start?",
+      "a": "Usually 1–2 weeks notice. For tight launches I sometimes have a slot sooner — ping me."
+    },
+    {
+      "q": "Do you work solo or with a team?",
+      "a": "Both. I work full-time at Galaga Agency and take selected freelance projects alongside. For bigger scopes I plug into your team or bring trusted collaborators."
+    },
+    {
+      "q": "What about pricing?",
+      "a": "Project-based, fixed-scope quotes. I send a written estimate within 48h after the discovery call. Day-rate available for retainers."
+    },
+    {
+      "q": "Can you maintain an existing project?",
+      "a": "Yes — audits, refactors, takeovers from previous devs. I'll tell you honestly if it's salvageable or if we should rebuild."
+    },
+    {
+      "q": "Where are you, and which timezones do you cover?",
+      "a": "Las Palmas, Spain (UTC+0 / WET). I overlap with most of Europe and the East Coast US comfortably."
+    },
+    {
+      "q": "Do you write code, or oversee?",
+      "a": "I write the code. Every line. I'm the person you Slack at 2pm and the same person who deploys at midnight."
+    }
+  ],
+  "contact": {
+    "heading1": "Let's",
+    "heading_accent": "build",
+    "heading_italic": "the thing.",
+    "body": "Tell me what you're cooking. I read every message myself. If we're not a fit I'll tell you within a day and point you somewhere good.",
+    "direct": "Or write directly:",
+    "f_name": "Name",
+    "f_email": "Email",
+    "f_company": "Company",
+    "f_project": "Project type",
+    "f_message": "What's the brief?",
+    "f_budget": "Approx. budget",
+    "f_submit": "Send it",
+    "projects": [
+      "Web app",
+      "Marketing site",
+      "Mobile app",
+      "Audit / refactor",
+      "Other"
+    ],
+    "budgets": [
+      "< 5k €",
+      "5–15k €",
+      "15–40k €",
+      "40k+ €",
+      "Let's chat"
+    ]
+  }
+}

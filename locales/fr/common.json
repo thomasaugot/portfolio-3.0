@@ -1,0 +1,30 @@
+{
+  "nav": {
+    "services": "Services",
+    "work": "Projets",
+    "process": "Méthode",
+    "stack": "Stack",
+    "about": "À propos",
+    "contact": "Contact"
+  },
+  "status": {
+    "available": "Disponible"
+  },
+  "footer": {
+    "tagline": "Dév fullstack à louer.",
+    "sitemap_heading": "Plan",
+    "elsewhere_heading": "Ailleurs",
+    "direct_heading": "Direct",
+    "sitemap_links": ["Services", "Projets", "Méthode", "À propos", "Contact"],
+    "elsewhere_links": ["LinkedIn", "GitHub", "X / Twitter", "Instagram"],
+    "direct_links": ["thomas.augot@gmail.com", "Réserver un appel", "Envoyer un brief"],
+    "copy": "© 2026 Thomas Augot · Codé et déployé à la main depuis Las Palmas."
+  },
+  "newsletter": {
+    "title": "Carnets",
+    "title_italic": " de l'Atlantique.",
+    "body": "Une fois par mois. Le code que je livre, ce que j'apprends, les projets sur lesquels je recrute. Pas de spam.",
+    "placeholder": "votre@email.com",
+    "btn": "S'abonner"
+  }
+}

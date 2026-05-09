@@ -1,0 +1,53 @@
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.keyboard-focus-ring:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.focus-ring-inset:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: -2px;
+}
+
+/* minimum 44×44 touch target */
+.touch-target {
+  min-width: 44px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+[aria-live] {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+}
+
+.skip-link {
+  position: fixed;
+  top: 1rem; left: 1rem;
+  background: var(--color-primary);
+  color: #000;
+  padding: 8px 16px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: var(--font-weight-medium);
+  text-decoration: none;
+  transform: translateY(-200%);
+  transition: transform var(--duration-normal) var(--ease-out);
+  z-index: calc(var(--z-loader) + 10);
+}
+.skip-link:focus { transform: translateY(0); }

@@ -1,0 +1,30 @@
+{
+  "nav": {
+    "services": "Services",
+    "work": "Work",
+    "process": "Process",
+    "stack": "Stack",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "status": {
+    "available": "Open for projects"
+  },
+  "footer": {
+    "tagline": "Full-stack dev for hire.",
+    "sitemap_heading": "Sitemap",
+    "elsewhere_heading": "Elsewhere",
+    "direct_heading": "Direct",
+    "sitemap_links": ["Services", "Work", "Process", "About", "Contact"],
+    "elsewhere_links": ["LinkedIn", "GitHub", "X / Twitter", "Instagram"],
+    "direct_links": ["thomas.augot@gmail.com", "Book a call", "Send a brief"],
+    "copy": "© 2026 Thomas Augot · Built and deployed by hand from Las Palmas."
+  },
+  "newsletter": {
+    "title": "Notes",
+    "title_italic": " from the Atlantic.",
+    "body": "Once a month. Code I shipped, things I learned, projects I'm hiring for. No spam, easy unsubscribe.",
+    "placeholder": "your@email.com",
+    "btn": "Subscribe"
+  }
+}
