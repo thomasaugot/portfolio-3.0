@@ -1,4 +1,5 @@
 "use client"
+import { ParticleHeading } from "@/components/ui/ParticleHeading"
 
 import { useTranslations } from "next-intl"
 
@@ -14,20 +15,20 @@ export function HomeProcess() {
   const steps = t.raw("process") as ProcessStep[]
 
   return (
-    <section id="process" className="page-section">
+    <section id="process" className="py-[clamp(80px,12vh,160px)] border-t border-border">
       <div className="shell">
-        <div className="section-head">
-          <span className="section-head-meta">{t("sections.process_meta")}</span>
-          <h2 className="section-head-title">{t("sections.process_title")}</h2>
+        <div className="grid grid-cols-[1fr_2fr] gap-(--gutter) mb-14 items-end max-[720px]:grid-cols-1 max-[720px]:gap-4">
+          <span className="font-mono text-[12px] text-text-subtle">{t("sections.process_meta")}</span>
+          <ParticleHeading className="font-display font-semibold tracking-tight text-[clamp(2.5rem,5.4vw,5.5rem)] leading-[0.95]">{t("sections.process_title")}</ParticleHeading>
         </div>
 
         <div className="border-t border-border">
           {steps.map((step) => (
             <div key={step.n} className="proc-row">
-              <span className="text-[13px] text-text-subtle">{step.n}</span>
-              <h3 className="font-display text-[clamp(22px,2.4vw,32px)] font-semibold tracking-[-0.02em] text-text">{step.t}</h3>
-              <p className="text-text-muted text-[14px] max-w-135 leading-[1.6]">{step.d}</p>
-              <span className="text-[12px] text-text-subtle text-right tracking-wider max-[720px]:text-left">{step.time}</span>
+              <span className="proc-num text-[13px] text-text-subtle">{step.n}</span>
+              <h3 className="proc-title font-display text-[clamp(20px,2.4vw,32px)] font-semibold tracking-[-0.02em] text-text">{step.t}</h3>
+              <p className="proc-desc text-text-muted text-[14px] leading-[1.6]">{step.d}</p>
+              <span className="proc-time text-[12px] text-text-subtle tracking-wider">{step.time}</span>
             </div>
           ))}
         </div>

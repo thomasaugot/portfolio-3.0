@@ -1,17 +1,13 @@
 "use client"
 
-import { useRef } from "react"
 import { useTranslations } from "next-intl"
-import { HeroBackdrop } from "@/components/pages/home/HeroBackdrop"
+import { ParticleHeading } from "@/components/ui/ParticleHeading"
+import { HomeTerminal } from "@/components/pages/home/HomeTerminal"
 import { Button } from "@/components/ui/Button"
 import { IconArrow } from "@/components/ui/Icons"
-import { useGSAPAnimations } from "@/hooks/useGSAPAnimations"
-import { gsap } from "@/lib/gsap"
 
 export function HomeHero() {
   const t = useTranslations("home.hero")
-  const leftRef  = useRef<HTMLDivElement>(null)
-  const rightRef = useRef<HTMLDivElement>(null)
 
   const meta = [
     [t("meta1_k"), t("meta1_v")],
@@ -19,44 +15,34 @@ export function HomeHero() {
     [t("meta3_k"), t("meta3_v")],
   ] as [string, string][]
 
-  useGSAPAnimations(() => {
-    const left  = leftRef.current
-    const right = rightRef.current
-    if (!left || !right) return
-
-    gsap.fromTo(
-      left.querySelectorAll("[data-hero-item]"),
-      { opacity: 0, y: 30 },
-      { opacity: 1, y: 0, duration: 0.75, stagger: 0.13, ease: "power2.out" }
-    )
-    gsap.fromTo(
-      right,
-      { opacity: 0 },
-      { opacity: 1, duration: 1.2, delay: 0.2, ease: "power1.out" }
-    )
-  })
-
   return (
-    <section className="hero-section">
-      <div className="shell">
-        <div className="hero-grid">
-          {/* Left column */}
-          <div className="hero-left" ref={leftRef}>
-            <span className="text-eyebrow" data-hero-item>{t("eyebrow")}</span>
+    <section className="relative overflow-x-clip min-h-svh flex flex-col justify-center pt-[clamp(80px,10vh,130px)] pb-[clamp(24px,5vh,60px)]">
+      <div className="shell flex flex-col gap-10">
+        <div className="grid grid-cols-[1fr_1fr] gap-14 items-stretch max-[900px]:grid-cols-1">
 
-            <h1 className="hero-headline" data-hero-item>
+          {/* Left column */}
+          <div className="flex flex-col justify-between gap-8">
+            <span className="text-eyebrow hero-left-item">{t("eyebrow")}</span>
+
+            <ParticleHeading
+              as="h1"
+              className="font-display font-semibold text-[clamp(38px,5.5vw,90px)] leading-[0.92] tracking-[-0.045em] flex flex-col hero-left-item"
+            >
               <span>{t("h1a")}</span>
-              <span className="hero-headline-accent">{t("h1b")}</span>
+              <span className="text-primary">{t("h1b")}</span>
+              {t("h1b2") && <span className="text-primary">{t("h1b2")}</span>}
               <span>{t("h1c")}</span>
               <span>
                 {t("h1d")}&nbsp;
-                <span className="text-serif-italic hero-headline-italic">{t("h1e")}</span>
+                <span className="text-serif-italic text-text-muted text-[0.85em]">{t("h1e")}</span>
               </span>
-            </h1>
+            </ParticleHeading>
 
-            <p className="hero-sub" data-hero-item>{t("sub")}</p>
+            <p className="text-text-muted text-[15px] leading-[1.55] hero-left-item">
+              {t("sub")}
+            </p>
 
-            <div className="hero-ctas" data-hero-item>
+            <div className="flex gap-3 items-center flex-wrap hero-left-item">
               <Button variant="filled" icon={<IconArrow />}>
                 <a href="#contact" className="text-inherit no-underline">{t("cta1")}</a>
               </Button>
@@ -64,27 +50,23 @@ export function HomeHero() {
                 <a href="#work" className="text-inherit no-underline">{t("cta2")} →</a>
               </Button>
             </div>
-
-            <div className="hero-meta" data-hero-item>
-              {meta.map(([k, v]) => (
-                <div key={k}>
-                  <span className="hero-meta-key">{k}</span>
-                  <span className="hero-meta-val">{v}</span>
-                </div>
-              ))}
-            </div>
           </div>
 
-          {/* Right column — WebGL only */}
-          <div className="hero-terminal-col" ref={rightRef}>
-            <div className="hero-right-stack">
-              <HeroBackdrop />
-              <div className="webgl-tag" aria-hidden="true">
-                <span className="webgl-dot" />
-                webgl · drag to rotate
-              </div>
-            </div>
+          {/* Right column — terminal */}
+          <div className="flex flex-col max-[900px]:hidden hero-right">
+            <HomeTerminal />
           </div>
+
+        </div>
+
+        {/* Meta stats — full width below */}
+        <div className="flex gap-10 text-[11px] text-text-subtle uppercase tracking-[0.12em] border-t border-border pt-5 max-[900px]:flex-wrap hero-meta">
+          {meta.map(([k, v]) => (
+            <div key={k}>
+              <span className="block mb-1">{k}</span>
+              <span className="text-text text-[13px] tracking-[0.02em] normal-case">{v}</span>
+            </div>
+          ))}
         </div>
       </div>
     </section>

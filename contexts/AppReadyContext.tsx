@@ -5,30 +5,30 @@ import { createContext, useContext, useState, useEffect, useCallback, type React
 interface AppReadyContextValue {
   appReady: boolean
   markReady: () => void
+  loaderGone: boolean
+  markLoaderGone: () => void
 }
 
 const AppReadyContext = createContext<AppReadyContextValue | null>(null)
 
 export function AppReadyProvider({ children }: { children: ReactNode }) {
   const [appReady, setAppReady] = useState(false)
+  const [loaderGone, setLoaderGone] = useState(false)
 
   const markReady = useCallback(() => {
-    setAppReady((prev) => {
-      if (prev) return prev
-      return true
-    })
+    setAppReady((prev) => (prev ? prev : true))
+  }, [])
+
+  const markLoaderGone = useCallback(() => {
+    setLoaderGone((prev) => (prev ? prev : true))
   }, [])
 
   useEffect(() => {
-    if (appReady) {
-      document.body.style.overflow = ""
-    } else {
-      document.body.style.overflow = "hidden"
-    }
+    document.body.style.overflow = appReady ? "" : "hidden"
   }, [appReady])
 
   return (
-    <AppReadyContext.Provider value={{ appReady, markReady }}>
+    <AppReadyContext.Provider value={{ appReady, markReady, loaderGone, markLoaderGone }}>
       {children}
     </AppReadyContext.Provider>
   )

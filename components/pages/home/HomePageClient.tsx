@@ -3,6 +3,7 @@
 import { usePageReady } from "@/hooks/usePageReady"
 import { useGSAPAnimations } from "@/hooks/useGSAPAnimations"
 import {
+  initHeroReveal,
   initSectionReveals,
   initServiceCardsReveal,
   initProcessReveal,
@@ -28,7 +29,7 @@ export function HomePageClient() {
   usePageReady()
 
   useGSAPAnimations(() => ({
-    critical: [],
+    critical: [initHeroReveal],
     raf: [
       initSectionReveals,
       initServiceCardsReveal,

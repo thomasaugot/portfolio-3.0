@@ -16,7 +16,7 @@ export function HomeNewsletter() {
   }
 
   return (
-    <section className="page-section">
+    <section className="py-[clamp(80px,12vh,160px)] border-t border-border">
       <div className="shell">
         <div className="newsletter-card">
           <div className="newsletter-body">
@@ -30,7 +30,7 @@ export function HomeNewsletter() {
           </div>
 
           <form onSubmit={handleSubmit} className="newsletter-form-wrap">
-            <div className="news-form">
+            <div className="flex items-stretch border border-border-2">
               <input
                 type="email"
                 value={email}
@@ -38,8 +38,11 @@ export function HomeNewsletter() {
                 placeholder={t("newsletter.placeholder")}
                 aria-label="Email address"
                 required
+                className="flex-1 bg-transparent border-0 py-3.5 px-4 text-text font-mono text-[14px] focus:outline-none"
               />
-              <button type="submit">{t("newsletter.btn")}</button>
+              <button type="submit" className="bg-primary text-black border-0 py-3.5 px-[18px] font-mono text-[13px] font-medium cursor-pointer transition-colors hover:bg-text">
+                {t("newsletter.btn")}
+              </button>
             </div>
           </form>
         </div>

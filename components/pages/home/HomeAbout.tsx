@@ -1,4 +1,5 @@
 "use client"
+import { ParticleHeading } from "@/components/ui/ParticleHeading"
 
 import { useState } from "react"
 import Image from "next/image"
@@ -21,15 +22,15 @@ export function HomeAbout() {
   return (
     <section id="about" className="py-[clamp(80px,12vh,160px)] border-t border-border">
       <div className="shell">
-        <div className="section-head">
-          <span className="section-head-meta">{t("sections.about_meta")}</span>
-          <h2 className="section-head-title">{t("sections.about_title")}</h2>
+        <div className="grid grid-cols-[1fr_2fr] gap-(--gutter) mb-14 items-end max-[720px]:grid-cols-1 max-[720px]:gap-4">
+          <span className="font-mono text-[12px] text-text-subtle">{t("sections.about_meta")}</span>
+          <ParticleHeading className="font-display font-semibold tracking-tight text-[clamp(2.5rem,5.4vw,5.5rem)] leading-[0.95]">{t("sections.about_title")}</ParticleHeading>
         </div>
 
         <div className="grid grid-cols-2 gap-12 max-[900px]:grid-cols-1">
           {/* Left — portrait + lede + body + trip pins */}
           <div>
-            <div className="relative w-20 h-20 flex-shrink-0 border border-border-2 overflow-hidden mb-6">
+            <div className="relative w-40 h-40 shrink-0 border border-border-2 overflow-hidden mb-6">
               <Image
                 src="/assets/images/portrait.webp"
                 alt="Thomas Augot"
@@ -66,16 +67,16 @@ export function HomeAbout() {
           {/* Right — globe + facts */}
           <div>
             <div className="globe-wrap">
-              <div className="globe-meta">
+              <div className="relative z-2 flex justify-between items-baseline font-mono text-[10px] tracking-[0.14em] uppercase text-text-subtle border-b border-border pb-2 mb-1">
                 <span>geo · pins / arcs</span>
-                <span className="globe-meta-val">
+                <span className="text-text">
                   {hoveredPin ? `${hoveredPin.city} · ${hoveredPin.country}` : "drag to rotate"}
                 </span>
               </div>
               <TravelGlobe onHover={setHoveredPin} />
-              <div className="globe-legend">
-                <span><span className="globe-dot" /> career stop</span>
-                <span><span className="globe-arc" /> path travelled</span>
+              <div className="relative z-2 flex gap-[18px] font-mono text-[10px] tracking-[0.1em] uppercase text-text-subtle border-t border-border pt-2.5 mt-1">
+                <span className="inline-flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-primary shadow-[0_0_0_2px_color-mix(in_oklch,var(--color-primary)_30%,transparent)]" /> places i&apos;ve lived</span>
+                <span className="inline-flex items-center gap-1.5"><span className="w-[18px] h-2 [border-top:1px_dashed_var(--color-primary)] rounded-[50%_50%_0_0/100%_100%_0_0]" /> path travelled</span>
               </div>
             </div>
 

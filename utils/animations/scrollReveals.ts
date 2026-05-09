@@ -84,6 +84,24 @@ export function initFAQReveal() {
   })
 }
 
+export function initHeroReveal() {
+  gsap.fromTo(
+    ".hero-left-item",
+    { opacity: 0, y: 30 },
+    { opacity: 1, y: 0, duration: 0.75, stagger: 0.13, ease: "power2.out" }
+  )
+  gsap.fromTo(
+    ".hero-right",
+    { opacity: 0 },
+    { opacity: 1, duration: 1.2, delay: 0.3, ease: "power1.out" }
+  )
+  gsap.fromTo(
+    ".hero-meta",
+    { opacity: 0, y: 20 },
+    { opacity: 1, y: 0, duration: 0.6, delay: 0.55, ease: "power2.out" }
+  )
+}
+
 export function initAboutReveal() {
   hide(".trip-pin", { y: 12 })
   hide(".about-fact")

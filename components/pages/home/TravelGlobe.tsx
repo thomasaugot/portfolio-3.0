@@ -56,13 +56,13 @@ const earthVertSrc = `
   }
 `
 
+// Stylized shader: black ocean, chartreuse land, no realistic colours
 const earthFragSrc = `
   varying vec2 vUv;
   varying vec3 vNormal;
   varying vec3 vPosition;
 
   uniform sampler2D uDayTexture;
-  uniform sampler2D uNightTexture;
   uniform sampler2D uSpecularCloudsTexture;
   uniform vec3 uSunDirection;
   uniform vec3 uAtmosphereDayColor;
@@ -71,34 +71,36 @@ const earthFragSrc = `
   void main() {
     vec3 viewDirection = normalize(vPosition - cameraPosition);
     vec3 normal = normalize(vNormal);
-    vec3 color = vec3(0.0);
 
+    // Detect land from brightness of the day texture
+    vec3 texColor = texture2D(uDayTexture, vUv).rgb;
+    float landness = smoothstep(0.18, 0.50, dot(texColor, vec3(0.33)));
+
+    // Sun shading
     float sunOrientation = dot(uSunDirection, normal);
+    float dayMix = smoothstep(-0.3, 0.5, sunOrientation);
 
-    float dayMix = smoothstep(-0.25, 0.5, sunOrientation);
-    vec3 dayColor = texture2D(uDayTexture, vUv).rgb;
-    vec3 nightColor = texture2D(uNightTexture, vUv).rgb;
-    color = mix(nightColor, dayColor, dayMix);
+    // Site palette — keep green channel off 1.0 to avoid washed-out look
+    vec3 oceanDay   = vec3(0.02, 0.03, 0.01);
+    vec3 oceanNight = vec3(0.005, 0.008, 0.003);
+    vec3 landDay    = vec3(0.28, 0.40, 0.05);   // dimmed so pins stand out
+    vec3 landNight  = vec3(0.03, 0.05, 0.007);
 
-    vec2 specularCloudsColor = texture2D(uSpecularCloudsTexture, vUv).rg;
-    float cloudsMix = smoothstep(0.2, 1.0, specularCloudsColor.g);
-    cloudsMix *= dayMix;
-    color = mix(color, vec3(1.0), cloudsMix);
+    vec3 ocean = mix(oceanNight, oceanDay, dayMix);
+    vec3 land  = mix(landNight, landDay, clamp(dayMix * 0.9 + 0.1, 0.0, 1.0));
+    vec3 color = mix(ocean, land, landness);
 
+    // Subtle cloud shimmer — tinted chartreuse, not white
+    vec2 cloudsData = texture2D(uSpecularCloudsTexture, vUv).rg;
+    float cloudsMix = smoothstep(0.5, 1.0, cloudsData.g) * dayMix * 0.25;
+    color = mix(color, vec3(0.70, 0.92, 0.28), cloudsMix);
+
+    // Atmosphere rim in chartreuse
     float fresnel = dot(viewDirection, normal) + 1.0;
-    fresnel = pow(fresnel, 2.0);
-
+    fresnel = pow(fresnel, 2.5);
     float atmosphereDayMix = smoothstep(-0.5, 1.0, sunOrientation);
     vec3 atmosphereColor = mix(uAtmosphereTwilightColor, uAtmosphereDayColor, atmosphereDayMix);
-    color = mix(color, atmosphereColor, fresnel * atmosphereDayMix);
-
-    vec3 reflection = reflect(-uSunDirection, normal);
-    float specular = -dot(reflection, viewDirection);
-    specular = max(specular, 0.0);
-    specular = pow(specular, 32.0);
-    specular *= specularCloudsColor.r;
-    vec3 specularColor = mix(vec3(1.0), atmosphereColor, fresnel);
-    color += specular * specularColor;
+    color = mix(color, atmosphereColor, fresnel * atmosphereDayMix * 0.65);
 
     gl_FragColor = vec4(color, 1.0);
   }
@@ -117,6 +119,7 @@ const atmVertSrc = `
   }
 `
 
+// Atmosphere glow in chartreuse instead of blue
 const atmFragSrc = `
   varying vec3 vNormal;
   varying vec3 vPosition;
@@ -179,15 +182,15 @@ export function TravelGlobe({ onHover }: Props) {
     const loader = new THREE.TextureLoader()
 
     const sunDirection = new THREE.Vector3(1.5, 1.2, 1.0).normalize()
-    const atmDayColor = new THREE.Color("#0088ff")
-    const atmTwilightColor = new THREE.Color("#ff4400")
+    // Chartreuse atmosphere to match site accent
+    const atmDayColor = new THREE.Color("#b0e020")
+    const atmTwilightColor = new THREE.Color("#0d1a00")
 
     const earthMat = new THREE.ShaderMaterial({
       vertexShader: earthVertSrc,
       fragmentShader: earthFragSrc,
       uniforms: {
         uDayTexture:             { value: null },
-        uNightTexture:           { value: null },
         uSpecularCloudsTexture:  { value: null },
         uSunDirection:           { value: sunDirection },
         uAtmosphereDayColor:     { value: atmDayColor },
@@ -213,15 +216,10 @@ export function TravelGlobe({ onHover }: Props) {
     atmMesh.scale.setScalar(1.04)
     group.add(atmMesh)
 
+    // Day texture used only for land/ocean detection, not for colour
     loader.load("/assets/textures/earth/day.jpg", (tex) => {
-      tex.colorSpace = THREE.SRGBColorSpace
       tex.anisotropy = 8
       earthMat.uniforms.uDayTexture.value = tex
-    })
-    loader.load("/assets/textures/earth/night.jpg", (tex) => {
-      tex.colorSpace = THREE.SRGBColorSpace
-      tex.anisotropy = 8
-      earthMat.uniforms.uNightTexture.value = tex
     })
     loader.load("/assets/textures/earth/specularClouds.jpg", (tex) => {
       tex.anisotropy = 8
@@ -241,8 +239,8 @@ export function TravelGlobe({ onHover }: Props) {
       group.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), gridMat))
     }
 
-    // Country borders
-    const borderMat = new THREE.LineBasicMaterial({ color: 0x8adc4a, transparent: true, opacity: 0.55 })
+    // Country borders: dark lines on chartreuse land, bright against black ocean
+    const borderMat = new THREE.LineBasicMaterial({ color: 0x1a2800, transparent: true, opacity: 0.9 })
     const borderR = R + 0.004
     fetch("/data/countries-110m.json")
       .then((res) => res.json())
@@ -365,5 +363,5 @@ export function TravelGlobe({ onHover }: Props) {
     }
   }, [onHover])
 
-  return <canvas ref={canvasRef} className="globe-canvas" />
+  return <canvas ref={canvasRef} className="block w-full h-[360px] relative z-1 cursor-grab active:cursor-grabbing max-[900px]:h-[300px]" />
 }

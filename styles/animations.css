@@ -17,7 +17,7 @@
 
 /* ── Marquee scroll ── */
 @keyframes scroll-x {
-  to { transform: translateX(calc(-100% - 56px)); }
+  to { transform: translateX(-100%); }
 }
 
 /* ── Wiggle on hover ── */
@@ -57,6 +57,7 @@
   display: flex;
   gap: 56px;
   flex-shrink: 0;
+  padding-right: 56px;
   animation: scroll-x var(--marquee-dur, 38s) linear infinite;
 }
 

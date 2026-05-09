@@ -2,11 +2,12 @@
   "hero": {
     "eyebrow": "Full-stack developer · for hire",
     "h1a": "I build",
-    "h1b": "production-ready",
+    "h1b": "production-",
+    "h1b2": "ready",
     "h1c": "web apps",
     "h1d": "fast",
     "h1e": "—and well.",
-    "sub": "Hi, I'm Thomas. I ship modern web & mobile products end-to-end — from idea to staging to scale. Three years deep in React, Next.js and Node, coding by the ocean in Gran Canaria.",
+    "sub": "Hi, I'm Thomas. I ship modern web & mobile products end-to-end — from idea to staging to scale. Three years deep in React, Next.js and Node, coding by the ocean in the Canary Islands.",
     "cta1": "Start a project",
     "cta2": "View work",
     "meta1_k": "Based",
@@ -25,7 +26,7 @@
     "stack_meta": "[ 03 / STACK ]",
     "stack_title": "The tools I lean on, daily.",
     "work_meta": "[ 04 / WORK ]",
-    "work_title": "Selected work, last 18 months.",
+    "work_title": "Built and shipped.",
     "testimonials_meta": "[ 05 / WORD-OF-MOUTH ]",
     "testimonials_title": "What the people I've shipped with say.",
     "about_meta": "[ 06 / ABOUT ]",
@@ -85,10 +86,11 @@
     },
     {
       "n": "S/05",
-      "t": "Headless CMS · Sanity",
-      "d": "Sanity Studio integrations so non-technical teams can publish without breaking the build. Editor-first content models.",
+      "t": "Headless CMS · Sanity · Payload",
+      "d": "Sanity Studio and Payload CMS integrations so non-technical teams can publish without breaking the build. Editor-first content models.",
       "tags": [
         "Sanity",
+        "Payload",
         "GROQ",
         "Portable Text"
       ]
@@ -182,7 +184,6 @@
           "Sanity CMS",
           "GA4",
           "Tag Manager",
-          "Sentry",
           "Jest",
           "Vitest",
           "Figma"
@@ -225,12 +226,12 @@
     {
       "n": "W/01",
       "client": "Binter Canarias",
-      "tag": "Field operations platform",
-      "type": "Full-stack web app · PWA",
+      "tag": "Field Operations Platform",
+      "type": "Full-stack · PWA",
       "year": "2025",
       "role": "Full-stack",
-      "stack": "React 19 · Vite · Node · PostgreSQL · Socket.io · Docker",
-      "body": "PWA for the regional airline to coordinate brand-campaign installations across Canary Islands airports. Real-time check-ins, photo uploads, three-role approval workflow, offline support.",
+      "stack": "React 19 · TypeScript · Vite · Tailwind CSS 4 · Zustand · GSAP · Leaflet · Node.js · Express · PostgreSQL · Socket.io · JWT · PWA · Docker",
+      "body": "Full-stack PWA built for Binter's installation teams to coordinate advertising campaigns across Canary Islands airports. Real-time check-ins, photo uploads, incident reporting, and a three-tier approval workflow — with offline support via Workbox service worker.",
       "link": "Case study →",
       "slug": "binter-montajes-app",
       "featured": true
@@ -238,12 +239,12 @@
     {
       "n": "W/02",
       "client": "Dos × Dos Grupo Imagen",
-      "tag": "Corporate site & admin panel",
-      "type": "Marketing site + CMS",
+      "tag": "Corporate Website 2.0 + Admin Panel",
+      "type": "Full-stack · CMS",
       "year": "2024",
       "role": "Full-stack",
-      "stack": "Next.js 15 · GSAP · PostgreSQL · Prisma",
-      "body": "Complete redesign of the luxury design studio's site, with a custom admin panel built on a Lexical editor so the team can publish services, case studies, and blog posts without developer help.",
+      "stack": "Next.js 15 · TypeScript · SCSS · Zustand · GSAP · PostgreSQL · Prisma · Node.js · GA4 · Tag Manager",
+      "body": "Complete redesign of the luxury design studio's corporate site, with a custom admin panel built on a Lexical editor. The team now publishes services, portfolio pieces, and blog content independently. Zoho CRM integration for lead management, technical SEO with JSON-LD schemas.",
       "link": "dospordosgrupoimagen.com →",
       "slug": "dosxdosgrupoimagen-web",
       "href": "https://www.dospordosgrupoimagen.com/",
@@ -252,12 +253,12 @@
     {
       "n": "W/03",
       "client": "Dos × Dos Grupo Imagen",
-      "tag": "Field-worker native app",
+      "tag": "Montadores App — Field Worker Native App",
       "type": "React Native · iOS & Android",
       "year": "2025",
       "role": "Mobile lead",
-      "stack": "React Native · Expo · SQLite · PostgreSQL · Zoho CRM",
-      "body": "Native app for installation teams: job routing, photo/signature capture, GPS validation, incident reporting — all offline-first with automatic sync when connectivity returns.",
+      "stack": "React Native · Expo · TypeScript · Node.js · Express · PostgreSQL · SQLite · MMKV · Socket.io · Google Maps · Zoho CRM",
+      "body": "Native iOS and Android app for field installation teams. Covers the full workflow: assigned routes, GPS-validated arrivals, photo evidence and digital signature capture, incident reporting, and push notifications — offline-first with automatic sync when connectivity returns.",
       "link": "Case study →",
       "slug": "dosxdos-montadores-app",
       "featured": true
@@ -265,12 +266,12 @@
     {
       "n": "W/04",
       "client": "Energía Solar Canarias",
-      "tag": "Solar monitoring CRM",
+      "tag": "Solar Plant Monitoring CRM",
       "type": "Full-stack platform · Mobile",
       "year": "2025",
       "role": "Full-stack",
-      "stack": "Next.js · Redux Toolkit · Framer Motion · WebView",
-      "body": "Unified platform consolidating Victron, SolarEdge, and GoodWe data into a single client dashboard, paired with an admin CRM for plant and user management. Delivered as native iOS and Android apps via WebView.",
+      "stack": "Next.js · TypeScript · Tailwind CSS · Redux Toolkit · Framer Motion · WebView · iOS/Android",
+      "body": "Unified platform consolidating Victron, SolarEdge, and GoodWe data into a single client dashboard — production, consumption, battery status, and savings in one place. Paired with an admin CRM for plant and user management. Delivered as native iOS and Android apps via WebView.",
       "link": "Case study →",
       "slug": "energia-solar-canarias",
       "href": "https://app.energiasolarcanarias.com/"
@@ -278,12 +279,12 @@
     {
       "n": "W/05",
       "client": "Galaga Agency",
-      "tag": "Agency website 2.0",
-      "type": "Marketing site",
+      "tag": "Galaga Agency Website 2.0",
+      "type": "Marketing site · Three.js",
       "year": "2025",
       "role": "Full-stack",
-      "stack": "Next.js 15 · Three.js · GSAP · TypeScript",
-      "body": "Complete rebuild of the agency's online presence — immersive 3D scenes, cinematic scroll animations, motion-reactive environments. The site positions Galaga as both a technical and creative leader.",
+      "stack": "Next.js 15 · TypeScript · Tailwind CSS · GSAP · Three.js · GA4 · Tag Manager",
+      "body": "Complete rebuild of the agency's online presence from scratch. Immersive real-time 3D environments, cinematic scroll animations, and motion-reactive scenes built with Three.js and GSAP. The site positions Galaga as both a technical and creative leader.",
       "link": "galagaagency.com →",
       "slug": "galaga-agency-website",
       "href": "https://galagaagency.com/"
@@ -291,24 +292,24 @@
     {
       "n": "W/06",
       "client": "Galaga Agency",
-      "tag": "Digital time-tracking system",
+      "tag": "Reloj Laboral — Digital Time-Tracking System",
       "type": "Full-stack software platform",
       "year": "2025",
       "role": "Full-stack",
-      "stack": "React 19 · Vite · Node · PostgreSQL · WebSockets · GSAP",
-      "body": "PERN stack platform to help Spanish companies comply with the 2025 digital labor law — employee, admin, and inspector dashboards, real-time tracking, monthly PDF exports, and full audit trail.",
+      "stack": "React 19 · TypeScript · Vite · Tailwind CSS · Node.js · Express · PostgreSQL · WebSockets · GSAP",
+      "body": "PERN stack platform helping Spanish companies comply with the 2025 digital labor law. Separate dashboards for employees, admins, and official inspectors — real-time tracking, monthly PDF exports, correction workflows, and a full audit trail.",
       "link": "Case study →",
       "slug": "reloj-laboral-galaga"
     },
     {
       "n": "W/07",
-      "client": "ARECO",
-      "tag": "Spanish market landing site",
-      "type": "Marketing site · CMS",
+      "client": "ARECO España",
+      "tag": "ARECO — Spanish Market Landing Site",
+      "type": "Marketing site · Sanity CMS",
       "year": "2025",
       "role": "Full-stack",
-      "stack": "Next.js 16 · Sanity CMS · GSAP · Lenis · Docker",
-      "body": "Dedicated landing site for the global nebulization leader's Spanish-speaking market. Every section is editable from Sanity studio — animated counters, parallax, marquees, and video carousels.",
+      "stack": "Next.js 16 · React 19 · TypeScript · Sanity CMS · Tailwind CSS · GSAP · Lenis · Resend · Docker",
+      "body": "Dedicated landing site for the global nebulization leader's Spanish-speaking market. Every section — hero, sectors, stats, testimonials — is backed by a Sanity schema and editable from the studio without developer help. GSAP ScrollTrigger for parallax, counters, marquees, and video carousels.",
       "link": "areco-nextjs.galagaagency.com →",
       "slug": "areco-web",
       "href": "https://areco-nextjs.galagaagency.com"
@@ -316,58 +317,45 @@
     {
       "n": "W/08",
       "client": "Charpente Menuiserie Durand",
-      "tag": "Business website",
-      "type": "Marketing site",
+      "tag": "Business Website for Carpentry Company",
+      "type": "Marketing site · SEO",
       "year": "2024",
-      "role": "Frontend",
-      "stack": "Next.js · Tailwind CSS · EmailJS",
-      "body": "SEO-optimized business site for a French carpentry company — zero previous web presence. Technical SEO, contact forms via EmailJS, and a clean design that ranks locally.",
-      "link": "cmdurand-2-0.vercel.app →",
+      "role": "Full-stack",
+      "stack": "Next.js · TypeScript · Tailwind CSS · EmailJS · Framer Motion",
+      "body": "SEO-optimized business website for a French carpentry company that had zero online presence. Technical SEO with proper schemas, contact forms via EmailJS, and a clean responsive design built to rank locally and generate leads.",
+      "link": "cmdurand.com →",
       "slug": "charpente-menuiserie-durand",
       "href": "https://cmdurand-2-0.vercel.app/"
     },
     {
       "n": "W/09",
       "client": "Adelante Business Consulting",
-      "tag": "Consulting website",
-      "type": "Business website · WordPress",
+      "tag": "Adelante BC — Business Consulting Website",
+      "type": "WordPress · Elementor",
       "year": "2026",
-      "role": "Frontend",
-      "stack": "WordPress · Elementor · Custom CSS",
-      "body": "Professional website for a CEO advisory firm — clear service architecture for executive mentoring, crisis management, and leadership development. Fully editable by the client via Elementor.",
+      "role": "Full-stack",
+      "stack": "WordPress · Elementor · Custom CSS · SEO · Performance Optimization",
+      "body": "Professional website for a CEO advisory firm targeting executives and founders. Clear service architecture covering strategic guidance, executive mentoring, crisis management, and generational transition. Fully editable by the client via Elementor — no developer needed for updates.",
       "link": "adelante-bc.com →",
       "slug": "adelante-business-consulting",
       "href": "https://adelante-bc.com/"
     }
   ],
-  "testimonials": [
-    {
-      "q": "Thomas turned a vague brief into a live product in six weeks. He pushes back when needed, and that's exactly what we wanted.",
-      "name": "—",
-      "role": "Project lead, agency client"
-    },
-    {
-      "q": "We told him 'make it feel premium', and he did. Sanity, motion, performance — all dialed.",
-      "name": "—",
-      "role": "Founder, marketing studio"
-    },
-    {
-      "q": "Reliable, fast, and actually fun to work with. Async communication, weekly demos, no drama.",
-      "name": "—",
-      "role": "CTO, B2B SaaS"
-    }
-  ],
   "about": {
     "lede1": "Thomas, 30-something, ",
     "lede_accent": "fullstack developer",
-    "lede2": " based in Las Palmas — ",
-    "lede_italic": "the windy side",
-    "lede3": " of Gran Canaria.",
-    "body": "I started in hospitality (kitchens in Australia, cabin crew at Ryanair, sales at GoDaddy) before code grabbed me and didn't let go. Career-changer, self-taught into bootcamp into shipping production every week. I work remotely with teams across Europe.",
+    "lede2": " based in the Canary Islands — ",
+    "lede_italic": "where summer never ends.",
+    "lede3": "",
+    "body": "Originally from Nantes, France. I started in hospitality (kitchens in Australia, cabin crew at Ryanair, sales at GoDaddy) before code grabbed me and didn't let go. Career-changer, self-taught into bootcamp into shipping production every week. I work remotely with teams across Europe.",
     "facts": [
       {
+        "k": "From",
+        "v": "Nantes, France"
+      },
+      {
         "k": "Location",
-        "v": "Las Palmas de Gran Canaria · ES"
+        "v": "Canary Islands · ES"
       },
       {
         "k": "Languages",
@@ -461,6 +449,8 @@
     "heading_italic": "the thing.",
     "body": "Tell me what you're cooking. I read every message myself. If we're not a fit I'll tell you within a day and point you somewhere good.",
     "direct": "Or write directly:",
+    "call_label": "Prefer a call?",
+    "call_cta": "Book 30 min ↗",
     "f_name": "Name",
     "f_email": "Email",
     "f_company": "Company",
@@ -482,5 +472,49 @@
       "40k+ €",
       "Let's chat"
     ]
+  },
+  "socials": {
+    "section_meta": "[ FIND ME ]",
+    "section_title": "On the internet.",
+    "items": [
+      {
+        "key": "medium",
+        "label": "Medium",
+        "handle": "@thomasaugot",
+        "desc": "Essays on building products, learning to code after a career change, and shipping things that last.",
+        "cta": "Read my writing →"
+      },
+      {
+        "key": "github",
+        "label": "GitHub",
+        "handle": "thomasaugot",
+        "desc": "Open source repos, side projects, and the code behind what I ship.",
+        "cta": "See the code →"
+      },
+      {
+        "key": "linkedin",
+        "label": "LinkedIn",
+        "handle": "in/thomasaugot",
+        "desc": "Work history, recommendations, and professional updates.",
+        "cta": "Connect →"
+      }
+    ]
+  },
+  "work_ui": {
+    "back_home": "← Home",
+    "h1a": "Selected",
+    "h1b": "work.",
+    "count_suffix": "projects",
+    "years": "2023 — 2026",
+    "footer_cta": "Want to build something?",
+    "footer_link": "Let's talk →",
+    "scroll_more": "more ↓",
+    "back_work": "← Work",
+    "meta_type": "Type",
+    "meta_year": "Year",
+    "meta_role": "Role",
+    "meta_stack": "Stack",
+    "private": "Private",
+    "live_site": "Live site ↗"
   }
 }

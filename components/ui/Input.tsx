@@ -13,13 +13,13 @@ export function Input({ label, error, hint, className = "", ...rest }: InputProp
   const descId = error ? `${id}-error` : hint ? `${id}-hint` : undefined
 
   return (
-    <div className="form-field">
-      <label htmlFor={id}>{label}</label>
+    <div className="flex flex-col gap-1.5">
+      <label htmlFor={id} className="font-mono text-[11px] text-text-subtle tracking-[0.1em] uppercase">{label}</label>
       <input
         id={id}
         aria-invalid={!!error}
         aria-describedby={descId}
-        className={`keyboard-focus-ring ${className}`}
+        className={`bg-transparent border-0 border-b border-border-2 py-2 text-text font-mono text-[14px] resize-none transition-colors focus:outline-none focus:border-b-primary keyboard-focus-ring ${className}`}
         {...rest}
       />
       {error && <p id={`${id}-error`} role="alert" style={{ fontSize: "11px", color: "var(--color-error)", marginTop: "4px" }}>{error}</p>}

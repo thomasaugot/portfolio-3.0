@@ -1,4 +1,5 @@
 "use client"
+import { ParticleHeading } from "@/components/ui/ParticleHeading"
 
 import { useTranslations } from "next-intl"
 
@@ -25,11 +26,11 @@ export function HomeStack() {
   const primaryTags = ["Next.js", "React", "TypeScript", "Node.js", "PostgreSQL", "React Native"]
 
   return (
-    <section id="stack" className="page-section">
+    <section id="stack" className="py-[clamp(80px,12vh,160px)] border-t border-border">
       <div className="shell">
-        <div className="section-head">
-          <span className="section-head-meta">{t("sections.stack_meta")}</span>
-          <h2 className="section-head-title">{t("sections.stack_title")}</h2>
+        <div className="grid grid-cols-[1fr_2fr] gap-(--gutter) mb-14 items-end max-[720px]:grid-cols-1 max-[720px]:gap-4">
+          <span className="font-mono text-[12px] text-text-subtle">{t("sections.stack_meta")}</span>
+          <ParticleHeading className="font-display font-semibold tracking-tight text-[clamp(2.5rem,5.4vw,5.5rem)] leading-[0.95]">{t("sections.stack_title")}</ParticleHeading>
         </div>
 
         <div className="grid grid-cols-2 gap-12 items-start max-[720px]:grid-cols-1 max-[720px]:gap-8">
@@ -39,7 +40,7 @@ export function HomeStack() {
                 <p className="text-[11px] text-text-subtle tracking-[0.12em] uppercase mb-4">{bucket.label}</p>
                 <div className="flex flex-wrap gap-2">
                   {bucket.tags.map((tag) => (
-                    <span key={tag} className={`stack-tag${primaryTags.includes(tag) ? " primary" : ""}`}>
+                    <span key={tag} className={`font-mono text-[13px] py-2 px-3 border cursor-default relative overflow-hidden transition-[border-color,color,background] hover:border-primary hover:text-primary hover:bg-[rgba(212,255,58,0.04)]${primaryTags.includes(tag) ? " border-text-subtle text-text" : " border-border-2"}`}>
                       {tag}
                     </span>
                   ))}
@@ -48,9 +49,9 @@ export function HomeStack() {
             ))}
           </div>
 
-          <div className="metrics-grid">
-            {stack.metrics.map((m) => (
-              <div key={m.lbl} className="metric-card">
+          <div className="grid grid-cols-2 gap-0 border border-border">
+            {stack.metrics.map((m, idx) => (
+              <div key={m.lbl} className={`py-7 px-6 border-r border-b border-border${idx % 2 === 1 ? " border-r-0" : ""}${idx >= stack.metrics.length - 2 ? " border-b-0" : ""}`}>
                 <div className="font-display text-[clamp(40px,5vw,72px)] font-semibold tracking-[-0.04em] leading-none text-text">
                   {m.n}<span className="text-primary">{m.u}</span>
                 </div>

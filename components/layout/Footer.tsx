@@ -17,7 +17,7 @@ export function Footer() {
     elsewhere: [
       { label: "LinkedIn", href: appConfig.linkedin },
       { label: "GitHub",   href: appConfig.github },
-      { label: "Medium",   href: "https://medium.com/@thomasaugot" },
+      { label: "Medium",   href: appConfig.medium },
     ],
     direct: [
       { label: appConfig.email,             href: `mailto:${appConfig.email}` },
@@ -29,8 +29,8 @@ export function Footer() {
   return (
     <footer className="border-t border-border pt-14 pb-8 mt-20 text-text-muted text-[12px]">
       <div className="shell">
-        <div className="font-display font-semibold text-[clamp(80px,14vw,220px)] tracking-tighter leading-[0.85] text-surface-2 mb-8 whitespace-nowrap overflow-hidden select-none">
-          thomas
+        <div className="font-display font-semibold text-[clamp(32px,6vw,96px)] tracking-tighter leading-[0.85] text-surface-2 mb-8 whitespace-nowrap overflow-hidden select-none">
+          helloimtom.dev
         </div>
 
         <div className="grid grid-cols-[2fr_1fr_1fr_1fr] gap-8 mb-16 max-[900px]:grid-cols-2 max-[900px]:gap-6 max-[560px]:grid-cols-1">
@@ -66,9 +66,8 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="flex justify-between items-center pt-6 border-t border-border flex-wrap gap-3">
+        <div className="pt-6 border-t border-border">
           <p className="text-text-subtle text-[11px]">{t("footer.copy")}</p>
-          <a href="#" className="text-text-muted text-[11px] tracking-[0.08em] uppercase no-underline transition-colors duration-150 hover:text-primary">↑ Back to top</a>
         </div>
       </div>
     </footer>

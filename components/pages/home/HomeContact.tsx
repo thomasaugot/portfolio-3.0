@@ -1,4 +1,5 @@
 "use client"
+import { ParticleHeading } from "@/components/ui/ParticleHeading"
 
 import { useState } from "react"
 import { useForm } from "react-hook-form"
@@ -45,11 +46,11 @@ export function HomeContact() {
   }
 
   return (
-    <section id="contact" className="page-section">
+    <section id="contact" className="py-[clamp(80px,12vh,160px)] border-t border-border">
       <div className="shell">
-        <div className="section-head">
-          <span className="section-head-meta">{t("sections.contact_meta")}</span>
-          <h2 className="section-head-title">{t("sections.contact_title")}</h2>
+        <div className="grid grid-cols-[1fr_2fr] gap-(--gutter) mb-14 items-end max-[720px]:grid-cols-1 max-[720px]:gap-4">
+          <span className="font-mono text-[12px] text-text-subtle">{t("sections.contact_meta")}</span>
+          <ParticleHeading className="font-display font-semibold tracking-tight text-[clamp(2.5rem,5.4vw,5.5rem)] leading-[0.95]">{t("sections.contact_title")}</ParticleHeading>
         </div>
 
         <div className="border border-border overflow-hidden grid grid-cols-[1.2fr_1fr] max-[900px]:grid-cols-1">
@@ -64,31 +65,38 @@ export function HomeContact() {
             <a href={`mailto:${appConfig.email}`} className="text-primary text-[14px] no-underline transition-opacity duration-150 hover:opacity-75">
               {appConfig.email}
             </a>
+
+            <div className="mt-8 pt-8 border-t border-border">
+              <p className="text-text-subtle text-[12px] mb-3">{t("contact.call_label")}</p>
+              <a href={appConfig.calLink} target="_blank" rel="noopener noreferrer" className="btn inline-flex">
+                {t("contact.call_cta")}
+              </a>
+            </div>
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)} className="p-10 flex flex-col gap-4 bg-surface max-[900px]:p-6">
-            <div className="form-field">
-              <label htmlFor="c-name">{t("contact.f_name")}</label>
-              <input id="c-name" {...register("name", { required: true })} aria-invalid={!!errors.name} className="keyboard-focus-ring" />
+            <div className="flex flex-col gap-1.5">
+              <label htmlFor="c-name" className="font-mono text-[11px] text-text-subtle tracking-[0.1em] uppercase">{t("contact.f_name")}</label>
+              <input id="c-name" {...register("name", { required: true })} aria-invalid={!!errors.name} className="bg-transparent border-0 border-b border-border-2 py-2 text-text font-mono text-[14px] transition-colors focus:outline-none focus:border-b-primary keyboard-focus-ring" />
             </div>
-            <div className="form-field">
-              <label htmlFor="c-email">{t("contact.f_email")}</label>
-              <input id="c-email" type="email" {...register("email", { required: true })} aria-invalid={!!errors.email} className="keyboard-focus-ring" />
+            <div className="flex flex-col gap-1.5">
+              <label htmlFor="c-email" className="font-mono text-[11px] text-text-subtle tracking-[0.1em] uppercase">{t("contact.f_email")}</label>
+              <input id="c-email" type="email" {...register("email", { required: true })} aria-invalid={!!errors.email} className="bg-transparent border-0 border-b border-border-2 py-2 text-text font-mono text-[14px] transition-colors focus:outline-none focus:border-b-primary keyboard-focus-ring" />
             </div>
-            <div className="form-field">
-              <label htmlFor="c-company">{t("contact.f_company")}</label>
-              <input id="c-company" {...register("company")} className="keyboard-focus-ring" />
+            <div className="flex flex-col gap-1.5">
+              <label htmlFor="c-company" className="font-mono text-[11px] text-text-subtle tracking-[0.1em] uppercase">{t("contact.f_company")}</label>
+              <input id="c-company" {...register("company")} className="bg-transparent border-0 border-b border-border-2 py-2 text-text font-mono text-[14px] transition-colors focus:outline-none focus:border-b-primary keyboard-focus-ring" />
             </div>
 
             <div className="flex flex-col gap-2">
-              <label className="font-mono text-[11px] text-text-subtle tracking-widest uppercase">{t("contact.f_project")}</label>
+              <label className="font-mono text-[11px] text-text-subtle tracking-[0.1em] uppercase">{t("contact.f_project")}</label>
               <div className="flex flex-wrap gap-2">
                 {projects.map((p) => (
                   <button
                     key={p}
                     type="button"
                     onClick={() => setSelectedProject(p === selectedProject ? "" : p)}
-                    className={`budget-chip keyboard-focus-ring${selectedProject === p ? " active" : ""}`}
+                    className={`py-2 px-3 border font-mono text-[12px] cursor-pointer transition-all text-text-muted hover:border-text-subtle hover:text-text keyboard-focus-ring${selectedProject === p ? " bg-primary text-black! border-primary" : " border-border-2 bg-transparent"}`}
                   >
                     {p}
                   </button>
@@ -96,20 +104,20 @@ export function HomeContact() {
               </div>
             </div>
 
-            <div className="form-field">
-              <label htmlFor="c-message">{t("contact.f_message")}</label>
-              <textarea id="c-message" rows={4} {...register("message", { required: true })} aria-invalid={!!errors.message} className="keyboard-focus-ring" />
+            <div className="flex flex-col gap-1.5">
+              <label htmlFor="c-message" className="font-mono text-[11px] text-text-subtle tracking-[0.1em] uppercase">{t("contact.f_message")}</label>
+              <textarea id="c-message" rows={4} {...register("message", { required: true })} aria-invalid={!!errors.message} className="bg-transparent border-0 border-b border-border-2 py-2 text-text font-mono text-[14px] resize-none min-h-[80px] transition-colors focus:outline-none focus:border-b-primary keyboard-focus-ring" />
             </div>
 
             <div className="flex flex-col gap-2">
-              <label className="font-mono text-[11px] text-text-subtle tracking-widest uppercase">{t("contact.f_budget")}</label>
+              <label className="font-mono text-[11px] text-text-subtle tracking-[0.1em] uppercase">{t("contact.f_budget")}</label>
               <div className="flex flex-wrap gap-2">
                 {budgets.map((b) => (
                   <button
                     key={b}
                     type="button"
                     onClick={() => setSelectedBudget(b === selectedBudget ? "" : b)}
-                    className={`budget-chip keyboard-focus-ring${selectedBudget === b ? " active" : ""}`}
+                    className={`py-2 px-3 border font-mono text-[12px] cursor-pointer transition-all text-text-muted hover:border-text-subtle hover:text-text keyboard-focus-ring${selectedBudget === b ? " bg-primary text-black! border-primary" : " border-border-2 bg-transparent"}`}
                   >
                     {b}
                   </button>

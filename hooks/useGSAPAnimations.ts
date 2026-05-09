@@ -1,7 +1,7 @@
 "use client"
 
 import { useGSAP, gsap } from "@/lib/gsap"
-import { useAppReady } from "@/hooks/useAppReady"
+import { useAppReadyContext } from "@/contexts/AppReadyContext"
 
 export type AnimationInit = () => void | (() => void)
 
@@ -58,11 +58,11 @@ export function useGSAPAnimations(
   options: UseGSAPAnimationsOptions = {}
 ) {
   const { delay = 0, dependencies = [] } = options
-  const appReady = useAppReady()
+  const { loaderGone } = useAppReadyContext()
 
   useGSAP(
     () => {
-      if (!appReady) return
+      if (!loaderGone) return
 
       const ctx = gsap.context(() => {
         const runAnimation = () => {
@@ -89,6 +89,6 @@ export function useGSAPAnimations(
 
       return () => ctx.revert()
     },
-    [appReady, delay, ...dependencies] // eslint-disable-line react-hooks/exhaustive-deps
+    [loaderGone, delay, ...dependencies] // eslint-disable-line react-hooks/exhaustive-deps
   )
 }

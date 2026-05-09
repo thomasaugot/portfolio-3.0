@@ -3,10 +3,11 @@
     "eyebrow": "Développeur fullstack · à louer",
     "h1a": "Je construis",
     "h1b": "des apps web",
+    "h1b2": "",
     "h1c": "prêtes pour la prod",
     "h1d": "—vite",
     "h1e": "et bien.",
-    "sub": "Salut, moi c'est Thomas. Je livre des produits web & mobile de A à Z — de l'idée à la prod. Trois ans dans React, Next.js et Node, à coder face à l'océan, à Gran Canaria.",
+    "sub": "Salut, moi c'est Thomas. Je livre des produits web & mobile de A à Z — de l'idée à la prod. Trois ans dans React, Next.js et Node, à coder face à l'océan, aux Îles Canaries.",
     "cta1": "Lancer un projet",
     "cta2": "Voir les projets",
     "meta1_k": "Basé",
@@ -25,7 +26,7 @@
     "stack_meta": "[ 03 / STACK ]",
     "stack_title": "Mes outils, au quotidien.",
     "work_meta": "[ 04 / PROJETS ]",
-    "work_title": "Sélection, sur 18 mois.",
+    "work_title": "Construit et livré.",
     "testimonials_meta": "[ 05 / RETOURS ]",
     "testimonials_title": "Ce que disent celles et ceux avec qui j'ai bossé.",
     "about_meta": "[ 06 / À PROPOS ]",
@@ -85,10 +86,11 @@
     },
     {
       "n": "S/05",
-      "t": "CMS headless · Sanity",
-      "d": "Intégrations Sanity Studio pour que les équipes non-tech publient sans casser le build. Modèles pensés pour les éditeurs.",
+      "t": "CMS headless · Sanity · Payload",
+      "d": "Intégrations Sanity Studio et Payload CMS pour que les équipes non-tech publient sans casser le build. Modèles pensés pour les éditeurs.",
       "tags": [
         "Sanity",
+        "Payload",
         "GROQ",
         "Portable Text"
       ]
@@ -182,7 +184,6 @@
           "Sanity CMS",
           "GA4",
           "Tag Manager",
-          "Sentry",
           "Jest",
           "Vitest",
           "Figma"
@@ -340,34 +341,21 @@
       "href": "https://adelante-bc.com/"
     }
   ],
-  "testimonials": [
-    {
-      "q": "Thomas a transformé un brief flou en produit live en six semaines. Il challenge quand il faut, et c'est exactement ce qu'on voulait.",
-      "name": "—",
-      "role": "Lead projet, agence cliente"
-    },
-    {
-      "q": "On lui a dit « fais que ça paraisse premium », et il l'a fait. Sanity, motion, perf — tout au taquet.",
-      "name": "—",
-      "role": "Fondateur, studio marketing"
-    },
-    {
-      "q": "Fiable, rapide, et franchement agréable à bosser avec. Async, démos hebdo, zéro drama.",
-      "name": "—",
-      "role": "CTO, SaaS B2B"
-    }
-  ],
   "about": {
     "lede1": "Thomas, la trentaine, ",
     "lede_accent": "développeur fullstack",
-    "lede2": " basé à Las Palmas — ",
-    "lede_italic": "le côté venté",
-    "lede3": " de Gran Canaria.",
-    "body": "Reconverti depuis l'hôtellerie (cuisines en Australie, PNC chez Ryanair, ventes chez GoDaddy) avant que le code ne me happe. Autodidacte → bootcamp → mise en prod chaque semaine. Je bosse en remote avec des équipes partout en Europe.",
+    "lede2": " basé aux Îles Canaries — ",
+    "lede_italic": "là où l'été ne finit jamais.",
+    "lede3": "",
+    "body": "Originaire de Nantes. Reconverti depuis l'hôtellerie (cuisines en Australie, PNC chez Ryanair, ventes chez GoDaddy) avant que le code ne me happe. Autodidacte → bootcamp → mise en prod chaque semaine. Je bosse en remote avec des équipes partout en Europe.",
     "facts": [
       {
+        "k": "Origine",
+        "v": "Nantes, France"
+      },
+      {
         "k": "Lieu",
-        "v": "Las Palmas de Gran Canaria · ES"
+        "v": "Îles Canaries · ES"
       },
       {
         "k": "Langues",
@@ -461,6 +449,8 @@
     "heading_italic": " le truc.",
     "body": "Dites-moi ce que vous mijotez. Je lis chaque message moi-même. Si je ne suis pas le bon profil je vous le dis sous 24h et je vous oriente.",
     "direct": "Ou écrivez directement :",
+    "call_label": "Vous préférez un appel ?",
+    "call_cta": "Réserver 30 min ↗",
     "f_name": "Nom",
     "f_email": "Email",
     "f_company": "Société",
@@ -482,5 +472,49 @@
       "40k+ €",
       "On en parle"
     ]
+  },
+  "socials": {
+    "section_meta": "[ ME TROUVER ]",
+    "section_title": "Sur internet.",
+    "items": [
+      {
+        "key": "medium",
+        "label": "Medium",
+        "handle": "@thomasaugot",
+        "desc": "Articles sur la création de produits, l'apprentissage du code après une reconversion, et ce qui dure.",
+        "cta": "Lire mes articles →"
+      },
+      {
+        "key": "github",
+        "label": "GitHub",
+        "handle": "thomasaugot",
+        "desc": "Dépôts open source, projets persos et le code derrière ce que je livre.",
+        "cta": "Voir le code →"
+      },
+      {
+        "key": "linkedin",
+        "label": "LinkedIn",
+        "handle": "in/thomasaugot",
+        "desc": "Parcours professionnel, recommandations et actualités.",
+        "cta": "Se connecter →"
+      }
+    ]
+  },
+  "work_ui": {
+    "back_home": "← Accueil",
+    "h1a": "Projets",
+    "h1b": "sélectionnés.",
+    "count_suffix": "projets",
+    "years": "2023 — 2026",
+    "footer_cta": "Envie de construire quelque chose ?",
+    "footer_link": "Parlons-en →",
+    "scroll_more": "plus ↓",
+    "back_work": "← Projets",
+    "meta_type": "Type",
+    "meta_year": "Année",
+    "meta_role": "Rôle",
+    "meta_stack": "Stack",
+    "private": "Privé",
+    "live_site": "Site en ligne ↗"
   }
 }

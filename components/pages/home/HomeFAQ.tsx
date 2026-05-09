@@ -1,4 +1,5 @@
 "use client"
+import { ParticleHeading } from "@/components/ui/ParticleHeading"
 
 import { useState } from "react"
 import { useTranslations } from "next-intl"
@@ -16,32 +17,43 @@ export function HomeFAQ() {
   const toggle = (idx: number) => setOpenIdx(openIdx === idx ? null : idx)
 
   return (
-    <section className="page-section">
+    <section className="py-[clamp(80px,12vh,160px)] border-t border-border">
       <div className="shell">
-        <div className="section-head">
-          <span className="section-head-meta">{t("sections.faq_meta")}</span>
-          <h2 className="section-head-title">{t("sections.faq_title")}</h2>
+        <div className="grid grid-cols-[1fr_2fr] gap-(--gutter) mb-14 items-end max-[720px]:grid-cols-1 max-[720px]:gap-4">
+          <span className="font-mono text-[12px] text-text-subtle">{t("sections.faq_meta")}</span>
+          <ParticleHeading className="font-display font-semibold tracking-tight text-[clamp(2.5rem,5.4vw,5.5rem)] leading-[0.95]">{t("sections.faq_title")}</ParticleHeading>
         </div>
 
-        <div className="proc-list">
+        <div>
           {faq.map((item, idx) => {
             const isOpen = openIdx === idx
             return (
               <div
                 key={idx}
-                className={`faq-row keyboard-focus-ring${isOpen ? " open" : ""}`}
+                className="border-b border-border cursor-pointer pt-5 transition-[padding-left,padding-bottom] duration-300 hover:pl-3 keyboard-focus-ring"
+                style={{ paddingBottom: isOpen ? "28px" : "20px" }}
                 onClick={() => toggle(idx)}
                 role="button"
                 tabIndex={0}
                 aria-expanded={isOpen}
                 onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") toggle(idx) }}
               >
-                <div className="faq-inner">
-                  <span className="faq-num">{String(idx + 1).padStart(2, "0")}</span>
-                  <p className="faq-q">{item.q}</p>
-                  <span className="faq-indicator">+</span>
+                <div className="grid grid-cols-[60px_1fr_32px] gap-6 items-start max-[600px]:grid-cols-[40px_1fr_28px] max-[600px]:gap-3">
+                  <span className="text-[11px] text-text-subtle tracking-[0.08em] pt-1.5">{String(idx + 1).padStart(2, "0")}</span>
+                  <p className="font-display text-[clamp(18px,1.8vw,24px)] font-medium tracking-[-0.01em] leading-[1.3] text-text">{item.q}</p>
+                  <span className={`font-mono text-primary text-[18px] text-right block leading-none pt-1 transition-transform duration-300${isOpen ? " rotate-45" : ""}`}>+</span>
                 </div>
-                {isOpen && <p className="faq-a">{item.a}</p>}
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateRows: isOpen ? "1fr" : "0fr",
+                    transition: "grid-template-rows 0.35s cubic-bezier(0.4, 0, 0.2, 1)",
+                  }}
+                >
+                  <div style={{ overflow: "hidden" }}>
+                    <p className="pl-[84px] pt-4 text-text-muted text-[14px] leading-[1.7] max-[600px]:pl-[52px]">{item.a}</p>
+                  </div>
+                </div>
               </div>
             )
           })}
