@@ -52,8 +52,8 @@ export function Footer() {
           <div>
             <h4 className="text-[11px] text-text-subtle tracking-[0.12em] uppercase mb-4">{t("footer.elsewhere_heading")}</h4>
             {links.elsewhere.map((l) => (
-              <a key={l.label} href={l.href} target="_blank" rel="noopener noreferrer" className="text-text-muted no-underline block py-1 text-[13px] transition-colors duration-150 hover:text-primary">
-                {l.label}
+              <a key={l.label} href={l.href} target="_blank" rel="noopener noreferrer" className="text-text-muted no-underline block py-1 text-[13px] transition-colors duration-150 hover:text-primary keyboard-focus-ring">
+                {l.label}<span className="sr-only"> (opens in new tab)</span>
               </a>
             ))}
           </div>

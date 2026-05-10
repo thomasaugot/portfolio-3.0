@@ -18,7 +18,7 @@ export function HomeTestimonials() {
           {testimonials.map((item, idx) => (
             <div key={idx} className="p-8 border-r border-b border-border flex flex-col gap-5 transition-colors duration-300 hover:bg-surface">
               <p className="font-display text-[18px] font-medium tracking-[-0.01em] leading-[1.35] flex-1 text-text">
-                <span className="font-serif text-[56px] text-primary leading-0 align-[-16px] mr-1.5 italic">&ldquo;</span>
+                <span className="font-serif text-[56px] text-primary leading-0 align-[-16px] mr-1.5 italic" aria-hidden="true">&ldquo;</span>
                 {item.q}
               </p>
               <div className="flex gap-3 items-center pt-4 border-t border-border">

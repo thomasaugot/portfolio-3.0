@@ -8,9 +8,15 @@
   border-width: 0;
 }
 
+/* ── Focus rings ── */
 .keyboard-focus-ring:focus-visible {
   outline: 2px solid var(--color-primary);
   outline-offset: 2px;
+}
+
+/* Suppress mouse-driven focus rings — only show when keyboard is active */
+[data-input-modality="pointer"] .keyboard-focus-ring:focus:not(:focus-visible) {
+  outline: none;
 }
 
 .focus-ring-inset:focus-visible {
@@ -18,7 +24,14 @@
   outline-offset: -2px;
 }
 
-/* minimum 44×44 touch target */
+/* Field inputs — underline focus indicator */
+.keyboard-field-focus:focus-visible {
+  outline: none;
+  border-bottom-color: var(--color-primary);
+  box-shadow: 0 1px 0 0 var(--color-primary);
+}
+
+/* ── Minimum 44×44 px touch targets (WCAG 2.5.5) ── */
 .touch-target {
   min-width: 44px;
   min-height: 44px;
@@ -27,6 +40,13 @@
   justify-content: center;
 }
 
+/* Hamburger and icon-only buttons always meet touch target size */
+.navbar-hamburger {
+  min-width: 44px;
+  min-height: 44px;
+}
+
+/* ── Live regions ── */
 [aria-live] {
   position: absolute;
   width: 1px; height: 1px;
@@ -36,6 +56,7 @@
   white-space: nowrap;
 }
 
+/* ── Skip link ── */
 .skip-link {
   position: fixed;
   top: 1rem; left: 1rem;
@@ -51,3 +72,54 @@
   z-index: calc(var(--z-loader) + 10);
 }
 .skip-link:focus { transform: translateY(0); }
+
+/* ── Reduced motion (WCAG 2.3.3) ── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  /* Keep marquee readable — just slow it way down */
+  .marquee-track {
+    animation-duration: 120s !important;
+  }
+}
+
+/* ── Forced colors / Windows High Contrast (WCAG 1.4.11) ── */
+@media (forced-colors: active) {
+  .keyboard-focus-ring:focus-visible {
+    outline: 3px solid ButtonText;
+    outline-offset: 2px;
+  }
+  .skip-link {
+    background: ButtonFace;
+    color: ButtonText;
+    border: 2px solid ButtonText;
+  }
+  .btn-filled {
+    background: ButtonFace;
+    color: ButtonText;
+    border: 2px solid ButtonText;
+    forced-color-adjust: none;
+  }
+  .brand-dot,
+  .status-dot {
+    forced-color-adjust: none;
+    background: Highlight;
+  }
+  .brand-dot::before {
+    border-color: Highlight;
+  }
+  /* Ensure primary-coloured text stays visible */
+  .text-primary { color: Highlight; }
+}
+
+/* ── Reflow: no horizontal scrolling at 320 px viewport (WCAG 1.4.10) ── */
+@media (max-width: 320px) {
+  .shell { padding-inline: 1rem; }
+  .lang-toggle { flex-wrap: wrap; }
+}

@@ -1,6 +1,8 @@
 "use client"
 
-export function SkipLink({ targetId }: { targetId: string }) {
+interface SkipLinkProps { targetId: string }
+
+export function SkipLink({ targetId }: SkipLinkProps) {
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault()
     const target = document.getElementById(targetId)
@@ -10,8 +12,12 @@ export function SkipLink({ targetId }: { targetId: string }) {
     }
   }
   return (
-    <a href={`#${targetId}`} onClick={handleClick} className="skip-link keyboard-focus-ring">
-      Skip to content
+    <a
+      href={`#${targetId}`}
+      onClick={handleClick}
+      className="skip-link keyboard-focus-ring"
+    >
+      Skip to main content
     </a>
   )
 }

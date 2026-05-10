@@ -16,15 +16,43 @@ export function MobileMenu() {
   const t = useTranslations("nav")
   const pathname = usePathname()
   const { isTransitioning } = useTransitionContext()
-  const panelRef = useRef<HTMLDivElement>(null)
-  const toggleBtnRef = useRef<HTMLDivElement>(null)
+  const panelRef     = useRef<HTMLDivElement>(null)
+  const toggleBtnRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => { setMounted(true) }, [])
 
   useEffect(() => {
     if (!isOpen) return
     document.body.style.overflow = "hidden"
-    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") close() }
+
+    // Move focus into the menu on open
+    const firstFocusable = panelRef.current?.querySelector<HTMLElement>(
+      'a[href], button, [tabindex]:not([tabindex="-1"])'
+    )
+    firstFocusable?.focus()
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        close()
+        return
+      }
+      // Focus trap
+      if (e.key === "Tab" && panelRef.current) {
+        const focusable = Array.from(
+          panelRef.current.querySelectorAll<HTMLElement>(
+            'a[href], button, [tabindex]:not([tabindex="-1"])'
+          )
+        ).filter((el) => !el.hasAttribute("disabled"))
+        if (!focusable.length) return
+        const first = focusable[0]
+        const last  = focusable[focusable.length - 1]
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault(); last.focus()
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault(); first.focus()
+        }
+      }
+    }
     document.addEventListener("keydown", onKey)
     return () => {
       document.body.style.overflow = ""
@@ -32,7 +60,11 @@ export function MobileMenu() {
     }
   }, [isOpen])
 
-  const close = () => setIsOpen(false)
+  const close = () => {
+    setIsOpen(false)
+    // Return focus to the toggle button that opened the menu
+    toggleBtnRef.current?.focus()
+  }
 
   const handleLinkClick = () => {
     if (!isTransitioning) close()
@@ -44,7 +76,6 @@ export function MobileMenu() {
     <>
       {createPortal(
         <div
-          ref={toggleBtnRef}
           style={{
             position: "fixed",
             top: "14px",
@@ -53,7 +84,7 @@ export function MobileMenu() {
           }}
           className="md:hidden"
         >
-          <MenuToggle isOpen={isOpen} onToggle={() => setIsOpen((v) => !v)} />
+          <MenuToggle isOpen={isOpen} onToggle={() => setIsOpen((v) => !v)} triggerRef={toggleBtnRef} />
         </div>,
         document.body
       )}

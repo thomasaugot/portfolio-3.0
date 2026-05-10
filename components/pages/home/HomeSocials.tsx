@@ -40,14 +40,15 @@ export function HomeSocials() {
               href={HREFS[s.key] ?? "#"}
               target="_blank"
               rel="noopener noreferrer"
-              className={`group flex flex-col gap-3 p-7 border border-border no-underline text-inherit transition-[background,border-color] duration-150 hover:bg-surface-2 hover:border-primary${FEATURED[s.key] ? " bg-surface-2" : " bg-surface"}`}
+              aria-label={`${s.label} — ${s.cta} (opens in new tab)`}
+              className={`group flex flex-col gap-3 p-7 border border-border no-underline text-inherit transition-[background,border-color] duration-150 hover:bg-surface-2 hover:border-primary keyboard-focus-ring${FEATURED[s.key] ? " bg-surface-2" : " bg-surface"}`}
             >
-              <div className="flex items-baseline justify-between gap-3">
+              <div className="flex items-baseline justify-between gap-3" aria-hidden="true">
                 <span className="font-display text-[22px] font-semibold tracking-[-0.02em] text-text">{s.label}</span>
                 <span className="font-mono text-[11px] text-primary tracking-[0.04em]">{s.handle}</span>
               </div>
               <p className="text-[14px] text-text-muted leading-[1.55] flex-1 m-0">{s.desc}</p>
-              <span className="font-mono text-[12px] text-text-subtle tracking-[0.04em] transition-colors duration-150 group-hover:text-primary">{s.cta}</span>
+              <span className="font-mono text-[12px] text-text-subtle tracking-[0.04em] transition-colors duration-150 group-hover:text-primary" aria-hidden="true">{s.cta}</span>
             </a>
           ))}
         </div>

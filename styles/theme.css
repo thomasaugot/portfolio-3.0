@@ -96,6 +96,21 @@
 }
 
 /* ─────────────────────────────────────────────
+   1b. High-contrast override (data-contrast="high")
+───────────────────────────────────────────── */
+html[data-contrast="high"] {
+  --color-bg:          #000000;
+  --color-surface:     #090909;
+  --color-surface-2:   #131312;
+  --color-border:      #484840;
+  --color-border-2:    #686860;
+  --color-text:        #ffffff;
+  --color-text-muted:  #d4d0c6;
+  --color-text-subtle: #aba79e;
+  --color-primary:     #e0ff4a;
+}
+
+/* ─────────────────────────────────────────────
    2. Tailwind v4 @theme block
 ───────────────────────────────────────────── */
 @theme {

@@ -3,7 +3,6 @@
 import { useTranslations } from "next-intl"
 import { ParticleHeading } from "@/components/ui/ParticleHeading"
 import { HomeTerminal } from "@/components/pages/home/HomeTerminal"
-import { Button } from "@/components/ui/Button"
 import { IconArrow } from "@/components/ui/Icons"
 
 export function HomeHero() {
@@ -43,12 +42,13 @@ export function HomeHero() {
             </p>
 
             <div className="flex gap-3 items-center flex-wrap hero-left-item">
-              <Button variant="filled" icon={<IconArrow />}>
-                <a href="#contact" className="text-inherit no-underline">{t("cta1")}</a>
-              </Button>
-              <Button variant="ghost">
-                <a href="#work" className="text-inherit no-underline">{t("cta2")} →</a>
-              </Button>
+              <a href="#contact" className="btn btn-filled keyboard-focus-ring">
+                {t("cta1")}
+                <span className="btn-arrow"><IconArrow /></span>
+              </a>
+              <a href="#work" className="btn btn-ghost keyboard-focus-ring">
+                {t("cta2")} <span aria-hidden="true">→</span>
+              </a>
             </div>
           </div>
 

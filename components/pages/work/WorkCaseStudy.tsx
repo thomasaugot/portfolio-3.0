@@ -47,16 +47,20 @@ export function WorkCaseStudy({ slug }: { slug: string }) {
   const currentMobile2 = gallery.mobile[(imgIdx + 1) % Math.max(gallery.mobile.length, 1)] ?? project.cover2
 
   const NavDots = () => (
-    <div className="inline-flex items-center border border-border bg-[#0a0a09]">
-      <button onClick={goPrev} className="px-3 py-2 font-mono text-[15px] text-text-subtle border-r border-border transition-colors hover:text-primary cursor-pointer leading-none" aria-label="Previous screen">←</button>
+    <div className="inline-flex items-center border border-border bg-[#0a0a09]" role="group" aria-label="Image navigation">
+      <button onClick={goPrev} className="px-3 py-2 font-mono text-[15px] text-text-subtle border-r border-border transition-colors hover:text-primary cursor-pointer leading-none keyboard-focus-ring" aria-label="Previous screen">
+        <span aria-hidden="true">←</span>
+      </button>
       <div className="flex gap-2 items-center px-3">
         {images.map((_, i) => (
-          <button key={i} onClick={() => setImgIdx(i)} aria-label={`Screen ${i + 1}`}
-            className={`h-1.5 transition-all duration-200 cursor-pointer ${i === imgIdx ? "w-5 bg-primary" : "w-1.5 bg-border-2 hover:bg-text-subtle"}`}
+          <button key={i} onClick={() => setImgIdx(i)} aria-label={`Screen ${i + 1}`} aria-pressed={i === imgIdx}
+            className={`h-1.5 transition-all duration-200 cursor-pointer keyboard-focus-ring ${i === imgIdx ? "w-5 bg-primary" : "w-1.5 bg-border-2 hover:bg-text-subtle"}`}
           />
         ))}
       </div>
-      <button onClick={goNext} className="px-3 py-2 font-mono text-[15px] text-text-subtle border-l border-border transition-colors hover:text-primary cursor-pointer leading-none" aria-label="Next screen">→</button>
+      <button onClick={goNext} className="px-3 py-2 font-mono text-[15px] text-text-subtle border-l border-border transition-colors hover:text-primary cursor-pointer leading-none keyboard-focus-ring" aria-label="Next screen">
+        <span aria-hidden="true">→</span>
+      </button>
     </div>
   )
 
@@ -107,7 +111,7 @@ export function WorkCaseStudy({ slug }: { slug: string }) {
 
           {/* Nav + title */}
           <div>
-            <a href={`/${locale}/work`} className="inline-flex items-center gap-1.5 font-mono text-[11px] text-text-subtle tracking-[0.1em] uppercase no-underline mb-8 transition-colors hover:text-primary">
+            <a href={`/${locale}/work`} className="inline-flex items-center gap-1.5 font-mono text-[11px] text-text-subtle tracking-[0.1em] uppercase no-underline mb-8 transition-colors hover:text-primary keyboard-focus-ring">
               {t("work_ui.back_work")}
             </a>
             <span className="font-mono text-[10px] text-text-subtle tracking-[0.14em] uppercase block mb-2">{item.n}</span>
@@ -175,21 +179,21 @@ export function WorkCaseStudy({ slug }: { slug: string }) {
           <div className="border-t border-border pt-6 flex flex-col gap-4">
             {project.href ? (
               <a href={project.href} target="_blank" rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 font-mono text-[11px] tracking-[0.1em] uppercase text-primary no-underline transition-opacity hover:opacity-75">
-                {project.domain} ↗
+                className="inline-flex items-center gap-2 font-mono text-[11px] tracking-[0.1em] uppercase text-primary no-underline transition-opacity hover:opacity-75 keyboard-focus-ring">
+                {project.domain} ↗<span className="sr-only"> (opens in new tab)</span>
               </a>
             ) : (
               <span className="font-mono text-[11px] text-text-subtle tracking-[0.1em] uppercase">{t("work_ui.private")}</span>
             )}
             <div className="flex gap-6 flex-wrap">
               {prev && (
-                <a href={`/${locale}/work/${prev.slug}`} className="font-mono text-[11px] text-text-subtle tracking-[0.1em] uppercase no-underline transition-colors hover:text-primary">
-                  ← {prev.client}
+                <a href={`/${locale}/work/${prev.slug}`} aria-label={`Previous project: ${prev.client}`} className="font-mono text-[11px] text-text-subtle tracking-wide uppercase no-underline transition-colors hover:text-primary keyboard-focus-ring">
+                  <span aria-hidden="true">← </span>{prev.client}
                 </a>
               )}
               {next && (
-                <a href={`/${locale}/work/${next.slug}`} className="font-mono text-[11px] text-text-subtle tracking-[0.1em] uppercase no-underline transition-colors hover:text-primary">
-                  {next.client} →
+                <a href={`/${locale}/work/${next.slug}`} aria-label={`Next project: ${next.client}`} className="font-mono text-[11px] text-text-subtle tracking-wide uppercase no-underline transition-colors hover:text-primary keyboard-focus-ring">
+                  {next.client}<span aria-hidden="true"> →</span>
                 </a>
               )}
             </div>

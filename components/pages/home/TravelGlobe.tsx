@@ -363,5 +363,11 @@ export function TravelGlobe({ onHover }: Props) {
     }
   }, [onHover])
 
-  return <canvas ref={canvasRef} className="block w-full h-[360px] relative z-1 cursor-grab active:cursor-grabbing max-[900px]:h-[300px]" />
+  return (
+    <canvas
+      ref={canvasRef}
+      aria-hidden="true"
+      className="block w-full h-[360px] relative z-1 cursor-grab active:cursor-grabbing max-[900px]:h-[300px]"
+    />
+  )
 }

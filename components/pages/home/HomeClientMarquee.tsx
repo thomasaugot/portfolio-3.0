@@ -27,11 +27,12 @@ export function HomeClientMarquee() {
   return (
     <div className="border-y border-border py-[18px] flex items-center overflow-hidden">
       <span className="shrink-0 pr-6 pl-(--gutter) font-mono text-[11px] text-text-subtle tracking-[0.15em] uppercase border-r border-border whitespace-nowrap">{t("trusted_label")}</span>
-      <div className="marquee">
+      <div className="marquee" aria-label="Client list" role="marquee">
         <div className="marquee-track">
           {CLIENTS.map((name, idx) => <ClientItem key={idx} name={name} />)}
         </div>
-        <div className="marquee-track">
+        {/* Duplicate track for seamless loop — hidden from AT */}
+        <div className="marquee-track" aria-hidden="true">
           {CLIENTS.map((name, idx) => <ClientItem key={idx} name={name} />)}
         </div>
       </div>

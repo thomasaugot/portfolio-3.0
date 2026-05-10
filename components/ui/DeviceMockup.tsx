@@ -61,7 +61,7 @@ export function BrowserFrame({
   return (
     <div className="relative w-full">
       <div className="drop-shadow-[0_20px_60px_rgba(0,0,0,0.8)]">
-        <div className="h-7 bg-[#161616] [border:1.5px_solid_#2d2d2d] border-b-0 rounded-t-[7px] flex items-center gap-1.5 px-3 shrink-0">
+        <div className="h-7 bg-[#161616] [border:1.5px_solid_#2d2d2d] border-b-0 rounded-t-[7px] flex items-center gap-1.5 px-3 shrink-0" aria-hidden="true">
           <span className="w-2 h-2 rounded-full bg-[#ff5f57] shrink-0" />
           <span className="w-2 h-2 rounded-full bg-[#febc2e] shrink-0" />
           <span className="w-2 h-2 rounded-full bg-[#28c840] shrink-0" />

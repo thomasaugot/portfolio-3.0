@@ -49,9 +49,9 @@ export function HomeTerminal() {
   }, [])
 
   return (
-    <div className="terminal flex-1">
+    <div className="terminal flex-1" aria-label="Code terminal — decorative" role="img">
       {/* Title bar */}
-      <div className="flex items-center gap-2 py-2.5 px-3.5 border-b border-border bg-surface-2 shrink-0">
+      <div className="flex items-center gap-2 py-2.5 px-3.5 border-b border-border bg-surface-2 shrink-0" aria-hidden="true">
         <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
         <span className="w-2.5 h-2.5 rounded-full bg-[#febc2e]" />
         <span className="w-2.5 h-2.5 rounded-full bg-[#28c840]" />

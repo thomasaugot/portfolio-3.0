@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { createPortal } from "react-dom"
 import { useTranslations } from "next-intl"
 import { usePathname } from "next/navigation"
@@ -16,9 +16,11 @@ export function Navbar() {
   const { language, changeLanguage } = useTranslationContext()
   const pathname = usePathname()
   const isHome = pathname === `/${language}`
-  const [scrolled, setScrolled] = useState(false)
-  const [menuOpen, setMenuOpen] = useState(false)
-  const [mounted, setMounted]   = useState(false)
+  const [scrolled,  setScrolled]  = useState(false)
+  const [menuOpen,  setMenuOpen]  = useState(false)
+  const [mounted,   setMounted]   = useState(false)
+  const hamburgerRef = useRef<HTMLButtonElement>(null)
+  const menuRef      = useRef<HTMLDivElement>(null)
 
   useEffect(() => { setMounted(true) }, [])
 
@@ -28,10 +30,43 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", onScroll)
   }, [])
 
+  // Focus management + Escape + focus trap for mobile menu
   useEffect(() => {
     if (menuOpen) {
       document.body.style.overflow = "hidden"
-      const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setMenuOpen(false) }
+
+      // Move focus into the menu (first focusable child)
+      const firstFocusable = menuRef.current?.querySelector<HTMLElement>(
+        'a[href], button, [tabindex]:not([tabindex="-1"])'
+      )
+      firstFocusable?.focus()
+
+      const onKey = (e: KeyboardEvent) => {
+        if (e.key === "Escape") {
+          setMenuOpen(false)
+          // return focus to hamburger
+          hamburgerRef.current?.focus()
+          return
+        }
+        // Focus trap
+        if (e.key === "Tab" && menuRef.current) {
+          const focusable = Array.from(
+            menuRef.current.querySelectorAll<HTMLElement>(
+              'a[href], button, [tabindex]:not([tabindex="-1"])'
+            )
+          ).filter((el) => !el.hasAttribute("disabled"))
+          if (!focusable.length) return
+          const first = focusable[0]
+          const last  = focusable[focusable.length - 1]
+          if (e.shiftKey && document.activeElement === first) {
+            e.preventDefault()
+            last.focus()
+          } else if (!e.shiftKey && document.activeElement === last) {
+            e.preventDefault()
+            first.focus()
+          }
+        }
+      }
       document.addEventListener("keydown", onKey)
       return () => {
         document.body.style.overflow = ""
@@ -42,33 +77,26 @@ export function Navbar() {
     }
   }, [menuOpen])
 
-  const close = () => setMenuOpen(false)
+  const close = () => {
+    setMenuOpen(false)
+    hamburgerRef.current?.focus()
+  }
 
   function navHref(key: string) {
     if (NAV_HREF[key]) return `/${language}${NAV_HREF[key]}`
     return isHome ? `#${key}` : `/${language}#${key}`
   }
 
-  const Hamburger = () => (
-    <button
-      className={`navbar-hamburger keyboard-focus-ring${menuOpen ? " open" : ""}`}
-      onClick={() => setMenuOpen((v) => !v)}
-      aria-label={menuOpen ? "Close menu" : "Open menu"}
-      aria-expanded={menuOpen}
-      aria-controls="mobile-menu"
-    >
-      <span className="navbar-hamburger-line" />
-      <span className="navbar-hamburger-line" />
-      <span className="navbar-hamburger-line" />
-    </button>
-  )
-
   return (
     <>
       <header className={`navbar${scrolled ? " scrolled" : ""}`}>
         <div className="shell h-[60px] flex items-center justify-between gap-4">
-          <a href={`/${language}`} className="inline-flex items-center gap-2.5 font-display font-medium tracking-[-0.01em] no-underline text-text text-[15px] shrink-0 keyboard-focus-ring">
-            <span className="brand-dot" />
+          <a
+            href={`/${language}`}
+            aria-label="helloimtom.dev — home"
+            className="inline-flex items-center gap-2.5 font-display font-medium tracking-[-0.01em] no-underline text-text text-[15px] shrink-0 keyboard-focus-ring"
+          >
+            <span className="brand-dot" aria-hidden="true" />
             helloimtom<span className="text-text-subtle">.dev</span>
           </a>
 
@@ -81,23 +109,38 @@ export function Navbar() {
           </nav>
 
           <div className="flex gap-3 items-center">
-            <div className="navbar-status inline-flex items-center gap-2 text-[11px] text-text-muted py-1.5 px-2.5 border border-border-2 tracking-[0.02em]">
+            <div
+              className="navbar-status inline-flex items-center gap-2 text-[11px] text-text-muted py-1.5 px-2.5 border border-border-2 tracking-[0.02em]"
+              aria-hidden="true"
+            >
               <span className="status-dot" />
               {t("status.available")}
             </div>
-            <div className="lang-toggle">
+            <div className="lang-toggle" role="group" aria-label="Language selector">
               {LOCALES.map((lang) => (
                 <button
                   key={lang}
                   onClick={() => changeLanguage(lang)}
                   className={`keyboard-focus-ring${language === lang ? " active" : ""}`}
                   aria-current={language === lang ? "true" : undefined}
+                  aria-label={`Switch to ${lang.toUpperCase()}`}
                 >
                   {lang.toUpperCase()}
                 </button>
               ))}
             </div>
-            <Hamburger />
+            <button
+              ref={hamburgerRef}
+              className={`navbar-hamburger keyboard-focus-ring${menuOpen ? " open" : ""}`}
+              onClick={() => setMenuOpen((v) => !v)}
+              aria-label={menuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={menuOpen}
+              aria-controls="mobile-menu"
+            >
+              <span className="navbar-hamburger-line" aria-hidden="true" />
+              <span className="navbar-hamburger-line" aria-hidden="true" />
+              <span className="navbar-hamburger-line" aria-hidden="true" />
+            </button>
           </div>
         </div>
       </header>
@@ -105,18 +148,34 @@ export function Navbar() {
       {mounted && createPortal(
         <div
           id="mobile-menu"
+          ref={menuRef}
           role="dialog"
           aria-modal="true"
           aria-label="Navigation"
-          aria-hidden={!menuOpen}
           className={`mobile-menu${menuOpen ? " open" : ""}`}
+          inert={!menuOpen}
         >
           <div className="h-[60px] flex items-center justify-between px-(--gutter) border-b border-border shrink-0">
-            <a href={`/${language}`} className="inline-flex items-center gap-2.5 font-display font-medium tracking-[-0.01em] no-underline text-text text-[15px] shrink-0 keyboard-focus-ring" onClick={close}>
-              <span className="brand-dot" />
+            <a
+              href={`/${language}`}
+              aria-label="helloimtom.dev — home"
+              className="inline-flex items-center gap-2.5 font-display font-medium tracking-[-0.01em] no-underline text-text text-[15px] shrink-0 keyboard-focus-ring"
+              onClick={close}
+            >
+              <span className="brand-dot" aria-hidden="true" />
               helloimtom<span className="text-text-subtle">.dev</span>
             </a>
-            <Hamburger />
+            <button
+              className={`navbar-hamburger keyboard-focus-ring${menuOpen ? " open" : ""}`}
+              onClick={close}
+              aria-label="Close menu"
+              aria-expanded={menuOpen}
+              aria-controls="mobile-menu"
+            >
+              <span className="navbar-hamburger-line" aria-hidden="true" />
+              <span className="navbar-hamburger-line" aria-hidden="true" />
+              <span className="navbar-hamburger-line" aria-hidden="true" />
+            </button>
           </div>
 
           <nav className="flex-1 px-(--gutter)" aria-label="Mobile navigation">
@@ -141,23 +200,25 @@ export function Navbar() {
 
           <div className="mobile-menu-footer">
             <div className="flex items-center justify-between">
-              <div className="status-pill">
+              <div className="status-pill" aria-hidden="true">
                 <span className="status-dot" />
                 {t("status.available")}
               </div>
-              <div className="lang-toggle">
+              <div className="lang-toggle" role="group" aria-label="Language selector">
                 {LOCALES.map((lang) => (
                   <button
                     key={lang}
                     onClick={() => { changeLanguage(lang); close() }}
                     className={`keyboard-focus-ring${language === lang ? " active" : ""}`}
+                    aria-current={language === lang ? "true" : undefined}
+                    aria-label={`Switch to ${lang.toUpperCase()}`}
                   >
                     {lang.toUpperCase()}
                   </button>
                 ))}
               </div>
             </div>
-            <a href={navHref("contact")} className="btn btn-filled" onClick={close}>
+            <a href={navHref("contact")} className="btn btn-filled keyboard-focus-ring" onClick={close}>
               {t("nav.contact")} →
             </a>
           </div>

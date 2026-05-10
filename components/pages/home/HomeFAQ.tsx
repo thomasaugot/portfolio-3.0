@@ -27,23 +27,29 @@ export function HomeFAQ() {
         <div>
           {faq.map((item, idx) => {
             const isOpen = openIdx === idx
+            const answerId = `faq-answer-${idx}`
+            const questionId = `faq-question-${idx}`
             return (
-              <div
-                key={idx}
-                className="border-b border-border cursor-pointer pt-5 transition-[padding-left,padding-bottom] duration-300 hover:pl-3 keyboard-focus-ring"
-                style={{ paddingBottom: isOpen ? "28px" : "20px" }}
-                onClick={() => toggle(idx)}
-                role="button"
-                tabIndex={0}
-                aria-expanded={isOpen}
-                onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") toggle(idx) }}
-              >
-                <div className="grid grid-cols-[60px_1fr_32px] gap-6 items-start max-[600px]:grid-cols-[40px_1fr_28px] max-[600px]:gap-3">
-                  <span className="text-[11px] text-text-subtle tracking-[0.08em] pt-1.5">{String(idx + 1).padStart(2, "0")}</span>
-                  <p className="font-display text-[clamp(18px,1.8vw,24px)] font-medium tracking-[-0.01em] leading-[1.3] text-text">{item.q}</p>
-                  <span className={`font-mono text-primary text-[18px] text-right block leading-none pt-1 transition-transform duration-300${isOpen ? " rotate-45" : ""}`}>+</span>
-                </div>
+              <div key={idx} className="border-b border-border">
+                <button
+                  id={questionId}
+                  type="button"
+                  className="w-full text-left cursor-pointer pt-5 transition-[padding-left,padding-bottom] duration-300 hover:pl-3 keyboard-focus-ring bg-transparent border-0"
+                  style={{ paddingBottom: isOpen ? "28px" : "20px" }}
+                  onClick={() => toggle(idx)}
+                  aria-expanded={isOpen}
+                  aria-controls={answerId}
+                >
+                  <div className="grid grid-cols-[60px_1fr_32px] gap-6 items-start max-[600px]:grid-cols-[40px_1fr_28px] max-[600px]:gap-3">
+                    <span className="text-[11px] text-text-subtle tracking-[0.08em] pt-1.5" aria-hidden="true">{String(idx + 1).padStart(2, "0")}</span>
+                    <p className="font-display text-[clamp(18px,1.8vw,24px)] font-medium tracking-[-0.01em] leading-[1.3] text-text">{item.q}</p>
+                    <span className={`font-mono text-primary text-[18px] text-right block leading-none pt-1 transition-transform duration-300${isOpen ? " rotate-45" : ""}`} aria-hidden="true">+</span>
+                  </div>
+                </button>
                 <div
+                  id={answerId}
+                  role="region"
+                  aria-labelledby={questionId}
                   style={{
                     display: "grid",
                     gridTemplateRows: isOpen ? "1fr" : "0fr",

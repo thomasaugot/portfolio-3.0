@@ -1,6 +1,6 @@
 "use client"
 
-import type { ReactNode } from "react"
+import { useEffect, type ReactNode } from "react"
 import { NextIntlClientProvider } from "next-intl"
 import { AppReadyProvider } from "@/contexts/AppReadyContext"
 import { ScrollProvider } from "@/contexts/ScrollContext"
@@ -11,6 +11,18 @@ import { PageShell } from "@/components/layout/PageShell"
 import { Toaster } from "@/components/ui/Toaster"
 import { LiveRegion } from "@/components/ui/LiveRegion"
 import { BackToTop } from "@/components/ui/BackToTop"
+import { ContrastToggle } from "@/components/ui/ContrastToggle"
+import { InputModalityTracker } from "@/components/layout/InputModalityTracker"
+import { ContrastProvider } from "@/contexts/ContrastContext"
+
+// Syncs <html lang> to the active locale on the client.
+// The root layout defaults to "en"; this corrects it when the locale is fr/es.
+function HtmlLangSync({ locale }: { locale: string }) {
+  useEffect(() => {
+    document.documentElement.lang = locale
+  }, [locale])
+  return null
+}
 
 interface ProvidersProps {
   children: ReactNode
@@ -25,14 +37,19 @@ export function Providers({ children, locale, messages }: ProvidersProps) {
         <ScrollProvider>
           <TransitionProvider>
             <MotionPreferenceProvider>
-              <div className="noise-overlay" aria-hidden="true" />
-              <PageLoader />
-              <PageShell>
-                {children}
-              </PageShell>
-              <Toaster />
-              <LiveRegion />
-              <BackToTop />
+              <ContrastProvider>
+                <HtmlLangSync locale={locale} />
+                <InputModalityTracker />
+                <div className="noise-overlay" aria-hidden="true" />
+                <PageLoader />
+                <PageShell>
+                  {children}
+                </PageShell>
+                <Toaster />
+                <LiveRegion />
+                <BackToTop />
+                <ContrastToggle />
+              </ContrastProvider>
             </MotionPreferenceProvider>
           </TransitionProvider>
         </ScrollProvider>

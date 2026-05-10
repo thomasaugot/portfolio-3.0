@@ -313,7 +313,7 @@ export function HeroBackdrop() {
 
   return (
     <div className="absolute inset-[-15%_-40%] z-0 pointer-events-none" aria-hidden="true">
-      <canvas ref={canvasRef} className="hero-backdrop-canvas block w-full h-full pointer-events-auto contrast-105 opacity-[0.95] cursor-grab active:cursor-grabbing" />
+      <canvas ref={canvasRef} aria-hidden="true" className="hero-backdrop-canvas block w-full h-full pointer-events-auto contrast-105 opacity-[0.95] cursor-grab active:cursor-grabbing" />
     </div>
   )
 }

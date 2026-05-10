@@ -76,9 +76,10 @@ export function WorkPageClient() {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={(e) => e.stopPropagation()}
-                className="inline-flex items-center gap-1 font-mono text-[10px] text-primary no-underline tracking-[0.1em] uppercase mt-3 transition-opacity hover:opacity-75"
+                aria-label={`${active.client} live site (opens in new tab)`}
+                className="inline-flex items-center gap-1 font-mono text-[10px] text-primary no-underline tracking-[0.1em] uppercase mt-3 transition-opacity hover:opacity-75 keyboard-focus-ring"
               >
-                {active.domain} ↗
+                {active.domain} ↗<span className="sr-only"> (opens in new tab)</span>
               </a>
             )}
           </div>
@@ -95,7 +96,7 @@ export function WorkPageClient() {
           <div className="px-(--gutter) pt-12 pb-10 border-b border-border shrink-0 sticky top-0 bg-bg z-10">
             <a
               href={`/${locale}`}
-              className="inline-flex items-center gap-1.5 font-mono text-[11px] text-text-subtle tracking-[0.1em] uppercase no-underline mb-10 transition-colors hover:text-primary"
+              className="inline-flex items-center gap-1.5 font-mono text-[11px] text-text-subtle tracking-[0.1em] uppercase no-underline mb-10 transition-colors hover:text-primary keyboard-focus-ring"
             >
               {t("work_ui.back_home")}
             </a>
@@ -117,7 +118,8 @@ export function WorkPageClient() {
               <a
                 key={p.slug}
                 href={`/${locale}/work/${p.slug}`}
-                className="group flex items-center gap-4 px-(--gutter) py-6 border-b border-border no-underline relative overflow-hidden transition-[padding-left,background] duration-300 hover:bg-surface"
+                aria-label={`View case study: ${workBySlug[p.slug]?.tag ?? p.tag} — ${p.client}`}
+                className="group flex items-center gap-4 px-(--gutter) py-6 border-b border-border no-underline relative overflow-hidden transition-[padding-left,background] duration-300 hover:bg-surface keyboard-focus-ring"
                 onMouseEnter={() => setActive(p)}
               >
                 {/* left accent */}
@@ -157,7 +159,7 @@ export function WorkPageClient() {
           <div className="px-(--gutter) py-12">
             <p className="font-mono text-[11px] text-text-subtle tracking-[0.08em]">
               {t("work_ui.footer_cta")}{" "}
-              <a href={`/${locale}#contact`} className="text-primary no-underline transition-opacity hover:opacity-75">
+              <a href={`/${locale}#contact`} className="text-primary no-underline transition-opacity hover:opacity-75 keyboard-focus-ring">
                 {t("work_ui.footer_link")}
               </a>
             </p>
@@ -169,7 +171,7 @@ export function WorkPageClient() {
           <button
             onClick={scrollDown}
             aria-label="Scroll to see more projects"
-            className="pointer-events-auto inline-flex items-center gap-2 font-mono text-[10px] tracking-[0.12em] uppercase text-text border border-border bg-surface px-4 py-2 transition-[border-color,color] hover:border-primary hover:text-primary cursor-pointer"
+            className="pointer-events-auto inline-flex items-center gap-2 font-mono text-[10px] tracking-[0.12em] uppercase text-text border border-border bg-surface px-4 py-2 transition-[border-color,color] hover:border-primary hover:text-primary cursor-pointer keyboard-focus-ring"
           >
             {t("work_ui.scroll_more")}
           </button>

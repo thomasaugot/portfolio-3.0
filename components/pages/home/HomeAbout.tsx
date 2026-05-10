@@ -66,15 +66,15 @@ export function HomeAbout() {
 
           {/* Right — globe + facts */}
           <div>
-            <div className="globe-wrap">
-              <div className="relative z-2 flex justify-between items-baseline font-mono text-[10px] tracking-[0.14em] uppercase text-text-subtle border-b border-border pb-2 mb-1">
+            <div className="globe-wrap" aria-label="Interactive globe showing places I have lived and travelled" role="region">
+              <div className="relative z-2 flex justify-between items-baseline font-mono text-[10px] tracking-[0.14em] uppercase text-text-subtle border-b border-border pb-2 mb-1" aria-hidden="true">
                 <span>geo · pins / arcs</span>
                 <span className="text-text">
                   {hoveredPin ? `${hoveredPin.city} · ${hoveredPin.country}` : "drag to rotate"}
                 </span>
               </div>
               <TravelGlobe onHover={setHoveredPin} />
-              <div className="relative z-2 flex gap-[18px] font-mono text-[10px] tracking-[0.1em] uppercase text-text-subtle border-t border-border pt-2.5 mt-1">
+              <div className="relative z-2 flex gap-[18px] font-mono text-[10px] tracking-[0.1em] uppercase text-text-subtle border-t border-border pt-2.5 mt-1" aria-hidden="true">
                 <span className="inline-flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-primary shadow-[0_0_0_2px_color-mix(in_oklch,var(--color-primary)_30%,transparent)]" /> places i&apos;ve lived</span>
                 <span className="inline-flex items-center gap-1.5"><span className="w-[18px] h-2 [border-top:1px_dashed_var(--color-primary)] rounded-[50%_50%_0_0/100%_100%_0_0]" /> path travelled</span>
               </div>

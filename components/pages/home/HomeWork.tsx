@@ -80,12 +80,22 @@ export function HomeWork() {
                   ))}
                 </div>
 
-                <a href={`/${locale}/work/${item.slug}`} className="inline-flex items-center gap-1.5 text-primary no-underline text-[13px] transition-opacity hover:opacity-75">
+                <a
+                  href={`/${locale}/work/${item.slug}`}
+                  aria-label={`${item.link} — ${item.client}`}
+                  className="inline-flex items-center gap-1.5 text-primary no-underline text-[13px] transition-opacity hover:opacity-75 keyboard-focus-ring"
+                >
                   {item.link}
                 </a>
                 {item.href && (
-                  <a href={item.href} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-primary no-underline text-[13px] transition-opacity hover:opacity-75">
-                    Live site ↗
+                  <a
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`${item.client} live site (opens in new tab)`}
+                    className="inline-flex items-center gap-1.5 text-primary no-underline text-[13px] transition-opacity hover:opacity-75 keyboard-focus-ring"
+                  >
+                    Live site ↗<span className="sr-only"> (opens in new tab)</span>
                   </a>
                 )}
               </div>

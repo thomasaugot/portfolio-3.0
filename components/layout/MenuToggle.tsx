@@ -1,13 +1,17 @@
 "use client"
 
+import type { RefObject } from "react"
+
 interface MenuToggleProps {
   isOpen: boolean
   onToggle: () => void
+  triggerRef?: RefObject<HTMLButtonElement | null>
 }
 
-export function MenuToggle({ isOpen, onToggle }: MenuToggleProps) {
+export function MenuToggle({ isOpen, onToggle, triggerRef }: MenuToggleProps) {
   return (
     <button
+      ref={triggerRef}
       onClick={onToggle}
       aria-label={isOpen ? "Close menu" : "Open menu"}
       aria-expanded={isOpen}
