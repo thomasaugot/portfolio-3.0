@@ -42,6 +42,9 @@ export function HomeSocials() {
               rel="noopener noreferrer"
               aria-label={`${s.label} — ${s.cta} (opens in new tab)`}
               className={`group flex flex-col gap-3 p-7 border border-border no-underline text-inherit transition-[background,border-color] duration-150 hover:bg-surface-2 hover:border-primary keyboard-focus-ring${FEATURED[s.key] ? " bg-surface-2" : " bg-surface"}`}
+              data-cta_click="true"
+              data-cta_text={s.label}
+              data-cta_url={HREFS[s.key] ?? "#"}
             >
               <div className="flex items-baseline justify-between gap-3" aria-hidden="true">
                 <span className="font-display text-[22px] font-semibold tracking-[-0.02em] text-text">{s.label}</span>

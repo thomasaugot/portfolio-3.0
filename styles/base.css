@@ -41,6 +41,7 @@ input, textarea, select { font-size: 1rem; }
 .z-overlay         { z-index: var(--z-overlay); }
 .z-toast           { z-index: var(--z-toast); }
 .z-loader          { z-index: var(--z-loader); }
+.z-cursor          { z-index: var(--z-cursor); }
 
 /* ── Semantic text classes ── */
 .text-display  {

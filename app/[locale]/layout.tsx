@@ -6,6 +6,8 @@ import { SkipLink } from "@/components/ui/SkipLink"
 import { Navbar } from "@/components/layout/Navbar"
 import { Footer } from "@/components/layout/Footer"
 import { TranslationProvider } from "@/contexts/TranslationContext"
+import { GoogleTagManager } from "@next/third-parties/google"
+import AnalyticsTracker from "@/components/AnalyticsTracker"
 import type { Language } from "@/config/i18n.config"
 import type { ReactNode } from "react"
 
@@ -28,15 +30,19 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
   const messages = await getMessages()
 
   return (
-    <Providers locale={locale} messages={messages as Record<string, unknown>}>
-      <TranslationProvider locale={locale as Language}>
-        <SkipLink targetId="main-content" />
-        <Navbar />
-        <main id="main-content" tabIndex={-1}>
-          {children}
-        </main>
-        <Footer />
-      </TranslationProvider>
-    </Providers>
+    <>
+      <GoogleTagManager gtmId="GTM-M6GQ2N7Z" />
+      <Providers locale={locale} messages={messages as Record<string, unknown>}>
+        <TranslationProvider locale={locale as Language}>
+          <AnalyticsTracker />
+          <SkipLink targetId="main-content" />
+          <Navbar />
+          <main id="main-content" tabIndex={-1}>
+            {children}
+          </main>
+          <Footer />
+        </TranslationProvider>
+      </Providers>
+    </>
   )
 }

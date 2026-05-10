@@ -42,11 +42,11 @@ export function HomeHero() {
             </p>
 
             <div className="flex gap-3 items-center flex-wrap hero-left-item">
-              <a href="#contact" className="btn btn-filled keyboard-focus-ring">
+              <a href="#contact" className="btn btn-filled keyboard-focus-ring" data-cta_click="true" data-cta_text="Contact" data-cta_url="#contact">
                 {t("cta1")}
                 <span className="btn-arrow"><IconArrow /></span>
               </a>
-              <a href="#work" className="btn btn-ghost keyboard-focus-ring">
+              <a href="#work" className="btn btn-ghost keyboard-focus-ring" data-cta_click="true" data-cta_text="View work" data-cta_url="#work">
                 {t("cta2")} <span aria-hidden="true">→</span>
               </a>
             </div>

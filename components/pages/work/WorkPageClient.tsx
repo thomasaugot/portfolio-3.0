@@ -7,6 +7,7 @@ import { usePageReady } from "@/hooks/usePageReady"
 import { PROJECTS } from "@/data/projects"
 import { BrowserFrame, PhoneFrame } from "@/components/ui/DeviceMockup"
 import { ParticleHeading } from "@/components/ui/ParticleHeading"
+import { trackProjectClick } from "@/utils/gtm-events"
 
 interface WorkItem { slug: string; tag: string; type: string }
 
@@ -121,6 +122,7 @@ export function WorkPageClient() {
                 aria-label={`View case study: ${workBySlug[p.slug]?.tag ?? p.tag} — ${p.client}`}
                 className="group flex items-center gap-4 px-(--gutter) py-6 border-b border-border no-underline relative overflow-hidden transition-[padding-left,background] duration-300 hover:bg-surface keyboard-focus-ring"
                 onMouseEnter={() => setActive(p)}
+                onClick={() => trackProjectClick(p.client, `/${locale}/work/${p.slug}`)}
               >
                 {/* left accent */}
                 <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-primary origin-bottom scale-y-0 group-hover:scale-y-100 transition-transform duration-500" />

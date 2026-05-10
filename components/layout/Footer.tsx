@@ -1,18 +1,27 @@
 "use client"
 
 import { useTranslations } from "next-intl"
+import { usePathname } from "next/navigation"
 import { appConfig } from "@/config/app.config"
+import { useTranslationContext } from "@/contexts/TranslationContext"
 
 export function Footer() {
   const t = useTranslations()
+  const { language } = useTranslationContext()
+  const pathname = usePathname()
+  const isHome = pathname === `/${language}`
+
+  function sectionHref(anchor: string) {
+    return isHome ? `#${anchor}` : `/${language}#${anchor}`
+  }
 
   const links = {
     sitemap: [
-      { label: t("footer.sitemap_links.0"), href: "#services" },
-      { label: t("footer.sitemap_links.1"), href: "#work" },
-      { label: t("footer.sitemap_links.2"), href: "#process" },
-      { label: t("footer.sitemap_links.3"), href: "#about" },
-      { label: t("footer.sitemap_links.4"), href: "#contact" },
+      { label: t("footer.sitemap_links.0"), href: sectionHref("services") },
+      { label: t("footer.sitemap_links.1"), href: sectionHref("work") },
+      { label: t("footer.sitemap_links.2"), href: sectionHref("process") },
+      { label: t("footer.sitemap_links.3"), href: sectionHref("about") },
+      { label: t("footer.sitemap_links.4"), href: sectionHref("contact") },
     ],
     elsewhere: [
       { label: "LinkedIn", href: appConfig.linkedin },
@@ -52,7 +61,7 @@ export function Footer() {
           <div>
             <h4 className="text-[11px] text-text-subtle tracking-[0.12em] uppercase mb-4">{t("footer.elsewhere_heading")}</h4>
             {links.elsewhere.map((l) => (
-              <a key={l.label} href={l.href} target="_blank" rel="noopener noreferrer" className="text-text-muted no-underline block py-1 text-[13px] transition-colors duration-150 hover:text-primary keyboard-focus-ring">
+              <a key={l.label} href={l.href} target="_blank" rel="noopener noreferrer" className="text-text-muted no-underline block py-1 text-[13px] transition-colors duration-150 hover:text-primary keyboard-focus-ring" data-cta_click="true" data-cta_text={l.label} data-cta_url={l.href}>
                 {l.label}<span className="sr-only"> (opens in new tab)</span>
               </a>
             ))}

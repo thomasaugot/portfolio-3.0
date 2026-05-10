@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
+import { useAppReadyContext } from "@/contexts/AppReadyContext"
 
 const LINES = [
   { type: "prompt", text: "whoami" },
@@ -32,10 +33,12 @@ const LINES = [
 ]
 
 export function HomeTerminal() {
+  const { loaderGone } = useAppReadyContext()
   const [visibleCount, setVisibleCount] = useState(0)
   const bodyRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    if (!loaderGone) return
     let i = 0
     const interval = setInterval(() => {
       i++
@@ -46,7 +49,7 @@ export function HomeTerminal() {
       }
     }, 80)
     return () => clearInterval(interval)
-  }, [])
+  }, [loaderGone])
 
   return (
     <div className="terminal flex-1" aria-label="Code terminal — decorative" role="img">

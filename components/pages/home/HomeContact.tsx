@@ -7,6 +7,7 @@ import { useTranslations } from "next-intl"
 import { appConfig } from "@/config/app.config"
 import { showToast } from "@/components/ui/Toaster"
 import { logger } from "@/utils/logger"
+import { pushToDataLayer, trackExternalLink } from "@/utils/gtm-events"
 
 interface ContactForm {
   name: string
@@ -32,6 +33,7 @@ export function HomeContact() {
       const mailto = `mailto:${appConfig.email}?subject=Project inquiry — ${selectedProject || "General"}&body=${encodeURIComponent(
         `Name: ${data.name}\nEmail: ${data.email}\nCompany: ${data.company}\nProject: ${selectedProject}\nBudget: ${selectedBudget}\n\n${data.message}`
       )}`
+      pushToDataLayer({ event: "contact_submit", project_type: selectedProject, budget: selectedBudget })
       window.location.href = mailto
       showToast("Message sent!", "success")
       reset()
@@ -68,7 +70,7 @@ export function HomeContact() {
 
             <div className="mt-8 pt-8 border-t border-border">
               <p className="text-text-subtle text-[12px] mb-3">{t("contact.call_label")}</p>
-              <a href={appConfig.calLink} target="_blank" rel="noopener noreferrer" className="btn inline-flex keyboard-focus-ring">
+              <a href={appConfig.calLink} target="_blank" rel="noopener noreferrer" className="btn inline-flex keyboard-focus-ring" data-cta_click="true" data-cta_text="Book a call" data-cta_url={appConfig.calLink}>
                 {t("contact.call_cta")}
                 <span className="sr-only"> (opens in new tab)</span>
               </a>

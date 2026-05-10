@@ -4,7 +4,7 @@ import { routeTranslations } from "./config/i18n.config"
 import type { Language } from "./config/i18n.config"
 
 export const config = {
-  matcher: ["/((?!_next|api|favicon.ico|assets).*)"],
+  matcher: ["/((?!_next|api|admin|favicon.ico|assets).*)"],
 }
 
 function withLocaleHeader(response: NextResponse, locale: string): NextResponse {
