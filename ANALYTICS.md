@@ -185,24 +185,182 @@ GA4 → Admin → Custom definitions → Create custom dimension for each:
 
 Fills the Visitors / Page views / Bounce rate panels in `/admin`.
 
-### 1. Prerequisites
+### 1. Create a GCP project and service account
 
-- Google Cloud Console → create a service account → download JSON key  
-- GA4 → Admin → Property access management → add service account email as Viewer  
-- Add to `.env.local`:
+1. Go to [console.cloud.google.com](https://console.cloud.google.com) → create a project (or use an existing one)  
+   **This project:** `portfolio-495912`
+
+2. In the project: **IAM & Admin → Service Accounts → Create Service Account**  
+   - Give it a name (e.g. `portfolio-3-0`)  
+   - No GCP IAM role is needed — GA4 access is managed separately  
+   - Click **"Create and continue"** → **"Done"**
+
+3. Click on the service account → **Keys → Add Key → Create new key → JSON** → download  
+   **This project:** key file is `portfolio-495912-783afa2e69af.json` (gitignored via `portfolio-495912-*.json`)  
+   **Service account email:** `portfolio-3-0@portfolio-495912.iam.gserviceaccount.com`
+
+4. Enable the Analytics Data API in the project:  
+   **APIs & Services → Enable APIs → search "Google Analytics Data API" → Enable**  
+   (This is the read API used by the backend — different from the Admin API used for access management)
+
+### 2. Create a GA4 property
+
+1. Go to [analytics.google.com](https://analytics.google.com) → **Admin → Create Property**  
+2. Set up a web data stream for the domain  
+3. Note the **Property ID** (numeric, e.g. `536971523`) and **Measurement ID** (e.g. `G-WHSS079Y0M`)  
+   **This project:** property "portfolio 3.0", ID `536971523`, Measurement ID `G-WHSS079Y0M`
+
+### 3. Grant the service account access to GA4
+
+**The GA4 UI does not work for service account emails — see "Known Issue & Runbook" below.**  
+Skip this step and follow the runbook instead.
+
+### 4. Add to `.env.local`
 
 ```
-GA4_PROPERTY_ID=properties/XXXXXXXXX
-GA4_SERVICE_ACCOUNT_KEY={"type":"service_account",...}
+GA4_PROPERTY_ID=properties/536971523
+GOOGLE_APPLICATION_CREDENTIALS_JSON={"type":"service_account","project_id":"portfolio-495912",...full JSON key content on one line...}
 ```
 
-### 2. Install GA4 Data SDK
+The JSON key must be on a single line — copy the entire content of the downloaded `.json` file and paste it as the value. No line breaks.
+
+---
+
+### ⚠️ Known Issue: GA4 UI rejects service account emails — full runbook
+
+#### The problem
+
+The GA4 property access management UI shows:
+> **"Cette adresse e-mail ne correspond à aucun compte Google"**
+
+for any `*.iam.gserviceaccount.com` address. This is a known GA4 UI bug — the UI validates that the email belongs to a consumer Gmail or Google Workspace account. GCP service accounts look like email addresses but are not Google accounts, so the validation always fails.
+
+Things that do NOT fix this:
+- Creating a new service account — tried `helloimtom-analytics@portfolio-495912.iam.gserviceaccount.com`, then deleted it and created `portfolio-3-0@portfolio-495912.iam.gserviceaccount.com` → same rejection on both
+- Creating a new GA4 property — tried on both the original property (`435357178`) and the new one (`536971523`) → same rejection on both
+- Unchecking "notify user by email" in the GA4 access management form → same rejection
+- Switching the property: the original property `435357178` ("angular-ecommerce-cd707") was also Firebase-linked, which caused additional access issues; we created a new GA4 property "portfolio 3.0" (`536971523`) but that didn't fix the service account rejection either
+
+The UI will never work for service account emails. The only fix is the Analytics Admin API.
+
+---
+
+#### Context: why we needed the API at all
+
+Once the GA4 UI was confirmed broken for service accounts, the next step was the **Google Analytics Admin API** — which can manage property access programmatically and does not have the email validation bug.
+
+The API base URL is `https://analyticsadmin.googleapis.com`. The method to grant access is `properties.accessBindings.create`. Authentication must be done as a user (or service account) that already has admin access to the property — in this case, the Google account that owns the GA4 property.
+
+We opened **Google Cloud Shell** (terminal icon in console.cloud.google.com — always available, always authenticated as your GCP user) to run the API calls.
+
+---
+
+#### Failed attempt 1 — Analytics Admin API v1beta (404)
+
+```bash
+curl -X POST \
+  "https://analyticsadmin.googleapis.com/v1beta/properties/536971523/accessBindings" \
+  -H "Authorization: Bearer $(gcloud auth print-access-token)" \
+  -H "Content-Type: application/json" \
+  -d '{"user":"portfolio-3-0@portfolio-495912.iam.gserviceaccount.com","roles":["predefinedRoles/viewer"]}'
+```
+
+**Result:** HTML 404 page from Google.  
+**Why:** The `accessBindings` endpoint does not exist in `v1beta`. It is only available in `v1alpha`.
+
+---
+
+#### Failed attempt 2 — v1alpha with default gcloud token (403)
+
+```bash
+curl -X POST \
+  "https://analyticsadmin.googleapis.com/v1alpha/properties/536971523/accessBindings" \
+  -H "Authorization: Bearer $(gcloud auth print-access-token)" \
+  -H "Content-Type: application/json" \
+  -d '{"user":"portfolio-3-0@portfolio-495912.iam.gserviceaccount.com","roles":["predefinedRoles/viewer"]}'
+```
+
+**Result:**
+```json
+{
+  "error": {
+    "code": 403,
+    "message": "Request had insufficient authentication scopes.",
+    "status": "PERMISSION_DENIED"
+  }
+}
+```
+**Why:** `gcloud auth print-access-token` returns a token scoped to `cloud-platform`, which does not include `analytics.manage.users`. Google Analytics is not a Cloud Platform product — its API requires its own OAuth scope.
+
+---
+
+#### Failed attempt 3 — gcloud auth with analytics scope (blocked by Google)
+
+```bash
+gcloud auth application-default login \
+  --scopes=https://www.googleapis.com/auth/analytics.manage.users,https://www.googleapis.com/auth/cloud-platform
+```
+
+Cloud Shell opened a browser auth URL. When opened in the browser, Google showed:
+> **"Cette application est bloquée"**
+
+**Why:** `analytics.manage.users` is a restricted OAuth scope. Google requires any OAuth app requesting it to go through their security review process. The gcloud CLI's own OAuth client (`764086051850-6qr4p6gpi6hn506pt8ejuq83di341hur`) has not been cleared for this scope, so Google hard-blocks the request — no workaround exists for this flow.
+
+---
+
+#### What finally worked — OAuth Playground + v1alpha
+
+The OAuth Playground (`developers.google.com/oauthplayground`) uses **Google's own verified OAuth client** (`407408718192.apps.googleusercontent.com`), which has been cleared for all Google API scopes including restricted ones. This bypasses the block.
+
+**Steps (one-time per service account per property):**
+
+1. Go to **developers.google.com/oauthplayground**
+
+2. In the scope input at the top of the left panel, paste:
+   ```
+   https://www.googleapis.com/auth/analytics.manage.users
+   ```
+   Click **"Authorize APIs"** → sign in with the Google account that owns the GA4 property → approve
+
+3. In Step 2 of the Playground, click **"Exchange authorization code for tokens"**
+
+4. Copy the `access_token` from the JSON response (valid for ~1 hour)
+
+5. Run this from any terminal:
+   ```bash
+   curl -X POST \
+     "https://analyticsadmin.googleapis.com/v1alpha/properties/YOUR_PROPERTY_ID/accessBindings" \
+     -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
+     -H "Content-Type: application/json" \
+     -d '{"user":"YOUR_SA@YOUR_PROJECT.iam.gserviceaccount.com","roles":["predefinedRoles/viewer"]}'
+   ```
+
+6. Success response:
+   ```json
+   {
+     "name": "properties/XXXXXXX/accessBindings/XXXXXX",
+     "user": "your-sa@your-project.iam.gserviceaccount.com",
+     "roles": ["predefinedRoles/viewer"]
+   }
+   ```
+
+7. Restart the dev server — the admin dashboard will show live GA4 data.
+
+**For this project specifically:**
+- Property ID: `536971523`
+- Service account: `portfolio-3-0@portfolio-495912.iam.gserviceaccount.com`
+- Key file: `portfolio-495912-783afa2e69af.json` (gitignored)
+- Env var: `GOOGLE_APPLICATION_CREDENTIALS_JSON` in `.env.local`
+
+---
+
+### 5. Install GA4 Data SDK
 
 ```bash
 npm install @google-analytics/data
 ```
 
-### 3. Create `app/api/admin/analytics/route.ts`
+### 6. Create `app/api/admin/analytics/route.ts`
 
 ```ts
 import { BetaAnalyticsDataClient } from "@google-analytics/data"
@@ -210,7 +368,7 @@ import { verifySession } from "@/lib/admin-auth"
 import { cookies } from "next/headers"
 
 const client = new BetaAnalyticsDataClient({
-  credentials: JSON.parse(process.env.GA4_SERVICE_ACCOUNT_KEY!),
+  credentials: JSON.parse(process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON!),
 })
 
 export async function GET() {
@@ -241,9 +399,46 @@ export async function GET() {
 }
 ```
 
-### 4. Update admin page
+### 7. Update admin page
 
-Fetch analytics server-side inside the authenticated branch of `app/admin/page.tsx` and pass data to the stat panels.
+Fetch analytics server-side inside the authenticated branch of `app/admin/page.tsx`. The page is a server component so it can forward the session cookie directly to the internal API route:
+
+```ts
+async function getAnalytics(session: string) {
+  try {
+    const base = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000"
+    const res = await fetch(`${base}/api/admin/analytics`, {
+      headers: { Cookie: `admin_session=${session}` },
+      cache: "no-store",
+    })
+    if (!res.ok) return null
+    return res.json() as Promise<{ users: string; pageviews: string; bounceRate: string }>
+  } catch {
+    return null
+  }
+}
+```
+
+Render the three stat panels with `analytics?.users ?? "—"` etc. If `analytics` is null, show an error message — this usually means the service account does not yet have GA4 access (run the runbook above).
+
+---
+
+## Other issues hit during setup
+
+### Env var name — `GA4_SERVICE_ACCOUNT_KEY` vs `GOOGLE_APPLICATION_CREDENTIALS_JSON`
+
+The analytics route was originally written with `GA4_SERVICE_ACCOUNT_KEY` as the env var name. This was renamed to `GOOGLE_APPLICATION_CREDENTIALS_JSON` to match the convention used in other projects. If the dashboard silently returns `"—"` for all values, check that the env var name in `route.ts` and in `.env.local` match exactly.
+
+### TypeScript conflict in `utils/gtm-events.ts` — `declare global`
+
+Adding `declare global { interface Window { dataLayer: Record<string, unknown>[] } }` to `gtm-events.ts` caused a TypeScript conflict because `@next/third-parties` already declares `window.dataLayer` as `Object[] | undefined`. Two declarations for the same property with different types causes a build error.
+
+**Fix:** remove the `declare global` block entirely and use a type assertion + guard instead:
+```ts
+if (typeof window !== "undefined" && Array.isArray(window.dataLayer)) {
+  ;(window.dataLayer as GTMEvent[]).push(data)
+}
+```
 
 ---
 
@@ -259,23 +454,25 @@ Fetch analytics server-side inside the authenticated branch of `app/admin/page.t
 ## Checklist
 
 ### Phase 1
-- [ ] Decide: reuse `GTM-TXWLJD7N` or create new container
-- [ ] Create new GA4 property for helloimtom.dev
-- [ ] Connect GA4 to GTM (Google Tag, All Pages trigger)
-- [ ] `npm install @next/third-parties@latest`
-- [ ] Create `utils/gtm-events.ts`
-- [ ] Create `hooks/useAnalyticsTracking.ts`
-- [ ] Create `components/AnalyticsTracker.tsx`
-- [ ] Add `GoogleTagManager` + `AnalyticsTracker` to locale layout
-- [ ] Add `data-cta_*` attributes to CTAs
-- [ ] Configure GTM tags for all events
-- [ ] Register custom dimensions in GA4
+- [x] New GTM container created: `GTM-M6GQ2N7Z`
+- [x] New GA4 property created: "portfolio 3.0" — ID `536971523`, Measurement ID `G-WHSS079Y0M`
+- [x] Connect GA4 to GTM (GA4 Configuration tag, All Pages trigger)
+- [x] `npm install @next/third-parties@latest`
+- [x] Create `utils/gtm-events.ts`
+- [x] Create `hooks/useAnalyticsTracking.ts`
+- [x] Create `components/AnalyticsTracker.tsx`
+- [x] Add `GoogleTagManager` + `AnalyticsTracker` to locale layout
+- [x] Add `data-cta_*` attributes to hero CTAs, social links, footer links
+- [x] Add `trackProjectClick` to work page project rows
+- [x] Add `contact_submit` event to contact form
+- [ ] Configure remaining GTM tags: cta_click, project_click, contact_submit, scroll_depth
+- [ ] Register custom dimensions in GA4 (cta_text, cta_url, scroll_percent, project_name, project_url)
 - [ ] Verify via GTM Preview + GA4 Realtime
 
 ### Phase 2
-- [ ] Create Google Cloud service account
-- [ ] Grant Viewer access in GA4
-- [ ] Add `GA4_PROPERTY_ID` + `GA4_SERVICE_ACCOUNT_KEY` to `.env.local`
-- [ ] `npm install @google-analytics/data`
-- [ ] Create `/api/admin/analytics` route
-- [ ] Update admin page panels with live data
+- [x] Create Google Cloud service account
+- [x] Grant Viewer access via Analytics Admin API (OAuth Playground — see Known Issue above)
+- [x] Add `GA4_PROPERTY_ID` + `GOOGLE_APPLICATION_CREDENTIALS_JSON` to `.env.local`
+- [x] `npm install @google-analytics/data`
+- [x] Create `/api/admin/analytics` route
+- [x] Update admin page panels with live data
