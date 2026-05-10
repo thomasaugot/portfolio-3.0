@@ -30,11 +30,20 @@ export function HomeContact() {
   const onSubmit = async (data: ContactForm) => {
     setSubmitting(true)
     try {
-      const mailto = `mailto:${appConfig.email}?subject=Project inquiry — ${selectedProject || "General"}&body=${encodeURIComponent(
-        `Name: ${data.name}\nEmail: ${data.email}\nCompany: ${data.company}\nProject: ${selectedProject}\nBudget: ${selectedBudget}\n\n${data.message}`
-      )}`
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: data.name,
+          email: data.email,
+          company: data.company,
+          message: data.message,
+          project: selectedProject,
+          budget: selectedBudget,
+        }),
+      })
+      if (!res.ok) throw new Error(await res.text())
       pushToDataLayer({ event: "contact_submit", project_type: selectedProject, budget: selectedBudget })
-      window.location.href = mailto
       showToast("Message sent!", "success")
       reset()
       setSelectedProject("")

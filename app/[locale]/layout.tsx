@@ -1,5 +1,6 @@
 import { getMessages } from "next-intl/server"
 import { notFound } from "next/navigation"
+import { cookies } from "next/headers"
 import { routing } from "@/i18n/routing"
 import { Providers } from "@/components/layout/Providers"
 import { SkipLink } from "@/components/ui/SkipLink"
@@ -8,6 +9,7 @@ import { Footer } from "@/components/layout/Footer"
 import { TranslationProvider } from "@/contexts/TranslationContext"
 import { GoogleTagManager } from "@next/third-parties/google"
 import AnalyticsTracker from "@/components/AnalyticsTracker"
+import { verifySession } from "@/lib/admin-auth"
 import type { Language } from "@/config/i18n.config"
 import type { ReactNode } from "react"
 
@@ -28,10 +30,13 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
   }
 
   const messages = await getMessages()
+  const store   = await cookies()
+  const session = store.get("admin_session")?.value ?? ""
+  const isAdmin = session ? verifySession(session) : false
 
   return (
     <>
-      <GoogleTagManager gtmId="GTM-M6GQ2N7Z" />
+      {!isAdmin && <GoogleTagManager gtmId="GTM-M6GQ2N7Z" />}
       <Providers locale={locale} messages={messages as Record<string, unknown>}>
         <TranslationProvider locale={locale as Language}>
           <AnalyticsTracker />

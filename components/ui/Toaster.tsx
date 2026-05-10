@@ -54,7 +54,7 @@ export function Toaster() {
       aria-label="Notifications"
       style={{
         position: "fixed",
-        top: "1.5rem",
+        top: "calc(60px + 1rem)",
         left: "50%",
         transform: "translateX(-50%)",
         display: "flex",
