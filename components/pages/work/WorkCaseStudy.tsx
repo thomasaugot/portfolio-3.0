@@ -114,7 +114,7 @@ export function WorkCaseStudy({ slug }: { slug: string }) {
             <a href={`/${locale}/work`} className="inline-flex items-center gap-1.5 font-mono text-[11px] text-text-subtle tracking-[0.1em] uppercase no-underline mb-8 transition-colors hover:text-primary keyboard-focus-ring">
               {t("work_ui.back_work")}
             </a>
-            <span className="font-mono text-[10px] text-text-subtle tracking-[0.14em] uppercase block mb-2">{item.n}</span>
+            <span className="font-mono text-[10px] text-text-subtle tracking-[0.14em] uppercase block mb-4">{item.n}</span>
             <ParticleHeading as="h1" className="font-display text-[clamp(32px,3.8vw,60px)] font-semibold tracking-[-0.04em] leading-[0.92] text-text mb-3">
               {item.tag}
             </ParticleHeading>

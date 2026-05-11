@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
   const body = await req.json().catch(() => null)
   if (!body) return NextResponse.json({ error: "Invalid JSON" }, { status: 400 })
 
-  const { name, email, company, message, project, budget } = body
+  const { name, email, company, message, project } = body
 
   if (!name || !email || !message) {
     return NextResponse.json({ error: "Missing required fields" }, { status: 422 })
@@ -24,7 +24,6 @@ export async function POST(req: NextRequest) {
       `Email: ${email}`,
       `Company: ${company || "—"}`,
       `Project type: ${project || "—"}`,
-      `Budget: ${budget || "—"}`,
       "",
       message,
     ].join("\n"),

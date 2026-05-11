@@ -31,7 +31,6 @@ export function Footer() {
     direct: [
       { label: appConfig.email,             href: `mailto:${appConfig.email}` },
       { label: t("footer.direct_links.1"),  href: appConfig.calLink },
-      { label: t("footer.direct_links.2"),  href: `mailto:${appConfig.email}?subject=Brief` },
     ],
   }
 

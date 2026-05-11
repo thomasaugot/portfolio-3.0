@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 
 const LIME = "212, 255, 58"
 
@@ -13,10 +13,19 @@ interface Spark {
 
 export function CustomCursor() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const [enabled, setEnabled] = useState(false)
 
   useEffect(() => {
-    if (typeof window === "undefined") return
-    if (window.matchMedia("(pointer: coarse)").matches) return
+    const isTouch =
+      window.matchMedia("(pointer: coarse)").matches ||
+      window.matchMedia("(hover: none)").matches ||
+      "ontouchstart" in window ||
+      navigator.maxTouchPoints > 0
+    setEnabled(!isTouch)
+  }, [])
+
+  useEffect(() => {
+    if (!enabled) return
 
     const canvas = canvasRef.current
     if (!canvas) return
@@ -193,7 +202,9 @@ export function CustomCursor() {
       window.removeEventListener("mouseover",    onOver)
       if (styleEl.parentNode) styleEl.parentNode.removeChild(styleEl)
     }
-  }, [])
+  }, [enabled])
+
+  if (!enabled) return null
 
   return (
     <canvas

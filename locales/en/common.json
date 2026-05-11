@@ -17,7 +17,7 @@
     "direct_heading": "Direct",
     "sitemap_links": ["Services", "Work", "Process", "About", "Contact"],
     "elsewhere_links": ["LinkedIn", "GitHub", "X / Twitter", "Instagram"],
-    "direct_links": ["thomas.augot@gmail.com", "Book a call", "Send a brief"],
+    "direct_links": ["thomas.augot@gmail.com", "Book a call"],
     "copy": "© 2026 Thomas Augot · Built and deployed by hand from Las Palmas."
   },
   "newsletter": {

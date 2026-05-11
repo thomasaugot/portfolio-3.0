@@ -7,7 +7,7 @@ export function ContrastToggle() {
   const isHigh = mode === "high";
 
   return (
-    <div className="fixed bottom-8 left-8 z-toast flex items-center gap-3 group">
+    <div className="fixed bottom-8 left-8 z-30 flex items-center gap-3 group">
       <button
         type="button"
         onClick={toggle}
@@ -16,7 +16,7 @@ export function ContrastToggle() {
           isHigh ? "Disable high contrast mode" : "Enable high contrast mode"
         }
         className={[
-          "w-11 h-11 border flex items-center justify-center cursor-pointer",
+          "w-11 h-11 border bg-surface flex items-center justify-center cursor-pointer",
           "transition-[border-color,box-shadow,color] duration-300 keyboard-focus-ring",
           isHigh
             ? "border-primary text-primary shadow-[0_0_16px_rgba(212,255,58,0.18)]"

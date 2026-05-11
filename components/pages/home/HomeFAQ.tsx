@@ -57,7 +57,7 @@ export function HomeFAQ() {
                   }}
                 >
                   <div style={{ overflow: "hidden" }}>
-                    <p className="pl-[84px] pt-4 text-text-muted text-[14px] leading-[1.7] max-[600px]:pl-[52px]">{item.a}</p>
+                    <p className="pl-[84px] pt-4 pb-6 text-text-muted text-[14px] leading-[1.7] max-[600px]:pl-[52px]">{item.a}</p>
                   </div>
                 </div>
               </div>

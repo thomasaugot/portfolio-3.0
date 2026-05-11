@@ -19,11 +19,9 @@ interface ContactForm {
 export function HomeContact() {
   const t = useTranslations("home")
   const [selectedProject, setSelectedProject] = useState("")
-  const [selectedBudget, setSelectedBudget]   = useState("")
   const [submitting, setSubmitting] = useState(false)
 
   const projects = t.raw("contact.projects") as string[]
-  const budgets  = t.raw("contact.budgets")  as string[]
 
   const { register, handleSubmit, reset, formState: { errors } } = useForm<ContactForm>()
 
@@ -39,15 +37,13 @@ export function HomeContact() {
           company: data.company,
           message: data.message,
           project: selectedProject,
-          budget: selectedBudget,
         }),
       })
       if (!res.ok) throw new Error(await res.text())
-      pushToDataLayer({ event: "contact_submit", project_type: selectedProject, budget: selectedBudget })
+      pushToDataLayer({ event: "contact_submit", project_type: selectedProject })
       showToast("Message sent!", "success")
       reset()
       setSelectedProject("")
-      setSelectedBudget("")
     } catch (e) {
       logger.error("Contact form error", e)
       showToast("Something went wrong. Please email directly.", "error")
@@ -188,25 +184,6 @@ export function HomeContact() {
                 </span>
               )}
             </div>
-
-            <fieldset className="flex flex-col gap-2 border-0 p-0 m-0">
-              <legend className="font-mono text-[11px] text-text-subtle tracking-wide uppercase mb-2">
-                {t("contact.f_budget")}
-              </legend>
-              <div className="flex flex-wrap gap-2">
-                {budgets.map((b) => (
-                  <button
-                    key={b}
-                    type="button"
-                    onClick={() => setSelectedBudget(b === selectedBudget ? "" : b)}
-                    aria-pressed={selectedBudget === b}
-                    className={`py-2 px-3 border font-mono text-[12px] cursor-pointer transition-all text-text-muted hover:border-text-subtle hover:text-text keyboard-focus-ring${selectedBudget === b ? " bg-primary text-black! border-primary" : " border-border-2 bg-transparent"}`}
-                  >
-                    {b}
-                  </button>
-                ))}
-              </div>
-            </fieldset>
 
             <button type="submit" disabled={submitting} className="btn btn-filled keyboard-focus-ring mt-2">
               {submitting ? (

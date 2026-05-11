@@ -49,6 +49,7 @@
   .navbar-hamburger { display: flex; }
   .navbar-status { display: none; }
   .navbar .lang-toggle { display: none; }
+  .navbar .shell { padding-right: 8px; }
 }
 
 /* ── Mobile menu ── */
