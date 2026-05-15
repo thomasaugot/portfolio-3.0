@@ -31,7 +31,7 @@ export function HomeServices() {
                 <span className="arrow-icon"><IconArrowOut size={14} /></span>
               </div>
               <h3 className="font-display text-[28px] font-semibold tracking-[-0.02em] mb-3.5 text-text">{svc.t}</h3>
-              <p className="text-text-muted mb-6 flex-1 max-w-110 text-[14px] leading-[1.6]">{svc.d}</p>
+              <p className="text-text-muted mb-6 flex-1 max-w-110 text-[16px] leading-[1.6]">{svc.d}</p>
               <div className="flex flex-wrap gap-1.5">
                 {svc.tags.map((tag) => (
                   <span key={tag} className="tag-chip">{tag}</span>

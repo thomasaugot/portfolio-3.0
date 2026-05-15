@@ -72,7 +72,7 @@ export function Toaster() {
             border: `1px solid ${typeColors[t.type]}`,
             padding: "12px 20px",
             fontFamily: "var(--font-mono)",
-            fontSize: "13px",
+            fontSize: "16px",
             color: "var(--color-text)",
             borderLeft: `3px solid ${typeColors[t.type]}`,
             pointerEvents: "auto",

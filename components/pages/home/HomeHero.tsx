@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl"
 import { ParticleHeading } from "@/components/ui/ParticleHeading"
 import { HomeTerminal } from "@/components/pages/home/HomeTerminal"
 import { IconArrow } from "@/components/ui/Icons"
+import { TransitionLink } from "@/components/ui/TransitionLink"
 
 export function HomeHero() {
   const t = useTranslations("home.hero")
@@ -37,18 +38,18 @@ export function HomeHero() {
               </span>
             </ParticleHeading>
 
-            <p className="text-text-muted text-[15px] leading-[1.55] hero-left-item">
+            <p className="text-text-muted text-[16px] leading-[1.55] hero-left-item">
               {t("sub")}
             </p>
 
             <div className="flex gap-3 items-center flex-wrap hero-left-item">
-              <a href="#contact" className="btn btn-filled keyboard-focus-ring" data-cta_click="true" data-cta_text="Contact" data-cta_url="#contact">
+              <TransitionLink href="#contact" className="btn btn-filled keyboard-focus-ring" data-cta_click="true" data-cta_text="Contact" data-cta_url="#contact">
                 {t("cta1")}
                 <span className="btn-arrow"><IconArrow /></span>
-              </a>
-              <a href="#work" className="btn btn-ghost keyboard-focus-ring" data-cta_click="true" data-cta_text="View work" data-cta_url="#work">
+              </TransitionLink>
+              <TransitionLink href="#work" className="btn btn-ghost keyboard-focus-ring" data-cta_click="true" data-cta_text="View work" data-cta_url="#work">
                 {t("cta2")} <span aria-hidden="true">→</span>
-              </a>
+              </TransitionLink>
             </div>
           </div>
 
@@ -64,7 +65,7 @@ export function HomeHero() {
           {meta.map(([k, v]) => (
             <div key={k}>
               <span className="block mb-1">{k}</span>
-              <span className="text-text text-[13px] tracking-[0.02em] normal-case">{v}</span>
+              <span className="text-text text-[16px] tracking-[0.02em] normal-case">{v}</span>
             </div>
           ))}
         </div>

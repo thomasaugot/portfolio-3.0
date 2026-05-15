@@ -6,6 +6,7 @@ import { usePageReady } from "@/hooks/usePageReady"
 import { PROJECTS } from "@/data/projects"
 import { WebMockup, MobileMockup } from "@/components/ui/ProjectMockup"
 import { ParticleHeading } from "@/components/ui/ParticleHeading"
+import { TransitionLink } from "@/components/ui/TransitionLink"
 
 interface WorkItem {
   n: string
@@ -48,7 +49,7 @@ export function WorkCaseStudy({ slug }: { slug: string }) {
 
   const NavDots = () => (
     <div className="inline-flex items-center border border-border bg-[#0a0a09]" role="group" aria-label="Image navigation">
-      <button onClick={goPrev} className="px-3 py-2 font-mono text-[15px] text-text-subtle border-r border-border transition-colors hover:text-primary cursor-pointer leading-none keyboard-focus-ring" aria-label="Previous screen">
+      <button onClick={goPrev} className="px-3 py-2 font-mono text-[16px] text-text-subtle border-r border-border transition-colors hover:text-primary cursor-pointer leading-none keyboard-focus-ring" aria-label="Previous screen">
         <span aria-hidden="true">←</span>
       </button>
       <div className="flex gap-2 items-center px-3">
@@ -58,14 +59,15 @@ export function WorkCaseStudy({ slug }: { slug: string }) {
           />
         ))}
       </div>
-      <button onClick={goNext} className="px-3 py-2 font-mono text-[15px] text-text-subtle border-l border-border transition-colors hover:text-primary cursor-pointer leading-none keyboard-focus-ring" aria-label="Next screen">
+      <button onClick={goNext} className="px-3 py-2 font-mono text-[16px] text-text-subtle border-l border-border transition-colors hover:text-primary cursor-pointer leading-none keyboard-focus-ring" aria-label="Next screen">
         <span aria-hidden="true">→</span>
       </button>
     </div>
   )
 
   return (
-    <div className="flex min-h-svh pt-[60px]">
+    <>
+    <div className="flex pt-[60px]">
 
       {/* ── Left — sticky mockup panel (desktop only) ── */}
       <div className="sticky top-[60px] self-start h-[calc(100svh-60px)] w-[55%] shrink-0 border-r border-border overflow-hidden max-[900px]:hidden">
@@ -107,18 +109,26 @@ export function WorkCaseStudy({ slug }: { slug: string }) {
 
       {/* ── Right — info panel ── */}
       <div className="flex-1 min-w-0 flex flex-col min-[900px]:h-[calc(100svh-60px)] min-[900px]:overflow-y-auto scrollbar-none">
-        <div className="flex flex-col flex-1 min-h-0 px-(--gutter) py-10 gap-8 justify-between">
+        <div className="flex flex-col flex-1 min-h-0 px-(--gutter) py-10 gap-8">
 
           {/* Nav + title */}
           <div>
-            <a href={`/${locale}/work`} className="inline-flex items-center gap-1.5 font-mono text-[11px] text-text-subtle tracking-[0.1em] uppercase no-underline mb-8 transition-colors hover:text-primary keyboard-focus-ring">
+            <TransitionLink href={`/${locale}/work`} className="inline-flex items-center gap-2 font-mono text-[14px] text-text tracking-[0.08em] uppercase no-underline mb-8 py-2 px-3 -ml-3 border border-border bg-surface transition-colors hover:border-primary hover:text-primary keyboard-focus-ring">
               {t("work_ui.back_work")}
-            </a>
+            </TransitionLink>
             <span className="font-mono text-[10px] text-text-subtle tracking-[0.14em] uppercase block mb-4">{item.n}</span>
             <ParticleHeading as="h1" className="font-display text-[clamp(32px,3.8vw,60px)] font-semibold tracking-[-0.04em] leading-[0.92] text-text mb-3">
               {item.tag}
             </ParticleHeading>
-            <p className="font-mono text-[11px] text-text-subtle tracking-[0.08em] uppercase">{item.client}</p>
+            <div className="flex items-center justify-between gap-3 flex-wrap">
+              <p className="font-mono text-[11px] text-text-subtle tracking-[0.08em] uppercase">{item.client}</p>
+              {project.href && (
+                <a href={project.href} target="_blank" rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 font-mono text-[11px] tracking-[0.1em] uppercase text-primary no-underline transition-opacity hover:opacity-75 keyboard-focus-ring">
+                  {project.domain} ↗<span className="sr-only"> (opens in new tab)</span>
+                </a>
+              )}
+            </div>
           </div>
 
           {/* Meta */}
@@ -131,13 +141,13 @@ export function WorkCaseStudy({ slug }: { slug: string }) {
             ] as [string, string][]).map(([k, v]) => (
               <div key={k}>
                 <span className="font-mono text-[9px] text-text-subtle tracking-[0.12em] uppercase block mb-1">{k}</span>
-                <span className="text-[13px] text-text leading-[1.4]">{v}</span>
+                <span className="text-[16px] text-text leading-[1.4]">{v}</span>
               </div>
             ))}
           </div>
 
           {/* Description */}
-          <p className="text-text-muted text-[14px] leading-[1.75] border-t border-border pt-6">
+          <p className="text-text-muted text-[16px] leading-[1.75] border-t border-border pt-6">
             {item.body}
           </p>
 
@@ -175,32 +185,23 @@ export function WorkCaseStudy({ slug }: { slug: string }) {
             )}
           </div>
 
-          {/* Footer */}
-          <div className="border-t border-border pt-6 flex flex-col gap-4">
-            {project.href ? (
-              <a href={project.href} target="_blank" rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 font-mono text-[11px] tracking-[0.1em] uppercase text-primary no-underline transition-opacity hover:opacity-75 keyboard-focus-ring">
-                {project.domain} ↗<span className="sr-only"> (opens in new tab)</span>
-              </a>
-            ) : (
-              <span className="font-mono text-[11px] text-text-subtle tracking-[0.1em] uppercase">{t("work_ui.private")}</span>
-            )}
-            <div className="flex gap-6 flex-wrap">
-              {prev && (
-                <a href={`/${locale}/work/${prev.slug}`} aria-label={`Previous project: ${prev.client}`} className="font-mono text-[11px] text-text-subtle tracking-wide uppercase no-underline transition-colors hover:text-primary keyboard-focus-ring">
-                  <span aria-hidden="true">← </span>{prev.client}
-                </a>
-              )}
-              {next && (
-                <a href={`/${locale}/work/${next.slug}`} aria-label={`Next project: ${next.client}`} className="font-mono text-[11px] text-text-subtle tracking-wide uppercase no-underline transition-colors hover:text-primary keyboard-focus-ring">
-                  {next.client}<span aria-hidden="true"> →</span>
-                </a>
-              )}
-            </div>
-          </div>
-
         </div>
       </div>
     </div>
+
+    {/* Prev/Next project navigation — full width below */}
+    <nav aria-label="Project navigation" className="grid grid-cols-2 border-t border-border">
+      {prev ? (
+        <TransitionLink href={`/${locale}/work/${prev.slug}`} aria-label={`Previous project: ${prev.client}`} className="font-mono text-[14px] text-text tracking-[0.04em] uppercase no-underline py-6 px-(--gutter) bg-surface transition-colors hover:border-primary hover:text-primary keyboard-focus-ring min-w-0 wrap-break-word">
+          <span aria-hidden="true">←&nbsp;</span>{prev.client}
+        </TransitionLink>
+      ) : <span />}
+      {next ? (
+        <TransitionLink href={`/${locale}/work/${next.slug}`} aria-label={`Next project: ${next.client}`} className="font-mono text-[14px] text-text tracking-[0.04em] uppercase no-underline py-6 px-(--gutter) bg-surface transition-colors hover:border-primary hover:text-primary keyboard-focus-ring min-w-0 wrap-break-word text-right">
+          {next.client}<span aria-hidden="true">&nbsp;→</span>
+        </TransitionLink>
+      ) : <span />}
+    </nav>
+    </>
   )
 }

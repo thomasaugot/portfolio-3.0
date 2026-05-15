@@ -7,7 +7,6 @@ import { ScrollProvider } from "@/contexts/ScrollContext"
 import { TransitionProvider } from "@/contexts/TransitionContext"
 import { MotionPreferenceProvider } from "@/contexts/MotionPreferenceContext"
 import { PageLoader } from "@/components/layout/PageLoader"
-import { PageShell } from "@/components/layout/PageShell"
 import { Toaster } from "@/components/ui/Toaster"
 import { LiveRegion } from "@/components/ui/LiveRegion"
 import { BackToTop } from "@/components/ui/BackToTop"
@@ -43,9 +42,7 @@ export function Providers({ children, locale, messages }: ProvidersProps) {
                 <InputModalityTracker />
                 <div className="noise-overlay" aria-hidden="true" />
                 <PageLoader />
-                <PageShell>
-                  {children}
-                </PageShell>
+                {children}
                 <Toaster />
                 <LiveRegion />
                 <BackToTop />

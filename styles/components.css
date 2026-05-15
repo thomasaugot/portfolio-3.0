@@ -3,18 +3,15 @@
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: var(--z-nav);
-  background: rgba(11, 11, 10, 0.72);
-  backdrop-filter: blur(14px) saturate(140%);
-  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  background: var(--color-bg);
   border-bottom: 1px solid var(--color-border);
   transform: translateZ(0);
   will-change: transform;
-  transition:
-    background var(--duration-slow) var(--ease-out),
-    border-color var(--duration-slow) var(--ease-out);
+  contain: layout paint;
+  isolation: isolate;
+  transition: border-color var(--duration-fast) var(--ease-out);
 }
 .navbar.scrolled {
-  background: rgba(11, 11, 10, 0.92);
   border-bottom-color: var(--color-border-2);
 }
 .navbar-hamburger {
@@ -55,7 +52,10 @@
 /* ── Mobile menu ── */
 .mobile-menu {
   position: fixed;
-  inset: 0;
+  top: 60px;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background: var(--color-bg);
   z-index: var(--z-drawer);
   display: flex;
@@ -78,52 +78,92 @@
     transform 0.48s cubic-bezier(0.16, 1, 0.3, 1),
     visibility 0s linear 0s;
 }
-.mobile-nav-link {
+.mobile-nav-tile {
+  position: relative;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   justify-content: space-between;
-  padding: 20px 0;
-  border-bottom: 1px solid var(--color-border);
+  gap: 8px;
+  padding: 20px 18px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
   text-decoration: none;
+  min-height: 110px;
   /* stagger in from right */
   opacity: 0;
-  transform: translateX(28px);
+  transform: translateX(20px);
   transition:
     opacity 0.38s ease,
     transform 0.38s cubic-bezier(0.16, 1, 0.3, 1),
-    padding-left 0.2s ease;
+    border-color 0.2s ease,
+    background 0.2s ease;
   /* stagger delay: each item 50ms apart, after panel starts */
   transition-delay: calc(0.08s + var(--i, 0) * 0.055s);
 }
-.mobile-menu.open .mobile-nav-link {
+.mobile-menu.open .mobile-nav-tile {
   opacity: 1;
   transform: translateX(0);
 }
-/* Fast collapse on close — all items hide together */
-.mobile-menu:not(.open) .mobile-nav-link {
-  transition-delay: 0s;
+.mobile-menu:not(.open) .mobile-nav-tile { transition-delay: 0s; }
+.mobile-nav-tile:hover,
+.mobile-nav-tile:focus-visible {
+  border-color: var(--color-primary);
+  background: color-mix(in oklch, var(--color-primary) 5%, var(--color-surface));
 }
-.mobile-nav-link:hover { padding-left: 8px; }
-.mobile-nav-link-text {
-  font-family: var(--font-display);
-  font-size: clamp(28px, 8vw, 48px);
-  font-weight: 600;
-  letter-spacing: -0.03em;
-  color: var(--color-text-muted);
-  transition: color var(--duration-normal) var(--ease-out);
-}
-.mobile-nav-link:hover .mobile-nav-link-text { color: var(--color-text); }
-.mobile-nav-link-arrow {
-  font-size: 20px;
+.mobile-nav-tile-num {
+  font-family: var(--font-mono);
+  font-size: 11px;
   color: var(--color-text-subtle);
-  transition:
-    color var(--duration-normal) var(--ease-out),
-    transform var(--duration-normal) var(--ease-out);
+  letter-spacing: 0.1em;
 }
-.mobile-nav-link:hover .mobile-nav-link-arrow {
+.mobile-nav-tile-text {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+  line-height: 1.1;
+}
+.mobile-nav-tile-arrow {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  font-size: 18px;
+  color: var(--color-text-subtle);
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+.mobile-nav-tile:hover .mobile-nav-tile-arrow {
   color: var(--color-primary);
   transform: translate(3px, -3px);
 }
+/* Home is the hero tile — primary fill, larger text */
+.mobile-nav-tile-home {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  min-height: 80px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 16px;
+  padding: 18px 20px;
+}
+.mobile-nav-tile-home .mobile-nav-tile-num { color: rgba(0,0,0,0.55); }
+.mobile-nav-tile-home .mobile-nav-tile-text {
+  color: #000;
+  font-size: 26px;
+  flex: 1;
+}
+.mobile-nav-tile-home .mobile-nav-tile-arrow {
+  position: static;
+  color: #000;
+  font-size: 20px;
+}
+.mobile-nav-tile-home:hover,
+.mobile-nav-tile-home:focus-visible {
+  background: var(--color-text);
+  border-color: var(--color-text);
+}
+.mobile-nav-tile-home:hover .mobile-nav-tile-arrow { transform: translateX(4px); }
 .mobile-menu-footer {
   padding: 28px var(--gutter) 40px;
   display: flex;
@@ -143,7 +183,7 @@
   align-items: center;
   gap: 10px;
   font-family: var(--font-mono);
-  font-size: 13px;
+  font-size: 16px;
   letter-spacing: 0.02em;
   padding: 14px 22px;
   border: 1px solid var(--color-border-2);
@@ -194,7 +234,7 @@
 
 /* ── Nav links ── */
 .nav-link {
-  font-size: 13px;
+  font-size: 16px;
   color: var(--color-text-muted);
   text-decoration: none;
   padding: 8px 12px;
@@ -377,7 +417,7 @@
   display: flex;
   flex-direction: column;
   font-family: var(--font-mono);
-  font-size: 13px;
+  font-size: 16px;
   position: relative;
   overflow: hidden;
   box-shadow: var(--shadow-terminal);

@@ -3,6 +3,8 @@ import { notFound } from "next/navigation"
 import { WorkCaseStudy } from "@/components/pages/work/WorkCaseStudy"
 
 const SLUGS = [
+  "materia-prima",
+  // "bea-miranda", // hidden — re-enable later this year
   "binter-montajes-app",
   "dosxdosgrupoimagen-web",
   "dosxdos-montadores-app",

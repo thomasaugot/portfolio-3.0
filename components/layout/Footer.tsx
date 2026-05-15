@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl"
 import { usePathname } from "next/navigation"
 import { appConfig } from "@/config/app.config"
 import { useTranslationContext } from "@/contexts/TranslationContext"
+import { TransitionLink } from "@/components/ui/TransitionLink"
 
 export function Footer() {
   const t = useTranslations()
@@ -53,14 +54,14 @@ export function Footer() {
           <div>
             <h4 className="text-[11px] text-text-subtle tracking-[0.12em] uppercase mb-4">{t("footer.sitemap_heading")}</h4>
             {links.sitemap.map((l) => (
-              <a key={l.label} href={l.href} className="text-text-muted no-underline block py-1 text-[13px] transition-colors duration-150 hover:text-primary">{l.label}</a>
+              <TransitionLink key={l.label} href={l.href} className="text-text-muted no-underline block py-1 text-[16px] transition-colors duration-150 hover:text-primary">{l.label}</TransitionLink>
             ))}
           </div>
 
           <div>
             <h4 className="text-[11px] text-text-subtle tracking-[0.12em] uppercase mb-4">{t("footer.elsewhere_heading")}</h4>
             {links.elsewhere.map((l) => (
-              <a key={l.label} href={l.href} target="_blank" rel="noopener noreferrer" className="text-text-muted no-underline block py-1 text-[13px] transition-colors duration-150 hover:text-primary keyboard-focus-ring" data-cta_click="true" data-cta_text={l.label} data-cta_url={l.href}>
+              <a key={l.label} href={l.href} target="_blank" rel="noopener noreferrer" className="text-text-muted no-underline block py-1 text-[16px] transition-colors duration-150 hover:text-primary keyboard-focus-ring" data-cta_click="true" data-cta_text={l.label} data-cta_url={l.href}>
                 {l.label}<span className="sr-only"> (opens in new tab)</span>
               </a>
             ))}
@@ -69,7 +70,7 @@ export function Footer() {
           <div>
             <h4 className="text-[11px] text-text-subtle tracking-[0.12em] uppercase mb-4">{t("footer.direct_heading")}</h4>
             {links.direct.map((l) => (
-              <a key={l.label} href={l.href} className="text-text-muted no-underline block py-1 text-[13px] transition-colors duration-150 hover:text-primary">{l.label}</a>
+              <a key={l.label} href={l.href} className="text-text-muted no-underline block py-1 text-[16px] transition-colors duration-150 hover:text-primary">{l.label}</a>
             ))}
           </div>
         </div>

@@ -50,7 +50,7 @@ export function HomeSocials() {
                 <span className="font-display text-[22px] font-semibold tracking-[-0.02em] text-text">{s.label}</span>
                 <span className="font-mono text-[11px] text-primary tracking-[0.04em]">{s.handle}</span>
               </div>
-              <p className="text-[14px] text-text-muted leading-[1.55] flex-1 m-0">{s.desc}</p>
+              <p className="text-[16px] text-text-muted leading-[1.55] flex-1 m-0">{s.desc}</p>
               <span className="font-mono text-[12px] text-text-subtle tracking-[0.04em] transition-colors duration-150 group-hover:text-primary" aria-hidden="true">{s.cta}</span>
             </a>
           ))}

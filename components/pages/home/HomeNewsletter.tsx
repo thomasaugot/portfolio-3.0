@@ -38,9 +38,9 @@ export function HomeNewsletter() {
                 placeholder={t("newsletter.placeholder")}
                 aria-label="Email address"
                 required
-                className="flex-1 bg-transparent border-0 py-3.5 px-4 text-text font-mono text-[14px] focus:outline-none"
+                className="flex-1 bg-transparent border-0 py-3.5 px-4 text-text font-mono text-[16px] focus:outline-none"
               />
-              <button type="submit" className="bg-primary text-black border-0 py-3.5 px-[18px] font-mono text-[13px] font-medium cursor-pointer transition-colors hover:bg-text keyboard-focus-ring">
+              <button type="submit" className="bg-primary text-black border-0 py-3.5 px-[18px] font-mono text-[16px] font-medium cursor-pointer transition-colors hover:bg-text keyboard-focus-ring">
                 {t("newsletter.btn")}
               </button>
             </div>

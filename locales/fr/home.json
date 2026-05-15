@@ -7,7 +7,7 @@
     "h1c": "prêtes pour la prod",
     "h1d": "—vite",
     "h1e": "et bien.",
-    "sub": "Salut, moi c'est Thomas. Je livre des produits web & mobile de A à Z — de l'idée à la prod. Trois ans dans React, Next.js et Node, à coder face à l'océan, aux Îles Canaries.",
+    "sub": "Salut, moi c'est Thomas. Je livre des produits web & mobile de A à Z — de l'idée à la prod. Quatre ans dans React, Next.js et Node, à coder face à l'océan, aux Îles Canaries.",
     "cta1": "Lancer un projet",
     "cta2": "Voir les projets",
     "meta1_k": "Basé",
@@ -52,7 +52,7 @@
     {
       "n": "S/02",
       "t": "Backend & infra",
-      "d": "APIs Node + Postgres, déploiements AWS, CI/CD, Docker, CDN/cache. Du chiant qui ne plante pas à 3h du mat.",
+      "d": "APIs Node + Postgres, déploiements AWS, CI/CD, Docker, CDN/cache. Du solide qui ne plante pas à 3h du mat.",
       "tags": [
         "Node.js",
         "Express",
@@ -182,6 +182,7 @@
         "label": "Contenu & Ops",
         "tags": [
           "Sanity CMS",
+          "Payload CMS",
           "GA4",
           "Tag Manager",
           "Jest",
@@ -201,7 +202,7 @@
     ],
     "metrics": [
       {
-        "n": "3",
+        "n": "4",
         "u": "a",
         "lbl": "À livrer du code en prod"
       },
@@ -225,6 +226,33 @@
   "work": [
     {
       "n": "W/01",
+      "client": "Materia Prima",
+      "tag": "Magazine éditorial + CMS headless",
+      "type": "Full-stack · CMS",
+      "year": "2026",
+      "role": "Full-stack",
+      "stack": "Next.js 16 · React 19 · Payload CMS v3 · SQLite · Lexical · Tailwind CSS 4 · GSAP · Lenis · MailerSend · Sharp · Docker",
+      "body": "Magazine numérique indépendant de gastronomie lancé de zéro. Payload CMS v3 embarqué dans Next.js 16 — un seul codebase, un seul conteneur — pour que la rédaction publie les articles, gère catégories, tags, contributrices et newsletter en autonomie. Optimisation automatique en WebP, temps de lecture calculé, éditeur Lexical avec images inline et embeds YouTube, et zéro coût SaaS : self-hosted sur VPS privé avec volumes Docker persistants.",
+      "link": "Étude de cas →",
+      "slug": "materia-prima",
+      "href": "https://materiaprimamagazine.com/",
+      "featured": true
+    },
+    {
+      "n": "W/02",
+      "client": "Bea Miranda",
+      "tag": "Site éditorial pour journaliste gastronomique",
+      "type": "Marketing site · Editorial",
+      "year": "2026",
+      "role": "Full-stack",
+      "stack": "Next.js 16 · React 19 · TypeScript · Tailwind CSS 4 · GSAP · Lenis · React Hook Form · Nodemailer · Docker",
+      "body": "Site éditorial sur mesure pour une journaliste gastronomique formée au Basque Culinary Center. Esthétique print-first, typographie expressive, animations GSAP discrètes et scroll fluide Lenis. Centralise parcours, publications (Materia Prima, Cuadernos en Crudo) et un canal direct de contact pour sponsorings et collaborations — avec conformité légale complète (mentions légales, politique de confidentialité).",
+      "link": "beamiranda.es →",
+      "slug": "bea-miranda",
+      "href": "https://beamiranda.es"
+    },
+    {
+      "n": "W/03",
       "client": "Binter Canarias",
       "tag": "Plateforme d'opérations terrain",
       "type": "Full-stack · PWA",
@@ -237,7 +265,7 @@
       "featured": true
     },
     {
-      "n": "W/02",
+      "n": "W/04",
       "client": "Dos × Dos Grupo Imagen",
       "tag": "Site corporate 2.0 + Panel d'administration",
       "type": "Full-stack · CMS",
@@ -248,10 +276,10 @@
       "link": "dospordosgrupoimagen.com →",
       "slug": "dosxdosgrupoimagen-web",
       "href": "https://www.dospordosgrupoimagen.com/",
-      "featured": true
+      "featured": false
     },
     {
-      "n": "W/03",
+      "n": "W/05",
       "client": "Dos × Dos Grupo Imagen",
       "tag": "Montadores App — App native pour techniciens terrain",
       "type": "React Native · iOS & Android",
@@ -264,7 +292,7 @@
       "featured": true
     },
     {
-      "n": "W/04",
+      "n": "W/06",
       "client": "Energía Solar Canarias",
       "tag": "CRM de supervision de centrales solaires",
       "type": "Plateforme full-stack · Mobile",
@@ -277,7 +305,7 @@
       "href": "https://app.energiasolarcanarias.com/"
     },
     {
-      "n": "W/05",
+      "n": "W/07",
       "client": "Galaga Agency",
       "tag": "Site Galaga Agency 2.0",
       "type": "Site marketing · Three.js",
@@ -290,7 +318,7 @@
       "href": "https://galagaagency.com/"
     },
     {
-      "n": "W/06",
+      "n": "W/08",
       "client": "Galaga Agency",
       "tag": "Reloj Laboral — Système de pointage numérique",
       "type": "Plateforme logicielle full-stack",
@@ -302,7 +330,7 @@
       "slug": "reloj-laboral-galaga"
     },
     {
-      "n": "W/07",
+      "n": "W/09",
       "client": "ARECO España",
       "tag": "ARECO — Site pour le marché espagnol",
       "type": "Site marketing · Sanity CMS",
@@ -315,7 +343,7 @@
       "href": "https://areco-nextjs.galagaagency.com"
     },
     {
-      "n": "W/08",
+      "n": "W/10",
       "client": "Charpente Menuiserie Durand",
       "tag": "Site vitrine pour entreprise de charpenterie",
       "type": "Site marketing · SEO",
@@ -328,7 +356,7 @@
       "href": "https://cmdurand-2-0.vercel.app/"
     },
     {
-      "n": "W/09",
+      "n": "W/11",
       "client": "Adelante Business Consulting",
       "tag": "Adelante BC — Site de cabinet de conseil",
       "type": "WordPress · Elementor",

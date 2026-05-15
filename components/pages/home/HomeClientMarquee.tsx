@@ -12,6 +12,7 @@ const CLIENTS = [
   "Charpente Menuiserie Durand",
   "Osly Solutions",
   "Frigate",
+  "Materia Prima",
 ]
 
 const ClientItem = ({ name }: { name: string }) => (

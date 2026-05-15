@@ -1,17 +1,19 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { memo, useEffect, useRef, useState } from "react"
 import { createPortal } from "react-dom"
+import { TransitionLink } from "@/components/ui/TransitionLink"
 import { useTranslations } from "next-intl"
 import { usePathname } from "next/navigation"
 import { useTranslationContext } from "@/contexts/TranslationContext"
 import type { Language } from "@/config/i18n.config"
 
 const NAV_ITEMS = ["services", "work", "process", "stack", "about", "contact"] as const
-const NAV_HREF: Record<string, string> = { work: "/work" }
+const MOBILE_NAV_ITEMS = ["home", "services", "work", "process", "stack", "about", "contact"] as const
+const NAV_HREF: Record<string, string> = { work: "/work", home: "" }
 const LOCALES: Language[] = ["en", "fr", "es"]
 
-export function Navbar() {
+export const Navbar = memo(function Navbar() {
   const t = useTranslations()
   const { language, changeLanguage } = useTranslationContext()
   const pathname = usePathname()
@@ -83,7 +85,7 @@ export function Navbar() {
   }
 
   function navHref(key: string) {
-    if (NAV_HREF[key]) return `/${language}${NAV_HREF[key]}`
+    if (key in NAV_HREF) return `/${language}${NAV_HREF[key]}`
     return isHome ? `#${key}` : `/${language}#${key}`
   }
 
@@ -91,20 +93,20 @@ export function Navbar() {
     <>
       <header className={`navbar${scrolled ? " scrolled" : ""}`}>
         <div className="shell h-[60px] flex items-center justify-between gap-4">
-          <a
+          <TransitionLink
             href={`/${language}`}
             aria-label="helloimtom.dev — home"
-            className="inline-flex items-center gap-2.5 font-display font-medium tracking-[-0.01em] no-underline text-text text-[15px] shrink-0 keyboard-focus-ring"
+            className="inline-flex items-center gap-2.5 font-display font-medium tracking-[-0.01em] no-underline text-text text-[16px] shrink-0 keyboard-focus-ring"
           >
             <span className="brand-dot" aria-hidden="true" />
             helloimtom<span className="text-text-subtle">.dev</span>
-          </a>
+          </TransitionLink>
 
           <nav aria-label="Main navigation" className="flex gap-1 max-[900px]:hidden">
             {NAV_ITEMS.map((key) => (
-              <a key={key} href={navHref(key)} className="nav-link keyboard-focus-ring">
+              <TransitionLink key={key} href={navHref(key)} className="nav-link keyboard-focus-ring">
                 {t(`nav.${key}`)}
-              </a>
+              </TransitionLink>
             ))}
           </nav>
 
@@ -155,47 +157,35 @@ export function Navbar() {
           className={`mobile-menu${menuOpen ? " open" : ""}`}
           inert={!menuOpen}
         >
-          <div className="h-[60px] flex items-center justify-between px-(--gutter) border-b border-border shrink-0">
-            <a
-              href={`/${language}`}
-              aria-label="helloimtom.dev — home"
-              className="inline-flex items-center gap-2.5 font-display font-medium tracking-[-0.01em] no-underline text-text text-[15px] shrink-0 keyboard-focus-ring"
+          <nav className="flex-1 px-(--gutter) flex flex-col gap-3 pt-6" aria-label="Mobile navigation">
+            {/* Home — full-width primary tile */}
+            <TransitionLink
+              href={navHref("home")}
+              className="mobile-nav-tile mobile-nav-tile-home keyboard-focus-ring"
+              style={{ "--i": 0 } as React.CSSProperties}
               onClick={close}
             >
-              <span className="brand-dot" aria-hidden="true" />
-              helloimtom<span className="text-text-subtle">.dev</span>
-            </a>
-            <button
-              className={`navbar-hamburger keyboard-focus-ring${menuOpen ? " open" : ""}`}
-              onClick={close}
-              aria-label="Close menu"
-              aria-expanded={menuOpen}
-              aria-controls="mobile-menu"
-            >
-              <span className="navbar-hamburger-line" aria-hidden="true" />
-              <span className="navbar-hamburger-line" aria-hidden="true" />
-              <span className="navbar-hamburger-line" aria-hidden="true" />
-            </button>
-          </div>
+              <span className="mobile-nav-tile-num" aria-hidden="true">00</span>
+              <span className="mobile-nav-tile-text">{t("nav.home")}</span>
+              <span className="mobile-nav-tile-arrow" aria-hidden="true">→</span>
+            </TransitionLink>
 
-          <nav className="flex-1 px-(--gutter)" aria-label="Mobile navigation">
-            {NAV_ITEMS.map((key, i) => (
-              <a
-                key={key}
-                href={navHref(key)}
-                className="mobile-nav-link keyboard-focus-ring"
-                style={{ "--i": i } as React.CSSProperties}
-                onClick={close}
-              >
-                <span className="flex items-baseline gap-4">
-                  <span className="font-mono text-[10px] text-text-subtle tracking-[0.1em] w-6 shrink-0" aria-hidden="true">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <span className="mobile-nav-link-text">{t(`nav.${key}`)}</span>
-                </span>
-                <span className="mobile-nav-link-arrow" aria-hidden="true">↗</span>
-              </a>
-            ))}
+            {/* 2-column grid for the rest */}
+            <div className="grid grid-cols-2 gap-3">
+              {NAV_ITEMS.map((key, i) => (
+                <TransitionLink
+                  key={key}
+                  href={navHref(key)}
+                  className="mobile-nav-tile keyboard-focus-ring"
+                  style={{ "--i": i + 1 } as React.CSSProperties}
+                  onClick={close}
+                >
+                  <span className="mobile-nav-tile-num" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
+                  <span className="mobile-nav-tile-text">{t(`nav.${key}`)}</span>
+                  <span className="mobile-nav-tile-arrow" aria-hidden="true">↗</span>
+                </TransitionLink>
+              ))}
+            </div>
           </nav>
 
           <div className="mobile-menu-footer">
@@ -218,13 +208,13 @@ export function Navbar() {
                 ))}
               </div>
             </div>
-            <a href={navHref("contact")} className="btn btn-filled keyboard-focus-ring" onClick={close}>
+            <TransitionLink href={navHref("contact")} className="btn btn-filled keyboard-focus-ring" onClick={close}>
               {t("nav.contact")} →
-            </a>
+            </TransitionLink>
           </div>
         </div>,
         document.body
       )}
     </>
   )
-}
+})

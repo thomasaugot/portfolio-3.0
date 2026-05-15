@@ -1,7 +1,7 @@
 "use client"
 
 import {
-  createContext, useContext, useCallback, type ReactNode
+  createContext, useContext, useCallback, useMemo, type ReactNode
 } from "react"
 import { useLocale } from "next-intl"
 import { useRouter, usePathname } from "next/navigation"
@@ -58,8 +58,13 @@ export function TranslationProvider({
     changeLanguage(LOCALES[(idx + 1) % LOCALES.length])
   }, [locale, changeLanguage])
 
+  const value = useMemo(
+    () => ({ language: locale, changeLanguage, toggleLanguage }),
+    [locale, changeLanguage, toggleLanguage]
+  )
+
   return (
-    <TranslationContext.Provider value={{ language: locale, changeLanguage, toggleLanguage }}>
+    <TranslationContext.Provider value={value}>
       {children}
     </TranslationContext.Provider>
   )

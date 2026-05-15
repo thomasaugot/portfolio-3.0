@@ -3,6 +3,7 @@ import { ParticleHeading } from "@/components/ui/ParticleHeading"
 
 import { useTranslations, useLocale } from "next-intl"
 import { WebMockup, MobileMockup } from "@/components/ui/ProjectMockup"
+import { TransitionLink } from "@/components/ui/TransitionLink"
 
 interface WorkItem {
   n: string
@@ -25,6 +26,11 @@ const MOCKUPS: Record<string, {
   mobile?: string
   mobile2?: string
 }> = {
+  "materia-prima": {
+    kind: "web",
+    desktop: "/assets/images/portfolio/materia-prima/desktop/desktop-1.webp",
+    mobile:  "/assets/images/portfolio/materia-prima/mobile/mobile-1.webp",
+  },
   "binter-montajes-app": {
     kind: "web",
     desktop: "/assets/images/portfolio/binter-montajes/desktop/desktop-1.webp",
@@ -63,8 +69,8 @@ export function HomeWork() {
               <div className="flex flex-col gap-[18px] py-3">
                 <span className="text-[12px] text-text-subtle tracking-[0.1em]">{item.n}</span>
                 <h3 className="font-display font-semibold text-[clamp(32px,4vw,56px)] tracking-[-0.03em] leading-none text-text">{item.client}</h3>
-                <p className="text-text-muted text-[14px] max-w-[380px] leading-[1.6]">{item.tag}</p>
-                <p className="text-text-muted text-[14px] leading-[1.6]">{item.body}</p>
+                <p className="text-text-muted text-[16px] max-w-[380px] leading-[1.6]">{item.tag}</p>
+                <p className="text-text-muted text-[16px] leading-[1.6]">{item.body}</p>
 
                 <div className="grid grid-cols-2 gap-3.5 mt-auto pt-6 border-t border-border">
                   {([
@@ -75,25 +81,25 @@ export function HomeWork() {
                   ] as [string, string][]).map(([k, v]) => (
                     <div key={k}>
                       <span className="text-[11px] text-text-subtle tracking-[0.08em] uppercase block">{k}</span>
-                      <span className="text-[13px] text-text mt-1 block">{v}</span>
+                      <span className="text-[16px] text-text mt-1 block">{v}</span>
                     </div>
                   ))}
                 </div>
 
-                <a
+                <TransitionLink
                   href={`/${locale}/work/${item.slug}`}
                   aria-label={`${item.link} — ${item.client}`}
-                  className="inline-flex items-center gap-1.5 text-primary no-underline text-[13px] transition-opacity hover:opacity-75 keyboard-focus-ring"
+                  className="inline-flex items-center gap-1.5 text-primary no-underline text-[16px] transition-opacity hover:opacity-75 keyboard-focus-ring"
                 >
                   {item.link}
-                </a>
+                </TransitionLink>
                 {item.href && (
                   <a
                     href={item.href}
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`${item.client} live site (opens in new tab)`}
-                    className="inline-flex items-center gap-1.5 text-primary no-underline text-[13px] transition-opacity hover:opacity-75 keyboard-focus-ring"
+                    className="inline-flex items-center gap-1.5 text-primary no-underline text-[16px] transition-opacity hover:opacity-75 keyboard-focus-ring"
                   >
                     Live site ↗<span className="sr-only"> (opens in new tab)</span>
                   </a>
@@ -116,7 +122,7 @@ export function HomeWork() {
         })}
 
         <div className="pt-12 border-t border-border mt-16 text-center">
-          <a href={`/${locale}/work`} className="inline-flex items-center gap-1.5 text-primary no-underline text-[13px] transition-opacity hover:opacity-75">View selected work →</a>
+          <TransitionLink href={`/${locale}/work`} className="inline-flex items-center gap-1.5 text-primary no-underline text-[16px] transition-opacity hover:opacity-75">View selected work →</TransitionLink>
         </div>
       </div>
     </section>

@@ -48,7 +48,7 @@ export function HomeAbout() {
               {about.lede3}
             </p>
 
-            <p className="text-text-muted text-[15px] leading-[1.7] max-w-[540px] mb-8">{about.body}</p>
+            <p className="text-text-muted text-[16px] leading-[1.7] max-w-[540px] mb-8">{about.body}</p>
 
             <p className="text-[11px] text-text-subtle tracking-[0.12em] uppercase mb-4">Places I&apos;ve lived</p>
             <div className="grid grid-cols-4 gap-3 max-[600px]:grid-cols-2">
@@ -84,7 +84,7 @@ export function HomeAbout() {
               {about.facts.map((f) => (
                 <div key={f.k} className="py-[18px] border-b border-border grid grid-cols-[1fr_2fr] gap-6 items-baseline">
                   <span className="text-text-subtle text-[12px] tracking-[0.05em]">{f.k}</span>
-                  <span className="text-[14px] text-text">{f.v}</span>
+                  <span className="text-[16px] text-text">{f.v}</span>
                 </div>
               ))}
             </div>

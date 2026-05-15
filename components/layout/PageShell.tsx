@@ -1,44 +1,54 @@
 "use client"
 
-import { useRef, useEffect, useLayoutEffect, type ReactNode } from "react"
+import { useEffect, useLayoutEffect, useRef } from "react"
 import { usePathname } from "next/navigation"
+import { ScrollTrigger } from "@/lib/gsap"
 import { useTransitionContext } from "@/contexts/TransitionContext"
 import { enterPage } from "@/utils/animations/pageTransitions"
-import { ScrollTrigger } from "@/lib/gsap"
 
-export function PageShell({ children }: { children: ReactNode }) {
-  const containerRef = useRef<HTMLDivElement>(null)
-  const { registerRef, resetTransition } = useTransitionContext()
+const useIsomorphicLayoutEffect =
+  typeof window !== "undefined" ? useLayoutEffect : useEffect
+
+export function PageShell({ children }: { children: React.ReactNode }) {
+  const ref = useRef<HTMLElement>(null)
   const pathname = usePathname()
   const isFirstRender = useRef(true)
+  const { registerRef, resetTransition } = useTransitionContext()
 
   useEffect(() => {
-    registerRef(containerRef.current)
+    registerRef(ref.current)
+    return () => registerRef(null)
   }, [registerRef])
 
-  useLayoutEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false
-      return
-    }
-    if (containerRef.current) {
-      containerRef.current.style.opacity = "0"
-    }
+  useIsomorphicLayoutEffect(() => {
+    if (!ref.current || isFirstRender.current) return
+    ref.current.style.opacity = "0"
+    ref.current.style.transform = "translateY(10px)"
   }, [pathname])
 
   useEffect(() => {
-    if (isFirstRender.current) return
-    const el = containerRef.current
-    if (!el) return
-    enterPage(el).then(() => {
+    if (!ref.current) return
+    let cancelled = false
+    const el = ref.current
+
+    void enterPage(el).then(() => {
+      if (cancelled) return
+      isFirstRender.current = false
       resetTransition()
       ScrollTrigger.refresh()
     })
-  }, [pathname]) // eslint-disable-line react-hooks/exhaustive-deps
+
+    return () => { cancelled = true }
+  }, [pathname, resetTransition])
 
   return (
-    <div ref={containerRef} style={{ minHeight: "100vh" }}>
+    <main
+      ref={ref}
+      id="main-content"
+      tabIndex={-1}
+      style={{ willChange: "opacity, transform" }}
+    >
       {children}
-    </div>
+    </main>
   )
 }

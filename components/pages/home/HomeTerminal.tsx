@@ -26,7 +26,7 @@ const LINES = [
   { type: "key", text: "{" },
   { type: "pair", key: "  \"open\"", value: " true," },
   { type: "pair", key: "  \"reply_in\"", value: " \"< 24h\"," },
-  { type: "pair", key: "  \"tz\"", value: " \"Europe/Madrid\"," },
+  { type: "pair", key: "  \"tz\"", value: " \"Atlantic/Canary\"," },
   { type: "pair", key: "  \"rate\"", value: " \"let's talk\"" },
   { type: "key", text: "}" },
   { type: "blank", text: "" },

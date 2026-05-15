@@ -27,7 +27,7 @@ export function HomeProcess() {
             <div key={step.n} className="proc-row">
               <span className="proc-num text-[13px] text-text-subtle">{step.n}</span>
               <h3 className="proc-title font-display text-[clamp(20px,2.4vw,32px)] font-semibold tracking-[-0.02em] text-text">{step.t}</h3>
-              <p className="proc-desc text-text-muted text-[14px] leading-[1.6]">{step.d}</p>
+              <p className="proc-desc text-text-muted text-[16px] leading-[1.6]">{step.d}</p>
               <span className="proc-time text-[12px] text-text-subtle tracking-wider">{step.time}</span>
             </div>
           ))}

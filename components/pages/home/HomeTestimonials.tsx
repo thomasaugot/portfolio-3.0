@@ -26,7 +26,7 @@ export function HomeTestimonials() {
                   {String.fromCharCode(65 + idx)}
                 </div>
                 <div>
-                  <p className="text-[13px] text-text">{item.name}</p>
+                  <p className="text-[16px] text-text">{item.name}</p>
                   <p className="text-[11px] text-text-subtle mt-0.5">{item.role} · {item.company}</p>
                 </div>
               </div>

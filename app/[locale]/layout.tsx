@@ -6,6 +6,8 @@ import { Providers } from "@/components/layout/Providers"
 import { SkipLink } from "@/components/ui/SkipLink"
 import { Navbar } from "@/components/layout/Navbar"
 import { Footer } from "@/components/layout/Footer"
+import { PageShell } from "@/components/layout/PageShell"
+import { TransitionOverlay } from "@/components/layout/TransitionOverlay"
 import { TranslationProvider } from "@/contexts/TranslationContext"
 import { GoogleTagManager } from "@next/third-parties/google"
 import AnalyticsTracker from "@/components/AnalyticsTracker"
@@ -42,10 +44,9 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
           <AnalyticsTracker />
           <SkipLink targetId="main-content" />
           <Navbar />
-          <main id="main-content" tabIndex={-1}>
-            {children}
-          </main>
+          <PageShell>{children}</PageShell>
           <Footer />
+          <TransitionOverlay />
         </TranslationProvider>
       </Providers>
     </>

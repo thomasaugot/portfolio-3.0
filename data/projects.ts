@@ -3,6 +3,66 @@ import type { Project } from "@/types/project"
 export const PROJECTS: Project[] = [
   {
     n: "W/01",
+    slug: "materia-prima",
+    client: "Materia Prima",
+    tag: "Editorial Magazine + Headless CMS",
+    type: "Full-stack · CMS",
+    year: "2026",
+    cover: "/assets/images/portfolio/materia-prima/desktop/desktop-1.webp",
+    mobileCover: "/assets/images/portfolio/materia-prima/mobile/mobile-1.webp",
+    domain: "materiaprimamagazine.com",
+    kind: "web",
+    href: "https://materiaprimamagazine.com",
+    gallery: {
+      desktop: [
+        "/assets/images/portfolio/materia-prima/desktop/desktop-1.webp",
+        "/assets/images/portfolio/materia-prima/desktop/desktop-2.webp",
+        "/assets/images/portfolio/materia-prima/desktop/desktop-3.webp",
+        "/assets/images/portfolio/materia-prima/desktop/desktop-4.webp",
+        "/assets/images/portfolio/materia-prima/desktop/desktop-5.webp",
+      ],
+      mobile: [
+        "/assets/images/portfolio/materia-prima/mobile/mobile-1.webp",
+        "/assets/images/portfolio/materia-prima/mobile/mobile-2.webp",
+        "/assets/images/portfolio/materia-prima/mobile/mobile-3.webp",
+        "/assets/images/portfolio/materia-prima/mobile/mobile-4.webp",
+        "/assets/images/portfolio/materia-prima/mobile/mobile-5.webp",
+        "/assets/images/portfolio/materia-prima/mobile/mobile-6.webp",
+      ],
+    },
+  },
+  /* Hidden — re-enable later this year
+  {
+    n: "W/02",
+    slug: "bea-miranda",
+    client: "Bea Miranda",
+    tag: "Editorial Portfolio Site",
+    type: "Marketing site · Editorial",
+    year: "2026",
+    cover: "/assets/images/portfolio/bea-miranda/desktop/desktop-1.webp",
+    mobileCover: "/assets/images/portfolio/bea-miranda/mobile/mobile-1.webp",
+    domain: "beamiranda.es",
+    kind: "web",
+    href: "https://beamiranda.es",
+    gallery: {
+      desktop: [
+        "/assets/images/portfolio/bea-miranda/desktop/desktop-1.webp",
+        "/assets/images/portfolio/bea-miranda/desktop/desktop-2.webp",
+        "/assets/images/portfolio/bea-miranda/desktop/desktop-3.webp",
+        "/assets/images/portfolio/bea-miranda/desktop/desktop-4.webp",
+      ],
+      mobile: [
+        "/assets/images/portfolio/bea-miranda/mobile/mobile-1.webp",
+        "/assets/images/portfolio/bea-miranda/mobile/mobile-2.webp",
+        "/assets/images/portfolio/bea-miranda/mobile/mobile-3.webp",
+        "/assets/images/portfolio/bea-miranda/mobile/mobile-4.webp",
+        "/assets/images/portfolio/bea-miranda/mobile/mobile-5.webp",
+      ],
+    },
+  },
+  */
+  {
+    n: "W/03",
     slug: "binter-montajes-app",
     client: "Binter Canarias",
     tag: "Field Operations Platform",
@@ -31,7 +91,7 @@ export const PROJECTS: Project[] = [
     },
   },
   {
-    n: "W/02",
+    n: "W/04",
     slug: "dosxdosgrupoimagen-web",
     client: "Dos × Dos Grupo Imagen",
     tag: "Corporate Website 2.0 + Admin Panel",
@@ -62,7 +122,7 @@ export const PROJECTS: Project[] = [
     },
   },
   {
-    n: "W/03",
+    n: "W/05",
     slug: "dosxdos-montadores-app",
     client: "Dos × Dos Grupo Imagen",
     tag: "Montadores App",
@@ -84,7 +144,7 @@ export const PROJECTS: Project[] = [
     },
   },
   {
-    n: "W/04",
+    n: "W/06",
     slug: "energia-solar-canarias",
     client: "Energía Solar Canarias",
     tag: "Solar Plant Monitoring CRM",
@@ -115,7 +175,7 @@ export const PROJECTS: Project[] = [
     },
   },
   {
-    n: "W/05",
+    n: "W/07",
     slug: "galaga-agency-website",
     client: "Galaga Agency",
     tag: "Galaga Agency Website 2.0",
@@ -146,7 +206,7 @@ export const PROJECTS: Project[] = [
     },
   },
   {
-    n: "W/06",
+    n: "W/08",
     slug: "reloj-laboral-galaga",
     client: "Galaga Agency",
     tag: "Reloj Laboral",
@@ -176,7 +236,7 @@ export const PROJECTS: Project[] = [
     },
   },
   {
-    n: "W/07",
+    n: "W/09",
     slug: "areco-web",
     client: "ARECO España",
     tag: "ARECO España",
@@ -202,7 +262,7 @@ export const PROJECTS: Project[] = [
     },
   },
   {
-    n: "W/08",
+    n: "W/10",
     slug: "charpente-menuiserie-durand",
     client: "CM Durand",
     tag: "Charpente Menuiserie Durand",
@@ -233,7 +293,7 @@ export const PROJECTS: Project[] = [
     },
   },
   {
-    n: "W/09",
+    n: "W/11",
     slug: "adelante-business-consulting",
     client: "Adelante BC",
     tag: "Adelante Business Consulting",

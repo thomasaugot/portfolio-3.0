@@ -67,9 +67,9 @@ export function HomeContact() {
               <span className="text-primary">{t("contact.heading_accent")}</span>&nbsp;
               <span className="text-serif-italic text-text-muted">{t("contact.heading_italic")}</span>
             </h3>
-            <p className="text-text-muted max-w-120 mb-6 leading-[1.6] text-[14px]">{t("contact.body")}</p>
+            <p className="text-text-muted max-w-120 mb-6 leading-[1.6] text-[16px]">{t("contact.body")}</p>
             <p className="text-text-subtle text-[12px] mb-2">{t("contact.direct")}</p>
-            <a href={`mailto:${appConfig.email}`} className="text-primary text-[14px] no-underline transition-opacity duration-150 hover:opacity-75 keyboard-focus-ring">
+            <a href={`mailto:${appConfig.email}`} className="text-primary text-[16px] no-underline transition-opacity duration-150 hover:opacity-75 keyboard-focus-ring">
               {appConfig.email}
             </a>
 
@@ -101,7 +101,7 @@ export function HomeContact() {
                 aria-invalid={!!errors.name}
                 aria-describedby={errors.name ? "c-name-error" : undefined}
                 {...register("name", { required: true })}
-                className="bg-transparent border-0 border-b border-border-2 py-2 text-text font-mono text-[14px] transition-colors focus:outline-none focus:border-b-primary keyboard-focus-ring"
+                className="bg-transparent border-0 border-b border-border-2 py-2 text-text font-mono text-[16px] transition-colors focus:outline-none focus:border-b-primary keyboard-focus-ring"
               />
               {errors.name && (
                 <span id="c-name-error" role="alert" className="text-[11px] text-error font-mono">
@@ -123,7 +123,7 @@ export function HomeContact() {
                 aria-invalid={!!errors.email}
                 aria-describedby={errors.email ? "c-email-error" : undefined}
                 {...register("email", { required: true })}
-                className="bg-transparent border-0 border-b border-border-2 py-2 text-text font-mono text-[14px] transition-colors focus:outline-none focus:border-b-primary keyboard-focus-ring"
+                className="bg-transparent border-0 border-b border-border-2 py-2 text-text font-mono text-[16px] transition-colors focus:outline-none focus:border-b-primary keyboard-focus-ring"
               />
               {errors.email && (
                 <span id="c-email-error" role="alert" className="text-[11px] text-error font-mono">
@@ -141,7 +141,7 @@ export function HomeContact() {
                 type="text"
                 autoComplete="organization"
                 {...register("company")}
-                className="bg-transparent border-0 border-b border-border-2 py-2 text-text font-mono text-[14px] transition-colors focus:outline-none focus:border-b-primary keyboard-focus-ring"
+                className="bg-transparent border-0 border-b border-border-2 py-2 text-text font-mono text-[16px] transition-colors focus:outline-none focus:border-b-primary keyboard-focus-ring"
               />
             </div>
 
@@ -176,7 +176,7 @@ export function HomeContact() {
                 aria-invalid={!!errors.message}
                 aria-describedby={errors.message ? "c-message-error" : undefined}
                 {...register("message", { required: true })}
-                className="bg-transparent border-0 border-b border-border-2 py-2 text-text font-mono text-[14px] resize-none min-h-20 transition-colors focus:outline-none focus:border-b-primary keyboard-focus-ring"
+                className="bg-transparent border-0 border-b border-border-2 py-2 text-text font-mono text-[16px] resize-none min-h-20 transition-colors focus:outline-none focus:border-b-primary keyboard-focus-ring"
               />
               {errors.message && (
                 <span id="c-message-error" role="alert" className="text-[11px] text-error font-mono">

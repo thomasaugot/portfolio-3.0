@@ -5,6 +5,7 @@ import {
 } from "react"
 import { useRouter } from "next/navigation"
 import { exitPage } from "@/utils/animations/pageTransitions"
+import { gsap, ScrollTrigger } from "@/lib/gsap"
 
 interface TransitionContextValue {
   isTransitioning: boolean
@@ -24,19 +25,31 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
     pageRef.current = el
   }, [])
 
-  const navigateTo = useCallback(async (href: string) => {
-    if (isTransitioning) return
-    setIsTransitioning(true)
-    if (pageRef.current) {
-      await exitPage(pageRef.current)
-    }
-    router.push(href)
-    window.scrollTo(0, 0)
-  }, [isTransitioning, router])
-
   const resetTransition = useCallback(() => {
     setIsTransitioning(false)
   }, [])
+
+  const navigateTo = useCallback(async (href: string) => {
+    if (isTransitioning) return
+    setIsTransitioning(true)
+
+    if (pageRef.current) {
+      await exitPage(pageRef.current)
+      gsap.killTweensOf(pageRef.current)
+    }
+
+    // React 19 safety net: tear down all GSAP state before unmount,
+    // otherwise stale DOM refs cause removeChild crashes.
+    ScrollTrigger.getAll().forEach(t => t.kill())
+    gsap.globalTimeline.getChildren().forEach(t => t.kill())
+
+    // scroll: false → ScrollContext owns scroll, not Next.js.
+    router.push(href, { scroll: false })
+
+    // Fallback in case PageShell never calls resetTransition (e.g. enterPage errors).
+    // Without this all links would lock forever.
+    window.setTimeout(() => setIsTransitioning(false), 1200)
+  }, [isTransitioning, router])
 
   return (
     <TransitionContext.Provider value={{ isTransitioning, registerRef, navigateTo, resetTransition }}>

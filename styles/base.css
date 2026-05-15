@@ -9,7 +9,7 @@ html {
   background: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-jetbrains-mono), "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 14px;
+  font-size: 16px;
   line-height: var(--leading-normal);
   font-feature-settings: "ss01", "ss02", "cv01", "cv02";
   -webkit-font-smoothing: antialiased;

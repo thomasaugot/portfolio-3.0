@@ -8,6 +8,7 @@ import { PROJECTS } from "@/data/projects"
 import { BrowserFrame, PhoneFrame } from "@/components/ui/DeviceMockup"
 import { ParticleHeading } from "@/components/ui/ParticleHeading"
 import { trackProjectClick } from "@/utils/gtm-events"
+import { TransitionLink } from "@/components/ui/TransitionLink"
 
 interface WorkItem { slug: string; tag: string; type: string }
 
@@ -18,19 +19,24 @@ export function WorkPageClient() {
   const workItems = t.raw("work") as WorkItem[]
   const workBySlug = Object.fromEntries(workItems.map((w) => [w.slug, w]))
   const [active, setActive] = useState(PROJECTS[0])
-  const [showChevron, setShowChevron] = useState(false)
+  const [showDown, setShowDown] = useState(false)
+  const [showUp,   setShowUp]   = useState(false)
   const scrollRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const el = scrollRef.current
     if (!el) return
-    const check = () => setShowChevron(el.scrollTop + el.clientHeight < el.scrollHeight - 4)
+    const check = () => {
+      setShowDown(el.scrollTop + el.clientHeight < el.scrollHeight - 4)
+      setShowUp(el.scrollTop > 200)
+    }
     check()
     el.addEventListener("scroll", check, { passive: true })
     return () => el.removeEventListener("scroll", check)
   }, [])
 
-  const scrollDown = () => scrollRef.current?.scrollBy({ top: 300, behavior: "smooth" })
+  const scrollDown = () => scrollRef.current?.scrollBy({ top: 400, behavior: "smooth" })
+  const scrollUp   = () => scrollRef.current?.scrollTo({ top: 0, behavior: "smooth" })
 
   return (
     <div className="flex min-h-svh pt-[60px]">
@@ -95,12 +101,12 @@ export function WorkPageClient() {
 
           {/* Header */}
           <div className="px-(--gutter) pt-12 pb-10 border-b border-border shrink-0 sticky top-0 bg-bg z-10">
-            <a
+            <TransitionLink
               href={`/${locale}`}
-              className="inline-flex items-center gap-1.5 font-mono text-[11px] text-text-subtle tracking-[0.1em] uppercase no-underline mb-10 transition-colors hover:text-primary keyboard-focus-ring"
+              className="inline-flex items-center gap-2 font-mono text-[14px] text-text tracking-[0.08em] uppercase no-underline mb-10 py-2 px-3 -ml-3 border border-border bg-surface transition-colors hover:border-primary hover:text-primary keyboard-focus-ring"
             >
               {t("work_ui.back_home")}
-            </a>
+            </TransitionLink>
             <div className="flex items-end justify-between gap-6 max-[600px]:flex-col max-[600px]:items-start">
               <ParticleHeading as="h1" className="font-display text-[clamp(40px,5.5vw,80px)] font-semibold tracking-[-0.04em] leading-[0.92] text-text">
                 {t("work_ui.h1a")}<br />
@@ -116,7 +122,7 @@ export function WorkPageClient() {
           {/* Project rows */}
           <div className="flex-1">
             {PROJECTS.map((p) => (
-              <a
+              <TransitionLink
                 key={p.slug}
                 href={`/${locale}/work/${p.slug}`}
                 aria-label={`View case study: ${workBySlug[p.slug]?.tag ?? p.tag} — ${p.client}`}
@@ -153,7 +159,7 @@ export function WorkPageClient() {
                 <span className="text-[16px] text-text-subtle ml-2 shrink-0 transition-[color,transform] duration-200 group-hover:text-primary group-hover:translate-x-0.5">
                   ↗
                 </span>
-              </a>
+              </TransitionLink>
             ))}
           </div>
 
@@ -161,21 +167,28 @@ export function WorkPageClient() {
           <div className="px-(--gutter) py-12">
             <p className="font-mono text-[11px] text-text-subtle tracking-[0.08em]">
               {t("work_ui.footer_cta")}{" "}
-              <a href={`/${locale}#contact`} className="text-primary no-underline transition-opacity hover:opacity-75 keyboard-focus-ring">
+              <TransitionLink href={`/${locale}#contact`} className="text-primary no-underline transition-opacity hover:opacity-75 keyboard-focus-ring">
                 {t("work_ui.footer_link")}
-              </a>
+              </TransitionLink>
             </p>
           </div>
         </div>
 
-        {/* Scroll chevron */}
-        <div className={`absolute bottom-0 left-0 right-0 h-20 flex items-end justify-center pb-5 bg-linear-to-t from-bg via-bg/70 to-transparent pointer-events-none transition-[opacity,visibility] duration-300 ${showChevron ? "opacity-100 visible" : "opacity-0 invisible"}`}>
+        {/* Scroll controls */}
+        <div className="absolute bottom-8 right-8 flex flex-col gap-3 pointer-events-none z-20">
+          <button
+            onClick={scrollUp}
+            aria-label="Scroll to top of list"
+            className={`pointer-events-auto w-16 h-16 inline-flex items-center justify-center bg-primary text-black border-2 border-primary shadow-[0_4px_20px_rgba(212,255,58,0.35)] transition-[opacity,visibility,transform,background] duration-300 hover:bg-text hover:border-text hover:scale-105 cursor-pointer keyboard-focus-ring ${showUp ? "opacity-100 visible" : "opacity-0 invisible"}`}
+          >
+            <span aria-hidden="true" className="text-[28px] leading-none font-semibold">↑</span>
+          </button>
           <button
             onClick={scrollDown}
             aria-label="Scroll to see more projects"
-            className="pointer-events-auto inline-flex items-center gap-2 font-mono text-[10px] tracking-[0.12em] uppercase text-text border border-border bg-surface px-4 py-2 transition-[border-color,color] hover:border-primary hover:text-primary cursor-pointer keyboard-focus-ring"
+            className={`pointer-events-auto w-16 h-16 inline-flex items-center justify-center bg-primary text-black border-2 border-primary shadow-[0_4px_20px_rgba(212,255,58,0.35)] transition-[opacity,visibility,transform,background] duration-300 hover:bg-text hover:border-text hover:scale-105 cursor-pointer keyboard-focus-ring ${showDown ? "opacity-100 visible" : "opacity-0 invisible"}`}
           >
-            {t("work_ui.scroll_more")}
+            <span aria-hidden="true" className="text-[28px] leading-none font-semibold">↓</span>
           </button>
         </div>
       </div>
