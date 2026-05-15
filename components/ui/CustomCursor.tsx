@@ -21,7 +21,18 @@ export function CustomCursor() {
       window.matchMedia("(hover: none)").matches ||
       "ontouchstart" in window ||
       navigator.maxTouchPoints > 0
-    setEnabled(!isTouch)
+    if (isTouch) {
+      setEnabled(false)
+      return
+    }
+    setEnabled(true)
+
+    // Defensive: if a real touch event ever fires (even on a device that
+    // lied about touch capability), kill the cursor immediately and don't
+    // let it come back.
+    const onTouch = () => setEnabled(false)
+    window.addEventListener("touchstart", onTouch, { once: true, passive: true })
+    return () => window.removeEventListener("touchstart", onTouch)
   }, [])
 
   useEffect(() => {

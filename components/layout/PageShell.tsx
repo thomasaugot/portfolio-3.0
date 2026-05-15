@@ -46,7 +46,7 @@ export function PageShell({ children }: { children: React.ReactNode }) {
       ref={ref}
       id="main-content"
       tabIndex={-1}
-      style={{ willChange: "opacity, transform" }}
+      className="flex-1 will-change-[opacity,transform]"
     >
       {children}
     </main>

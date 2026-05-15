@@ -24,8 +24,14 @@ export function WorkPageClient() {
   const scrollRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    // Brute force: scroll window to top when this page mounts.
+    window.scrollTo(0, 0)
+    document.documentElement.scrollTop = 0
+    document.body.scrollTop = 0
+
     const el = scrollRef.current
     if (!el) return
+    el.scrollTop = 0
     const check = () => {
       setShowDown(el.scrollTop + el.clientHeight < el.scrollHeight - 4)
       setShowUp(el.scrollTop > 200)

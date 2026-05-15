@@ -1,56 +1,61 @@
 "use client"
 
-import {
-  createContext, useContext, useEffect, useRef, useState, type ReactNode
-} from "react"
+import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react"
 import { usePathname } from "next/navigation"
-import { Lenis } from "@/lib/lenis"
-import { gsap } from "@/lib/gsap"
 
-const ScrollContext = createContext<Lenis | null>(null)
+interface ScrollContextValue {
+  lenis: import("lenis").default | null
+}
+
+const ScrollContext = createContext<ScrollContextValue>({ lenis: null })
 
 export function ScrollProvider({ children }: { children: ReactNode }) {
-  const [lenis, setLenis] = useState<Lenis | null>(null)
-  const rafRef = useRef<number | null>(null)
+  const [lenis, setLenis] = useState<import("lenis").default | null>(null)
+  const rafId = useRef<number | null>(null)
   const pathname = usePathname()
 
   useEffect(() => {
-    if (typeof window === "undefined") return
     if ("scrollRestoration" in window.history) {
       window.history.scrollRestoration = "manual"
     }
     if (window.innerWidth < 1280) return
 
-    const instance = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
-    })
+    let instance: import("lenis").default | null = null
 
-    const onFrame = (time: number) => {
-      instance.raf(time * 1000)
+    async function init() {
+      const { Lenis } = await import("@/lib/lenis")
+      const { gsap } = await import("@/lib/gsap")
+
+      instance = new Lenis()
+      setLenis(instance)
+      instance.scrollTo(0, { immediate: true })
+
+      gsap.ticker.add((time) => {
+        instance?.raf(time * 1000)
+      })
+      gsap.ticker.lagSmoothing(0)
     }
 
-    gsap.ticker.add(onFrame)
-    gsap.ticker.lagSmoothing(0)
-    setLenis(instance)
+    init().catch(() => {})
 
     return () => {
-      gsap.ticker.remove(onFrame)
-      instance.destroy()
+      if (rafId.current) cancelAnimationFrame(rafId.current)
+      instance?.destroy()
       setLenis(null)
     }
   }, [])
 
-  // On every pathname change (including first mount): scroll to top or to hash.
-  // The PageLoader covers the screen on initial load, hiding the
-  // browser's scroll-restore flash before this runs.
   useEffect(() => {
-    const hash = window.location.hash.slice(1)
+    // Always read hash FRESH inside async callbacks, never captured.
+    // Always stop any in-flight Lenis animation first.
+    if (lenis) lenis.stop()
 
-    if (!hash) {
+    const hashNow = window.location.hash.slice(1)
+
+    if (!hashNow) {
       window.scrollTo(0, 0)
       lenis?.scrollTo(0, { immediate: true })
+      lenis?.start()
       return
     }
 
@@ -58,13 +63,22 @@ export function ScrollProvider({ children }: { children: ReactNode }) {
     let raf2 = 0
     raf1 = requestAnimationFrame(() => {
       raf2 = requestAnimationFrame(() => {
-        const target = document.getElementById(hash)
+        const hashFresh = window.location.hash.slice(1)
+        if (!hashFresh) {
+          window.scrollTo(0, 0)
+          lenis?.scrollTo(0, { immediate: true })
+          lenis?.start()
+          return
+        }
+        const target = document.getElementById(hashFresh)
         if (!target) {
           window.scrollTo(0, 0)
           lenis?.scrollTo(0, { immediate: true })
+          lenis?.start()
           return
         }
         if (lenis) {
+          lenis.start()
           lenis.scrollTo(target, { offset: 0 })
         } else {
           target.scrollIntoView({ behavior: "smooth", block: "start" })
@@ -78,9 +92,13 @@ export function ScrollProvider({ children }: { children: ReactNode }) {
     }
   }, [lenis, pathname])
 
-  return <ScrollContext.Provider value={lenis}>{children}</ScrollContext.Provider>
+  return (
+    <ScrollContext.Provider value={{ lenis }}>
+      {children}
+    </ScrollContext.Provider>
+  )
 }
 
-export function useScrollContext() {
+export function useScrollContext(): ScrollContextValue {
   return useContext(ScrollContext)
 }

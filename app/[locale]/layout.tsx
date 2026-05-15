@@ -43,9 +43,11 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
         <TranslationProvider locale={locale as Language}>
           <AnalyticsTracker />
           <SkipLink targetId="main-content" />
-          <Navbar />
-          <PageShell>{children}</PageShell>
-          <Footer />
+          <div className="flex min-h-dvh flex-col">
+            <Navbar />
+            <PageShell>{children}</PageShell>
+            <Footer />
+          </div>
           <TransitionOverlay />
         </TranslationProvider>
       </Providers>
