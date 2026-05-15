@@ -197,7 +197,7 @@ export function WorkCaseStudy({ slug }: { slug: string }) {
         </TransitionLink>
       ) : <span />}
       {next ? (
-        <TransitionLink href={`/${locale}/work/${next.slug}`} aria-label={`Next project: ${next.client}`} className="font-mono text-[14px] text-text tracking-[0.04em] uppercase no-underline py-6 px-(--gutter) bg-surface transition-colors hover:border-primary hover:text-primary keyboard-focus-ring min-w-0 wrap-break-word text-right">
+        <TransitionLink href={`/${locale}/work/${next.slug}`} aria-label={`Next project: ${next.client}`} className="font-mono text-[14px] text-text tracking-[0.04em] uppercase no-underline py-6 px-(--gutter) bg-surface transition-colors hover:border-primary hover:text-primary keyboard-focus-ring min-w-0 wrap-break-word text-right justify-self-end">
           {next.client}<span aria-hidden="true">&nbsp;→</span>
         </TransitionLink>
       ) : <span />}

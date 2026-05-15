@@ -116,6 +116,7 @@ export function PageLoader() {
           return (
             <span
               key={i}
+              className={resolved && isDot ? "loader-dot" : undefined}
               style={{
                 color: resolved
                   ? isDot ? "var(--color-primary)" : "var(--color-text)"
@@ -130,14 +131,13 @@ export function PageLoader() {
       </div>
 
       {/* Progress bar */}
-      <div style={{
+      <div className="loader-track" style={{
         width: "160px",
-        height: "1px",
+        height: "3px",
         background: "var(--color-border)",
         position: "relative",
-        overflow: "hidden",
       }}>
-        <div style={{
+        <div className="loader-bar" style={{
           position: "absolute",
           inset: 0,
           background: "var(--color-primary)",

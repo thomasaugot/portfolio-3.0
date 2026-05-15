@@ -11,6 +11,10 @@
   "status": {
     "available": "Disponible"
   },
+  "theme": {
+    "to_light": "dale luz →",
+    "to_dark":  "apaga la luz →"
+  },
   "footer": {
     "tagline": "Dev full-stack en alquiler.",
     "sitemap_heading": "Mapa",

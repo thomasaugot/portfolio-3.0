@@ -75,8 +75,7 @@ export function HomeAbout() {
               </div>
               <TravelGlobe onHover={setHoveredPin} />
               <div className="relative z-2 flex gap-[18px] font-mono text-[10px] tracking-[0.1em] uppercase text-text-subtle border-t border-border pt-2.5 mt-1" aria-hidden="true">
-                <span className="inline-flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-primary shadow-[0_0_0_2px_color-mix(in_oklch,var(--color-primary)_30%,transparent)]" /> places i&apos;ve lived</span>
-                <span className="inline-flex items-center gap-1.5"><span className="w-[18px] h-2 [border-top:1px_dashed_var(--color-primary)] rounded-[50%_50%_0_0/100%_100%_0_0]" /> path travelled</span>
+                <span className="inline-flex items-center gap-2"><span className="legend-pin w-2.5 h-2.5 bg-primary" /> places i&apos;ve lived</span>
               </div>
             </div>
 

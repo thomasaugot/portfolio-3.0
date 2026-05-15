@@ -166,6 +166,7 @@ function useParticleAnimation(
     canvas.style.visibility = "hidden"
 
     let bitmap: HTMLCanvasElement | null = null
+    let shadowBitmap: HTMLCanvasElement | null = null
     let particles: Particle[] = []
     let dpr       = 1
     let rafId: number | null = null
@@ -192,6 +193,28 @@ function useParticleAnimation(
         const { canvas: bmp, pts, offX, offY } = cap
         bitmap = bmp
 
+        // Light-mode only: build a shadow bitmap containing just the lime pixels,
+        // tinted black. Drawn at +offset behind the main bitmap to give lime
+        // letters a chunky offset shadow. Dark mode skips this entirely.
+        if (document.documentElement.getAttribute("data-theme") === "light") {
+          const sbmp = document.createElement("canvas")
+          sbmp.width = bmp.width; sbmp.height = bmp.height
+          const sctx = sbmp.getContext("2d")!
+          const src = bmp.getContext("2d")!.getImageData(0, 0, bmp.width, bmp.height)
+          const out = sctx.createImageData(bmp.width, bmp.height)
+          // lime is roughly r≥180, g≥220, b≤120
+          for (let i = 0; i < src.data.length; i += 4) {
+            const r = src.data[i], g = src.data[i+1], b = src.data[i+2], a = src.data[i+3]
+            if (a > 40 && r >= 170 && g >= 210 && b <= 130 && g > r && g > b) {
+              out.data[i] = 26; out.data[i+1] = 26; out.data[i+2] = 23; out.data[i+3] = a
+            }
+          }
+          sctx.putImageData(out, 0, 0)
+          shadowBitmap = sbmp
+        } else {
+          shadowBitmap = null
+        }
+
         const bmpCssW = bmp.width  / dpr
         const bmpCssH = bmp.height / dpr
         const cvCssW  = bmpCssW + SCATTER_PAD * 2
@@ -205,6 +228,14 @@ function useParticleAnimation(
         const ctx = cv.getContext("2d")!
         ctx.scale(dpr, dpr)
         ctx.clearRect(0, 0, cvCssW, cvCssH)
+        if (shadowBitmap) {
+          ctx.drawImage(shadowBitmap, SCATTER_PAD + 4, SCATTER_PAD + 4, bmpCssW, bmpCssH)
+          // Outline: draw shadow bitmap offset in 4 directions to stroke around lime letters
+          ctx.drawImage(shadowBitmap, SCATTER_PAD - 1.5, SCATTER_PAD, bmpCssW, bmpCssH)
+          ctx.drawImage(shadowBitmap, SCATTER_PAD + 1.5, SCATTER_PAD, bmpCssW, bmpCssH)
+          ctx.drawImage(shadowBitmap, SCATTER_PAD, SCATTER_PAD - 1.5, bmpCssW, bmpCssH)
+          ctx.drawImage(shadowBitmap, SCATTER_PAD, SCATTER_PAD + 1.5, bmpCssW, bmpCssH)
+        }
         ctx.drawImage(bitmap, SCATTER_PAD, SCATTER_PAD, bmpCssW, bmpCssH)
 
         particles = pts
@@ -241,6 +272,13 @@ function useParticleAnimation(
 
       ctx.clearRect(0, 0, W, H)
       ctx.globalCompositeOperation = "source-over"
+      if (shadowBitmap) {
+        ctx.drawImage(shadowBitmap, SCATTER_PAD + 4, SCATTER_PAD + 4, bmpCssW, bmpCssH)
+        ctx.drawImage(shadowBitmap, SCATTER_PAD - 1.5, SCATTER_PAD, bmpCssW, bmpCssH)
+        ctx.drawImage(shadowBitmap, SCATTER_PAD + 1.5, SCATTER_PAD, bmpCssW, bmpCssH)
+        ctx.drawImage(shadowBitmap, SCATTER_PAD, SCATTER_PAD - 1.5, bmpCssW, bmpCssH)
+        ctx.drawImage(shadowBitmap, SCATTER_PAD, SCATTER_PAD + 1.5, bmpCssW, bmpCssH)
+      }
       ctx.drawImage(bitmap, SCATTER_PAD, SCATTER_PAD, bmpCssW, bmpCssH)
 
       ctx.globalCompositeOperation = "destination-out"
@@ -249,6 +287,7 @@ function useParticleAnimation(
           ctx.clearRect(p.hx - 1, p.hy - 1, 3, 3)
 
       ctx.globalCompositeOperation = "lighter"
+      const isLight = document.documentElement.getAttribute("data-theme") === "light"
       let anyActive = false
       for (const p of particles) {
         const spd  = Math.hypot(p.vx, p.vy)
@@ -258,7 +297,9 @@ function useParticleAnimation(
         const t = Math.min(spd / 9, 1)
         ctx.beginPath()
         ctx.arc(p.x, p.y, 1.5 + t * 2, 0, Math.PI * 2)
-        ctx.fillStyle = `rgba(${Math.round(100+t*132)},${Math.round(185+t*70)},${Math.round(10+t*48)},${0.5+t*0.5})`
+        ctx.fillStyle = isLight
+          ? `rgba(${Math.round(26+t*10)},${Math.round(26+t*10)},${Math.round(23+t*10)},${0.5+t*0.5})`
+          : `rgba(${Math.round(100+t*132)},${Math.round(185+t*70)},${Math.round(10+t*48)},${0.5+t*0.5})`
         ctx.fill()
       }
 
@@ -266,6 +307,13 @@ function useParticleAnimation(
       if (!mouse.inside && !anyActive) {
         rafId = null
         ctx.clearRect(0, 0, W, H)
+        if (shadowBitmap) {
+          ctx.drawImage(shadowBitmap, SCATTER_PAD + 4, SCATTER_PAD + 4, bmpCssW, bmpCssH)
+          ctx.drawImage(shadowBitmap, SCATTER_PAD - 1.5, SCATTER_PAD, bmpCssW, bmpCssH)
+          ctx.drawImage(shadowBitmap, SCATTER_PAD + 1.5, SCATTER_PAD, bmpCssW, bmpCssH)
+          ctx.drawImage(shadowBitmap, SCATTER_PAD, SCATTER_PAD - 1.5, bmpCssW, bmpCssH)
+          ctx.drawImage(shadowBitmap, SCATTER_PAD, SCATTER_PAD + 1.5, bmpCssW, bmpCssH)
+        }
         ctx.drawImage(bitmap, SCATTER_PAD, SCATTER_PAD, bmpCssW, bmpCssH)
         return
       }

@@ -11,6 +11,10 @@
   "status": {
     "available": "Open for projects"
   },
+  "theme": {
+    "to_light": "hit the lights →",
+    "to_dark":  "kill the lights →"
+  },
   "footer": {
     "tagline": "Full-stack dev for hire.",
     "sitemap_heading": "Sitemap",

@@ -11,6 +11,10 @@
   "status": {
     "available": "Disponible"
   },
+  "theme": {
+    "to_light": "allume la lumière →",
+    "to_dark":  "éteins la lumière →"
+  },
   "footer": {
     "tagline": "Dév fullstack à louer.",
     "sitemap_heading": "Plan",

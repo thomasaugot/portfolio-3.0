@@ -67,6 +67,10 @@ const earthFragSrc = `
   uniform vec3 uSunDirection;
   uniform vec3 uAtmosphereDayColor;
   uniform vec3 uAtmosphereTwilightColor;
+  uniform vec3 uOceanDay;
+  uniform vec3 uOceanNight;
+  uniform vec3 uLandDay;
+  uniform vec3 uLandNight;
 
   void main() {
     vec3 viewDirection = normalize(vPosition - cameraPosition);
@@ -80,11 +84,10 @@ const earthFragSrc = `
     float sunOrientation = dot(uSunDirection, normal);
     float dayMix = smoothstep(-0.3, 0.5, sunOrientation);
 
-    // Site palette — keep green channel off 1.0 to avoid washed-out look
-    vec3 oceanDay   = vec3(0.02, 0.03, 0.01);
-    vec3 oceanNight = vec3(0.005, 0.008, 0.003);
-    vec3 landDay    = vec3(0.28, 0.40, 0.05);   // dimmed so pins stand out
-    vec3 landNight  = vec3(0.03, 0.05, 0.007);
+    vec3 oceanDay   = uOceanDay;
+    vec3 oceanNight = uOceanNight;
+    vec3 landDay    = uLandDay;
+    vec3 landNight  = uLandNight;
 
     vec3 ocean = mix(oceanNight, oceanDay, dayMix);
     vec3 land  = mix(landNight, landDay, clamp(dayMix * 0.9 + 0.1, 0.0, 1.0));
@@ -182,9 +185,15 @@ export function TravelGlobe({ onHover }: Props) {
     const loader = new THREE.TextureLoader()
 
     const sunDirection = new THREE.Vector3(1.5, 1.2, 1.0).normalize()
-    // Chartreuse atmosphere to match site accent
-    const atmDayColor = new THREE.Color("#b0e020")
-    const atmTwilightColor = new THREE.Color("#0d1a00")
+    const isLight = document.documentElement.getAttribute("data-theme") === "light"
+
+    // Theme-aware globe palette
+    const atmDayColor = new THREE.Color(isLight ? "#c8c4b0" : "#b0e020")
+    const atmTwilightColor = new THREE.Color(isLight ? "#6b685f" : "#0d1a00")
+    const oceanDay   = isLight ? new THREE.Vector3(0.96, 0.94, 0.86) : new THREE.Vector3(0.02, 0.03, 0.01)
+    const oceanNight = isLight ? new THREE.Vector3(0.82, 0.80, 0.72) : new THREE.Vector3(0.005, 0.008, 0.003)
+    const landDay    = isLight ? new THREE.Vector3(0.35, 0.32, 0.22) : new THREE.Vector3(0.28, 0.40, 0.05)
+    const landNight  = isLight ? new THREE.Vector3(0.18, 0.16, 0.12) : new THREE.Vector3(0.03, 0.05, 0.007)
 
     const earthMat = new THREE.ShaderMaterial({
       vertexShader: earthVertSrc,
@@ -195,6 +204,10 @@ export function TravelGlobe({ onHover }: Props) {
         uSunDirection:           { value: sunDirection },
         uAtmosphereDayColor:     { value: atmDayColor },
         uAtmosphereTwilightColor:{ value: atmTwilightColor },
+        uOceanDay:               { value: oceanDay },
+        uOceanNight:             { value: oceanNight },
+        uLandDay:                { value: landDay },
+        uLandNight:              { value: landNight },
       },
     })
 
@@ -227,7 +240,7 @@ export function TravelGlobe({ onHover }: Props) {
     })
 
     // Lat/lon grid lines
-    const gridMat = new THREE.LineBasicMaterial({ color: 0x1a2a14, transparent: true, opacity: 0.4 })
+    const gridMat = new THREE.LineBasicMaterial({ color: isLight ? 0x1a1a17 : 0x1a2a14, transparent: true, opacity: isLight ? 0.5 : 0.4 })
     for (let lat = -60; lat <= 60; lat += 30) {
       const pts: THREE.Vector3[] = []
       for (let lon = 0; lon <= 361; lon += 3) pts.push(lonLatToVec3(lon - 180, lat, R + 0.002))
@@ -255,7 +268,11 @@ export function TravelGlobe({ onHover }: Props) {
       .catch(() => {})
 
     // City-to-city arcs
-    const arcMat = new THREE.LineBasicMaterial({ color: 0xd4ff3a, transparent: true, opacity: 0.28 })
+    const arcMat = new THREE.LineBasicMaterial({
+      color: isLight ? 0x1a1a17 : 0xd4ff3a,
+      transparent: true,
+      opacity: isLight ? 0.85 : 0.28,
+    })
     for (let i = 0; i < PINS.length - 1; i++) {
       const a = PINS[i], b = PINS[i + 1]
       group.add(new THREE.Line(
@@ -264,20 +281,51 @@ export function TravelGlobe({ onHover }: Props) {
       ))
     }
 
-    // City pins + pulse rings
-    const pinGeo  = new THREE.SphereGeometry(0.026, 8, 8)
+    // City pins + pulse rings (square in light, sphere in dark)
+    const pinGeo     = isLight ? new THREE.PlaneGeometry(0.048, 0.048) : new THREE.SphereGeometry(0.026, 8, 8)
+    const pinOutGeo  = new THREE.SphereGeometry(0.030, 12, 12)
+    const pinShadGeo = new THREE.SphereGeometry(0.026, 8, 8)
     const ringGeo = new THREE.RingGeometry(0.034, 0.05, 16)
     const pinMat  = new THREE.MeshBasicMaterial({ color: 0xd4ff3a })
+    const pinOutMat = new THREE.MeshBasicMaterial({ color: 0x1a1a17 })
 
     const pinObjs = PINS.map((p, i) => {
+      const pinPos = lonLatToVec3(p.lon, p.lat, R + 0.024)
+
+      // Light-mode: black outline square behind pin + offset shadow square
+      if (isLight) {
+        // Outline at same depth as pin but slightly larger
+        const outlineSq = new THREE.Mesh(
+          new THREE.PlaneGeometry(0.052, 0.052),
+          new THREE.MeshBasicMaterial({ color: 0x1a1a17, side: THREE.DoubleSide })
+        )
+        outlineSq.position.copy(pinPos)
+        outlineSq.lookAt(pinPos.clone().multiplyScalar(2))
+        outlineSq.translateZ(-0.001)  // push very slightly back so pin renders in front
+        group.add(outlineSq)
+
+        // Shadow: same size as pin, offset down-right in the local tangent plane
+        const shadowSq = new THREE.Mesh(
+          new THREE.PlaneGeometry(0.048, 0.048),
+          new THREE.MeshBasicMaterial({ color: 0x1a1a17, side: THREE.DoubleSide })
+        )
+        shadowSq.position.copy(pinPos)
+        shadowSq.lookAt(pinPos.clone().multiplyScalar(2))
+        shadowSq.translateX(0.010)
+        shadowSq.translateY(-0.010)
+        shadowSq.translateZ(-0.002)
+        group.add(shadowSq)
+      }
+
       const mesh = new THREE.Mesh(pinGeo, pinMat)
-      mesh.position.copy(lonLatToVec3(p.lon, p.lat, R + 0.024))
+      mesh.position.copy(pinPos)
+      if (isLight) mesh.lookAt(pinPos.clone().multiplyScalar(2))
       mesh.userData = { ...p, idx: i }
       group.add(mesh)
 
       const ring = new THREE.Mesh(
         ringGeo,
-        new THREE.MeshBasicMaterial({ color: 0xd4ff3a, transparent: true, opacity: 0.5, side: THREE.DoubleSide })
+        new THREE.MeshBasicMaterial({ color: isLight ? 0x1a1a17 : 0xd4ff3a, transparent: true, opacity: 0.5, side: THREE.DoubleSide })
       )
       ring.position.copy(mesh.position)
       ring.lookAt(0, 0, 0)

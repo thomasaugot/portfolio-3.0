@@ -2,7 +2,8 @@
 
 import { useEffect, useRef, useState } from "react"
 
-const LIME = "212, 255, 58"
+const CURSOR_DARK_MODE = "212, 255, 58"
+const CURSOR_LIGHT_MODE = "26, 26, 23"
 
 interface Spark {
   x: number; y: number
@@ -92,6 +93,10 @@ export function CustomCursor() {
       raf = requestAnimationFrame(tick)
       ctx.clearRect(0, 0, W, H)
       if (!visible) return
+
+      const LIME = document.documentElement.getAttribute("data-theme") === "light"
+        ? CURSOR_LIGHT_MODE
+        : CURSOR_DARK_MODE
 
       const reducedMotion = document.body.classList.contains("anim-low")
 

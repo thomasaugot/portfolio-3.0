@@ -21,14 +21,9 @@ export function HomeTestimonials() {
                 <span className="font-serif text-[56px] text-primary leading-0 align-[-16px] mr-1.5 italic" aria-hidden="true">&ldquo;</span>
                 {item.q}
               </p>
-              <div className="flex gap-3 items-center pt-4 border-t border-border">
-                <div className="w-9 h-9 bg-surface-2 border border-border-2 flex items-center justify-center text-[12px] text-primary font-semibold shrink-0">
-                  {String.fromCharCode(65 + idx)}
-                </div>
-                <div>
-                  <p className="text-[16px] text-text">{item.name}</p>
-                  <p className="text-[11px] text-text-subtle mt-0.5">{item.role} · {item.company}</p>
-                </div>
+              <div className="pt-4 border-t border-border">
+                <p className="text-[16px] text-text">{item.name}</p>
+                <p className="text-[11px] text-text-subtle mt-0.5">{item.role} · {item.company}</p>
               </div>
             </div>
           ))}

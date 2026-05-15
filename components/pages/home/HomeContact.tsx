@@ -185,7 +185,7 @@ export function HomeContact() {
               )}
             </div>
 
-            <button type="submit" disabled={submitting} className="btn btn-filled keyboard-focus-ring mt-2">
+            <button type="submit" disabled={submitting} className="btn btn-filled keyboard-focus-ring mt-2 self-start w-fit">
               {submitting ? (
                 <>
                   <span aria-hidden="true">···</span>

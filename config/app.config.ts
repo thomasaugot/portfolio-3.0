@@ -1,3 +1,12 @@
+export type Theme = "dark" | "light"
+
+/**
+ * Change this to "light" or "dark" to switch the whole app's color scheme.
+ * Applied to <html data-theme="..."> in app/layout.tsx.
+ * Light/dark palettes live in styles/theme.css.
+ */
+export const THEME: Theme = "dark"
+
 export const appConfig = {
   siteUrl:     process.env.NEXT_PUBLIC_SITE_URL ?? "https://thomasaugot.dev",
   environment: process.env.NODE_ENV,
