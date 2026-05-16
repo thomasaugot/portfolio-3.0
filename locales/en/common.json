@@ -48,7 +48,7 @@
     "back_home": "Back home",
     "view_work": "View work",
     "report": "Report this link",
-    "report_subject": "Broken link on thomasaugot.dev",
+    "report_subject": "Broken link on helloimtom.dev",
     "suggested_heading": "Suggested routes",
     "suggested": [
       { "label": "Home", "href": "/", "desc": "The landing page — services, work, contact." },
@@ -56,7 +56,7 @@
       { "label": "Contact", "href": "/#contact", "desc": "Hire me, ask a question, say hi." }
     ],
     "meta_title": "404 — Page not found",
-    "meta_desc": "This page doesn't exist on thomasaugot.dev. Head back home or browse the work."
+    "meta_desc": "This page doesn't exist on helloimtom.dev. Head back home or browse the work."
   },
   "newsletter": {
     "title": "Notes",

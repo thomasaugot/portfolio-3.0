@@ -48,7 +48,7 @@
     "back_home": "Volver al inicio",
     "view_work": "Ver proyectos",
     "report": "Reportar este enlace",
-    "report_subject": "Enlace roto en thomasaugot.dev",
+    "report_subject": "Enlace roto en helloimtom.dev",
     "suggested_heading": "Rutas sugeridas",
     "suggested": [
       { "label": "Inicio", "href": "/", "desc": "La página de inicio — servicios, proyectos, contacto." },
@@ -56,7 +56,7 @@
       { "label": "Contacto", "href": "/#contact", "desc": "Contratame, pregunta algo, saluda." }
     ],
     "meta_title": "404 — Página no encontrada",
-    "meta_desc": "Esta página no existe en thomasaugot.dev. Vuelve al inicio o explora los proyectos."
+    "meta_desc": "Esta página no existe en helloimtom.dev. Vuelve al inicio o explora los proyectos."
   },
   "newsletter": {
     "title": "Notas",

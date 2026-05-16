@@ -1,6 +1,8 @@
 import { getMessages } from "next-intl/server"
 import { notFound } from "next/navigation"
 import { WorkCaseStudy } from "@/components/pages/work/WorkCaseStudy"
+import { buildMetadata, type Locale } from "@/lib/seo"
+import type { Metadata } from "next"
 
 const SLUGS = [
   "materia-prima",
@@ -27,14 +29,29 @@ export function generateStaticParams() {
   )
 }
 
-export async function generateMetadata({ params }: Props) {
-  const { slug } = await params
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale, slug } = await params
+  const safe: Locale = (["en", "fr", "es"] as const).includes(locale as Locale) ? (locale as Locale) : "en"
   const messages = await getMessages()
-  const work = (messages as { home?: { work?: { client?: string; slug?: string }[] } }).home?.work ?? []
+  const work = (messages as { home?: { work?: { client?: string; slug?: string; tag?: string; body?: string }[] } }).home?.work ?? []
   const item = work.find((w) => w.slug === slug)
-  return {
-    title: item?.client ?? "Case study",
-  }
+
+  const client = item?.client ?? "Case study"
+  const tag    = item?.tag    ?? ""
+  const body   = item?.body   ?? ""
+
+  const title = tag ? `${client} — ${tag}` : client
+  const description = body
+    ? body.slice(0, 158).trim() + (body.length > 158 ? "…" : "")
+    : `Case study — ${client} by Thomas Augot, full-stack developer.`
+
+  return buildMetadata({
+    locale: safe,
+    title,
+    description,
+    path: `/work/${slug}`,
+    ogTitle: `${client} — case study`,
+  })
 }
 
 export default async function WorkPage({ params }: Props) {

@@ -61,7 +61,7 @@ const COPY: Record<"en" | "fr" | "es", Copy> = {
     back_home: "Back home",
     view_work: "View work",
     report: "Report this link",
-    report_subject: "Broken link on thomasaugot.dev",
+    report_subject: "Broken link on helloimtom.dev",
     suggested_heading: "Suggested routes",
     routes_word: (n) => (n === 1 ? "route" : "routes"),
     suggested: [
@@ -94,7 +94,7 @@ const COPY: Record<"en" | "fr" | "es", Copy> = {
     back_home: "Retour à l'accueil",
     view_work: "Voir les projets",
     report: "Signaler ce lien",
-    report_subject: "Lien cassé sur thomasaugot.dev",
+    report_subject: "Lien cassé sur helloimtom.dev",
     suggested_heading: "Routes suggérées",
     routes_word: () => "routes",
     suggested: [
@@ -127,7 +127,7 @@ const COPY: Record<"en" | "fr" | "es", Copy> = {
     back_home: "Volver al inicio",
     view_work: "Ver proyectos",
     report: "Reportar este enlace",
-    report_subject: "Enlace roto en thomasaugot.dev",
+    report_subject: "Enlace roto en helloimtom.dev",
     suggested_heading: "Rutas sugeridas",
     routes_word: () => "rutas",
     suggested: [

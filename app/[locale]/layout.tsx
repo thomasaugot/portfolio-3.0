@@ -12,7 +12,10 @@ import { TranslationProvider } from "@/contexts/TranslationContext"
 import { GoogleTagManager } from "@next/third-parties/google"
 import AnalyticsTracker from "@/components/AnalyticsTracker"
 import { verifySession } from "@/lib/admin-auth"
+import { JsonLd } from "@/components/seo/JsonLd"
+import { buildMetadata, HOME_SEO, type Locale } from "@/lib/seo"
 import type { Language } from "@/config/i18n.config"
+import type { Metadata } from "next"
 import type { ReactNode } from "react"
 
 interface LocaleLayoutProps {
@@ -22,6 +25,13 @@ interface LocaleLayoutProps {
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }))
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params
+  const safe: Locale = (["en", "fr", "es"] as const).includes(locale as Locale) ? (locale as Locale) : "en"
+  const { title, description, ogTitle } = HOME_SEO[safe]
+  return buildMetadata({ locale: safe, title, description, ogTitle })
 }
 
 export default async function LocaleLayout({ children, params }: LocaleLayoutProps) {
@@ -39,6 +49,7 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
   return (
     <>
       {!isAdmin && <GoogleTagManager gtmId="GTM-M6GQ2N7Z" />}
+      <JsonLd locale={locale as Locale} />
       <Providers locale={locale} messages={messages as Record<string, unknown>}>
         <TranslationProvider locale={locale as Language}>
           <AnalyticsTracker />

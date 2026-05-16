@@ -48,7 +48,7 @@
     "back_home": "Retour à l'accueil",
     "view_work": "Voir les projets",
     "report": "Signaler ce lien",
-    "report_subject": "Lien cassé sur thomasaugot.dev",
+    "report_subject": "Lien cassé sur helloimtom.dev",
     "suggested_heading": "Routes suggérées",
     "suggested": [
       { "label": "Accueil", "href": "/", "desc": "La page d'accueil — services, projets, contact." },
@@ -56,7 +56,7 @@
       { "label": "Contact", "href": "/#contact", "desc": "Recrutez-moi, posez une question, dites bonjour." }
     ],
     "meta_title": "404 — Page introuvable",
-    "meta_desc": "Cette page n'existe pas sur thomasaugot.dev. Retournez à l'accueil ou explorez les projets."
+    "meta_desc": "Cette page n'existe pas sur helloimtom.dev. Retournez à l'accueil ou explorez les projets."
   },
   "newsletter": {
     "title": "Carnets",

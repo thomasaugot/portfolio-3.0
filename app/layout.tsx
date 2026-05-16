@@ -27,7 +27,7 @@ const instrumentSerif = Instrument_Serif({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://thomasaugot.dev"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://helloimtom.dev"),
   title: { default: "Thomas Augot — Full-stack developer for hire", template: "%s | Thomas Augot" },
   description: "Full-stack developer (React, Next.js, Node) for hire. I ship production-ready web & mobile apps from Las Palmas de Gran Canaria.",
   robots: {
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: "website", locale: "en_US",
-    url: "https://thomasaugot.dev",
+    url: "https://helloimtom.dev",
     title: "Thomas Augot — Full-stack developer for hire",
     description: "Full-stack developer for hire. React, Next.js, Node.js. Based in Las Palmas, Gran Canaria.",
     images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "Thomas Augot — Full-stack developer" }],
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
     description: "Full-stack developer for hire. React, Next.js, Node.js, React Native.",
     images: ["/og-image.jpg"],
   },
-  alternates: { canonical: "https://thomasaugot.dev" },
+  alternates: { canonical: "https://helloimtom.dev" },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

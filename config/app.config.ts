@@ -8,7 +8,7 @@ export type Theme = "dark" | "light"
 export const THEME: Theme = "dark"
 
 export const appConfig = {
-  siteUrl:     process.env.NEXT_PUBLIC_SITE_URL ?? "https://thomasaugot.dev",
+  siteUrl:     process.env.NEXT_PUBLIC_SITE_URL ?? "https://helloimtom.dev",
   environment: process.env.NODE_ENV,
   email:       "thomas.augot@gmail.com",
   calLink:     "https://calendly.com/thomas_augot",
