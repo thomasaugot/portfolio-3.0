@@ -1,0 +1,677 @@
+---
+title: "How to Set Up Google Analytics with Google Tag Manager in Next.js 16 — Updated May 2026"
+description: "Setting up Google Analytics and Google Tag Manager in a modern Next.js 15 project should be simple, but most tutorials you’ll find online are outdated, incom…"
+date: "2025-11-27"
+tags: ["nextjs","nextjs-15","google-analytics","google-tag-manager"]
+cover: "https://cdn-images-1.medium.com/max/1024/1*NUwuj_NBQdYvyqCP6iIiCA.png"
+medium: "https://medium.com/@thomasaugot/how-to-set-up-google-analytics-with-google-tag-manager-in-next-js-15-in-2025-dedfcaee875a"
+---
+
+![](https://cdn-images-1.medium.com/max/1024/1*NUwuj_NBQdYvyqCP6iIiCA.png)
+
+Setting up Google Analytics and Google Tag Manager in a modern Next.js 15 project _should_ be simple, but most tutorials you’ll find online are outdated, incomplete, or refer to older versions of GA4, GTM, or even Next.js itself.
+
+I spent more time than I’d like to admit figuring out what was missing, and so this guide exists to save you that time.
+
+This article explains **exactly how to set everything up correctly in 2025**, including advanced tracking:
+
+-   CTA click tracking
+-   Scroll depth tracking
+-   Contact form interaction tracking
+-   Form submit success tracking
+
+All using Next.js 15 & 16, Google Tag Manager (from now on you may read “GTM”), and Google Analytics 4 (GA4), with a modern, reliable and scalable setup.
+
+### **My Use Case**
+
+I recently built a website in **Next.js 15** for my company. The goal was to gather traffic insights for marketing and product decisions.
+
+During research, I learned that:
+
+-   GA4’s built-in tracking alone is limited
+-   GTM allows cleaner, safer, easier tracking
+-   Using both together is the recommended approach in 2025
+-   Both are completely free
+
+So here is exactly how to set everything up, without outdated tutorials, assumptions, or missing steps.
+
+### **What Google Tag Manager Actually Does**
+
+Google Tag Manager (GTM) is a **centralized hub for tracking scripts**. Instead of hardcoding analytics snippets or events in your code, GTM allows you to:
+
+-   Add and remove tracking scripts without deploying code
+-   Use custom triggers and conditions
+-   Test your tagging setup before publishing
+-   Push custom events (CTA clicks, form events, etc.)
+-   Keep your website clean and maintainable
+
+GTM listens for events, reacts based on your configuration, and sends data to GA4 or any other tool.
+
+Now let’s install everything step-by-step.
+
+### **Setting Up Google Analytics in Next.js 16 Using Google Tag Manager**
+
+#### **Prerequisites**
+
+-   A **Next.js 15** project
+-   A **GA4 property**
+-   A **Google Tag Manager** account
+
+⚠️ **Next.js 16 note:** Next.js 16 replaces middleware.ts with proxy.ts as the routing interception file. Nothing in this guide creates a middleware.ts, so you're safe — just don't add one manually. If you need to protect analytics-related routes, edit proxy.ts.
+
+**Step 1 — Create Your Google Tag Manager Container**
+
+1\. Go to [https://tagmanager.google.com](https://tagmanager.google.com)
+
+2\. Click **Create Account**
+
+3\. Add a new **Container**
+
+4\. Choose **Web** as the target platform (if you aim at tracking events on a webpage of course…)
+
+5\. Copy your **Container ID** (GTM-XXXXXXX).
+
+#### **Step 2 — Install @next/third-parties**
+
+This is the official Next.js package for optimized, hydration-aware script loading.
+
+```
+npm install @next/third-parties@latest
+```
+
+#### **Step 3 — In your code, add GTM to Your Root Layout**
+
+Edit your root layout: app/layout.tsx or app/layout.js.
+
+```tsx
+import { GoogleTagManager } from "@next/third-parties/google";
+
+export default function RootLayout({ children }) {
+  return (
+    <html lang="en">
+      <GoogleTagManager gtmId="GTM-XXXXXXX" />
+      <body>{children}</body>
+    </html>
+  );
+}
+```
+
+Push this to production and wait a few minutes — GTM does **not** show up instantly.
+
+The component handles:
+
+-   GTM loading after hydration
+-   noscript fallback iframe
+-   performance-optimized script injection
+
+#### **Step 4 — Connect GA4 Inside Google Tag Manager**
+
+Inside GTM:
+
+1\. Go to **Tags → New**
+
+2\. Name it: GA4 — Page View
+
+3\. Tag Type → **Google Analytics → Google Tag**
+
+4\. Enter your **Measurement ID** (G-XXXXXXXXXX)
+
+_Find it in GA4 under: Admin (click the gear icon at the bottom left of the panel) → Data Streams → Web Stream Details:_
+
+![](https://cdn-images-1.medium.com/max/1024/1*I9FWPrs9QmMhes73PRm4Ow.png)
+
+5\. Trigger: **All Pages**
+
+6\. Save → Submit (publish), pass it a version name if you want, it works without.
+
+Now GTM will forward page views to GA4.
+
+### **Step 5 — Verify Tracking**
+
+#### **Option A — Use Tag Assistant**
+
+1\. Go to [https://tagassistant.google.com](https://tagassistant.google.com)
+
+2\. Enter your site URL
+
+3\. Start debugging
+
+4\. You should see:
+
+-   GTM container is loaded
+-   GA4 tags firing on page load
+
+#### **Option B — GA4 Real-Time Reports**
+
+1\. Go to GA4 → **Reports → Realtime**
+
+2\. Open your website in a private window
+
+3\. You should appear within seconds
+
+### ⚠️ **If Tracking Doesn’t Work**
+
+#### **No GA4 data appearing**
+
+-   Check Measurement ID (one wrong letter breaks everything)
+
+#### **“Tag Installed Incorrectly” warning**
+
+Remove any **manual GTM or GA code** from your HTML
+
+Only use @next/third-parties/google
+
+#### **No data unless user accepts cookies**
+
+If your website uses a cookie banner:
+
+➜ **Analytics will not work until analytics cookies are accepted** (GTM and GA4 are blocked by default.)
+
+Test by clearing cookies → reloading site → accepting analytics.
+
+### ⭐ Special bonus: **Advanced Tracking Setup**
+
+So my colleague in charge of the marketing wanted to know literally everything: where visitors click, where they scroll, etc.
+
+These are the exact GTM configurations I made that are working in production.
+
+We will track:
+
+1\. CTA clicks
+
+2\. Scroll depth (25%, 50%, 75%, 90%)
+
+3\. Contact form service selection
+
+4\. Form submit success
+
+Before we start, understand the event types:
+
+### **Automatic vs Manual Events**
+
+#### **Automatic events** (GTM detects them):
+
+-   Page views
+-   Clicks
+-   Scroll depth
+
+#### **Manual events** (your code must push them):
+
+-   cta\_click
+-   form\_service\_selected
+-   form\_submit\_success
+
+Manual events follow this pattern:
+
+```
+window.dataLayer.push({
+  event: "event_name",
+  key: "value",
+})
+```
+
+Then GTM triggers GA4 based on that event.
+
+### **1\. CTA Click Tracking**
+
+Goal: Track the CTA label and destination url.
+
+There are **two correct methods**. Pick one (Hint: I usually hate no code options, so I went for Method B…).
+
+### **Method A — DOM Variables (No code needed)**
+
+#### **HTML**
+
+```tsx
+<Link className="cta-tag" data-cta_text="Contact" data-cta_url="/contact">
+  Contact
+</Link>;
+```
+
+#### **In GTM → Variables → New**
+
+Create:
+
+#### **DOM — CTA Text**
+
+-   Type: DOM Element
+-   Selector: .cta-tag
+-   Attribute: data-cta\_text
+
+#### **DOM — CTA URL**
+
+-   Type: DOM Element
+-   Selector: .cta-tag
+-   Attribute: data-cta\_url
+
+#### **Trigger → New → Click — All Elements**
+
+-   Fire on: Some Clicks
+-   Condition: Click Classes **contains** cta-tag
+-   Name: Trigger — CTA Click
+
+#### **Tag → New → Google Tag**
+
+-   Event name: cta\_click
+-   Parameters:
+
+cta\_text → {{DOM — CTA Text}}
+
+cta\_url → {{DOM — CTA URL}}
+
+### **Method B — Custom HTML Listener (The one I recommend, also because I read it is more reliable)**
+
+This is the version used in my project (and more reliable).
+
+**Create this tag in GTM → Tags → New → Custom HTML**
+
+```css
+<script>
+(function() {
+  document.addEventListener('click', function(e) {
+    var target = e.target.closest('.cta-tag');
+    if (target) {
+      window.dataLayer.push({
+        event: 'cta_click',
+        cta_text: target.getAttribute('data-cta_text'),
+        cta_url: target.getAttribute('data-cta_url')
+      });
+    }
+  });
+})();
+</script>
+```
+
+#### **Trigger**
+
+-   Trigger type: **Custom Event**
+-   Event name: cta\_click
+
+#### **GA4 Tag**
+
+-   Event name: cta\_click
+-   Parameters:
+
+cta\_text (Data Layer Variable)
+
+cta\_url (Data Layer Variable)
+
+### **2\. Scroll Depth Tracking (25%, 50%, 75%, 90%)**
+
+#### **Enable Built-In Variables**
+
+GTM → Variables → Configure → enable:
+
+-   Scroll Depth Threshold
+-   Scroll Depth Units
+-   Scroll Direction
+
+#### **Trigger → Scroll Depth**
+
+-   Vertical Scroll: ON
+-   Percentages: 25,50,75,90 (Be careful, use comas “,” and not slashes “/” between the numbers)
+-   Name: Trigger — Scroll Depth
+
+#### **GA4 Tag**
+
+-   Event name: scroll\_depth
+-   Parameter:
+
+scroll\_percent → {{Scroll Depth Threshold}}
+
+### **3\. Contact Form: Service Selected Tracking**
+
+#### **HTML**
+
+```html
+<button class="contact-service-button" data-service="strategy">Strategy</button>
+```
+
+#### **DOM Variable**
+
+-   Name: DOM — Form Service
+-   Type: DOM Element
+-   Selector: .contact-service-button
+-   Attribute: data-service
+
+#### **Trigger**
+
+-   Click — All Elements
+-   Condition: Click Classes contains contact-service-button
+-   Name: Trigger — Form Service Selected
+
+#### **GA4 Tag**
+
+-   Event name: form\_service\_selected
+-   Parameter:
+
+service\_name → {{DOM — Form Service}}
+
+### **4\. Form Submit Success Tracking**
+
+#### **Push event from your code**
+
+```css
+if (typeof window !== "undefined" && window.dataLayer) {
+  window.dataLayer.push({
+    event: "form_submit_success",
+    form_name: "contact_form",
+    service_name: formData.service || "not_selected"
+  });
+}
+```
+
+#### **Trigger**
+
+-   Type: Custom Event
+-   Event name: form\_submit\_success
+
+#### **GA4 Tag**
+
+-   Event Name: form\_submit\_success
+-   Parameters:
+
+form\_name
+
+service\_name
+
+### Final Step: Register Your Custom Event Parameters in GA4
+
+For your CTA clicks, scroll depth, or form events to appear inside GA4 reports, you must register each event parameter as a **Custom Dimension**.
+
+#### Go to:
+
+**GA4 → Admin (the gear icon at the bottom left corner again) → Property → Custom definitions → Create custom dimension**
+
+Create one for each parameter used in your events:
+
+```
+| Dimension Name | Scope | Event Parameter|
+| -------------- | ----- | ---------------|
+| CTA Text       | Event | cta_text       |
+| CTA URL        | Event | cta_url        |
+| Scroll Percent | Event | scroll_percent |
+| Service Name   | Event | service_name   |
+```
+
+_¡Please bear in mind! for the parameters you have a dropdown, but the values of events we are looking for aren’t there, you must type them manually, you will se it lets you do it._
+
+### **⚠️ Critical: Implementing the Event Listeners**
+
+**Important:** The GTM configurations above will only work if your code actually pushes events to the \`dataLayer\`. Here’s what you need to implement:
+
+**Method A: GTM Custom HTML Tag (As described above)**
+
+If you’re using the Custom HTML tag approach in GTM, you’re all set — GTM will inject the listeners.
+
+**Method B: Next.js Implementation (Recommended by me)**
+
+For better type safety, debugging, and control, implement the tracking directly in your Next.js app:
+
+-   **Step 1: Create Event Utility**
+
+Create **utils/gtm-events.ts**:
+
+```ts
+interface GTMEvent {
+  event: string;
+  [key: string]: unknown;
+}
+
+export const pushToDataLayer = (eventData: GTMEvent) => {
+  if (typeof window !== "undefined" && window.dataLayer) {
+    window.dataLayer.push(eventData);
+  }
+};
+
+export const trackCTAClick = (ctaText: string, ctaUrl: string) => {
+  pushToDataLayer({
+    event: "cta_click",
+    cta_text: ctaText,
+    cta_url: ctaUrl,
+  });
+};
+
+export const trackScrollDepth = (scrollPercent: number) => {
+  pushToDataLayer({
+    event: "scroll_depth",
+    scroll_percent: scrollPercent.toString(),
+  });
+};
+
+export const trackFormServiceSelection = (serviceName: string) => {
+  pushToDataLayer({
+    event: "form_service_selected",
+    service_name: serviceName,
+  });
+};
+
+declare global {
+  interface Window {
+    dataLayer: any[];
+  }
+}
+```
+
+-   **Step 2: Create Analytics Hook**
+
+Create **hooks/useAnalyticsTracking.ts**:
+
+```ts
+"use client";
+
+import { useEffect, useRef } from "react";
+import { trackCTAClick, trackScrollDepth } from "@/utils/gtm-events";
+
+export function useAnalyticsTracking() {
+  const scrollThresholds = useRef(new Set<number>());
+  const hasInitialized = useRef(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined" || hasInitialized.current) return;
+    hasInitialized.current = true;
+
+    // CTA Click Tracking
+    const handleCTAClick = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      const ctaElement = target.closest('[data-cta_click="true"]');
+
+      if (ctaElement) {
+        const ctaText = ctaElement.getAttribute("data-cta_text") || "Unknown";
+        const ctaUrl = ctaElement.getAttribute("data-cta_url") || "";
+        trackCTAClick(ctaText, ctaUrl);
+      }
+    };
+
+    // Scroll Depth Tracking
+    const handleScroll = () => {
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+      const scrollTop = window.scrollY;
+      const scrollPercent = Math.round(
+        ((scrollTop + windowHeight) / documentHeight) * 100,
+      );
+
+      const milestones = [25, 50, 75, 90, 100];
+      milestones.forEach((milestone) => {
+        if (scrollPercent >= milestone && !scrollThresholds.current.has(milestone)) {
+          scrollThresholds.current.add(milestone);
+          trackScrollDepth(milestone);
+        }
+      });
+    };
+
+    document.addEventListener("click", handleCTAClick, true);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll(); // Initial check
+
+    return () => {
+      document.removeEventListener("click", handleCTAClick, true);
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+}
+```
+
+-   **Step 3: Create Tracker Component**
+
+Create **components/AnalyticsTracker.tsx**:
+
+```ts
+"use client";
+
+import { useAnalyticsTracking } from "@/hooks/useAnalyticsTracking";
+
+export default function AnalyticsTracker() {
+  useAnalyticsTracking();
+  return null;
+}
+```
+
+-   **Step 4: Add to your Layout file:**
+
+In **app/layout.tsx**:
+
+```tsx
+import AnalyticsTracker from "@/components/AnalyticsTracker";
+
+export default function LocaleLayout({ children }) {
+  return (
+    <>
+      <AnalyticsTracker />
+      {children}
+    </>
+  );
+}
+```
+
+-   **Step 5: Mark Your CTAs**
+
+Ensure all CTA elements have the tracking attributes:
+
+```tsx
+<Link
+  href="/contact"
+  data-cta_click="true"
+  data-cta_text="Contact Us"
+  data-cta_url="/contact"
+>
+  Contact Us
+</Link>;
+```
+
+-   **Step 6: Track Form Service Selection**
+
+In your contact form:
+
+```ts
+import { trackFormServiceSelection } from '@/utils/gtm-events';
+
+// In button onClick
+onClick={() => {
+  setFormData({ ...formData, service: service.value });
+  trackFormServiceSelection(service.value);
+}}
+```
+
+### **Why This Approach is Better**
+
+1.  **Type Safety**— TypeScript catches errors at compile time
+2.  **Debugging**— Console logs show exactly what events fire
+3.  **Testing**— Can unit test the tracking functions
+4.  **Version Control**— Changes tracked in Git
+5.  **Performance** — No waiting for GTM to inject scripts
+
+### **Verification**
+
+Open browser DevTools → Console. You should see:
+
+```
+[GTM Event] { event: 'cta_click', cta_text: 'Contact', cta_url: '/contact' }
+[GTM Event] { event: 'scroll_depth', scroll_percent: '25' }
+[GTM Event] { event: 'form_service_selected', service_name: 'automation' }
+```
+
+### **The Most Critical Step You Must Not Forget**
+
+#### **Register Custom Dimensions in GA4**
+
+**This is why I had empty data for like a week…!** GA4 will NOT collect custom event parameters unless you explicitly register them as custom dimensions.
+
+**How to Register:**
+
+1\. Go to **GA4** [https://analytics.google.com/](https://analytics.google.com/) (not GTM) → Admin → Property Settings
+
+2\. Click **Custom definitions** (under “Data display”)
+
+3\. Click **\*\*Create custom dimension\*\***
+
+4\. Create these 4 dimensions:
+
+```
+| Dimension Name | Scope | Event Parameter | Description            |
+|----------------|-------|-----------------|------------------------|
+| CTA Text       | Event | `cta_text`      | Text of clicked CTA    |
+| CTA URL        | Event | `cta_url`       | Destination URL        |
+| Scroll Percent | Event | `scroll_percent`| Page scroll percentage |
+| Service Name   | Event | `service_name`  | Selected service       |
+```
+
+**Important:**
+
+-   Type the event parameter names manually (they won’t be in dropdown)
+-   Wait 24–48 hours for data to start appearing
+-   Custom dimensions cannot be deleted, only archived
+
+### **Debugging: GTM Preview Mode**
+
+1\. Go to GTM → **Preview**
+
+2\. Enter your URL
+
+3\. Interact with your site
+
+4\. Check timeline on the left:
+
+-   Events appear?
+-   Tags fired?
+-   Any blocking conditions?
+
+If GA4 still shows nothing, check:
+
+-   Wrong Measurement ID
+-   Cookie consent not accepted
+-   Missing Data Layer Variables
+-   Event name mismatch
+
+### **Final Result**
+
+After completing this setup:
+
+✅ Page views load via GTM
+
+✅ CTA clicks tracked with text + URL
+
+✅ Scroll depth recorded at 4 levels
+
+✅ Service button clicks tracked
+
+✅ Form submissions tracked
+
+✅ Events visible in:
+
+-   GA4 DebugView
+-   GA4 Realtime
+-   GA4 Explore Reports
+
+This gives you a **scalable**, **maintainable**, and **future-proof analytics setup** for Next.js 15. If you know more tricks you believe I should know about so I can try them myself and complete this article, get in touch :)
+
+👋 Thanks for reading!
+
+If you enjoyed this guide or found it useful, feel free to connect with me:
+
+**Website:** [https://helloimtom.dev/](https://helloimtom.dev/)
+
+**GitHub:** [https://github.com/thomasaugot](https://github.com/thomasaugot)
+
+**LinkedIn:** [https://www.linkedin.com/in/thomas-augot/](https://www.linkedin.com/in/thomas-augot/)

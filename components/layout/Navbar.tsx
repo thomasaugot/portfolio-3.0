@@ -8,9 +8,9 @@ import { usePathname } from "next/navigation"
 import { useTranslationContext } from "@/contexts/TranslationContext"
 import type { Language } from "@/config/i18n.config"
 
-const NAV_ITEMS = ["services", "work", "process", "stack", "about", "contact"] as const
-const MOBILE_NAV_ITEMS = ["home", "services", "work", "process", "stack", "about", "contact"] as const
-const NAV_HREF: Record<string, string> = { work: "/work", home: "" }
+const NAV_ITEMS = ["services", "work", "process", "stack", "about", "blog", "contact"] as const
+const MOBILE_NAV_ITEMS = ["home", "services", "work", "process", "stack", "about", "blog", "contact"] as const
+const NAV_HREF: Record<string, string> = { work: "/work", blog: "/blog", home: "" }
 const LOCALES: Language[] = ["en", "fr", "es"]
 
 export const Navbar = memo(function Navbar() {
@@ -21,10 +21,65 @@ export const Navbar = memo(function Navbar() {
   const [scrolled,  setScrolled]  = useState(false)
   const [menuOpen,  setMenuOpen]  = useState(false)
   const [mounted,   setMounted]   = useState(false)
+  const [compact,   setCompact]   = useState(false)
   const hamburgerRef = useRef<HTMLButtonElement>(null)
   const menuRef      = useRef<HTMLDivElement>(null)
+  const headerRowRef = useRef<HTMLDivElement>(null)
+  const desktopNavRef = useRef<HTMLElement>(null)
+  const rightGroupRef = useRef<HTMLDivElement>(null)
+  const brandRef = useRef<HTMLAnchorElement>(null)
 
   useEffect(() => { setMounted(true) }, [])
+
+  // Decide whether to show desktop nav or collapse to hamburger based on
+  // actual available space. Sums each nav-link's natural width — works even
+  // when the nav is currently absolute-positioned in compact mode.
+  useEffect(() => {
+    const row    = headerRowRef.current
+    const nav    = desktopNavRef.current
+    const right  = rightGroupRef.current
+    const brand  = brandRef.current
+    if (!row || !nav || !right || !brand) return
+
+    const measure = () => {
+      // Sum each link's offsetWidth (works regardless of parent positioning)
+      let navWidth = 0
+      let count = 0
+      nav.querySelectorAll<HTMLElement>(".nav-link").forEach((el) => {
+        navWidth += el.offsetWidth
+        count += 1
+      })
+      const navGaps  = Math.max(0, count - 1) * 4
+      const navTotal = navWidth + navGaps
+      const brandWidth = brand.offsetWidth
+      const outerGaps  = 16 * 2
+      const available  = row.clientWidth
+
+      // Two distinct measurements: with full right group (status + lang-toggle + hamburger)
+      // and without (compact-mode right group). Use hysteresis to avoid flicker:
+      // collapse when the full layout doesn't fit, expand again only when it
+      // fits comfortably with a generous margin.
+      setCompact((prev) => {
+        if (prev) {
+          // currently compact — only expand back if full layout would fit with room to spare
+          // right group right now is compact (hamburger only). We need to estimate the
+          // expanded right group width = current + (lang-toggle + status) approx 200px.
+          const expandedRightWidth = right.offsetWidth + 200
+          const required = brandWidth + navTotal + expandedRightWidth + outerGaps + 80
+          return required > available
+        } else {
+          // currently expanded — collapse if it overflows now
+          const required = brandWidth + navTotal + right.offsetWidth + outerGaps + 24
+          return required > available
+        }
+      })
+    }
+
+    measure()
+    const ro = new ResizeObserver(measure)
+    ro.observe(row)
+    return () => ro.disconnect()
+  }, [language])
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 30)
@@ -91,10 +146,11 @@ export const Navbar = memo(function Navbar() {
 
   return (
     <>
-      <header className={`navbar${scrolled ? " scrolled" : ""}`}>
-        <div className="shell h-[60px] flex items-center justify-between gap-4">
+      <header className={`navbar${scrolled ? " scrolled" : ""}${compact ? " compact" : ""}`}>
+        <div ref={headerRowRef} className="shell h-[60px] flex flex-nowrap items-center justify-between gap-4 whitespace-nowrap">
           <TransitionLink
             href={`/${language}`}
+            ref={brandRef}
             aria-label="helloimtom.dev — home"
             className="inline-flex items-center gap-2.5 font-display font-medium tracking-[-0.01em] no-underline text-text text-[16px] shrink-0 keyboard-focus-ring"
           >
@@ -102,7 +158,17 @@ export const Navbar = memo(function Navbar() {
             helloimtom<span className="text-text-subtle">.dev</span>
           </TransitionLink>
 
-          <nav aria-label="Main navigation" className="flex gap-1 max-[900px]:hidden">
+          <nav
+            ref={desktopNavRef}
+            aria-label="Main navigation"
+            className="flex flex-nowrap gap-1 whitespace-nowrap shrink-0"
+            style={{
+              visibility: compact ? "hidden" : "visible",
+              position: compact ? "absolute" : "static",
+              pointerEvents: compact ? "none" : "auto",
+            }}
+            aria-hidden={compact}
+          >
             {NAV_ITEMS.map((key) => (
               <TransitionLink key={key} href={navHref(key)} className="nav-link keyboard-focus-ring">
                 {t(`nav.${key}`)}
@@ -110,7 +176,7 @@ export const Navbar = memo(function Navbar() {
             ))}
           </nav>
 
-          <div className="flex gap-3 items-center">
+          <div ref={rightGroupRef} className="flex flex-nowrap gap-3 items-center whitespace-nowrap shrink-0">
             <div
               className="navbar-status inline-flex items-center gap-2 text-[11px] text-text-muted py-1.5 px-2.5 border border-border-2 tracking-[0.02em]"
               aria-hidden="true"
@@ -134,6 +200,7 @@ export const Navbar = memo(function Navbar() {
             <button
               ref={hamburgerRef}
               className={`navbar-hamburger keyboard-focus-ring${menuOpen ? " open" : ""}`}
+              style={{ display: compact ? "flex" : "none" }}
               onClick={() => setMenuOpen((v) => !v)}
               aria-label={menuOpen ? "Close menu" : "Open menu"}
               aria-expanded={menuOpen}

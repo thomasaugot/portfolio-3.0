@@ -1,0 +1,185 @@
+---
+title: "Optimizing GSAP Animations in Next.js 15: Best Practices for Initialization and Cleanup"
+description: "When building immersive websites with GSAP, performance and stability are just as important as visual wow effects. Yet many projects suffer from laggy transi…"
+date: "2025-09-01"
+tags: ["react","gsap","nextjs-15","animation","nextjs"]
+cover: "https://cdn-images-1.medium.com/max/1024/1*JzjDH98G8CmVXnc8wYg3qQ.png"
+medium: "https://medium.com/@thomasaugot/optimizing-gsap-animations-in-next-js-15-best-practices-for-initialization-and-cleanup-2ebaba7d0232"
+---
+
+![](https://cdn-images-1.medium.com/max/1024/1*JzjDH98G8CmVXnc8wYg3qQ.png)
+
+When building immersive websites with GSAP, performance and stability are just as important as visual wow effects. Yet many projects suffer from laggy transitions, memory leaks, or “stuck” scroll triggers — especially when using Next.js 15 with App Router.
+
+After a few iterations of trial and error, I’ve developed a clean strategy to load GSAP only once, keep animations blazing fast, and prevent bugs across route changes. In this article, I’ll show you my solution on how to structure a GSAP setup for maximum performance.
+
+### The Problem
+
+By default, it’s tempting to:
+
+-   import { gsap } from "gsap"; inside every animation file
+-   call gsap.registerPlugin(ScrollTrigger) repeatedly
+-   sprinkle ScrollTrigger.killAll() in cleanups
+-   forget to remove event listeners or intervals
+
+The result?  
+→ Every page transition reloads GSAP. Animations lag, ScrollTriggers leak, and memory consumption grows.
+
+### Step 1. Create a Single GSAP Config File
+
+Instead of importing GSAP everywhere, centralize it once:
+
+```ts
+// lib/gsapConfig.ts
+
+"use client";
+
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+if (typeof window !== "undefined" && !gsap.core.globals()["ScrollTrigger"]) {
+  gsap.registerPlugin(ScrollTrigger);
+}
+export { gsap, ScrollTrigger };
+```
+
+You now have one consistent instance of GSAP + plugins across your whole app.
+
+### Step 2. Use a Dedicated Hook for Page Animations
+
+We created a custom hook to run animations only when the app is ready, with a small delay to avoid DOM race conditions:
+
+```ts
+// hooks/useGSAPAnimations.ts
+
+"use client";
+
+import { useGSAP } from "@gsap/react";
+import { useAppReady } from "@/hooks/useAppReady";
+import { gsap, ScrollTrigger } from "@/lib/gsapConfig";
+
+type AnimationFunction = () => (() => void) | void;
+
+export const useGSAPAnimations = ({
+  animations,
+  delay = 100,
+  dependencies = [],
+}: {
+  animations: AnimationFunction[];
+  delay?: number;
+  dependencies?: any[];
+}) => {
+  const isAppReady = useAppReady();
+
+  useGSAP(() => {
+    if (!isAppReady) return;
+    const cleanupFns: Array<() => void> = [];
+    const timer = setTimeout(() => {
+      animations.forEach((fn) => {
+        const cleanup = fn();
+        if (typeof cleanup === "function") cleanupFns.push(cleanup);
+      });
+      ScrollTrigger.refresh(); // important!
+    }, delay);
+
+    return () => {
+      clearTimeout(timer);
+      cleanupFns.forEach((fn) => fn());
+    };
+  }, [isAppReady, ...dependencies]);
+};
+```
+
+This guarantees:
+
+-   **100ms buffer** so the DOM is mounted
+-   all animations are cleaned up on unmount
+-   no accidental global killAll()
+
+### Step 3. Scope Your Animations
+
+Every animation util should:
+
+-   **import GSAP from the config**, not from "gsap"
+-   **track only the ScrollTriggers it creates**
+-   **return a cleanup function**
+
+Example:
+
+```ts
+// utils/animations/entrance-animations.ts
+
+"use client";
+
+import { gsap, ScrollTrigger } from "@/lib/gsapConfig";
+
+export const initEntranceAnimations = () => {
+  const triggers: ScrollTrigger[] = [];
+
+  document.querySelectorAll(".fade-in-up").forEach((el) => {
+    gsap.set(el, { y: 30, opacity: 0 });
+    const t = ScrollTrigger.create({
+      trigger: el,
+      start: "top 85%",
+      onEnter: () => gsap.to(el, { y: 0, opacity: 1, duration: 0.8, ease: "power2.out" }),
+      once: true,
+    });
+
+    triggers.push(t);
+  });
+
+  return () => {
+    triggers.forEach((t) => t.kill());
+    gsap.killTweensOf(".fade-in-up");
+  };
+};
+```
+
+This avoids wiping out _other_ triggers.
+
+### Step 4. Handle Event Listeners and Intervals
+
+Animations often add scroll/resize listeners, hover handlers, or auto-advance intervals.  
+Always clean them up:
+
+```ts
+const intervalId = setInterval(nextSlide, 3000);
+const onResize = () => st.refresh();
+window.addEventListener("resize", onResize);
+
+return () => {
+  clearInterval(intervalId);
+  window.removeEventListener("resize", onResize);
+  st.kill();
+};
+```
+
+### Step 5. Delay Where Necessary, but No More
+
+We discovered that a small setTimeout (100ms) before running animations helps ensure DOM elements are mounted.
+
+But avoid overusing it — always pair delays with **retry limits** and **cleanup of pending timeouts**.
+
+### Step 6. Refresh ScrollTrigger Once
+
+After initializing all animations on a page, call ScrollTrigger.refresh() once.  
+This avoids layout glitches where triggers don’t line up after first render.
+
+### The Payoff
+
+By centralizing GSAP and scoping each animation:
+
+-   Animations run instantly with no lag on route change
+-   Memory leaks are eliminated
+-   ScrollTriggers stay stable
+-   Cleanups are predictable
+
+In short: **fast, safe, and production-ready animations in Next.js 15**.
+
+With this setup, your GSAP animations won’t just look smooth — they’ll also scale smoothly with your Next.js app.
+
+If you have any better solution or think mine can be improved, please reach out and let’s chat!
+
+Thanks for reading :)
+
+If you liked this article, feel free to connect with me!

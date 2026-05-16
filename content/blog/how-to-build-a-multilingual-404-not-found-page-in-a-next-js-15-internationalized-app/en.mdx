@@ -1,0 +1,273 @@
+---
+title: "How to Build a multilingual 404 — not found Page in a Next.js 15 Internationalized App"
+description: "If you’ve tried building an internationalized app with a [locale] dynamic segment in the App Router, you’ve probably discovered something frustrating:"
+date: "2025-08-28"
+tags: ["404-not-found","react","internationalization","nextjs-15","nextjs"]
+cover: "https://cdn-images-1.medium.com/max/1024/1*t7_bYRyFelNmXcFYILAk8w.png"
+medium: "https://medium.com/@thomasaugot/how-to-build-a-multilingual-404-not-found-page-in-a-next-js-15-internationalized-app-a53f4be85096"
+---
+
+### How to Build a multilingual 404 — not found Page in a Next.js 15 Internationalized App
+
+![](https://cdn-images-1.medium.com/max/1024/1*t7_bYRyFelNmXcFYILAk8w.png)
+
+If you’ve tried building an **internationalized app** with a \[locale\] dynamic segment in the App Router, you’ve probably discovered something frustrating:
+
+**Next.js doesn’t render your** **app/\[locale\]/not-found.tsx by default when users visit non-existent routes inside a locale.**
+
+Instead, it often falls back to the **root** **app/not-found.tsx**, which means your carefully translated 404 page never shows. After a lot of trial and error, I finally pieced together a working solution , and since I couldn’t find a single complete guide online, I’m writing this to save others the same pain.
+
+### The Problem
+
+→ You have a folder structure like this:
+
+```
+app/
+  [locale]/
+    page.tsx
+    not-found.tsx
+  not-found.tsx
+```
+
+Visiting /es/random or /en/random should render the localized 404 (Página no encontrada vs Page not found).
+
+But Next.js routes don’t know how to fall into \[locale\]/not-found.tsx automatically when a path is invalid.
+
+### The Complete Solution
+
+The trick is to combine **three parts**:
+
+1.  **Locale validation in the layout** — reject unsupported locales.
+2.  **Catch-all route** inside \[locale\] that forces notFound().
+3.  **Smart route translation utilities** that generate locale-aware links (/es/contacto, /en/contact).
+
+Let’s go step by step.
+
+### 1) Locale Validation in the Layout
+
+In app/\[locale\]/layout.tsx, we need to explicitly whitelist supported locales and reject everything else.
+
+```tsx
+// app/[locale]/layout.tsx
+
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import "../globals.css";
+import { TranslationProvider } from "@/hooks/useTranslation";
+import Navbar from "@/components/layout/Navbar";
+import Footer from "@/components/layout/Footer";
+
+const LOCALES = ["es", "en"] as const;
+type Locale = (typeof LOCALES)[number];
+
+export const dynamicParams = false;
+export function generateStaticParams() {
+  return LOCALES.map((locale) => ({ locale }));
+}
+
+export default function LocaleLayout({
+  children,
+  params,
+}: {
+  children: React.ReactNode;
+  params: { locale: string };
+}) {
+  const { locale } = params;
+  if (!LOCALES.includes(locale as Locale)) notFound();
+
+  return (
+    <TranslationProvider locale={locale as Locale}>
+      <Navbar />
+      {children}
+      <Footer />
+    </TranslationProvider>
+  );
+}
+```
+
+This ensures /fr/... or /de/... instantly 404 (in my use-case I work with /en/... and /es/...only).
+
+### 2) Localized 404 Page
+
+Next.js **doesn’t automatically render** app/\[locale\]/not-found.tsx unless you explicitly call notFound().  
+So we add a **catch-all route** that handles all unmatched paths inside a locale.
+
+```ts
+// app/[locale]/[...slug]/page.tsx
+
+import { notFound } from "next/navigation";
+
+export default function LocaleCatchAll() {
+  notFound();
+}
+```
+
+Now, if a user visits /es/does-not-exist, this page is hit and calls notFound(), which triggers your **localized 404 page**.
+
+```tsx
+// app/[locale]/not-found.tsx
+
+"use client";
+
+import Link from "next/link";
+import { useTranslation } from "@/hooks/useTranslation";
+import { getLocalizedRoute } from "@/utils/navigation";
+
+export default function NotFound() {
+  const { t, language } = useTranslation();
+
+  return (
+    <section className="min-h-[60vh] grid place-items-center px-6 py-20 text-center">
+      <div className="space-y-6">
+        <p className="uppercase opacity-60">{t("not-found.kicker")}</p>
+        <h1 className="text-4xl md:text-6xl font-bold">{t("not-found.title")}</h1>
+        <p className="opacity-80">{t("not-found.description")}</p>
+        <div className="flex gap-4 justify-center pt-4">
+          <Link
+            href={getLocalizedRoute("/", language)}
+            className="border px-4 py-2 rounded"
+          >
+            {t("not-found.go-home")}
+          </Link>
+          <Link
+            href={getLocalizedRoute("contact", language)}
+            className="border px-4 py-2 rounded"
+          >
+            {t("not-found.contact")}
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
+}
+```
+
+### 3) Route Translation Utilities
+
+We want /en/contact vs /es/contacto. That requires a mapping system:
+
+```ts
+// utils/routeTranslations.ts
+export const routeTranslations = {
+  es: {
+    "about-us": "sobre-nosotros",
+    services: "servicios",
+    contact: "contacto",
+  },
+  en: {
+    "about-us": "about-us",
+    services: "services",
+    contact: "contact",
+  },
+};
+
+export const routeMapping = {
+  "sobre-nosotros": "about-us",
+  servicios: "services",
+  contacto: "contact",
+  "about-us": "sobre-nosotros",
+  services: "servicios",
+  contact: "contacto",
+};
+
+export const locales = ["es", "en"] as const;
+export const defaultLocale = "es" as const;
+export type Language = (typeof locales)[number];
+```
+
+And the helpers:
+
+```ts
+// utils/navigation.ts
+
+import { routeTranslations, routeMapping, type Language } from "./routeTranslations";
+
+function normalize(path: string) {
+  return path.replace(/^\/+/, "").replace(/\/+$/, "");
+}
+
+export function getLocalizedRoute(route: string, language: Language): string {
+  if (!route || route === "/") return `/${language}`;
+  const clean = normalize(route);
+  const dict = routeTranslations[language] ?? {};
+  const translated = (dict as Record<string, string>)[clean] ?? clean;
+  return `/${language}/${translated}`.replace(/\/+/g, "/");
+}
+
+export function getRouteForLanguageSwitch(
+  currentRoute: string,
+  target: Language,
+): string {
+  const clean = normalize(currentRoute);
+  const parts = clean.split("/");
+  const pathParts = parts[0] === "es" || parts[0] === "en" ? parts.slice(1) : parts;
+  const mapped = pathParts.map((p) => routeMapping[p] ?? p).join("/");
+  return `/${target}/${mapped}`.replace(/\/+/g, "/");
+}
+```
+
+### 4) Translation Provider
+
+Finally, we wrap everything in a provider that exposes both t() and language:
+
+```tsx
+"use client";
+
+import { createContext, useContext, useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import { defaultLocale, type Language } from "@/utils/routeTranslations";
+
+const TranslationContext = createContext<any>(null);
+
+export function TranslationProvider({
+  children,
+  locale,
+}: {
+  children: React.ReactNode;
+  locale: Language;
+}) {
+  const pathname = usePathname();
+  const [language, setLanguage] = useState<Language>(locale || defaultLocale);
+  const [translations, setTranslations] = useState<any>({});
+
+  useEffect(() => {
+    import(`@/locales/${language}.json`).then((mod) => setTranslations(mod.default));
+  }, [language]);
+
+  const t = (key: string) => {
+    const keys = key.split(".");
+    return keys.reduce((obj, k) => (obj && obj[k] ? obj[k] : key), translations);
+  };
+
+  return (
+    <TranslationContext.Provider value={{ t, language }}>
+      {children}
+    </TranslationContext.Provider>
+  );
+}
+
+export function useTranslation() {
+  return useContext(TranslationContext);
+}
+```
+
+### Example in Action
+
+-   /es/foobar → renders Spanish 404 with buttons → /es and /es/contacto
+-   /en/foobar → renders English 404 with buttons → /en and /en/contact
+-   /fr/foobar → rejected by layout → localized 404
+
+### Key Takeaways
+
+1.  **Next.js won’t render localized 404s automatically** — you must use a \[...slug\] catch-all that calls notFound().
+2.  Always **validate locales** in the layout, or users can access unsupported routes.
+3.  A simple **route translation system** (routeTranslations + routeMapping) makes all your links language-aware.
+4.  Expose language via a provider so every component knows which locale it’s in.
+
+This pattern gives you a **clean, future-proof 404 system** for internationalized apps in Next.js 15. I struggled to find any documentation on this, so hopefully this guide saves you hours of debugging.
+
+Next time you spin up a multilingual project, you’ll have a ready-made recipe for a professional 404 page that respects your locales!
+
+Thanks for reading :)
+
+If you liked this article, feel free to connect with me!

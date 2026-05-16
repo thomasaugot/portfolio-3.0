@@ -1,0 +1,312 @@
+---
+title: "How to Keep Rich Animations Snappy in Next.js 15"
+description: "It’s been a few years now that I’ve been working with Next.js, and I have to say: out of all the animation libraries in the ecosystem, GSAP is by far my favo…"
+date: "2026-01-26"
+tags: ["nextjs","javascript","web-development","gsap"]
+cover: "https://cdn-images-1.medium.com/max/1024/1*Hb-fUaNfRVfkUXPx-5RAZw.png"
+medium: "https://medium.com/@thomasaugot/how-to-keep-rich-animations-snappy-in-next-js-15-46d90f503b15"
+---
+
+![](https://cdn-images-1.medium.com/max/1024/1*Hb-fUaNfRVfkUXPx-5RAZw.png)
+
+It’s been a few years now that I’ve been working with Next.js, and I have to say: out of all the animation libraries in the ecosystem, GSAP is by far my favorite.
+
+Yes, some of its concepts can feel tough to manage at first. Yes, the library is heavy. But when used well, it brings that extra touch everyone expects from a modern website.
+
+Animations make a page feel alive , but they also come with a cost. If you’re not careful, they can slow down the browser before the first meaningful paint even happens.
+
+Next.js 15 gives us powerful tools like streaming, selective hydration, and modern bundling that allow rich motion and fast load times to coexist. But that only works if your animation workflow respects how the browser actually renders a page.
+
+I learned this the hard way.
+
+Like many devs, I got excited. I added GSAP everywhere. Animations on every section, every page, every scroll. It felt amazing… until I noticed that my initial load time was almost always slower, and bugs started popping up, a looot of bugs.
+
+So here’s what I’ve learned over time — through research, experimentation, and real production mistakes.
+
+Let’s start with **how Next.js actually loads a page**, because that’s where most animation problems begin.
+
+### The Browser Gets Something to Draw First
+
+When a visitor hits your page, Next.js doesn’t wait for all JavaScript to load before doing anything. Instead, it streams HTML to the browser as soon as it’s ready.
+
+That means the browser can start drawing the layout: the hero, the header, the menu without waiting for animations, event handlers, or heavy client-side logic. This is a huge win for perceived performance.
+
+Once that HTML is visible, JavaScript “hydrates” the interactive parts on top of it. The key idea here is simple: **HTML paints first. Then the fun stuff wakes up.**
+
+This is why it’s so important to mark **only the components that truly need client-side behavior** with "use client". If you force the entire page to be client-rendered, you throw away all these benefits and make the browser wait for JavaScript before showing anything.
+
+### Build as Much as Possible Ahead of Time (SSG / DSG)
+
+If a page’s content doesn’t change per visitor, Next.js can build it ahead of time.
+
+-   With **Static Site Generation (SSG)**, the HTML is created during the build and served straight from a CDN. No server work on each request. Just fast HTML delivered instantly.
+-   **Deferred Static Generation (DSG)** works similarly, but lets the page be built once and cached while still supporting occasional updates.
+
+The big idea is this: The less work Next.js has to do at request time, the faster the browser receives something to render.
+
+When the browser isn’t blocked by slow data fetching or server rendering, animations can start sooner and feel smoother because the page is already there.
+
+### **Bring in the Big Code Only When Needed (Lazy Loading)**
+
+Not everything needs to be part of the first JavaScript bundle.
+
+Below-the-fold sections, heavy widgets, sliders, or carousels don’t need to load immediately. Next.js lets you split these into separate chunks using dynamic() imports.
+
+For example, a testimonials section doesn’t need to load before the hero animation finishes because users won’t see it yet.
+
+```tsx
+"use client";
+
+import dynamic from "next/dynamic";
+import HeroSection from "@/components/pages/homepage/Herosection";
+
+const TestimonialsSection = dynamic(
+  () => import("@/components/pages/homepage/TestimonialsSection"),
+  {
+    ssr: false, // don’t render server-side, so this chunk only downloads in the browser
+    loading: () => <div className="placeholder">Loading testimonials…</div>,
+  },
+);
+
+const Homepage = () => (
+  <>
+    <HeroSection />
+    {/* This component downloads only when the client hits this render path */}
+    <TestimonialsSection />
+  </>
+);
+
+export default Homepage;
+```
+
+This keeps the initial download lighter and gives the browser breathing room during those critical first frames.
+
+> **_Quick note:_** _disabling SSR like this is powerful, but should be used intentionally. That content won’t exist until JavaScript loads, which is fine for non-critical sections._
+
+### Use CSS to Keep Layout Stable, GSAP for the Motion
+
+The browser _hates_ when elements jump around mid-render. That’s why layout stability matters so much. Before any animation runs, you should “claim” layout space with CSS:
+
+-   fixed heights
+-   padding
+-   grid gaps
+-   aspect ratios
+
+Once the layout is stable, animations should stick to properties like transform and opacity. These run on the compositor layer and don’t force layout recalculation.
+
+GSAP is fantastic for timing, staggering, and easing , but CSS should do the heavy lifting of keeping the page steady.
+
+Personally, I try to use **CSS animations whenever possible**, and reach for GSAP only when I need sequencing, scroll logic, or fine-grained control. Fewer JS animations usually means fewer cleanup bugs and fewer initialization issues.
+
+### **Schedule Animation Work in Phases**
+
+One mistake I made early on was triggering _everything_ at once. A better approach is to **phase your animations**:
+
+-   **Critical animations**  
+    Hero title entrance, overlays, primary transitions — these run immediately once the page is ready.
+-   **Next repaint animations**  
+    Arrows, secondary UI elements, counters — scheduled inside requestAnimationFrame.
+-   **Decorative or below-the-fold animations**  
+    Delayed slightly with setTimeout. They can wait.
+
+This pacing avoids long frames and keeps the page responsive, even when many animations are involved.
+
+### A Reusable GSAP Scheduling Hook
+
+⚠️ **Important note:**  
+This hook is _not_ something you’re expected to write early on. Think of it as a pattern you grow into once animations start piling up and you need structure.
+
+This is a custom hook I like to reuse across my Next.js projects. It lets me:
+
+-   group animations by priority
+-   avoid running everything at once
+-   ensure proper cleanup when components unmount
+
+```ts
+"use client";
+
+import { gsap, useGSAP } from "@/lib/gsap";
+
+export type AnimationInit = () => void | (() => void);
+
+export interface AnimationSchedule {
+  critical?: AnimationInit[];
+  raf?: AnimationInit[];
+  timeout?: AnimationInit[] | { actions: AnimationInit[]; delay?: number }[];
+}
+
+interface UseGSAPAnimationsOptions {
+  delay?: number;
+  dependencies?: any[];
+}
+
+export function useGSAPAnimations(
+  init: (() => AnimationSchedule | void | (() => void)) | AnimationSchedule,
+  options: UseGSAPAnimationsOptions = {},
+) {
+  const { delay = 0, dependencies = [] } = options;
+
+  useGSAP(() => {
+    const ctx = gsap.context(() => {
+      const runAnimation = () => {
+        try {
+          const result = typeof init === "function" ? init() : init;
+
+          if (isSchedule(result)) {
+            return runSchedule(result);
+          }
+
+          if (typeof result === "function") {
+            return result;
+          }
+        } catch (error) {
+          console.error("Error initializing animation:", error);
+        }
+      };
+
+      if (delay > 0) {
+        const timer = window.setTimeout(() => {
+          runAnimation();
+        }, delay);
+
+        return () => clearTimeout(timer);
+      }
+
+      return runAnimation();
+    });
+
+    return () => {
+      ctx.revert();
+    };
+  }, [delay, ...dependencies]);
+}
+
+const isSchedule = (value: unknown): value is AnimationSchedule => {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    ("critical" in (value as object) ||
+      "raf" in (value as object) ||
+      "timeout" in (value as object))
+  );
+};
+
+const runSchedule = (schedule: AnimationSchedule) => {
+  const rafHandles: number[] = [];
+  const timeoutHandles: number[] = [];
+  const cleanupFns: (() => void)[] = [];
+
+  const runActions = (actions: AnimationInit[] | undefined) => {
+    if (!actions) return;
+    actions.forEach((action) => {
+      const cleanup = action();
+      if (typeof cleanup === "function") {
+        cleanupFns.push(cleanup);
+      }
+    });
+  };
+
+  runActions(schedule.critical);
+
+  if (schedule.raf) {
+    schedule.raf.forEach((action) => {
+      const id = requestAnimationFrame(() => runActions([action]));
+      rafHandles.push(id);
+    });
+  }
+
+  const timeoutEntries = Array.isArray(schedule.timeout)
+    ? schedule.timeout.map((entry) =>
+        typeof entry === "function" ? { actions: [entry], delay: 0 } : entry,
+      )
+    : [];
+
+  timeoutEntries.forEach((entry) => {
+    const handle = window.setTimeout(() => runActions(entry.actions), entry.delay ?? 0);
+    timeoutHandles.push(handle);
+  });
+
+  return () => {
+    rafHandles.forEach((id) => cancelAnimationFrame(id));
+    timeoutHandles.forEach((id) => clearTimeout(id));
+    cleanupFns.forEach((fn) => fn());
+  };
+};
+```
+
+**Centralize the GSAP import**  
+GSAP often ends up imported in many places. Instead of pulling it directly everywhere, I like to create a **single wrapper file**.
+
+Think of it like one electrical panel instead of rewiring every room separately.
+
+```ts
+/**
+ * GSAP Initialization
+ * Central location for GSAP plugin registration.
+ */
+
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
+import { MotionPathPlugin } from 'gsap/MotionPathPlugin';
+import { useGSAP } from '@gsap/react';
+--> and all other plugins from gsap you can need
+
+// Register all GSAP plugins once
+let pluginsRegistered = false;
+
+export function initGSAP() {
+  // Only register on client side
+  if (typeof window === 'undefined') return;
+  if (pluginsRegistered) return;
+
+  gsap.registerPlugin(useGSAP, ScrollTrigger, ScrollToPlugin, MotionPathPlugin);
+  pluginsRegistered = true;
+}
+
+// Auto-initialize on import (for convenience) - only on client side
+if (typeof window !== 'undefined') {
+  initGSAP();
+}
+
+// Export for manual initialization if needed
+export { gsap, ScrollTrigger, ScrollToPlugin, MotionPathPlugin, useGSAP };
+```
+
+Then later in your files that need any of these imports, do:
+
+```ts
+import { gsap, useGSAP } from '@/lib/gsap';
+
+...
+```
+
+This keeps configuration consistent and avoids scattered setup logic across the codebase.
+
+### **Why All of This Matters**
+
+The goal is to let Next.js 15 do what it does best:
+
+-   stream HTML early
+-   cache what can be cached
+-   hydrate only what truly needs JavaScript
+
+By combining:
+
+-   SSG / DSG
+-   lazy loading
+-   layout-stable CSS
+-   GSAP for motion control
+-   phased animation scheduling
+
+…you allow the browser to show something meaningful fast, and then layer smooth animations on top without hurting performance.
+
+That’s the practical path to making big animations feel crisp, not heavy, and to building pages that feel alive without slowing everything down.
+
+_Could this be pushed further? Do you know about other techniques? Please reach out :)_
+
+[https://www.helloimtom.dev/](https://www.helloimtom.dev/fr)
+
+**GitHub:** [https://github.com/thomasaugot](https://github.com/thomasaugot)
+
+**LinkedIn:** [https://www.linkedin.com/in/thomas-augot/](https://www.linkedin.com/in/thomas-augot/)

@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next"
 import { SITE_URL, LOCALES } from "@/lib/seo"
+import { getAllSlugs as getAllBlogSlugs, getPost as getBlogPost } from "@/lib/blog"
 
 // Keep in sync with app/[locale]/work/[slug]/page.tsx SLUGS
 const WORK_SLUGS = [
@@ -55,6 +56,35 @@ export default function sitemap(): MetadataRoute.Sitemap {
         changeFrequency: "monthly",
         priority: 0.7,
         alternates: { languages: alternates(`/work/${slug}`) },
+      })
+    }
+  }
+
+  // Blog index
+  for (const locale of LOCALES) {
+    entries.push({
+      url: `${SITE_URL}/${locale}/blog`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.8,
+      alternates: { languages: alternates("/blog") },
+    })
+  }
+
+  // Blog posts — only emit per-locale entries where a translation actually exists.
+  // Posts with `medium` canonical pointing off-site are skipped (don't want Google indexing them as duplicates).
+  for (const slug of getAllBlogSlugs()) {
+    for (const locale of LOCALES) {
+      const post = getBlogPost(slug, locale)
+      if (!post) continue
+      if (post.locale !== locale) continue              // skip locale fallbacks (don't duplicate)
+      if (post.medium) continue                          // canonical points to Medium — don't index our copy
+      entries.push({
+        url: `${SITE_URL}/${locale}/blog/${slug}`,
+        lastModified: new Date(post.date),
+        changeFrequency: "monthly",
+        priority: 0.6,
+        alternates: { languages: alternates(`/blog/${slug}`) },
       })
     }
   }

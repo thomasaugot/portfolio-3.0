@@ -31,6 +31,21 @@ export const HOME_SEO: Record<Locale, { title: string; description: string; ogTi
   },
 }
 
+export const BLOG_SEO: Record<Locale, { title: string; description: string }> = {
+  en: {
+    title: "Blog — Notes on shipping software",
+    description: "Long-form notes on Next.js, React, full-stack architecture, and lessons from shipping real production code.",
+  },
+  fr: {
+    title: "Blog — Notes sur la livraison de logiciels",
+    description: "Articles longs sur Next.js, React, architecture full-stack, et leçons tirées de la mise en production de vrai code.",
+  },
+  es: {
+    title: "Blog — Notas sobre desarrollo de software",
+    description: "Artículos largos sobre Next.js, React, arquitectura full-stack y lecciones de poner código real en producción.",
+  },
+}
+
 export const WORK_SEO: Record<Locale, { title: string; description: string }> = {
   en: {
     title: "Work — Selected projects",
