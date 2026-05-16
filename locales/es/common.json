@@ -12,8 +12,8 @@
     "available": "Disponible"
   },
   "theme": {
-    "to_light": "dale luz →",
-    "to_dark":  "apaga la luz →"
+    "to_light": "dale luz",
+    "to_dark":  "apaga la luz"
   },
   "footer": {
     "tagline": "Dev full-stack en alquiler.",
@@ -24,6 +24,39 @@
     "elsewhere_links": ["LinkedIn", "GitHub", "X / Twitter", "Instagram"],
     "direct_links": ["thomas.augot@gmail.com", "Reservar llamada"],
     "copy": "© 2026 Thomas Augot · Codeado y desplegado a mano desde Las Palmas."
+  },
+  "not_found": {
+    "eyebrow": "[ ERR / 404 ]",
+    "title_a": "Esta página",
+    "title_b": "no existe",
+    "title_c": "— al menos no aquí.",
+    "sub": "La URL es incorrecta, la página se movió, o nunca llegó a producción. Nada que renderizar. Prueba una de las rutas de abajo — o vuelve al inicio.",
+    "terminal_user": "thomas@las-palmas",
+    "terminal_path": "~/site",
+    "log_1_cmd": "curl -I $REQUEST_URL",
+    "log_1_out": "HTTP/2 404 Not Found",
+    "log_2_cmd": "git log --grep=\"$PATH\" --oneline",
+    "log_2_out": "(sin resultados)",
+    "log_3_cmd": "echo \"¿Qué pasó?\"",
+    "log_3_out": "Página no encontrada. Puede ser un typo, un enlace caducado, o una ruta que nunca salió de staging.",
+    "log_4_cmd": "ls suggested/",
+    "trace_heading": "Stack trace",
+    "trace_1": "Error: Route not registered",
+    "trace_2": "  at Router.match (next/dist/server/router.ts)",
+    "trace_3": "  at handleRequest (next/dist/server/next-server.ts)",
+    "trace_4": "  at <unknown>",
+    "back_home": "Volver al inicio",
+    "view_work": "Ver proyectos",
+    "report": "Reportar este enlace",
+    "report_subject": "Enlace roto en thomasaugot.dev",
+    "suggested_heading": "Rutas sugeridas",
+    "suggested": [
+      { "label": "Inicio", "href": "/", "desc": "La página de inicio — servicios, proyectos, contacto." },
+      { "label": "Proyectos", "href": "/work", "desc": "Proyectos entregados, casos de estudio, código." },
+      { "label": "Contacto", "href": "/#contact", "desc": "Contratame, pregunta algo, saluda." }
+    ],
+    "meta_title": "404 — Página no encontrada",
+    "meta_desc": "Esta página no existe en thomasaugot.dev. Vuelve al inicio o explora los proyectos."
   },
   "newsletter": {
     "title": "Notas",

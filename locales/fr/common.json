@@ -12,8 +12,8 @@
     "available": "Disponible"
   },
   "theme": {
-    "to_light": "allume la lumière →",
-    "to_dark":  "éteins la lumière →"
+    "to_light": "allume la lumière",
+    "to_dark":  "éteins la lumière"
   },
   "footer": {
     "tagline": "Dév fullstack à louer.",
@@ -24,6 +24,39 @@
     "elsewhere_links": ["LinkedIn", "GitHub", "X / Twitter", "Instagram"],
     "direct_links": ["thomas.augot@gmail.com", "Réserver un appel"],
     "copy": "© 2026 Thomas Augot · Codé et déployé à la main depuis Las Palmas."
+  },
+  "not_found": {
+    "eyebrow": "[ ERR / 404 ]",
+    "title_a": "Cette page",
+    "title_b": "n'existe pas",
+    "title_c": "— en tout cas, pas ici.",
+    "sub": "L'URL est fausse, la page a bougé, ou elle n'a jamais été livrée. Rien à afficher. Essayez une des routes ci-dessous — ou retournez à l'accueil.",
+    "terminal_user": "thomas@las-palmas",
+    "terminal_path": "~/site",
+    "log_1_cmd": "curl -I $REQUEST_URL",
+    "log_1_out": "HTTP/2 404 Not Found",
+    "log_2_cmd": "git log --grep=\"$PATH\" --oneline",
+    "log_2_out": "(aucun résultat)",
+    "log_3_cmd": "echo \"Que s'est-il passé ?\"",
+    "log_3_out": "Page introuvable. Faute de frappe, lien périmé, ou route qui n'a jamais quitté la staging.",
+    "log_4_cmd": "ls suggested/",
+    "trace_heading": "Trace d'erreur",
+    "trace_1": "Error: Route not registered",
+    "trace_2": "  at Router.match (next/dist/server/router.ts)",
+    "trace_3": "  at handleRequest (next/dist/server/next-server.ts)",
+    "trace_4": "  at <unknown>",
+    "back_home": "Retour à l'accueil",
+    "view_work": "Voir les projets",
+    "report": "Signaler ce lien",
+    "report_subject": "Lien cassé sur thomasaugot.dev",
+    "suggested_heading": "Routes suggérées",
+    "suggested": [
+      { "label": "Accueil", "href": "/", "desc": "La page d'accueil — services, projets, contact." },
+      { "label": "Projets", "href": "/work", "desc": "Projets livrés, études de cas, code." },
+      { "label": "Contact", "href": "/#contact", "desc": "Recrutez-moi, posez une question, dites bonjour." }
+    ],
+    "meta_title": "404 — Page introuvable",
+    "meta_desc": "Cette page n'existe pas sur thomasaugot.dev. Retournez à l'accueil ou explorez les projets."
   },
   "newsletter": {
     "title": "Carnets",

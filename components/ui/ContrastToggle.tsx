@@ -1,10 +1,18 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useContrast } from "@/contexts/ContrastContext";
 
 export function ContrastToggle() {
   const { mode, toggle } = useContrast();
   const isHigh = mode === "high";
+  const [hide, setHide] = useState(false);
+
+  useEffect(() => {
+    setHide(document.documentElement.getAttribute("data-theme") === "light");
+  }, []);
+
+  if (hide) return null;
 
   return (
     <div className="fixed bottom-8 left-8 z-30 flex items-center gap-3 group">

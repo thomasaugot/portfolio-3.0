@@ -66,6 +66,48 @@ export async function GET() {
       orderBys: [{ metric: { metricName: "sessions" }, desc: true }],
     })
 
+    const [countriesResponse] = await analyticsDataClient.runReport({
+      property: `properties/${propertyId}`,
+      dateRanges: [RANGE],
+      dimensions: [{ name: "country" }],
+      metrics: [{ name: "activeUsers" }],
+      orderBys: [{ metric: { metricName: "activeUsers" }, desc: true }],
+      limit: 100,
+    })
+
+    const [citiesResponse] = await analyticsDataClient.runReport({
+      property: `properties/${propertyId}`,
+      dateRanges: [RANGE],
+      dimensions: [{ name: "city" }, { name: "country" }],
+      metrics: [{ name: "activeUsers" }],
+      orderBys: [{ metric: { metricName: "activeUsers" }, desc: true }],
+      limit: 10,
+    })
+
+    const [osResponse] = await analyticsDataClient.runReport({
+      property: `properties/${propertyId}`,
+      dateRanges: [RANGE],
+      dimensions: [{ name: "operatingSystem" }],
+      metrics: [{ name: "activeUsers" }],
+      orderBys: [{ metric: { metricName: "activeUsers" }, desc: true }],
+    })
+
+    const [deviceResponse] = await analyticsDataClient.runReport({
+      property: `properties/${propertyId}`,
+      dateRanges: [RANGE],
+      dimensions: [{ name: "deviceCategory" }],
+      metrics: [{ name: "activeUsers" }],
+      orderBys: [{ metric: { metricName: "activeUsers" }, desc: true }],
+    })
+
+    const [browserResponse] = await analyticsDataClient.runReport({
+      property: `properties/${propertyId}`,
+      dateRanges: [RANGE],
+      dimensions: [{ name: "browser" }],
+      metrics: [{ name: "activeUsers" }],
+      orderBys: [{ metric: { metricName: "activeUsers" }, desc: true }],
+    })
+
     const row = summary.rows?.[0]?.metricValues
 
     const dailyData = (daily.rows ?? []).map(r => ({
@@ -91,6 +133,57 @@ export async function GET() {
       }
     })
 
+    const countries = (countriesResponse.rows ?? [])
+      .map(r => ({
+        name:  r.dimensionValues?.[0]?.value ?? "Unknown",
+        users: parseInt(r.metricValues?.[0]?.value ?? "0"),
+      }))
+      .filter(c => c.name !== "(not set)" && c.name !== "Unknown")
+
+    const cities = (citiesResponse.rows ?? [])
+      .map(r => ({
+        city:    r.dimensionValues?.[0]?.value ?? "Unknown",
+        country: r.dimensionValues?.[1]?.value ?? "",
+        users:   parseInt(r.metricValues?.[0]?.value ?? "0"),
+      }))
+      .filter(c => c.city !== "(not set)" && c.city !== "Unknown")
+
+    const totalOsUsers = (osResponse.rows ?? []).reduce(
+      (sum: number, r) => sum + parseInt(r.metricValues?.[0]?.value ?? "0"), 0
+    )
+    const os = (osResponse.rows ?? []).map(r => {
+      const users = parseInt(r.metricValues?.[0]?.value ?? "0")
+      return {
+        name: r.dimensionValues?.[0]?.value ?? "Unknown",
+        users,
+        pct: totalOsUsers > 0 ? Math.round((users / totalOsUsers) * 100) : 0,
+      }
+    })
+
+    const totalDeviceUsers = (deviceResponse.rows ?? []).reduce(
+      (sum: number, r) => sum + parseInt(r.metricValues?.[0]?.value ?? "0"), 0
+    )
+    const devices = (deviceResponse.rows ?? []).map(r => {
+      const users = parseInt(r.metricValues?.[0]?.value ?? "0")
+      return {
+        name: r.dimensionValues?.[0]?.value ?? "Unknown",
+        users,
+        pct: totalDeviceUsers > 0 ? Math.round((users / totalDeviceUsers) * 100) : 0,
+      }
+    })
+
+    const totalBrowserUsers = (browserResponse.rows ?? []).reduce(
+      (sum: number, r) => sum + parseInt(r.metricValues?.[0]?.value ?? "0"), 0
+    )
+    const browsers = (browserResponse.rows ?? []).map(r => {
+      const users = parseInt(r.metricValues?.[0]?.value ?? "0")
+      return {
+        name: r.dimensionValues?.[0]?.value ?? "Unknown",
+        users,
+        pct: totalBrowserUsers > 0 ? Math.round((users / totalBrowserUsers) * 100) : 0,
+      }
+    })
+
     return NextResponse.json({
       users:              row?.[0]?.value ?? "—",
       pageviews:          row?.[1]?.value ?? "—",
@@ -101,6 +194,11 @@ export async function GET() {
       daily:              dailyData,
       topPages,
       sources,
+      countries,
+      cities,
+      os,
+      devices,
+      browsers,
     })
   } catch (error) {
     console.error("Analytics API error:", error)

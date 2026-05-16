@@ -4,6 +4,9 @@ import { RequestAccessButton } from "@/components/admin/RequestAccessButton"
 import TopPages from "@/components/admin/TopPages"
 import TrafficSources from "@/components/admin/TrafficSources"
 import AnalyticsChartWrapper from "@/components/admin/AnalyticsChartWrapper"
+import WorldMap from "@/components/admin/WorldMap"
+import TopCities from "@/components/admin/TopCities"
+import Breakdown from "@/components/admin/Breakdown"
 import type { Metadata } from "next"
 
 type AnalyticsData = {
@@ -13,9 +16,14 @@ type AnalyticsData = {
   sessions:           string
   avgSessionDuration: string
   newUsers:           string
-  daily:    { date: string; users: number; pageviews: number }[]
-  topPages: { path: string; views: number }[]
-  sources:  { channel: string; sessions: number; pct: number }[]
+  daily:     { date: string; users: number; pageviews: number }[]
+  topPages:  { path: string; views: number }[]
+  sources:   { channel: string; sessions: number; pct: number }[]
+  countries: { name: string; users: number }[]
+  cities:    { city: string; country: string; users: number }[]
+  os:        { name: string; users: number; pct: number }[]
+  devices:   { name: string; users: number; pct: number }[]
+  browsers:  { name: string; users: number; pct: number }[]
 }
 
 async function getAnalytics(session: string): Promise<AnalyticsData | null> {
@@ -117,6 +125,18 @@ export default async function AdminPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <TopPages pages={analytics.topPages} />
                 <TrafficSources sources={analytics.sources} />
+              </div>
+
+              <WorldMap countries={analytics.countries ?? []} />
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <TopCities cities={analytics.cities ?? []} />
+                <Breakdown title="Devices" rows={analytics.devices ?? []} />
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <Breakdown title="Operating systems" rows={analytics.os ?? []} />
+                <Breakdown title="Browsers" rows={analytics.browsers ?? []} />
               </div>
 
             </div>

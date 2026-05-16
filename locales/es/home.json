@@ -42,10 +42,10 @@
       "t": "Apps web, de principio a fin",
       "d": "Aplicaciones Next.js y React a medida: auth, dashboards, pagos, tiempo real — entregadas rápido y limpias en producción.",
       "tags": [
-        "Next.js 15",
-        "React 18",
+        "Next.js 16",
+        "React 19",
         "TypeScript",
-        "Tailwind/SCSS",
+        "Tailwind CSS",
         "Zustand/Redux"
       ]
     },

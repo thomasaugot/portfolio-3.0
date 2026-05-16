@@ -2,8 +2,9 @@ import type { Metadata } from "next"
 import { JetBrains_Mono, Space_Grotesk, Instrument_Serif } from "next/font/google"
 import "@/globals.css"
 
-// Inline script: pick saved theme, else system pref, else light. Run before paint to avoid FOUC.
-const themeInitScript = `(function(){try{var t=localStorage.getItem('theme');if(!t){t=(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light'}document.documentElement.setAttribute('data-theme',t)}catch(e){document.documentElement.setAttribute('data-theme','light')}})();`
+// Inline script: pick saved theme, else light (ignore OS preference).
+// Run before paint to avoid FOUC.
+const themeInitScript = `(function(){try{var t=localStorage.getItem('theme')||'light';document.documentElement.setAttribute('data-theme',t)}catch(e){document.documentElement.setAttribute('data-theme','light')}})();`
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],

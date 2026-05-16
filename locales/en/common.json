@@ -12,8 +12,8 @@
     "available": "Open for projects"
   },
   "theme": {
-    "to_light": "hit the lights →",
-    "to_dark":  "kill the lights →"
+    "to_light": "hit the lights",
+    "to_dark":  "kill the lights"
   },
   "footer": {
     "tagline": "Full-stack dev for hire.",
@@ -24,6 +24,39 @@
     "elsewhere_links": ["LinkedIn", "GitHub", "X / Twitter", "Instagram"],
     "direct_links": ["thomas.augot@gmail.com", "Book a call"],
     "copy": "© 2026 Thomas Augot · Built and deployed by hand from Las Palmas."
+  },
+  "not_found": {
+    "eyebrow": "[ ERR / 404 ]",
+    "title_a": "This page",
+    "title_b": "doesn't exist",
+    "title_c": "— at least not here.",
+    "sub": "The URL is wrong, the page moved, or it never shipped. Either way, nothing to render. Try one of the routes below — or head back home.",
+    "terminal_user": "thomas@las-palmas",
+    "terminal_path": "~/site",
+    "log_1_cmd": "curl -I $REQUEST_URL",
+    "log_1_out": "HTTP/2 404 Not Found",
+    "log_2_cmd": "git log --grep=\"$PATH\" --oneline",
+    "log_2_out": "(no matches)",
+    "log_3_cmd": "echo \"What happened?\"",
+    "log_3_out": "Page not found. Could be a typo, a stale link, or a route that never made it past staging.",
+    "log_4_cmd": "ls suggested/",
+    "trace_heading": "Stack trace",
+    "trace_1": "Error: Route not registered",
+    "trace_2": "  at Router.match (next/dist/server/router.ts)",
+    "trace_3": "  at handleRequest (next/dist/server/next-server.ts)",
+    "trace_4": "  at <unknown>",
+    "back_home": "Back home",
+    "view_work": "View work",
+    "report": "Report this link",
+    "report_subject": "Broken link on thomasaugot.dev",
+    "suggested_heading": "Suggested routes",
+    "suggested": [
+      { "label": "Home", "href": "/", "desc": "The landing page — services, work, contact." },
+      { "label": "Work", "href": "/work", "desc": "Shipped projects, case studies, code." },
+      { "label": "Contact", "href": "/#contact", "desc": "Hire me, ask a question, say hi." }
+    ],
+    "meta_title": "404 — Page not found",
+    "meta_desc": "This page doesn't exist on thomasaugot.dev. Head back home or browse the work."
   },
   "newsletter": {
     "title": "Notes",

@@ -474,6 +474,15 @@ html[data-theme="light"] .theme-toggle:hover {
   background: var(--color-primary-glow);
   border-color: #1a1a17;
 }
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.theme-toggle__icon {
+  display: inline-flex;
+  transform: rotate(90deg);
+}
 
 /* ── Hero backdrop ── */
 body.anim-low .hero-backdrop-canvas { opacity: 0.5; }

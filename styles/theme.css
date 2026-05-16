@@ -417,6 +417,30 @@ html[data-theme="light"] .text-eyebrow::before {
   box-shadow: 0 0 0 1.5px #1a1a17, 3px 3px 0 #1a1a17 !important;
 }
 
+/* Focus rings in light mode: lime outline + black ring + offset shadow */
+html[data-theme="light"] .keyboard-focus-ring:focus-visible,
+html[data-theme="light"] a:focus-visible,
+html[data-theme="light"] button:focus-visible,
+html[data-theme="light"] [role="button"]:focus-visible,
+html[data-theme="light"] [tabindex]:focus-visible {
+  outline: 2px solid var(--color-primary-glow);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px #1a1a17, 4px 4px 0 #1a1a17;
+}
+html[data-theme="light"] .focus-ring-inset:focus-visible {
+  outline: 2px solid var(--color-primary-glow);
+  outline-offset: -2px;
+  box-shadow: inset 0 0 0 4px #1a1a17, 4px 4px 0 #1a1a17;
+}
+
+/* Skip-to-content link: black border + offset shadow */
+html[data-theme="light"] .skip-link {
+  background: var(--color-primary-glow);
+  color: var(--color-text);
+  border: 2px solid #1a1a17;
+  box-shadow: 4px 4px 0 #1a1a17;
+}
+
 /* Brand logo dot (navbar) — outline + offset shadow */
 html[data-theme="light"] .brand-dot {
   box-shadow: 0 0 0 1.5px #1a1a17, 3px 3px 0 #1a1a17;
@@ -516,6 +540,12 @@ html[data-theme="light"] .terminal .text-text-muted,
 html[data-theme="light"] .terminal .text-text-subtle {
   color: #a3a097 !important;
 }
+/* Primary text inside the dark terminal body must be light too (the
+   default `text-text` Tailwind utility would otherwise resolve to the
+   light-theme dark color, becoming unreadable on the black terminal bg). */
+html[data-theme="light"] .terminal .text-text {
+  color: #f4f1e8 !important;
+}
 /* But the cream header/footer strips inside terminal need dark text */
 html[data-theme="light"] .terminal .bg-surface-2 .text-text-muted,
 html[data-theme="light"] .terminal .bg-surface-2 .text-text-subtle,
@@ -527,6 +557,12 @@ html[data-theme="light"] .terminal .bg-surface-2 .text-primary {
   color: var(--color-text) !important;
   -webkit-text-stroke: 0 !important;
   text-shadow: none !important;
+}
+/* "node" chip in terminal header uses bg-bg (cream on cream — unreadable). Invert it. */
+html[data-theme="light"] .terminal .bg-bg {
+  background: var(--color-text) !important;
+  color: var(--color-bg) !important;
+  border-color: var(--color-text) !important;
 }
 /* Inside terminal: lime text reads on black, kill outline + shadow */
 html[data-theme="light"] .terminal .text-primary {

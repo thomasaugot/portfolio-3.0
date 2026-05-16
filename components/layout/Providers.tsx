@@ -12,7 +12,6 @@ import { LiveRegion } from "@/components/ui/LiveRegion"
 import { BackToTop } from "@/components/ui/BackToTop"
 import { ContrastToggle } from "@/components/ui/ContrastToggle"
 import { ThemeToggle } from "@/components/ui/ThemeToggle"
-import { THEME } from "@/config/app.config"
 import { CustomCursor } from "@/components/ui/CustomCursor"
 import { InputModalityTracker } from "@/components/layout/InputModalityTracker"
 import { ContrastProvider } from "@/contexts/ContrastContext"
@@ -48,7 +47,7 @@ export function Providers({ children, locale, messages }: ProvidersProps) {
                 <Toaster />
                 <LiveRegion />
                 <BackToTop />
-                {THEME === "dark" && <ContrastToggle />}
+                <ContrastToggle />
                 <ThemeToggle />
               <CustomCursor />
               </ContrastProvider>
