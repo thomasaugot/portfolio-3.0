@@ -47,6 +47,29 @@
 .navbar.compact .navbar-status { display: none; }
 .navbar.compact .lang-toggle { display: none; }
 .navbar.compact .shell { padding-right: 8px; }
+.navbar.compact .navbar-desktop-nav {
+  visibility: hidden;
+  position: absolute;
+  pointer-events: none;
+}
+.navbar.compact .navbar-hamburger { display: flex; }
+
+/* Pre-hydration fallback: before JS measures, assume small viewports need
+   the compact layout. Prevents a desktop-nav flicker on mobile reloads.
+   Once JS has measured, [data-measured] flips and .compact is authoritative. */
+.navbar:not([data-measured]) .navbar-hamburger { display: none; }
+.navbar:not([data-measured]) .navbar-desktop-nav { visibility: visible; position: static; pointer-events: auto; }
+@media (max-width: 900px) {
+  .navbar:not([data-measured]) .navbar-status,
+  .navbar:not([data-measured]) .lang-toggle { display: none; }
+  .navbar:not([data-measured]) .navbar-desktop-nav {
+    visibility: hidden;
+    position: absolute;
+    pointer-events: none;
+  }
+  .navbar:not([data-measured]) .navbar-hamburger { display: flex; }
+  .navbar:not([data-measured]) .shell { padding-right: 8px; }
+}
 
 /* ── Mobile menu ── */
 .mobile-menu {
@@ -374,13 +397,16 @@
   background: #0a0a09;
   border: 1px solid var(--color-border);
   overflow: hidden;
-  aspect-ratio: 4/3;
+  /* Below 900px, hug the actual browser-frame height so we don't get the
+     "TV with thick dark bezels" look from a 16:9 frame inside a 4:3 box. */
+  aspect-ratio: 5/3;
   cursor: pointer;
   transition: transform 0.5s var(--ease-snappy);
 }
 .case-visual:hover { transform: translateY(-4px); }
 .case-visual[data-kind="mobile"] { aspect-ratio: 3/4; }
 @media (min-width: 900px) {
+  .case-visual { aspect-ratio: 4/3; }
   .case-visual[data-kind="mobile"] { aspect-ratio: 4/3; }
 }
 .case-visual::after {

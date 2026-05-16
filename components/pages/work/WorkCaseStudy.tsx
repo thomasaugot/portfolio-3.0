@@ -78,24 +78,14 @@ export function WorkCaseStudy({ slug }: { slug: string }) {
             <MobileMockup
               mobile={currentMobile}
               mobile2={project.cover2 ? (currentMobile2 ?? project.cover2) : undefined}
-              sizes="200px"
-              mobile2Sizes="148px"
-              primaryClassName="w-[200px] shrink-0"
-              secondaryClassName="w-[148px] -translate-y-10 shrink-0"
               priority
-              containerClassName="relative z-20 flex items-center justify-center gap-6"
             />
           ) : (
             <WebMockup
               desktop={currentDesktop}
               mobile={project.mobileCover ? currentMobile : undefined}
               domain={project.domain}
-              sizes="55vw"
-              mobileSizes="120px"
-              mobileOverlayClassName="absolute -bottom-4 -right-4 w-[20%] z-20"
               priority
-              containerClassName="relative z-20 w-full"
-              innerClassName="w-full"
             />
           )}
 
@@ -131,19 +121,34 @@ export function WorkCaseStudy({ slug }: { slug: string }) {
             </div>
           </div>
 
-          {/* Meta */}
-          <div className="grid grid-cols-2 gap-x-8 gap-y-5 border-t border-border pt-6">
+          {/* Meta — type / year / role */}
+          <div className="grid grid-cols-3 gap-x-6 gap-y-5 border-t border-border pt-6">
             {([
               [t("work_ui.meta_type"), item.type],
               [t("work_ui.meta_year"), item.year],
               [t("work_ui.meta_role"), item.role],
-              [t("work_ui.meta_stack"), item.stack],
             ] as [string, string][]).map(([k, v]) => (
               <div key={k}>
                 <span className="font-mono text-[9px] text-text-subtle tracking-[0.12em] uppercase block mb-1">{k}</span>
                 <span className="text-[16px] text-text leading-[1.4]">{v}</span>
               </div>
             ))}
+          </div>
+
+          {/* Stack — chip grid */}
+          <div className="border-t border-border pt-6">
+            <span className="font-mono text-[9px] text-text-subtle tracking-[0.12em] uppercase block mb-3">{t("work_ui.meta_stack")}</span>
+            <div className="flex flex-wrap gap-2">
+              {item.stack.split(/\s*·\s*|\s*,\s*/).filter(Boolean).map((tech) => (
+                <div
+                  key={tech}
+                  className="font-mono text-[11px] text-text tracking-[0.04em] py-2 px-3 bg-surface"
+                  style={{ border: "1px solid var(--color-text)", lineHeight: 1.2 }}
+                >
+                  {tech}
+                </div>
+              ))}
+            </div>
           </div>
 
           {/* Description */}
@@ -159,22 +164,12 @@ export function WorkCaseStudy({ slug }: { slug: string }) {
               <MobileMockup
                 mobile={currentMobile}
                 mobile2={project.cover2 ? (currentMobile2 ?? project.cover2) : undefined}
-                sizes="140px"
-                mobile2Sizes="110px"
-                primaryClassName="w-[140px] shrink-0"
-                secondaryClassName="w-[110px] -translate-y-6 shrink-0"
-                containerClassName="relative z-10 flex items-center justify-center gap-4 py-8 px-6"
               />
             ) : (
               <WebMockup
                 desktop={currentDesktop}
                 mobile={project.mobileCover ? currentMobile : undefined}
                 domain={project.domain}
-                sizes="100vw"
-                mobileSizes="80px"
-                mobileOverlayClassName="absolute bottom-4 right-6 w-[18%] z-20"
-                containerClassName="relative z-10 px-6 py-8"
-                innerClassName="w-full"
               />
             )}
 

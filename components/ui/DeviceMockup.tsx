@@ -25,12 +25,12 @@ export function PhoneFrame({
   priority = false,
 }: PhoneFrameProps) {
   return (
-    <div className={`${SHELL} ${className}`}>
-      <div className={NOTCH} />
+    <div className={`@container ${SHELL} ${className}`} style={{ borderRadius: "clamp(6px, 5cqw, 14px)" }}>
+      <div className={NOTCH} style={{ height: "clamp(8px, 6cqw, 18px)" }} />
       <div className="relative bg-black aspect-9/18 overflow-hidden">
         <Image src={src} alt={alt} width={390} height={844} className="absolute top-0 left-0 w-full h-auto" sizes={sizes} priority={priority} />
       </div>
-      <div className={HOME_BAR} />
+      <div className={HOME_BAR} style={{ height: "clamp(6px, 4.5cqw, 14px)" }} />
     </div>
   )
 }
@@ -59,12 +59,16 @@ export function BrowserFrame({
   phoneOverlay,
 }: BrowserFrameProps) {
   return (
-    <div className="relative w-full">
+    <div className="@container relative w-full">
       <div className="drop-shadow-[0_20px_60px_rgba(0,0,0,0.8)]">
-        <div className="h-7 bg-[#161616] [border:1.5px_solid_#2d2d2d] border-b-0 rounded-t-[7px] flex items-center gap-1.5 px-3 shrink-0" aria-hidden="true">
-          <span className="w-2 h-2 rounded-full bg-[#ff5f57] shrink-0" />
-          <span className="w-2 h-2 rounded-full bg-[#febc2e] shrink-0" />
-          <span className="w-2 h-2 rounded-full bg-[#28c840] shrink-0" />
+        <div
+          className="bg-[#161616] [border:1.5px_solid_#2d2d2d] border-b-0 rounded-t-[7px] flex items-center shrink-0"
+          style={{ height: "clamp(14px, 4cqw, 28px)", gap: "clamp(3px, 0.9cqw, 6px)", paddingLeft: "clamp(6px, 1.7cqw, 12px)", paddingRight: "clamp(6px, 1.7cqw, 12px)" }}
+          aria-hidden="true"
+        >
+          <span className="rounded-full bg-[#ff5f57] shrink-0" style={{ width: "clamp(4px, 1.1cqw, 8px)", height: "clamp(4px, 1.1cqw, 8px)" }} />
+          <span className="rounded-full bg-[#febc2e] shrink-0" style={{ width: "clamp(4px, 1.1cqw, 8px)", height: "clamp(4px, 1.1cqw, 8px)" }} />
+          <span className="rounded-full bg-[#28c840] shrink-0" style={{ width: "clamp(4px, 1.1cqw, 8px)", height: "clamp(4px, 1.1cqw, 8px)" }} />
           {domain && (
             <div className="flex-1 mx-2 h-4 bg-[#0d0d0d] rounded-[3px] flex items-center px-2 overflow-hidden">
               <span className="font-mono text-[9px] text-[#444] truncate">{domain}</span>
@@ -74,8 +78,8 @@ export function BrowserFrame({
         <div className="relative overflow-hidden aspect-video [border-left:1.5px_solid_#2d2d2d] [border-right:1.5px_solid_#2d2d2d] bg-black">
           <Image key={src} src={src} alt={alt} width={1920} height={1080} className="absolute top-0 left-0 w-full h-auto" sizes={sizes} priority={priority} />
         </div>
-        <div className="h-2.5 bg-[linear-gradient(180deg,#1c1c1c,#131313)] [border:1.5px_solid_#2d2d2d] [border-top:1px_solid_#0d0d0d] rounded-b-[4px]" />
-        <div className="w-[28%] h-[5px] bg-[#161616] mx-auto [border:1.5px_solid_#2d2d2d] border-t-0 rounded-b-[5px]" />
+        <div className="bg-[linear-gradient(180deg,#1c1c1c,#131313)] [border:1.5px_solid_#2d2d2d] [border-top:1px_solid_#0d0d0d] rounded-b-[4px]" style={{ height: "clamp(3px, 1.4cqw, 10px)" }} />
+        <div className="hidden @[400px]:block w-[28%] bg-[#161616] mx-auto [border:1.5px_solid_#2d2d2d] border-t-0 rounded-b-[5px]" style={{ height: "clamp(3px, 0.7cqw, 5px)" }} />
       </div>
       {phoneOverlay && (
         <PhoneFrame

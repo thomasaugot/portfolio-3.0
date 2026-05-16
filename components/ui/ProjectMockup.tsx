@@ -24,7 +24,7 @@ export function WebMockup({
   domain,
   sizes = "(max-width: 900px) 80vw, 40vw",
   mobileSizes = "100px",
-  mobileOverlayClassName = "absolute right-4 bottom-6 w-[20%] z-[2]",
+  mobileOverlayClassName = "absolute right-2 -bottom-2 w-[24%] sm:right-4 sm:bottom-6 sm:w-[20%] z-[2]",
   priority = false,
   containerClassName,
   innerClassName = "relative w-[78%] shrink-0 z-[1]",

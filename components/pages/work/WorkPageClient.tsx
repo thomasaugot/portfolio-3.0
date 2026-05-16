@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react"
 import { useTranslations, useLocale } from "next-intl"
 import { usePageReady } from "@/hooks/usePageReady"
 import { PROJECTS } from "@/data/projects"
-import { BrowserFrame, PhoneFrame } from "@/components/ui/DeviceMockup"
+import { WebMockup, MobileMockup } from "@/components/ui/ProjectMockup"
 import { ParticleHeading } from "@/components/ui/ParticleHeading"
 import { trackProjectClick } from "@/utils/gtm-events"
 import { TransitionLink } from "@/components/ui/TransitionLink"
@@ -60,19 +60,13 @@ export function WorkPageClient() {
               className={`absolute inset-0 flex items-center justify-center px-10 pt-8 pb-28 transition-opacity duration-500 ${active.slug === p.slug ? "opacity-100" : "opacity-0"}`}
             >
               {p.kind === "mobile" ? (
-                <PhoneFrame src={p.cover} alt={p.client} sizes="150px" className="w-[150px]" priority={p.slug === PROJECTS[0].slug} />
+                <MobileMockup mobile={p.cover} priority={p.slug === PROJECTS[0].slug} />
               ) : (
-                <BrowserFrame
-                  src={p.cover}
-                  alt={p.client}
-                  sizes="40vw"
+                <WebMockup
+                  desktop={p.cover}
+                  mobile={p.mobileCover}
                   domain={p.domain}
                   priority={p.slug === PROJECTS[0].slug}
-                  phoneOverlay={p.mobileCover ? {
-                    src: p.mobileCover,
-                    sizes: "100px",
-                    className: "absolute -bottom-4 -right-4 w-[22%] z-20",
-                  } : undefined}
                 />
               )}
             </div>

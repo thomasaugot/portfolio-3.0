@@ -171,23 +171,8 @@ export function CustomCursor() {
       ctx.lineWidth   = isHovering ? 1.5 : 1
       ctx.stroke()
 
-      // ── Click ripple ──────────────────────────────────────
-      if (clickLife > 0) {
-        clickLife = Math.max(0, clickLife - 0.055)
-        const prog = 1 - clickLife
-        const pr   = (isHovering ? 20 : 12) + prog * 30
-        ctx.beginPath()
-        ctx.arc(mx, my, pr, 0, Math.PI * 2)
-        ctx.strokeStyle = `rgba(${LIME},${clickLife * 0.9})`
-        ctx.lineWidth   = 1.5
-        ctx.stroke()
-        if (prog < 0.25) {
-          ctx.beginPath()
-          ctx.arc(mx, my, pr * 0.5, 0, Math.PI * 2)
-          ctx.fillStyle = `rgba(${LIME},${(1 - prog / 0.25) * 0.35})`
-          ctx.fill()
-        }
-      }
+      // Click ripple removed — no burst/explosion on click
+      void clickLife
 
       // ── Exact cursor dot ──────────────────────────────────
       const dotR = isHovering ? 2 : 2.5

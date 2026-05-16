@@ -9,7 +9,7 @@ import { useTranslationContext } from "@/contexts/TranslationContext"
 import type { Language } from "@/config/i18n.config"
 
 const NAV_ITEMS = ["services", "work", "process", "stack", "about", "blog", "contact"] as const
-const MOBILE_NAV_ITEMS = ["home", "services", "work", "process", "stack", "about", "blog", "contact"] as const
+const MOBILE_GRID_ITEMS = ["services", "work", "process", "stack", "about", "blog"] as const
 const NAV_HREF: Record<string, string> = { work: "/work", blog: "/blog", home: "" }
 const LOCALES: Language[] = ["en", "fr", "es"]
 
@@ -22,6 +22,7 @@ export const Navbar = memo(function Navbar() {
   const [menuOpen,  setMenuOpen]  = useState(false)
   const [mounted,   setMounted]   = useState(false)
   const [compact,   setCompact]   = useState(false)
+  const [measured,  setMeasured]  = useState(false)
   const hamburgerRef = useRef<HTMLButtonElement>(null)
   const menuRef      = useRef<HTMLDivElement>(null)
   const headerRowRef = useRef<HTMLDivElement>(null)
@@ -73,6 +74,7 @@ export const Navbar = memo(function Navbar() {
           return required > available
         }
       })
+      setMeasured(true)
     }
 
     measure()
@@ -146,7 +148,10 @@ export const Navbar = memo(function Navbar() {
 
   return (
     <>
-      <header className={`navbar${scrolled ? " scrolled" : ""}${compact ? " compact" : ""}`}>
+      <header
+        className={`navbar${scrolled ? " scrolled" : ""}${compact ? " compact" : ""}`}
+        {...(measured ? { "data-measured": "" } : {})}
+      >
         <div ref={headerRowRef} className="shell h-[60px] flex flex-nowrap items-center justify-between gap-4 whitespace-nowrap">
           <TransitionLink
             href={`/${language}`}
@@ -161,12 +166,7 @@ export const Navbar = memo(function Navbar() {
           <nav
             ref={desktopNavRef}
             aria-label="Main navigation"
-            className="flex flex-nowrap gap-1 whitespace-nowrap shrink-0"
-            style={{
-              visibility: compact ? "hidden" : "visible",
-              position: compact ? "absolute" : "static",
-              pointerEvents: compact ? "none" : "auto",
-            }}
+            className="navbar-desktop-nav flex flex-nowrap gap-1 whitespace-nowrap shrink-0"
             aria-hidden={compact}
           >
             {NAV_ITEMS.map((key) => (
@@ -200,7 +200,6 @@ export const Navbar = memo(function Navbar() {
             <button
               ref={hamburgerRef}
               className={`navbar-hamburger keyboard-focus-ring${menuOpen ? " open" : ""}`}
-              style={{ display: compact ? "flex" : "none" }}
               onClick={() => setMenuOpen((v) => !v)}
               aria-label={menuOpen ? "Close menu" : "Open menu"}
               aria-expanded={menuOpen}
@@ -239,7 +238,7 @@ export const Navbar = memo(function Navbar() {
 
             {/* 2-column grid for the rest */}
             <div className="grid grid-cols-2 gap-3">
-              {NAV_ITEMS.map((key, i) => (
+              {MOBILE_GRID_ITEMS.map((key, i) => (
                 <TransitionLink
                   key={key}
                   href={navHref(key)}
