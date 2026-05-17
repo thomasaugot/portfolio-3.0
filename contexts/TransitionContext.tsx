@@ -38,7 +38,7 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
 
     window.setTimeout(() => {
       setIsTransitioning(false)
-    }, 1200)
+    }, 1900)
   }, [isTransitioning, router])
 
   return (

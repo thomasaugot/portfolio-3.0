@@ -20,10 +20,15 @@ export function PageShell({ children }: { children: React.ReactNode }) {
     return () => registerRef(null)
   }, [registerRef])
 
+  // Synchronously set the entering state BEFORE paint to prevent a flash of
+  // the unstyled (scale 1, blur 0, opacity 1) page on route change.
   useIsomorphicLayoutEffect(() => {
     if (!ref.current || isFirstRender.current) return
-    ref.current.style.opacity = "0"
-    ref.current.style.transform = "translateY(10px)"
+    const el = ref.current
+    el.style.opacity = "0"
+    el.style.transform = "scale(1.04) translateZ(0)"
+    el.style.filter = "blur(12px)"
+    el.style.transformOrigin = "center center"
   }, [pathname])
 
   useEffect(() => {
@@ -31,14 +36,28 @@ export function PageShell({ children }: { children: React.ReactNode }) {
     let cancelled = false
     const el = ref.current
 
-    void enterPage(el).then(() => {
-      if (cancelled) return
-      isFirstRender.current = false
-      resetTransition()
-      ScrollTrigger.refresh()
+    // Double rAF: ensures the layout-effect styles have actually painted before
+    // GSAP starts the tween — kills the rare double-paint flash.
+    const start = () => {
+      void enterPage(el).then(() => {
+        if (cancelled) return
+        isFirstRender.current = false
+        resetTransition()
+        ScrollTrigger.refresh()
+      })
+    }
+    const raf1 = requestAnimationFrame(() => {
+      const raf2 = requestAnimationFrame(start)
+      // store on closure for cleanup below
+      ;(start as unknown as { _raf2?: number })._raf2 = raf2
     })
 
-    return () => { cancelled = true }
+    return () => {
+      cancelled = true
+      cancelAnimationFrame(raf1)
+      const raf2 = (start as unknown as { _raf2?: number })._raf2
+      if (raf2) cancelAnimationFrame(raf2)
+    }
   }, [pathname, resetTransition])
 
   return (
@@ -46,7 +65,11 @@ export function PageShell({ children }: { children: React.ReactNode }) {
       ref={ref}
       id="main-content"
       tabIndex={-1}
-      className="flex-1 will-change-[opacity,transform]"
+      className="flex-1"
+      style={{
+        willChange: "opacity, transform, filter",
+        backfaceVisibility: "hidden",
+      }}
     >
       {children}
     </main>
