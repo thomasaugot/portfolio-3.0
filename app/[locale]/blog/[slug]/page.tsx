@@ -79,7 +79,7 @@ export default async function BlogPostPage({ params }: Props) {
 
         <header className="mb-12">
           <div className="flex flex-wrap items-center gap-4 font-mono text-[11px] text-text-subtle tracking-[0.1em] uppercase mb-5">
-            <time dateTime={post.date}>{new Date(post.date).toISOString().slice(0, 10)}</time>
+            <time dateTime={post.date}>{(() => { const d = new Date(post.date); return isNaN(d.getTime()) ? post.date : d.toISOString().slice(0, 10) })()}</time>
             <span>·</span>
             <span>{t.readMin(post.readingMin)}</span>
             {post.tags && post.tags.length > 0 && (

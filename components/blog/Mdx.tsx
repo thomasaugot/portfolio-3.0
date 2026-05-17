@@ -27,10 +27,95 @@ const prettyCodeOptions = {
   keepBackground: false,
 }
 
+// Escape any line that looks like a raw HTML/JSX tag OUTSIDE fenced code blocks.
+// Posts imported from Medium often contain stray `<Link>`, `<script>`, `<urlset>`
+// etc. that aren't inside code fences — MDX tries to parse them as JSX
+// components, can't resolve them, and throws. Wrapping them in backticks
+// neutralises the parse without changing how code blocks render.
+// Bulletproof MDX content from Medium imports:
+//  - Wrap stray <Tag>/</Tag> lines in backticks so MDX doesn't try to JSX-parse
+//    components that don't exist (<Link>, <script>, <urlset>, …)
+//  - Replace smart quotes / dashes / ellipsis with their plain equivalents on
+//    non-code lines so they can't appear inside JSX attribute syntax and crash
+//    the MDX parser (U+201C/D, U+2018/19, U+2013/14, U+2026)
+//  - Preserves the contents of fenced code blocks untouched
+// Wrap any `<tag …>` substring with backticks unless it's already inside
+// inline-code backticks. Tracks backtick state char-by-char so we don't
+// double-wrap things like `<link>` that the user already escaped.
+function neutralizeRawTags(line: string): string {
+  let out = ""
+  let i = 0
+  let inCode = false
+  while (i < line.length) {
+    const ch = line[i]
+    if (ch === "`") {
+      inCode = !inCode
+      out += ch
+      i++
+      continue
+    }
+    if (!inCode && ch === "<") {
+      // Match <tag …> or </tag>
+      const rest = line.slice(i)
+      const m = rest.match(/^<\/?[A-Za-z][^<>\n]*?>/)
+      if (m) {
+        out += "`" + m[0] + "`"
+        i += m[0].length
+        continue
+      }
+    }
+    out += ch
+    i++
+  }
+  return out
+}
+
+function sanitizeMdxSource(src: string): string {
+  const lines = src.split("\n")
+  let inFence = false
+  let fenceMarker: string | null = null
+
+  const SMART_REPLACEMENTS: [RegExp, string][] = [
+    [/[“”„‟]/g, '"'],
+    [/[‘’‚‛]/g, "'"],
+    [/[–—]/g, "-"],
+    [/…/g, "..."],
+  ]
+
+  return lines
+    .map((line) => {
+      const trimmed = line.trimStart()
+
+      if (!inFence) {
+        const m = trimmed.match(/^(`{3,}|~{3,})/)
+        if (m) { inFence = true; fenceMarker = m[1][0].repeat(m[1].length); return line }
+      } else if (fenceMarker && trimmed.startsWith(fenceMarker)) {
+        inFence = false; fenceMarker = null; return line
+      }
+      if (inFence) return line
+
+      let out = line
+      for (const [re, rep] of SMART_REPLACEMENTS) out = out.replace(re, rep)
+
+      // Unescape backticks that Medium escapes as \` — MDX otherwise treats
+      // them as literal backslash + backtick, so inline-code wrappers like
+      // `\`<link>\`` leak `<link>` into JSX parsing and crash.
+      out = out.replace(/\\`/g, "`")
+
+      // After unescaping, neutralize any remaining bare `<tag>` constructs
+      // that aren't inside inline code. Walk the line and wrap raw tags in
+      // backticks unless they're already inside a backtick pair.
+      out = neutralizeRawTags(out)
+
+      return out
+    })
+    .join("\n")
+}
+
 export function Mdx({ source }: { source: string }) {
   return (
     <MDXRemote
-      source={source}
+      source={sanitizeMdxSource(source)}
       components={components}
       options={{
         mdxOptions: {
