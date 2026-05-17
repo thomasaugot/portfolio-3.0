@@ -2,7 +2,7 @@
 
 import { BrowserFrame, PhoneFrame } from "@/components/ui/DeviceMockup"
 
-const SCENE = "relative w-full h-full flex justify-center pt-10 px-8 pb-8 overflow-hidden"
+const SCENE = "relative w-full h-full flex justify-center pt-10 px-8 pb-8"
 
 // ─── WebMockup ────────────────────────────────────────────────────────────────
 

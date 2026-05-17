@@ -26,11 +26,11 @@
     "stack_meta": "[ 03 / STACK ]",
     "stack_title": "The tools I lean on, daily.",
     "work_meta": "[ 04 / WORK ]",
-    "work_title": "Built and shipped.",
+    "work_title": "Real stuff, in production.",
     "testimonials_meta": "[ 05 / WORD-OF-MOUTH ]",
     "testimonials_title": "What the people I've shipped with say.",
     "about_meta": "[ 06 / ABOUT ]",
-    "about_title": "Coder by trade. Beach bum on weekends.",
+    "about_title": "Coder by trade. Restless soul chasing horizons.",
     "faq_meta": "[ 07 / FAQ ]",
     "faq_title": "Things people ask before we start.",
     "contact_meta": "[ 08 / CONTACT ]",
@@ -98,11 +98,10 @@
     {
       "n": "S/06",
       "t": "Motion & 3D interactions",
-      "d": "GSAP, Three.js and Framer Motion when the brief calls for delight, not just function. Used responsibly.",
+      "d": "GSAP and Three.js when the brief calls for delight, not just function. Used responsibly.",
       "tags": [
         "GSAP",
-        "Three.js",
-        "Framer Motion"
+        "Three.js"
       ]
     }
   ],
@@ -151,7 +150,6 @@
           "Redux",
           "Zustand",
           "GSAP",
-          "Framer Motion",
           "Three.js"
         ]
       },
@@ -162,6 +160,7 @@
           "Express",
           "PostgreSQL",
           "Supabase",
+          "Firebase",
           "AWS",
           "Docker",
           "CI/CD",
@@ -298,7 +297,7 @@
       "type": "Full-stack platform · Mobile",
       "year": "2024",
       "role": "Full-stack",
-      "stack": "Next.js · TypeScript · Tailwind CSS · Redux Toolkit · Framer Motion · WebView · iOS/Android",
+      "stack": "Next.js · TypeScript · Tailwind CSS · Redux Toolkit · WebView · iOS/Android",
       "body": "Unified platform consolidating Victron, SolarEdge, GoodWe and 4 more providers' data into a single client dashboard — production, consumption, battery status, and savings in one place. Paired with an admin CRM for plant and user management. Delivered as native iOS and Android apps via WebView.",
       "link": "Case study →",
       "slug": "energia-solar-canarias",
@@ -349,7 +348,7 @@
       "type": "Marketing site · SEO",
       "year": "2023",
       "role": "Full-stack",
-      "stack": "Next.js · TypeScript · Tailwind CSS · EmailJS · Framer Motion",
+      "stack": "Next.js · TypeScript · Tailwind CSS · EmailJS",
       "body": "SEO-optimized business website for a French carpentry company that had zero online presence. Technical SEO with proper schemas, contact forms via EmailJS, and a clean responsive design built to rank locally and generate leads.",
       "link": "cmdurand.com →",
       "slug": "charpente-menuiserie-durand",
@@ -375,7 +374,7 @@
     "lede2": " based in the Canary Islands — ",
     "lede_italic": "where summer never ends.",
     "lede3": "",
-    "body": "Originally from Nantes, France. I started in hospitality (kitchens in Australia, cabin crew at Ryanair, sales at GoDaddy) before code grabbed me and didn't let go. Career-changer, self-taught into bootcamp into shipping production every week. I work remotely with teams across Europe.",
+    "body": "Originally from Nantes, France — based in Spain for the past 6 years. A few lives before code — kitchens, aviation, sales, all over the world — until I fell into it for good. Self-taught first, then bootcamp, now shipping real things every week. I work remotely, whatever the time zone.",
     "facts": [
       {
         "k": "From",
@@ -399,7 +398,7 @@
       },
       {
         "k": "Off-hours",
-        "v": "Beach, backpacking, slow coffee"
+        "v": "Always on the move, allergic to routine, chasing the next horizon"
       }
     ],
     "trip": [
@@ -464,7 +463,7 @@
     },
     {
       "q": "Where are you, and which timezones do you cover?",
-      "a": "Las Palmas, Spain (UTC+0 / WET). I overlap with most of Europe and the East Coast US comfortably."
+      "a": "Las Palmas, Spain (UTC+0 / WET). Time zones don't stop me — Europe, the Americas, Asia, we make it work."
     },
     {
       "q": "Do you write code, or oversee?",

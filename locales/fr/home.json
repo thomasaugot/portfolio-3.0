@@ -7,7 +7,7 @@
     "h1c": "prêtes pour la prod",
     "h1d": "—vite",
     "h1e": "et bien.",
-    "sub": "Salut, moi c'est Thomas. Je livre des produits web & mobile de A à Z — de l'idée à la prod. Quatre ans dans React, Next.js et Node, à coder face à l'océan, aux Îles Canaries.",
+    "sub": "Salut, moi c'est Thomas. Je livre des produits web & mobile de A à Z — de l'idée à la prod. Quatre ans de React, Next.js et Node, à coder face à l'océan, aux Îles Canaries.",
     "cta1": "Lancer un projet",
     "cta2": "Voir les projets",
     "meta1_k": "Basé",
@@ -26,15 +26,15 @@
     "stack_meta": "[ 03 / STACK ]",
     "stack_title": "Mes outils, au quotidien.",
     "work_meta": "[ 04 / PROJETS ]",
-    "work_title": "Construit et livré.",
+    "work_title": "Du concret, en prod.",
     "testimonials_meta": "[ 05 / RETOURS ]",
     "testimonials_title": "Ce que disent celles et ceux avec qui j'ai bossé.",
     "about_meta": "[ 06 / À PROPOS ]",
-    "about_title": "Codeur la semaine. Plage le week-end.",
+    "about_title": "Codeur de métier. Âme nomade en quête d'horizons.",
     "faq_meta": "[ 07 / FAQ ]",
     "faq_title": "Les questions qu'on me pose avant de commencer.",
     "contact_meta": "[ 08 / CONTACT ]",
-    "contact_title": "On construit le truc."
+    "contact_title": "Parlons de votre projet."
   },
   "services": [
     {
@@ -98,11 +98,10 @@
     {
       "n": "S/06",
       "t": "Motion & 3D",
-      "d": "GSAP, Three.js et Framer Motion quand il faut du wow. Avec parcimonie.",
+      "d": "GSAP et Three.js quand il faut du wow. Avec parcimonie.",
       "tags": [
         "GSAP",
-        "Three.js",
-        "Framer Motion"
+        "Three.js"
       ]
     }
   ],
@@ -151,7 +150,6 @@
           "Redux",
           "Zustand",
           "GSAP",
-          "Framer Motion",
           "Three.js"
         ]
       },
@@ -162,6 +160,7 @@
           "Express",
           "PostgreSQL",
           "Supabase",
+          "Firebase",
           "AWS",
           "Docker",
           "CI/CD",
@@ -298,7 +297,7 @@
       "type": "Plateforme full-stack · Mobile",
       "year": "2024",
       "role": "Full-stack",
-      "stack": "Next.js · TypeScript · Tailwind CSS · Redux Toolkit · Framer Motion · WebView · iOS/Android",
+      "stack": "Next.js · TypeScript · Tailwind CSS · Redux Toolkit · WebView · iOS/Android",
       "body": "Plateforme unifiée consolidant les données de Victron, SolarEdge, GoodWe et 4 autres fournisseurs dans un seul dashboard client — production, consommation, état des batteries et économies en un seul endroit. Couplée à un CRM admin pour la gestion des centrales et des utilisateurs. Livrée en apps iOS et Android natives via WebView.",
       "link": "Étude de cas →",
       "slug": "energia-solar-canarias",
@@ -349,7 +348,7 @@
       "type": "Site marketing · SEO",
       "year": "2023",
       "role": "Full-stack",
-      "stack": "Next.js · TypeScript · Tailwind CSS · EmailJS · Framer Motion",
+      "stack": "Next.js · TypeScript · Tailwind CSS · EmailJS",
       "body": "Site SEO-optimisé pour une entreprise française de charpenterie sans aucune présence en ligne au départ. SEO technique avec schémas adaptés, formulaires de contact via EmailJS, et un design responsive épuré conçu pour ranker localement et générer des leads.",
       "link": "cmdurand.com →",
       "slug": "charpente-menuiserie-durand",
@@ -375,7 +374,7 @@
     "lede2": " basé aux Îles Canaries — ",
     "lede_italic": "là où l'été ne finit jamais.",
     "lede3": "",
-    "body": "Originaire de Nantes. Reconverti depuis l'hôtellerie (cuisines en Australie, PNC chez Ryanair, ventes chez GoDaddy) avant que le code ne me happe. Autodidacte → bootcamp → mise en prod chaque semaine. Je bosse en remote avec des équipes partout en Europe.",
+    "body": "Originaire de Nantes, expatrié en Espagne depuis 6 ans. Plusieurs vies avant le code — cuisine, aviation, ventes, un peu partout dans le monde — jusqu'à tomber dedans pour de bon. Autodidacte, puis bootcamp, puis du concret livré chaque semaine. Je bosse en remote, peu importe le fuseau.",
     "facts": [
       {
         "k": "Origine",
@@ -399,7 +398,7 @@
       },
       {
         "k": "Hors-bureau",
-        "v": "Surf, backpacking, café lent"
+        "v": "Toujours en mouvement, allergique à la routine, en quête du prochain horizon"
       }
     ],
     "trip": [
@@ -464,7 +463,7 @@
     },
     {
       "q": "Tu es où, sur quels fuseaux ?",
-      "a": "Las Palmas, Espagne (UTC+0 / WET). Je couvre confortablement l'Europe et la côte est US."
+      "a": "Las Palmas, Espagne (UTC+0 / WET). Les fuseaux ne m'arrêtent pas — Europe, Amériques, Asie, on s'adapte."
     },
     {
       "q": "Tu codes, ou tu chapeautes ?",
@@ -472,7 +471,7 @@
     }
   ],
   "contact": {
-    "heading1": "Dis-moi",
+    "heading1": "Dites-moi",
     "heading_accent": "tout.",
     "heading_italic": "j'écoute.",
     "body": "Dites-moi ce que vous mijotez. Je lis chaque message moi-même. Si je ne suis pas le bon profil je vous le dis sous 24h et je vous oriente.",

@@ -26,11 +26,11 @@
     "stack_meta": "[ 03 / STACK ]",
     "stack_title": "Las herramientas con las que trabajo cada día.",
     "work_meta": "[ 04 / PROYECTOS ]",
-    "work_title": "Construido y entregado.",
+    "work_title": "Cosas reales, en producción.",
     "testimonials_meta": "[ 05 / OPINIONES ]",
     "testimonials_title": "Lo que dicen las personas con las que he trabajado.",
     "about_meta": "[ 06 / SOBRE MÍ ]",
-    "about_title": "Programador entre semana. Playa los fines de semana.",
+    "about_title": "Programador de oficio. Alma viajera en busca de horizontes.",
     "faq_meta": "[ 07 / FAQ ]",
     "faq_title": "Lo que la gente pregunta antes de empezar.",
     "contact_meta": "[ 08 / CONTACTO ]",
@@ -98,11 +98,10 @@
     {
       "n": "S/06",
       "t": "Motion & 3D",
-      "d": "GSAP, Three.js y Framer Motion cuando hace falta wow. Con cabeza.",
+      "d": "GSAP y Three.js cuando hace falta wow. Con cabeza.",
       "tags": [
         "GSAP",
-        "Three.js",
-        "Framer Motion"
+        "Three.js"
       ]
     }
   ],
@@ -151,7 +150,6 @@
           "Redux",
           "Zustand",
           "GSAP",
-          "Framer Motion",
           "Three.js"
         ]
       },
@@ -162,6 +160,7 @@
           "Express",
           "PostgreSQL",
           "Supabase",
+          "Firebase",
           "AWS",
           "Docker",
           "CI/CD",
@@ -298,7 +297,7 @@
       "type": "Plataforma full-stack · Móvil",
       "year": "2024",
       "role": "Full-stack",
-      "stack": "Next.js · TypeScript · Tailwind CSS · Redux Toolkit · Framer Motion · WebView · iOS/Android",
+      "stack": "Next.js · TypeScript · Tailwind CSS · Redux Toolkit · WebView · iOS/Android",
       "body": "Plataforma unificada que consolida datos de Victron, SolarEdge, GoodWe y 4 proveedores más en un único dashboard cliente — producción, consumo, estado de baterías y ahorros en un solo lugar. Combinada con un CRM admin para gestión de plantas y usuarios. Entregada como apps nativas iOS y Android vía WebView.",
       "link": "Caso de estudio →",
       "slug": "energia-solar-canarias",
@@ -349,7 +348,7 @@
       "type": "Sitio de marketing · SEO",
       "year": "2023",
       "role": "Full-stack",
-      "stack": "Next.js · TypeScript · Tailwind CSS · EmailJS · Framer Motion",
+      "stack": "Next.js · TypeScript · Tailwind CSS · EmailJS",
       "body": "Sitio empresarial optimizado para SEO para una empresa francesa de carpintería sin presencia online previa. SEO técnico con esquemas adecuados, formularios de contacto vía EmailJS y un diseño responsivo limpio para posicionar localmente y generar leads.",
       "link": "cmdurand.com →",
       "slug": "charpente-menuiserie-durand",
@@ -375,7 +374,7 @@
     "lede2": " en las Islas Canarias — ",
     "lede_italic": "donde el verano nunca termina.",
     "lede3": "",
-    "body": "Originario de Nantes, Francia. Empecé en hostelería (cocinas en Australia, tripulación en Ryanair, ventas en GoDaddy) antes de que el código me agarrara. Autodidacta → bootcamp → producción semanal. Trabajo en remoto con equipos por toda Europa.",
+    "body": "Originario de Nantes, Francia — afincado en España desde hace 6 años. Varias vidas antes del código — cocina, aviación, ventas, por medio mundo — hasta que me enganché de verdad. Primero autodidacta, después bootcamp, y hoy entregando cosas reales cada semana. Trabajo en remoto, sin importar la zona horaria.",
     "facts": [
       {
         "k": "De",
@@ -399,7 +398,7 @@
       },
       {
         "k": "Fuera de horas",
-        "v": "Surf, mochila al hombro, café lento"
+        "v": "Siempre en movimiento, alérgico a la rutina, buscando el siguiente horizonte"
       }
     ],
     "trip": [
@@ -464,7 +463,7 @@
     },
     {
       "q": "¿Dónde estás, qué zonas horarias cubres?",
-      "a": "Las Palmas, España (UTC+0 / WET). Cubro Europa y la costa este de EE. UU. cómodamente."
+      "a": "Las Palmas, España (UTC+0 / WET). Las zonas horarias no me frenan — Europa, las Américas, Asia, nos adaptamos."
     },
     {
       "q": "¿Codeas o supervisas?",

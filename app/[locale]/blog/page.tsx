@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 const LABELS: Record<Locale, { eyebrow: string; title: string; intro: string; readMin: (n: number) => string; empty: string; moreOnMedium: string }> = {
   en: {
     eyebrow: "[ BLOG ]",
-    title:   "Notes on shipping software.",
+    title:   "Dev notebook.",
     intro:   "Long-form on Next.js, React, full-stack patterns, and what I've learned shipping real code.",
     readMin: (n) => `${n} min read`,
     empty:   "No posts yet — check back soon.",
@@ -29,16 +29,16 @@ const LABELS: Record<Locale, { eyebrow: string; title: string; intro: string; re
   },
   fr: {
     eyebrow: "[ BLOG ]",
-    title:   "Notes sur la livraison de logiciels.",
-    intro:   "Articles longs sur Next.js, React, patterns full-stack, et ce que j'apprends en livrant du vrai code.",
+    title:   "Notes de terrain.",
+    intro:   "Articles sur Next.js, React, patterns full-stack, et ce que j'apprends en livrant du vrai code.",
     readMin: (n) => `${n} min de lecture`,
     empty:   "Pas encore d'articles — bientôt.",
     moreOnMedium: "Lire plus d'articles sur Medium →",
   },
   es: {
     eyebrow: "[ BLOG ]",
-    title:   "Notas sobre desarrollo de software.",
-    intro:   "Artículos largos sobre Next.js, React, patrones full-stack y lo que aprendo poniendo código real en producción.",
+    title:   "Cuaderno de desarrollo.",
+    intro:   "Artículos sobre Next.js, React, patrones full-stack y lo que aprendo poniendo código real en producción.",
     readMin: (n) => `${n} min de lectura`,
     empty:   "Sin artículos todavía — vuelve pronto.",
     moreOnMedium: "Leer más artículos en Medium →",

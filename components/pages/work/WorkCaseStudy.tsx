@@ -70,7 +70,7 @@ export function WorkCaseStudy({ slug }: { slug: string }) {
     <div className="flex pt-[60px]">
 
       {/* ── Left — sticky mockup panel (desktop only) ── */}
-      <div className="sticky top-[60px] self-start h-[calc(100svh-60px)] w-[55%] shrink-0 border-r border-border overflow-hidden max-[900px]:hidden">
+      <div className="sticky top-[60px] self-start h-[calc(100svh-60px)] w-[55%] shrink-0 border-r border-border max-[900px]:hidden">
         <div className="relative w-full h-full bg-[#0a0a09] flex items-center justify-center px-12 pt-10 pb-20">
           <div className="absolute inset-0 pointer-events-none z-10 bg-[repeating-linear-gradient(45deg,rgba(212,255,58,0.007)_0_12px,transparent_12px_24px)]" />
 
@@ -157,7 +157,7 @@ export function WorkCaseStudy({ slug }: { slug: string }) {
           </p>
 
           {/* Mobile mockup (visible below 900px) */}
-          <div className="hidden max-[900px]:block relative bg-[#0a0a09] overflow-hidden" style={{ minHeight: 260 }}>
+          <div className="hidden max-[900px]:block relative bg-[#0a0a09]" style={{ minHeight: 260 }}>
             <div className="absolute inset-0 pointer-events-none bg-[repeating-linear-gradient(45deg,rgba(212,255,58,0.007)_0_12px,transparent_12px_24px)]" />
 
             {project.kind === "mobile" ? (

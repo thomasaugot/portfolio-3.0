@@ -25,12 +25,14 @@ export function PhoneFrame({
   priority = false,
 }: PhoneFrameProps) {
   return (
-    <div className={`@container ${SHELL} ${className}`} style={{ borderRadius: "clamp(6px, 5cqw, 14px)" }}>
-      <div className={NOTCH} style={{ height: "clamp(8px, 6cqw, 18px)" }} />
-      <div className="relative bg-black aspect-9/18 overflow-hidden">
-        <Image src={src} alt={alt} width={390} height={844} className="absolute top-0 left-0 w-full h-auto" sizes={sizes} priority={priority} />
+    <div className={`drop-shadow-[0_12px_30px_rgba(0,0,0,0.7)] ${className}`}>
+      <div className={`@container ${SHELL}`} style={{ borderRadius: "clamp(6px, 5cqw, 14px)" }}>
+        <div className={NOTCH} style={{ height: "clamp(8px, 6cqw, 18px)" }} />
+        <div className="relative bg-black aspect-9/18 overflow-hidden">
+          <Image src={src} alt={alt} width={390} height={844} className="absolute top-0 left-0 w-full h-auto" sizes={sizes} priority={priority} />
+        </div>
+        <div className={HOME_BAR} style={{ height: "clamp(6px, 4.5cqw, 14px)" }} />
       </div>
-      <div className={HOME_BAR} style={{ height: "clamp(6px, 4.5cqw, 14px)" }} />
     </div>
   )
 }
