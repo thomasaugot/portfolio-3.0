@@ -72,18 +72,34 @@ export function HomeWork() {
                 <p className="text-text-muted text-[16px] max-w-[380px] leading-[1.6]">{item.tag}</p>
                 <p className="text-text-muted text-[16px] leading-[1.6]">{item.body}</p>
 
-                <div className="grid grid-cols-2 gap-3.5 mt-auto pt-6 border-t border-border">
+                {/* Meta — type / year / role */}
+                <div className="grid grid-cols-3 gap-x-6 gap-y-5 mt-auto pt-6 border-t border-border">
                   {([
                     ["Type", item.type],
                     ["Year", item.year],
                     ["Role", item.role],
-                    ["Stack", item.stack],
                   ] as [string, string][]).map(([k, v]) => (
                     <div key={k}>
-                      <span className="text-[11px] text-text-subtle tracking-[0.08em] uppercase block">{k}</span>
-                      <span className="text-[16px] text-text mt-1 block">{v}</span>
+                      <span className="font-mono text-[9px] text-text-subtle tracking-[0.12em] uppercase block mb-1">{k}</span>
+                      <span className="text-[16px] text-text leading-[1.4]">{v}</span>
                     </div>
                   ))}
+                </div>
+
+                {/* Stack — chip grid */}
+                <div className="border-t border-border pt-6">
+                  <span className="font-mono text-[9px] text-text-subtle tracking-[0.12em] uppercase block mb-3">Stack</span>
+                  <div className="flex flex-wrap gap-2">
+                    {item.stack.split(/\s*·\s*|\s*,\s*/).filter(Boolean).map((tech) => (
+                      <div
+                        key={tech}
+                        className="font-mono text-[11px] text-text tracking-[0.04em] py-2 px-3 bg-surface"
+                        style={{ border: "1px solid var(--color-text)", lineHeight: 1.2 }}
+                      >
+                        {tech}
+                      </div>
+                    ))}
+                  </div>
                 </div>
 
                 <TransitionLink
