@@ -55,7 +55,7 @@ export default async function BlogIndexPage({ params }: { params: Promise<{ loca
     <section className="pt-[160px] pb-[clamp(80px,12vh,160px)]">
     <div className="shell">
       <PageReadyMarker />
-      <span className="text-eyebrow">{t.eyebrow}</span>
+      <span className="font-mono text-[12px] text-text-subtle mb-14 block">{t.eyebrow}</span>
       <ParticleHeading as="h1" className="font-display font-semibold tracking-tight text-[clamp(2.5rem,5.4vw,5.5rem)] leading-[0.95] mt-3 mb-4">
         {t.title}
       </ParticleHeading>

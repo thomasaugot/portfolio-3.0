@@ -1,6 +1,6 @@
 {
   "hero": {
-    "eyebrow": "Desarrollador full-stack · en alquiler",
+    "eyebrow": "[ Desarrollador full-stack · en alquiler ]",
     "h1a": "Construyo",
     "h1b": "apps web",
     "h1b2": "",
@@ -33,31 +33,31 @@
     "about_title": "Programador de oficio. Alma viajera en busca de horizontes.",
     "faq_meta": "[ 07 / FAQ ]",
     "faq_title": "Lo que la gente pregunta antes de empezar.",
-    "contact_meta": "[ 08 / CONTACTO ]",
+    "contact_meta": "[ 07 / CONTACTO ]",
     "contact_title": "Construyamos la cosa."
   },
   "services": [
     {
       "n": "S/01",
       "t": "Apps web, de principio a fin",
-      "d": "Aplicaciones Next.js y React a medida: auth, dashboards, pagos, tiempo real — entregadas rápido y limpias en producción.",
+      "d": "Del diseño a producción — aplicaciones Next.js y React a medida con auth, dashboards, pagos y tiempo real. Entregadas rápido y limpias.",
       "tags": [
         "Next.js 16",
         "React 19",
         "TypeScript",
         "Tailwind CSS",
-        "Zustand/Redux"
+        "Claude Design"
       ]
     },
     {
       "n": "S/02",
       "t": "Backend & infraestructura",
-      "d": "APIs Node + Postgres, despliegues AWS, CI/CD, Docker, CDN/cache. Eso aburrido que no se rompe a las 3 a.m.",
+      "d": "APIs Node + Postgres, Supabase, Firebase, CI/CD, Docker, CDN/cache. Eso aburrido que no se rompe a las 3 a.m.",
       "tags": [
         "Node.js",
         "Express",
         "PostgreSQL",
-        "AWS",
+        "Supabase",
         "Docker",
         "CI/CD"
       ]
@@ -98,10 +98,34 @@
     {
       "n": "S/06",
       "t": "Motion & 3D",
-      "d": "GSAP y Three.js cuando hace falta wow. Con cabeza.",
+      "d": "GSAP, Three.js y WebGL para sitios que necesitan sentirse vivos — animaciones hero, secuencias scroll-driven, escenas 3D interactivas. Cuando el brief pide algo más que función.",
       "tags": [
         "GSAP",
-        "Three.js"
+        "Three.js",
+        "WebGL"
+      ]
+    },
+    {
+      "n": "S/07",
+      "t": "Dominios, DNS y SSL",
+      "d": "Registro de dominios, configuración DNS, certificados SSL, redirecciones, enrutamiento de email. Background en GoDaddy — esto lo hago con los ojos cerrados.",
+      "tags": [
+        "DNS",
+        "SSL/TLS",
+        "Gestión de dominios",
+        "Email routing"
+      ]
+    },
+    {
+      "n": "S/08",
+      "t": "Integración de IA",
+      "d": "LLMs, pipelines RAG, agentes IA, interfaces de chat — integrados en tu producto o construidos desde cero. OpenAI, Gemini, LangChain. Cuando tiene sentido, no por moda.",
+      "tags": [
+        "OpenAI",
+        "Gemini",
+        "LangChain",
+        "RAG",
+        "LLM"
       ]
     }
   ],
@@ -161,7 +185,7 @@
           "PostgreSQL",
           "Supabase",
           "Firebase",
-          "AWS",
+          "Supabase",
           "Docker",
           "CI/CD",
           "VPS / Linux"
@@ -493,7 +517,7 @@
     ]
   },
   "socials": {
-    "section_meta": "[ ENCUÉNTRAME ]",
+    "section_meta": "[ 09 / ENCUÉNTRAME ]",
     "section_title": "En internet.",
     "items": [
       {
@@ -534,6 +558,7 @@
     "meta_role": "Rol",
     "meta_stack": "Stack",
     "private": "Privado",
-    "live_site": "Sitio en línea ↗"
+    "live_site": "Sitio en línea ↗",
+    "view_all": "Ver proyectos →"
   }
 }

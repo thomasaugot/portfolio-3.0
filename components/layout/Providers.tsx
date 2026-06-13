@@ -41,7 +41,7 @@ export function Providers({ children, locale, messages }: ProvidersProps) {
               <ContrastProvider>
                 <HtmlLangSync locale={locale} />
                 <InputModalityTracker />
-                <div className="noise-overlay" aria-hidden="true" />
+                <div className="noise-overlay fixed inset-0 pointer-events-none" aria-hidden="true" />
                 <PageLoader />
                 {children}
                 <Toaster />

@@ -1,6 +1,6 @@
 "use client"
 import { ParticleHeading } from "@/components/ui/ParticleHeading"
-
+import { TechTag } from "@/components/ui/TechTag"
 import { useTranslations } from "next-intl"
 
 interface Bucket {
@@ -23,7 +23,6 @@ export function HomeStack() {
   const t = useTranslations("home")
   const stack = t.raw("stack") as Stack
 
-  const primaryTags = ["Next.js", "React", "TypeScript", "Node.js", "PostgreSQL", "React Native"]
 
   return (
     <section id="stack" className="py-[clamp(80px,12vh,160px)] border-t border-border">
@@ -38,18 +37,16 @@ export function HomeStack() {
             {stack.buckets.map((bucket) => (
               <div key={bucket.label} className="border-t border-border pt-4 mb-6">
                 <p className="text-[11px] text-text-subtle tracking-[0.12em] uppercase mb-4">{bucket.label}</p>
-                <div className="flex flex-wrap gap-2">
-                  {bucket.tags.map((tag) => (
-                    <span key={tag} className={`font-mono text-[13px] py-2 px-3 border cursor-default relative overflow-hidden transition-[border-color,color,background] hover:border-primary hover:text-primary hover:bg-[rgba(212,255,58,0.04)]${primaryTags.includes(tag) ? " border-text-subtle text-text" : " border-border-2"}`}>
-                      {tag}
-                    </span>
+                <div className="flex flex-wrap gap-2 pb-1 pr-1">
+                  {bucket.tags.map((tag, i) => (
+                    <TechTag key={`${bucket.label}-${i}`} tag={tag} />
                   ))}
                 </div>
               </div>
             ))}
           </div>
 
-          <div className="grid grid-cols-2 gap-0 border border-border">
+          <div className="grid grid-cols-2 gap-0 border border-border shadow-lg">
             {stack.metrics.map((m, idx) => (
               <div key={m.lbl} className={`py-7 px-6 border-r border-b border-border${idx % 2 === 1 ? " border-r-0" : ""}${idx >= stack.metrics.length - 2 ? " border-b-0" : ""}`}>
                 <div className="font-display text-[clamp(40px,5vw,72px)] font-semibold tracking-[-0.04em] leading-none text-text">

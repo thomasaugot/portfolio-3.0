@@ -14,7 +14,6 @@ function randomChar() {
 
 export function PageLoader() {
   const { appReady, markLoaderGone } = useAppReadyContext()
-  // Initialize from TARGET so server & client agree — scramble starts in useEffect (client only)
   const [chars, setChars] = useState<string[]>(() => TARGET.split(""))
   const [resolvedCount, setResolvedCount] = useState(0)
   const [exiting, setExiting] = useState(false)
@@ -76,39 +75,17 @@ export function PageLoader() {
     <div
       role="status"
       aria-label="Loading"
-      style={{
-        position: "fixed",
-        inset: 0,
-        background: "var(--color-bg)",
-        zIndex: "var(--z-loader)",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        gap: "28px",
-        transform: exiting ? "translateY(-100%)" : "translateY(0)",
-        transition: exiting ? "transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)" : "none",
-      }}
+      className={[
+        "fixed inset-0 bg-bg z-loader flex flex-col items-center justify-center gap-7",
+        "transition-transform duration-[0.8s] [transition-timing-function:cubic-bezier(0.16,1,0.3,1)]",
+        exiting ? "-translate-y-full" : "translate-y-0",
+        "before:content-[''] before:absolute before:inset-0 before:pointer-events-none",
+        "before:bg-[repeating-linear-gradient(0deg,rgba(255,255,255,0.012)_0_1px,transparent_1px_3px)]",
+      ].join(" ")}
     >
-      {/* Scanline texture */}
-      <div style={{
-        position: "absolute",
-        inset: 0,
-        background: "repeating-linear-gradient(0deg, rgba(255,255,255,0.012) 0 1px, transparent 1px 3px)",
-        pointerEvents: "none",
-      }} />
-
-      {/* Scrambling text — mono font keeps character widths stable */}
       <div
         aria-label={TARGET}
-        style={{
-          fontFamily: "var(--font-mono)",
-          fontWeight: 700,
-          fontSize: "clamp(20px, 5vw, 60px)",
-          letterSpacing: "0.04em",
-          lineHeight: 1,
-          userSelect: "none",
-        }}
+        className="font-mono font-bold text-[clamp(20px,5vw,60px)] tracking-[0.04em] leading-none select-none"
       >
         {chars.map((ch, i) => {
           const resolved = i < resolvedCount
@@ -116,13 +93,14 @@ export function PageLoader() {
           return (
             <span
               key={i}
-              className={resolved && isDot ? "loader-dot" : undefined}
-              style={{
-                color: resolved
-                  ? isDot ? "var(--color-primary)" : "var(--color-text)"
-                  : "var(--color-text-subtle)",
-                transition: resolved ? "color 0.1s ease" : "none",
-              }}
+              className={[
+                resolved ? (isDot ? "text-primary" : "text-text") : "text-text-subtle",
+                resolved ? "transition-[color] duration-100 ease" : "",
+                resolved && isDot ? [
+                  "[webkit-text-stroke:1.5px_#1a1a17] [paint-order:stroke_fill] [text-shadow:3px_3px_0_#1a1a17]",
+                  "dark:[webkit-text-stroke:0] dark:text-shadow-none",
+                ].join(" ") : "",
+              ].filter(Boolean).join(" ")}
             >
               {ch}
             </span>
@@ -130,31 +108,20 @@ export function PageLoader() {
         })}
       </div>
 
-      {/* Progress bar */}
-      <div className="loader-track" style={{
-        width: "160px",
-        height: "3px",
-        background: "var(--color-border)",
-        position: "relative",
-      }}>
-        <div className="loader-bar" style={{
-          position: "absolute",
-          inset: 0,
-          background: "var(--color-primary)",
-          transform: `scaleX(${progress})`,
-          transformOrigin: "left",
-          transition: "transform 0.04s linear",
-        }} />
+      <div
+        className={[
+          "w-40 h-[3px] bg-border relative",
+          "outline outline-[0px] outline-transparent",
+          "loader-track",
+        ].join(" ")}
+      >
+        <div
+          className="absolute inset-0 bg-primary origin-left transition-transform duration-[0.04s] linear"
+          style={{ transform: `scaleX(${progress})` }}
+        />
       </div>
 
-      {/* Status label */}
-      <span style={{
-        fontFamily: "var(--font-mono)",
-        fontSize: "10px",
-        letterSpacing: "0.18em",
-        color: "var(--color-text-subtle)",
-        textTransform: "uppercase",
-      }}>
+      <span className="font-mono text-[10px] tracking-[0.18em] text-text-subtle uppercase">
         {resolvedCount < TARGET.length ? "decrypting" : "ready"}
       </span>
     </div>

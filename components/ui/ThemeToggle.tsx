@@ -33,7 +33,7 @@ export function ThemeToggle() {
 
   useEffect(() => {
     const current = document.documentElement.getAttribute("data-theme") as "light" | "dark" | null
-    setTheme(current ?? "light")
+    setTheme(current ?? "dark")
   }, [])
 
   if (!theme) return null

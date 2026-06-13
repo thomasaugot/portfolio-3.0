@@ -1,8 +1,9 @@
 "use client"
 
 import { useEffect, useMemo, useRef, useState } from "react"
-import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { Shell } from "@/components/layout/Shell"
+import { Button } from "@/components/ui/Button"
 
 type Suggested = { label: string; href: string; desc: string }
 
@@ -188,7 +189,7 @@ export function NotFoundClient() {
 
   return (
     <section className="relative overflow-x-clip min-h-svh flex flex-col justify-center pt-[clamp(80px,10vh,130px)] pb-[clamp(40px,6vh,80px)]">
-      <div className="shell flex flex-col gap-12">
+      <Shell className=" flex flex-col gap-12">
         <div className="grid grid-cols-[1fr_1fr] gap-14 items-stretch max-[900px]:grid-cols-1">
 
           {/* Left: title + sub + CTAs */}
@@ -208,19 +209,19 @@ export function NotFoundClient() {
               <span className="text-serif-italic text-text-muted text-[0.7em]">{t.title_c}</span>
             </h1>
 
-            <p className="text-text-muted text-[16px] leading-[1.55] max-w-[52ch]">{t.sub}</p>
+            <p className="text-body text-text-muted leading-[1.55] max-w-[52ch]">{t.sub}</p>
 
             <div className="flex gap-3 items-center flex-wrap">
-              <Link href="/" className="btn btn-filled keyboard-focus-ring">
+              <Button href="/" variant="filled">
                 {t.back_home}
                 <span aria-hidden="true">→</span>
-              </Link>
-              <Link href="/work" className="btn btn-ghost keyboard-focus-ring">
+              </Button>
+              <Button href="/work" variant="ghost">
                 {t.view_work} <span aria-hidden="true">→</span>
-              </Link>
+              </Button>
               <a
                 href={`mailto:thomas.augot@gmail.com?subject=${encodeURIComponent(t.report_subject)}&body=${encodeURIComponent(requestPath)}`}
-                className="text-[13px] font-mono text-text-muted hover:text-primary keyboard-focus-ring"
+                className="text-caption font-mono text-text-muted hover:text-primary keyboard-focus-ring"
               >
                 {t.report}
               </a>
@@ -229,21 +230,21 @@ export function NotFoundClient() {
 
           {/* Right: terminal */}
           <div className="flex flex-col max-[900px]:hidden">
-            <div className="terminal flex-1" aria-label="404 terminal — decorative" role="img">
+            <div className="terminal flex-1 flex flex-col font-mono text-[16px] relative overflow-hidden bg-surface border border-border shadow-(--shadow-terminal) before:content-[''] before:absolute before:inset-0 before:pointer-events-none before:bg-[repeating-linear-gradient(0deg,rgba(255,255,255,0.012)_0_1px,transparent_1px_3px)]" aria-label="404 terminal — decorative" role="img">
               <div className="flex items-center gap-2 py-2.5 px-3.5 border-b border-border bg-surface-2 shrink-0" aria-hidden="true">
                 <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
                 <span className="w-2.5 h-2.5 rounded-full bg-[#febc2e]" />
                 <span className="w-2.5 h-2.5 rounded-full bg-[#28c840]" />
-                <span className="flex-1 text-center text-[11px] text-text-subtle tracking-[0.05em]">
+                <span className="flex-1 text-center text-caption text-text-subtle tracking-wider">
                   {t.terminal_user} — {t.terminal_path}
                 </span>
                 <div className="flex">
-                  <span className="text-[11px] text-text-subtle px-2 py-1 border border-transparent">bash</span>
-                  <span className="text-[11px] text-text px-2 py-1 border border-border-2 bg-bg">node</span>
+                  <span className="text-caption text-text-subtle px-2 py-1 border border-transparent">bash</span>
+                  <span className="text-caption text-text px-2 py-1 border border-border-2 bg-bg">node</span>
                 </div>
               </div>
 
-              <div ref={bodyRef} className="flex-1 px-[18px] pt-[18px] overflow-hidden relative">
+              <div ref={bodyRef} className="flex-1 px-4.5 pt-4.5 overflow-hidden relative">
                 {lines.map((line, idx) => {
                   const shown = idx < visible
                   const isAnimating = visible < lines.length
@@ -255,7 +256,7 @@ export function NotFoundClient() {
                     <div key={idx} className={`whitespace-pre min-h-[1.5em]${h}`}>
                       <span className="text-primary">❯ </span>
                       <span className="text-text">{line.text}</span>
-                      {isCurrentLast && isAnimating && <span className="term-cursor" />}
+                      {isCurrentLast && isAnimating && <span className="inline-block w-2 h-[1em] bg-primary align-[-2px] animate-[blink_1s_steps(2)_infinite] ml-0.5" />}
                     </div>
                   )
                   if (line.kind === "err") return (
@@ -273,11 +274,11 @@ export function NotFoundClient() {
                 })}
                 <div className={`whitespace-pre min-h-[1.5em]${visible >= lines.length ? "" : " invisible"}`}>
                   <span className="text-primary">❯ </span>
-                  <span className="term-cursor" />
+                  <span className="inline-block w-2 h-[1em] bg-primary align-[-2px] animate-[blink_1s_steps(2)_infinite] ml-0.5" />
                 </div>
               </div>
 
-              <div className="border-t border-border py-2 px-3.5 flex justify-between items-center text-[11px] text-text-subtle bg-surface-2 shrink-0">
+              <div className="border-t border-border py-2 px-3.5 flex justify-between items-center text-caption text-text-subtle bg-surface-2 shrink-0">
                 <div className="flex gap-3.5">
                   <span><span className="text-primary">main</span></span>
                   <span>exit 404</span>
@@ -292,10 +293,10 @@ export function NotFoundClient() {
         {/* Suggested routes */}
         <div className="flex flex-col gap-5">
           <div className="flex items-baseline justify-between border-t border-border pt-5">
-            <span className="text-[11px] text-text-subtle uppercase tracking-[0.12em]">
+            <span className="text-caption text-text-subtle uppercase tracking-[0.12em]">
               {t.suggested_heading}
             </span>
-            <span className="font-mono text-[11px] text-text-subtle">
+            <span className="text-caption font-mono text-text-subtle">
               {t.suggested.length} {t.routes_word(t.suggested.length)}
             </span>
           </div>
@@ -308,17 +309,17 @@ export function NotFoundClient() {
                   className="group block border border-border p-5 hover:border-primary transition-colors keyboard-focus-ring h-full"
                 >
                   <div className="flex items-baseline justify-between mb-3">
-                    <span className="font-mono text-[11px] text-text-subtle tracking-[0.1em]">
+                    <span className="text-caption font-mono text-text-subtle tracking-[0.1em]">
                       0{i + 1}
                     </span>
-                    <span className="font-mono text-[12px] text-text-subtle group-hover:text-primary transition-colors">
+                    <span className="text-caption font-mono text-text-subtle group-hover:text-primary transition-colors">
                       {s.href}
                     </span>
                   </div>
-                  <div className="font-display text-[22px] tracking-[-0.02em] mb-2 group-hover:text-primary transition-colors">
+                  <div className="font-display text-subheading tracking-[-0.02em] mb-2 group-hover:text-primary transition-colors">
                     {s.label}
                   </div>
-                  <p className="text-text-muted text-[14px] leading-[1.5]">{s.desc}</p>
+                  <p className="text-body text-text-muted leading-[1.5]">{s.desc}</p>
                 </Link>
               </li>
             ))}
@@ -328,11 +329,11 @@ export function NotFoundClient() {
         {/* Stack trace */}
         <div className="flex flex-col gap-3">
           <div className="border-t border-border pt-5">
-            <span className="text-[11px] text-text-subtle uppercase tracking-[0.12em]">
+            <span className="text-caption text-text-subtle uppercase tracking-[0.12em]">
               {t.trace_heading}
             </span>
           </div>
-          <pre className="font-mono text-[12px] leading-[1.7] text-text-muted whitespace-pre-wrap break-all">
+          <pre className="text-caption font-mono leading-[1.7] text-text-muted whitespace-pre-wrap break-all">
             <span className="text-(--color-error)">{t.trace_1}</span>{"\n"}
             <span className="text-text-subtle">{t.trace_2}</span>{"\n"}
             <span className="text-text-subtle">{t.trace_3}</span>{"\n"}
@@ -341,7 +342,7 @@ export function NotFoundClient() {
             <span className="text-(--color-str)">{requestPath}</span>
           </pre>
         </div>
-      </div>
+      </Shell>
     </section>
   )
 }

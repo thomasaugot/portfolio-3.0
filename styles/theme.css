@@ -486,15 +486,15 @@ html[data-theme="light"] .legend-pin {
 }
 
 
-/* Stack tags + work back-link: full black border, overflow visible */
-html[data-theme="light"] #stack span.font-mono.border,
+/* Tech tags everywhere: full black border, overflow visible */
+html[data-theme="light"] span.font-mono.border,
 html[data-theme="light"] a.border.border-border,
 html[data-theme="light"] [class*="border border-border"][href] {
   border: 1px solid #1a1a17 !important;
   overflow: visible !important;
 }
-/* Stack tag hover: lime fill + outline + offset shadow */
-html[data-theme="light"] #stack span.font-mono.border:hover {
+/* Tech tag hover: lime fill + outline + offset shadow */
+html[data-theme="light"] span.font-mono.border:hover {
   border-color: #1a1a17 !important;
   box-shadow: 3px 3px 0 #1a1a17 !important;
   background: var(--color-primary-glow) !important;
@@ -653,7 +653,7 @@ html[data-contrast="high"] {
 /* ─────────────────────────────────────────────
    2. Tailwind v4 @theme block
 ───────────────────────────────────────────── */
-@theme {
+@theme inline {
   --color-bg:           var(--color-bg);
   --color-surface:      var(--color-surface);
   --color-surface-2:    var(--color-surface-2);
@@ -675,6 +675,10 @@ html[data-contrast="high"] {
   --shadow-sm: var(--shadow-sm);
   --shadow-md: var(--shadow-md);
   --shadow-lg: var(--shadow-lg);
+
+  --maxw:            var(--maxw);
+  --gutter:          var(--gutter);
+  --spacing-gutter:  var(--gutter);
 
   --font-mono:    var(--font-jetbrains-mono), "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
   --font-display: var(--font-space-grotesk), "Inter", -apple-system, system-ui, sans-serif;

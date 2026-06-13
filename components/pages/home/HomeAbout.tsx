@@ -55,7 +55,7 @@ export function HomeAbout() {
               {about.trip.map((pin, idx) => (
                 <div
                   key={idx}
-                  className="border border-border p-3.5 text-[11px] text-text-muted relative overflow-hidden transition-[border-color,color] duration-300 hover:border-primary hover:text-text"
+                  className="border border-border p-3.5 text-[11px] text-text-muted relative overflow-hidden transition-[border-color,color] duration-300 hover:border-primary hover:text-text shadow-sm"
                 >
                   <div className="font-display text-[22px] font-semibold tracking-[-0.02em] text-text">{pin.yr}</div>
                   <div className="mt-1 tracking-[0.05em]">{pin.place}</div>

@@ -5,6 +5,7 @@ import { ParticleHeading } from "@/components/ui/ParticleHeading"
 import { HomeTerminal } from "@/components/pages/home/HomeTerminal"
 import { IconArrow } from "@/components/ui/Icons"
 import { TransitionLink } from "@/components/ui/TransitionLink"
+import { Shell } from "@/components/layout/Shell"
 
 export function HomeHero() {
   const t = useTranslations("home.hero")
@@ -16,17 +17,18 @@ export function HomeHero() {
   ] as [string, string][]
 
   return (
-    <section className="relative overflow-x-clip min-h-svh flex flex-col justify-center pt-[clamp(80px,10vh,130px)] pb-[clamp(24px,5vh,60px)]">
-      <div className="shell flex flex-col gap-10">
+    <section className="relative min-h-svh flex flex-col justify-center pt-[clamp(80px,10vh,130px)] pb-[clamp(24px,5vh,60px)]">
+      <Shell className="flex flex-col gap-10">
         <div className="grid grid-cols-[1fr_1fr] gap-14 items-stretch max-[900px]:grid-cols-1">
 
           {/* Left column */}
-          <div className="flex flex-col justify-between gap-8">
-            <span className="text-eyebrow hero-left-item">{t("eyebrow")}</span>
+          <div className="flex flex-col justify-around gap-8">
+            <span className="text-label font-mono" data-anim="hero-left-item">{t("eyebrow")}</span>
 
             <ParticleHeading
               as="h1"
-              className="font-display font-semibold text-[clamp(38px,5.5vw,90px)] leading-[0.92] tracking-[-0.045em] flex flex-col hero-left-item"
+              className="font-display font-semibold text-[clamp(38px,5.5vw,90px)] leading-[0.92] tracking-[-0.045em] flex flex-col"
+              data-anim="hero-left-item"
             >
               <span>{t("h1a")}</span>
               <span className="text-primary">{t("h1b")}</span>
@@ -38,38 +40,38 @@ export function HomeHero() {
               </span>
             </ParticleHeading>
 
-            <p className="text-text-muted text-[16px] leading-[1.55] hero-left-item">
+            <p className="text-body leading-[1.55]" data-anim="hero-left-item">
               {t("sub")}
             </p>
 
-            <div className="flex gap-3 items-center flex-wrap hero-left-item">
-              <TransitionLink href="#contact" className="btn btn-filled keyboard-focus-ring" data-cta_click="true" data-cta_text="Contact" data-cta_url="#contact">
+            <div className="flex gap-5 items-center flex-wrap pb-3" data-anim="hero-left-item">
+              <TransitionLink href="#contact" className="btn btn-filled inline-flex items-center gap-2.5 font-mono text-[16px] tracking-[0.02em] px-5.5 py-3.5 border border-primary bg-primary text-black font-medium cursor-pointer relative z-0 overflow-hidden no-underline whitespace-nowrap select-none transition-[border-color,color,background,transform] duration-normal ease-out hover:bg-text hover:border-text active:translate-y-px after:content-[''] after:absolute after:inset-0 after:bg-[linear-gradient(120deg,transparent_30%,rgba(255,255,255,0.6)_50%,transparent_70%)] after:-translate-x-full hover:after:translate-x-full after:transition-transform after:duration-[0.8s] after:ease-snappy after:pointer-events-none keyboard-focus-ring" data-cta_click="true" data-cta_text="Contact" data-cta_url="#contact">
                 {t("cta1")}
-                <span className="btn-arrow"><IconArrow /></span>
+                <span className="inline-block transition-transform duration-[0.35s] ease-snappy group-hover:translate-x-1"><IconArrow /></span>
               </TransitionLink>
-              <TransitionLink href="#work" className="btn btn-ghost keyboard-focus-ring" data-cta_click="true" data-cta_text="View work" data-cta_url="#work">
+              <TransitionLink href="#work" className="inline-flex items-center gap-2 font-mono text-[16px] tracking-[0.02em] py-3.5 text-text-muted no-underline whitespace-nowrap select-none transition-colors duration-normal ease-out hover:text-primary keyboard-focus-ring" data-cta_click="true" data-cta_text="View work" data-cta_url="#work">
                 {t("cta2")} <span aria-hidden="true">→</span>
               </TransitionLink>
             </div>
           </div>
 
           {/* Right column — terminal */}
-          <div className="flex flex-col max-[900px]:hidden hero-right">
+          <div className="flex flex-col max-[900px]:hidden" data-anim="hero-right">
             <HomeTerminal />
           </div>
 
         </div>
 
         {/* Meta stats — full width below */}
-        <div className="flex gap-10 text-[11px] text-text-subtle uppercase tracking-[0.12em] border-t border-border pt-5 max-[900px]:flex-wrap hero-meta">
+        <div className="flex gap-10 border-t border-border pt-5 max-[900px]:flex-wrap" data-anim="hero-meta">
           {meta.map(([k, v]) => (
             <div key={k}>
-              <span className="block mb-1">{k}</span>
-              <span className="text-text text-[16px] tracking-[0.02em] normal-case">{v}</span>
+              <span className="text-label font-mono block mb-1">{k}</span>
+              <span className="text-body">{v}</span>
             </div>
           ))}
         </div>
-      </div>
+      </Shell>
     </section>
   )
 }

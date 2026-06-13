@@ -52,21 +52,30 @@ export function HomeTerminal() {
   }, [loaderGone])
 
   return (
-    <div className="terminal flex-1" aria-label="Code terminal — decorative" role="img">
+    <div
+      className={[
+        "terminal flex-1 flex flex-col font-mono text-[16px] relative overflow-hidden",
+        "bg-surface border border-border shadow-(--shadow-terminal)",
+        "before:content-[''] before:absolute before:inset-0 before:pointer-events-none",
+        "before:bg-[repeating-linear-gradient(0deg,rgba(255,255,255,0.012)_0_1px,transparent_1px_3px)]",
+      ].join(" ")}
+      aria-label="Code terminal — decorative"
+      role="img"
+    >
       {/* Title bar */}
       <div className="flex items-center gap-2 py-2.5 px-3.5 border-b border-border bg-surface-2 shrink-0" aria-hidden="true">
         <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
         <span className="w-2.5 h-2.5 rounded-full bg-[#febc2e]" />
         <span className="w-2.5 h-2.5 rounded-full bg-[#28c840]" />
-        <span className="flex-1 text-center text-[11px] text-text-subtle tracking-[0.05em]">thomas@las-palmas — ~/work</span>
+        <span className="flex-1 text-center text-caption text-text-subtle tracking-wider">thomas@las-palmas — ~/work</span>
         <div className="flex">
-          <span className="text-[11px] text-text-subtle px-2 py-1 border border-transparent">bash</span>
-          <span className="text-[11px] text-text px-2 py-1 border border-border-2 bg-bg">node</span>
+          <span className="text-caption text-text-subtle px-2 py-1 border border-transparent">bash</span>
+          <span className="text-caption text-text px-2 py-1 border border-border-2 bg-bg">node</span>
         </div>
       </div>
 
       {/* Body */}
-      <div ref={bodyRef} className="flex-1 px-[18px] pt-[18px] overflow-hidden relative">
+      <div ref={bodyRef} className="flex-1 px-4.5 pt-4.5 overflow-hidden relative">
         {LINES.map((line, idx) => {
           const shown = idx < visibleCount
           const isAnimating = visibleCount < LINES.length
@@ -78,7 +87,9 @@ export function HomeTerminal() {
             <div key={idx} className={`whitespace-pre min-h-[1.5em]${h}`}>
               <span className="text-primary">❯ </span>
               <span className="text-text">{line.text}</span>
-              {isCurrentLast && isAnimating && <span className="term-cursor" />}
+              {isCurrentLast && isAnimating && (
+                <span className="inline-block w-2 h-[1em] bg-primary align-[-2px] animate-[blink_1s_steps(2)_infinite] ml-0.5" />
+              )}
             </div>
           )
           if (line.type === "pair") return (
@@ -93,15 +104,14 @@ export function HomeTerminal() {
           if (line.type === "str") return <div key={idx} className={`whitespace-pre min-h-[1.5em] text-(--color-str)${h}`}>{line.text}</div>
           return <div key={idx} className={`whitespace-pre min-h-[1.5em] text-text-muted${h}`}>{line.text}</div>
         })}
-        {/* always rendered so height stays constant; visible only when animation finishes */}
         <div className={`whitespace-pre min-h-[1.5em]${visibleCount >= LINES.length ? "" : " invisible"}`}>
           <span className="text-primary">❯ </span>
-          <span className="term-cursor" />
+          <span className="inline-block w-2 h-[1em] bg-primary align-[-2px] animate-[blink_1s_steps(2)_infinite] ml-0.5" />
         </div>
       </div>
 
       {/* Footer */}
-      <div className="border-t border-border py-2 px-3.5 flex justify-between items-center text-[11px] text-text-subtle bg-surface-2 shrink-0">
+      <div className="border-t border-border py-2 px-3.5 flex justify-between items-center text-caption text-text-subtle bg-surface-2 shrink-0">
         <div className="flex gap-3.5">
           <span><span className="text-primary">main</span></span>
           <span>node v22.3.0</span>

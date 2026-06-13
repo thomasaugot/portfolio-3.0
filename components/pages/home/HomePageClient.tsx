@@ -10,7 +10,6 @@ import {
   initStackReveal,
   initWorkReveal,
   initTestimonialsReveal,
-  initFAQReveal,
   initAboutReveal,
 } from "@/utils/animations/scrollReveals"
 import { HomeHero } from "@/components/pages/home/HomeHero"
@@ -21,11 +20,13 @@ import { HomeStack } from "@/components/pages/home/HomeStack"
 import { HomeWork } from "@/components/pages/home/HomeWork"
 import { HomeTestimonials } from "@/components/pages/home/HomeTestimonials"
 import { HomeAbout } from "@/components/pages/home/HomeAbout"
-import { HomeFAQ } from "@/components/pages/home/HomeFAQ"
 import { HomeContact } from "@/components/pages/home/HomeContact"
 import { HomeSocials } from "@/components/pages/home/HomeSocials"
+import { HomeBlogBanner } from "@/components/pages/home/HomeBlogBanner"
 
-export function HomePageClient() {
+interface Post { slug: string; title: string; cover: string | null; readingMin: number }
+
+export function HomePageClient({ latestPosts }: { latestPosts: Post[] }) {
   usePageReady()
 
   useGSAPAnimations(() => ({
@@ -37,7 +38,6 @@ export function HomePageClient() {
       initStackReveal,
       initWorkReveal,
       initTestimonialsReveal,
-      initFAQReveal,
       initAboutReveal,
     ],
   }))
@@ -52,8 +52,8 @@ export function HomePageClient() {
       <HomeWork />
       <HomeTestimonials />
       <HomeAbout />
-      <HomeFAQ />
       <HomeContact />
+      <HomeBlogBanner posts={latestPosts} />
       <HomeSocials />
     </div>
   )
