@@ -17,9 +17,11 @@ const components: MDXComponents = {
     // eslint-disable-next-line @next/next/no-img-element
     <img src={src} alt={alt ?? ""} className="my-8 border border-border w-full" />
   ),
-  pre: (props) => <pre className="mdx-pre my-6 overflow-x-auto border border-border-2 bg-surface-2 text-[14px] font-mono p-5 leading-[1.6]" {...props} />,
-  // Inline <code> only: <code> nested inside <pre> inherits no border (see CSS below).
-  code: (props) => <code className="mdx-code font-mono text-[14px]" {...props} />,
+  pre: (props) => <pre className="my-6 overflow-x-auto border border-border-2 bg-surface-2 text-[14px] font-mono p-5 leading-[1.6]" {...props} />,
+  code: ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => {
+    const isBlock = className?.includes("language-")
+    return <code className={isBlock ? className : `${className ?? ""} bg-surface-2 border border-border py-px px-1.5 font-mono text-[14px]`} {...props} />
+  },
 }
 
 const prettyCodeOptions = {

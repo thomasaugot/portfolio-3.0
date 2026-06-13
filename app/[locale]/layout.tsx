@@ -5,6 +5,7 @@ import { routing } from "@/i18n/routing"
 import { Providers } from "@/components/layout/Providers"
 import { SkipLink } from "@/components/ui/SkipLink"
 import { Navbar } from "@/components/layout/Navbar"
+import { MobileMenu } from "@/components/layout/MobileMenu"
 import { Footer } from "@/components/layout/Footer"
 import { PageShell } from "@/components/layout/PageShell"
 import { TransitionOverlay } from "@/components/layout/TransitionOverlay"
@@ -56,6 +57,7 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
           <SkipLink targetId="main-content" />
           <div className="flex min-h-dvh flex-col">
             <Navbar />
+            <MobileMenu />
             <PageShell>{children}</PageShell>
             <Footer />
           </div>

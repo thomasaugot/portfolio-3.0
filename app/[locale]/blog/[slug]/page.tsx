@@ -3,6 +3,7 @@ import { TransitionLink } from "@/components/ui/TransitionLink"
 import { Mdx } from "@/components/blog/Mdx"
 import { ParticleHeading } from "@/components/ui/ParticleHeading"
 import { PageReadyMarker } from "@/components/blog/PageReadyMarker"
+import { TechTag } from "@/components/ui/TechTag"
 import { getAllSlugs, getPost } from "@/lib/blog"
 import { buildMetadata, SITE_URL, SITE_NAME, type Locale } from "@/lib/seo"
 import { appConfig } from "@/config/app.config"
@@ -87,7 +88,7 @@ export default async function BlogPostPage({ params }: Props) {
                 <span>·</span>
                 <span className="flex flex-wrap gap-2">
                   {post.tags.map((tag) => (
-                    <span key={tag} className="tag-chip">{tag}</span>
+                    <TechTag key={tag} tag={tag} />
                   ))}
                 </span>
               </>

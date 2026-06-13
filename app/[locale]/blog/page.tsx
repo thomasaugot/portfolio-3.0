@@ -2,6 +2,7 @@ import Image from "next/image"
 import { TransitionLink } from "@/components/ui/TransitionLink"
 import { ParticleHeading } from "@/components/ui/ParticleHeading"
 import { PageReadyMarker } from "@/components/blog/PageReadyMarker"
+import { Shell } from "@/components/layout/Shell"
 import { appConfig } from "@/config/app.config"
 import { getAllPosts } from "@/lib/blog"
 import { buildMetadata, BLOG_SEO, type Locale } from "@/lib/seo"
@@ -53,7 +54,7 @@ export default async function BlogIndexPage({ params }: { params: Promise<{ loca
 
   return (
     <section className="pt-[160px] pb-[clamp(80px,12vh,160px)]">
-    <div className="shell">
+    <Shell>
       <PageReadyMarker />
       <span className="font-mono text-[12px] text-text-subtle mb-14 block">{t.eyebrow}</span>
       <ParticleHeading as="h1" className="font-display font-semibold tracking-tight text-[clamp(2.5rem,5.4vw,5.5rem)] leading-[0.95] mt-3 mb-4">
@@ -113,7 +114,7 @@ export default async function BlogIndexPage({ params }: { params: Promise<{ loca
       >
         {t.moreOnMedium}
       </a>
-    </div>
+    </Shell>
     </section>
   )
 }

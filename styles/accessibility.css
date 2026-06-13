@@ -1,3 +1,11 @@
+/* ── Reduced motion ── */
+body.anim-low *, body.anim-low *::before, body.anim-low *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.15s !important;
+}
+body.anim-low .marquee-track { animation-duration: 90s !important; }
+
 .sr-only {
   position: absolute;
   width: 1px; height: 1px;

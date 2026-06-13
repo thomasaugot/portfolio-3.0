@@ -3,6 +3,7 @@ import { ParticleHeading } from "@/components/ui/ParticleHeading"
 import { TechTag } from "@/components/ui/TechTag"
 import { useTranslations } from "next-intl"
 import { IconArrowOut } from "@/components/ui/Icons"
+import { Shell } from "@/components/layout/Shell"
 
 interface Service {
   n: string
@@ -18,7 +19,7 @@ export function HomeServices() {
 
   return (
     <section id="services" className="py-[clamp(80px,12vh,160px)] border-t border-border">
-      <div className="shell">
+      <Shell>
         <div className="grid grid-cols-[1fr_2fr] gap-(--gutter) mb-14 items-end max-[720px]:grid-cols-1 max-[720px]:gap-4">
           <span className="font-mono text-[12px] text-text-subtle">{t("sections.services_meta")}</span>
           <ParticleHeading className="font-display font-semibold tracking-tight text-[clamp(2.5rem,5.4vw,5.5rem)] leading-[0.95]">{t("sections.services_title")}</ParticleHeading>
@@ -52,7 +53,7 @@ export function HomeServices() {
             )
           })}
         </div>
-      </div>
+      </Shell>
     </section>
   )
 }

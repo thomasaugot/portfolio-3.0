@@ -54,9 +54,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       lang="en"
       data-theme="light"
       suppressHydrationWarning
-      className={`${jetbrainsMono.variable} ${spaceGrotesk.variable} ${instrumentSerif.variable}`}
+      className={`${jetbrainsMono.variable} ${spaceGrotesk.variable} ${instrumentSerif.variable} bg-bg text-text font-mono text-base leading-[var(--leading-normal)] overflow-x-hidden antialiased [font-feature-settings:'ss01','ss02','cv01','cv02'] [text-rendering:optimizeLegibility]`}
     >
-      <body>
+      <body className="min-h-svh overflow-x-hidden bg-[radial-gradient(1200px_800px_at_80%_-10%,rgba(212,255,58,0.04),transparent_60%),radial-gradient(1000px_700px_at_-10%_120%,rgba(212,255,58,0.025),transparent_60%)]">
         <ThemeInit />
         {children}
       </body>

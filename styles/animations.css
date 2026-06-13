@@ -61,6 +61,17 @@
   animation: scroll-x var(--marquee-dur, 38s) linear infinite;
 }
 
+/* ── Reveal ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.8s var(--ease-snappy),
+    transform 0.8s var(--ease-snappy);
+  transition-delay: var(--delay, 0s);
+}
+.reveal.in { opacity: 1; transform: none; }
+
 /* ── Reveal mask ── */
 .reveal-mask {
   display: inline-block;

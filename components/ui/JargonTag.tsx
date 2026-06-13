@@ -1,6 +1,7 @@
 "use client"
 import { useState, useRef, useEffect, Fragment } from "react"
 import { createPortal } from "react-dom"
+import { TechTag } from "@/components/ui/TechTag"
 
 const GLOSSARY_EN: Record<string, string> = {
   "RAG":            "Retrieval-Augmented Generation — the AI answers using your own data (docs, products, knowledge base) instead of just what it was trained on.",
@@ -202,11 +203,5 @@ export function renderWithJargon(text: string, locale = "en"): React.ReactNode {
 }
 
 export function JargonTag({ tag }: { tag: string }) {
-  return (
-    <span className={[
-      "tag-chip transition-[border-color,color] duration-normal ease-out",
-    ].join(" ")}>
-      {tag}
-    </span>
-  )
+  return <TechTag tag={tag} />
 }

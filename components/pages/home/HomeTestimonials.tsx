@@ -2,6 +2,7 @@
 import { ParticleHeading } from "@/components/ui/ParticleHeading"
 import { useTranslations } from "next-intl"
 import { testimonials } from "@/data/testimonials"
+import { Shell } from "@/components/layout/Shell"
 
 export function HomeTestimonials() {
   const t = useTranslations("home")
@@ -11,7 +12,7 @@ export function HomeTestimonials() {
 
   return (
     <section className="py-[clamp(80px,12vh,160px)] border-t border-border">
-      <div className="shell">
+      <Shell>
         <div className="grid grid-cols-[1fr_2fr] gap-(--gutter) mb-14 items-end max-[720px]:grid-cols-1 max-[720px]:gap-4">
           <span className="font-mono text-[12px] text-text-subtle">{t("sections.testimonials_meta")}</span>
           <ParticleHeading className="font-display font-semibold tracking-tight text-[clamp(2.5rem,5.4vw,5.5rem)] leading-[0.95]">{t("sections.testimonials_title")}</ParticleHeading>
@@ -42,7 +43,7 @@ export function HomeTestimonials() {
             )
           })}
         </div>
-      </div>
+      </Shell>
     </section>
   )
 }

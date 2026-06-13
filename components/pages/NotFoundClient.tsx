@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react"
 import { usePathname } from "next/navigation"
+import Link from "next/link"
 import { Shell } from "@/components/layout/Shell"
 import { Button } from "@/components/ui/Button"
 
@@ -230,7 +231,7 @@ export function NotFoundClient() {
 
           {/* Right: terminal */}
           <div className="flex flex-col max-[900px]:hidden">
-            <div className="terminal flex-1 flex flex-col font-mono text-[16px] relative overflow-hidden bg-surface border border-border shadow-(--shadow-terminal) before:content-[''] before:absolute before:inset-0 before:pointer-events-none before:bg-[repeating-linear-gradient(0deg,rgba(255,255,255,0.012)_0_1px,transparent_1px_3px)]" aria-label="404 terminal — decorative" role="img">
+            <div className="flex-1 flex flex-col font-mono text-[16px] relative overflow-hidden bg-surface border border-border shadow-(--shadow-terminal) before:content-[''] before:absolute before:inset-0 before:pointer-events-none before:bg-[repeating-linear-gradient(0deg,rgba(255,255,255,0.012)_0_1px,transparent_1px_3px)]" aria-label="404 terminal — decorative" role="img">
               <div className="flex items-center gap-2 py-2.5 px-3.5 border-b border-border bg-surface-2 shrink-0" aria-hidden="true">
                 <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
                 <span className="w-2.5 h-2.5 rounded-full bg-[#febc2e]" />

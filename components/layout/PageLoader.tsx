@@ -116,6 +116,7 @@ export function PageLoader() {
         ].join(" ")}
       >
         <div
+          data-loader-fill
           className="absolute inset-0 bg-primary origin-left transition-transform duration-[0.04s] linear"
           style={{ transform: `scaleX(${progress})` }}
         />

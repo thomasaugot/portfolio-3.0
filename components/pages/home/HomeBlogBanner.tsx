@@ -30,7 +30,7 @@ const COPY: Record<string, { label: string; heading: string; cta: string; readMi
   },
 }
 
-const CARD_W = 192
+const CARD_W = 224
 
 export function HomeBlogBanner({ posts }: { posts: Post[] }) {
   const locale = useLocale()
@@ -57,13 +57,13 @@ export function HomeBlogBanner({ posts }: { posts: Post[] }) {
   }
 
   return (
-    <section className="border-t border-border py-[clamp(80px,12vh,160px)]">
-      <Shell className="flex items-center gap-10 pb-3">
+    <section className="border-t border-border py-[clamp(60px,10vh,160px)]">
+      <Shell className="flex flex-col gap-10 md:flex-row md:items-stretch md:gap-10">
 
         {/* Left — eyebrow above title, stacked */}
-        <div className="shrink-0 w-[40%]">
-          <span className="text-caption font-mono text-text-subtle block mb-14">{t.label}</span>
-          <ParticleHeading className="font-display font-semibold text-[clamp(32px,4vw,56px)] tracking-[-0.03em] leading-none mb-8">{t.heading}</ParticleHeading>
+        <div className="shrink-0 w-full md:w-[38%] md:self-center">
+          <span className="text-caption font-mono text-text-subtle block mb-10 md:mb-14">{t.label}</span>
+          <ParticleHeading className="font-display font-semibold text-[clamp(28px,5vw,56px)] tracking-[-0.03em] leading-none mb-6 md:mb-8">{t.heading}</ParticleHeading>
           <TransitionLink
             href={`/${locale}/blog`}
             className="btn inline-flex items-center gap-2.5 font-mono text-[16px] tracking-[0.02em] px-5.5 py-3.5 border border-border-2 bg-transparent text-text cursor-pointer relative overflow-hidden no-underline whitespace-nowrap select-none transition-[border-color,color,background,transform] duration-normal ease-out hover:border-text active:translate-y-px"
@@ -73,38 +73,44 @@ export function HomeBlogBanner({ posts }: { posts: Post[] }) {
         </div>
 
         {/* Right — prev button + carousel + next button */}
-        {!atStart && <Button type="button" onClick={() => slide(-1)} className="shrink-0" aria-label="Previous">←</Button>}
-        <div
-          ref={scrollRef}
-          className={[
-            "flex gap-3 overflow-x-auto scrollbar-none flex-1 min-w-0 pb-3",
-            atStart && atEnd ? "" :
-            atStart ? "mask-[linear-gradient(to_right,black_85%,transparent_100%)]" :
-            atEnd   ? "mask-[linear-gradient(to_right,transparent_0%,black_15%,black_100%)]" :
-                      "mask-[linear-gradient(to_right,transparent_0%,black_15%,black_85%,transparent_100%)]",
-          ].join(" ")}
-        >
-          {posts.map((p) => (
-            <TransitionLink
-              key={p.slug}
-              href={`/${locale}/blog/${p.slug}`}
-              className="group shrink-0 w-48 border border-border bg-surface hover:border-primary transition-colors duration-200 shadow-lg"
-            >
-              <div className="relative w-full aspect-video bg-surface-2 overflow-hidden">
-                {p.cover ? (
-                  <Image src={p.cover} alt="" fill sizes="192px" className="object-cover transition-transform duration-500 group-hover:scale-105" unoptimized />
-                ) : (
-                  <div className="absolute inset-0 grid place-items-center text-caption font-mono text-text-subtle tracking-widest uppercase">no cover</div>
-                )}
-              </div>
-              <div className="p-3">
-                <p className="text-body font-display font-semibold leading-[1.35] text-text line-clamp-2 mb-1.5">{p.title}</p>
-                <span className="text-caption font-mono text-text-subtle">{t.readMin(p.readingMin)}</span>
-              </div>
-            </TransitionLink>
-          ))}
+        <div className="flex items-center gap-2 min-w-0 flex-1">
+          {!atStart && (
+            <Button type="button" onClick={() => slide(-1)} className="shrink-0 self-center hidden md:inline-flex" aria-label="Previous">←</Button>
+          )}
+          <div
+            ref={scrollRef}
+            className={[
+              "flex items-stretch gap-3 overflow-x-auto scrollbar-none flex-1 min-w-0 pb-3",
+              atStart && atEnd ? "" :
+              atStart ? "mask-[linear-gradient(to_right,black_85%,transparent_100%)]" :
+              atEnd   ? "mask-[linear-gradient(to_right,transparent_0%,black_15%,black_100%)]" :
+                        "mask-[linear-gradient(to_right,transparent_0%,black_15%,black_85%,transparent_100%)]",
+            ].join(" ")}
+          >
+            {posts.map((p) => (
+              <TransitionLink
+                key={p.slug}
+                href={`/${locale}/blog/${p.slug}`}
+                className="group shrink-0 w-[72vw] max-w-65 sm:w-56 flex flex-col border border-border bg-surface hover:border-primary transition-colors duration-200 shadow-lg"
+              >
+                <div className="relative w-full aspect-4/3 bg-surface-2 overflow-hidden shrink-0">
+                  {p.cover ? (
+                    <Image src={p.cover} alt="" fill sizes="(max-width: 640px) 72vw, 224px" className="object-cover transition-transform duration-500 group-hover:scale-105" unoptimized />
+                  ) : (
+                    <div className="absolute inset-0 grid place-items-center text-caption font-mono text-text-subtle tracking-widest uppercase">no cover</div>
+                  )}
+                </div>
+                <div className="p-3 flex-1">
+                  <p className="text-body font-display font-semibold leading-[1.35] text-text line-clamp-2 mb-1.5">{p.title}</p>
+                  <span className="text-caption font-mono text-text-subtle">{t.readMin(p.readingMin)}</span>
+                </div>
+              </TransitionLink>
+            ))}
+          </div>
+          {!atEnd && (
+            <Button type="button" onClick={() => slide(1)} className="shrink-0 self-center hidden md:inline-flex" aria-label="Next">→</Button>
+          )}
         </div>
-        {!atEnd && <Button type="button" onClick={() => slide(1)} className="shrink-0" aria-label="Next">→</Button>}
 
       </Shell>
     </section>

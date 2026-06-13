@@ -5,6 +5,7 @@ import { useState } from "react"
 import Image from "next/image"
 import { useTranslations } from "next-intl"
 import { TravelGlobe } from "@/components/pages/home/TravelGlobe"
+import { Shell } from "@/components/layout/Shell"
 
 interface Fact { k: string; v: string }
 interface TripPin { yr: string; place: string }
@@ -21,7 +22,7 @@ export function HomeAbout() {
 
   return (
     <section id="about" className="py-[clamp(80px,12vh,160px)] border-t border-border">
-      <div className="shell">
+      <Shell>
         <div className="grid grid-cols-[1fr_2fr] gap-(--gutter) mb-14 items-end max-[720px]:grid-cols-1 max-[720px]:gap-4">
           <span className="font-mono text-[12px] text-text-subtle">{t("sections.about_meta")}</span>
           <ParticleHeading className="font-display font-semibold tracking-tight text-[clamp(2.5rem,5.4vw,5.5rem)] leading-[0.95]">{t("sections.about_title")}</ParticleHeading>
@@ -89,7 +90,7 @@ export function HomeAbout() {
             </div>
           </div>
         </div>
-      </div>
+      </Shell>
     </section>
   )
 }
