@@ -37,49 +37,54 @@ export function Footer() {
   }
 
   const headingCls = "text-body font-mono text-text-subtle tracking-[0.12em] uppercase mb-4"
-  const linkCls    = "text-body text-text-muted no-underline block py-1 pl-0 transition-colors duration-150 hover:text-primary"
+  const linkCls    = "text-body text-text-muted no-underline block py-1 transition-colors duration-150 hover:text-primary"
 
   return (
     <footer className="border-t border-border pt-14 pb-8 mt-20 text-text-muted">
       <Shell>
         {/* Wordmark */}
-        <div className="font-display font-semibold text-[clamp(32px,6vw,96px)] tracking-tighter leading-[0.85] text-surface-2 mb-10 whitespace-nowrap overflow-hidden select-none">
+        <div className="font-display font-semibold text-[clamp(32px,6vw,96px)] tracking-tighter leading-[0.85] text-surface-2 mb-12 whitespace-nowrap overflow-hidden select-none">
           helloimtom.dev
         </div>
 
-        {/* Tagline */}
-        <div className="mb-10">
-          <p className="font-display font-medium text-subheading text-text tracking-[-0.01em] mb-3">{t("footer.tagline")}</p>
-          <p className="text-body text-text-subtle leading-[1.6]">
-            Las Palmas de Gran Canaria, ES.<br />
-            UTC+0 · GMT/WET
-          </p>
-        </div>
+        {/* Main row: tagline left, nav cols right */}
+        <div className="flex gap-16 mb-16 max-[700px]:flex-col max-[700px]:gap-10">
 
-        {/* Nav columns — desktop: 3 col, mobile: 2 col */}
-        <div className="grid grid-cols-3 gap-8 mb-16 max-[600px]:grid-cols-1 max-[600px]:gap-6">
-          <div>
-            <h4 className={headingCls}>{t("footer.sitemap_heading")}</h4>
-            {links.sitemap.map((l) => (
-              <TransitionLink key={l.label} href={l.href} className={linkCls}>{l.label}</TransitionLink>
-            ))}
+          {/* Left: tagline + location */}
+          <div className="flex-1 min-w-0">
+            <p className="font-display font-medium text-subheading text-text tracking-[-0.01em] mb-3">{t("footer.tagline")}</p>
+            <p className="text-body text-text-subtle leading-[1.6]">
+              Las Palmas de Gran Canaria, ES.<br />
+              UTC+0 · GMT/WET
+            </p>
           </div>
 
-          <div>
-            <h4 className={headingCls}>{t("footer.elsewhere_heading")}</h4>
-            {links.elsewhere.map((l) => (
-              <a key={l.label} href={l.href} target="_blank" rel="noopener noreferrer" className={linkCls} data-cta_click="true" data-cta_text={l.label} data-cta_url={l.href}>
-                {l.label}<span className="sr-only"> (opens in new tab)</span>
-              </a>
-            ))}
+          {/* Right: nav columns */}
+          <div className="flex gap-16 shrink-0 max-[700px]:grid max-[700px]:grid-cols-2 max-[700px]:gap-8">
+            <div>
+              <h4 className={headingCls}>{t("footer.sitemap_heading")}</h4>
+              {links.sitemap.map((l) => (
+                <TransitionLink key={l.label} href={l.href} className={linkCls}>{l.label}</TransitionLink>
+              ))}
+            </div>
+
+            <div>
+              <h4 className={headingCls}>{t("footer.elsewhere_heading")}</h4>
+              {links.elsewhere.map((l) => (
+                <a key={l.label} href={l.href} target="_blank" rel="noopener noreferrer" className={linkCls} data-cta_click="true" data-cta_text={l.label} data-cta_url={l.href}>
+                  {l.label}<span className="sr-only"> (opens in new tab)</span>
+                </a>
+              ))}
+            </div>
+
+            <div>
+              <h4 className={headingCls}>{t("footer.direct_heading")}</h4>
+              {links.direct.map((l) => (
+                <a key={l.label} href={l.href} className={linkCls}>{l.label}</a>
+              ))}
+            </div>
           </div>
 
-          <div>
-            <h4 className={headingCls}>{t("footer.direct_heading")}</h4>
-            {links.direct.map((l) => (
-              <a key={l.label} href={l.href} className={linkCls}>{l.label}</a>
-            ))}
-          </div>
         </div>
 
         {/* Bottom bar */}

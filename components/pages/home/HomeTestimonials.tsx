@@ -31,7 +31,7 @@ export function HomeTestimonials() {
                   isLastRow ? "border-b-0" : "",
                 ].join(" ")}
               >
-                <p className="font-display text-[18px] font-medium tracking-[-0.01em] leading-[1.35] flex-1 text-text">
+                <p className="text-body leading-normal flex-1 text-text">
                   <span className="font-serif text-[56px] text-primary leading-0 align-[-16px] mr-1.5 italic" aria-hidden="true">&ldquo;</span>
                   {item.q}
                 </p>
