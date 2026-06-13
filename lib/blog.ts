@@ -4,7 +4,7 @@ import matter from "gray-matter"
 import readingTime from "reading-time"
 import type { Locale } from "@/lib/seo"
 
-export const BLOG_DIR = path.join(process.cwd(), "content", "blog")
+export const BLOG_DIR = path.join(/*turbopackIgnore: true*/ process.cwd(), "content", "blog")
 const LOCALES: Locale[] = ["en", "fr", "es"]
 
 export interface BlogFrontmatter {
