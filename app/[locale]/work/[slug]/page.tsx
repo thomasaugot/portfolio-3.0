@@ -16,6 +16,7 @@ const SLUGS = [
   "areco-web",
   "charpente-menuiserie-durand",
   "adelante-business-consulting",
+  "phoenix-on-the-beach",
 ] as const
 
 interface Props {

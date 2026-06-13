@@ -390,6 +390,20 @@
       "link": "adelante-bc.com →",
       "slug": "adelante-business-consulting",
       "href": "https://adelante-bc.com/"
+    },
+    {
+      "n": "W/12",
+      "client": "Phoenix on the Beach",
+      "tag": "CrossFit Competition Event Website",
+      "type": "Full-stack · CMS · Real-time",
+      "year": "2026",
+      "role": "Full-stack",
+      "stack": "Next.js · TypeScript · Tailwind CSS · Supabase · GSAP · Lenis · next-intl",
+      "body": "Full-featured bilingual event website for a 3-day CrossFit competition held at Playa de Melenara, Gran Canaria. Built with a complete CMS backend powered by Supabase — organizers manage teams, heats, leaderboards, schedules, sponsors, movement standards, and the photo gallery through a password-protected admin panel, all without touching code. The public site features live leaderboard updates, heat grids, movement standard libraries with videos, countdown timer, and an ink-curtain page transition system with GSAP scroll reveals.",
+      "link": "phoenixonthebeach2026.es →",
+      "slug": "phoenix-on-the-beach",
+      "href": "https://phoenixonthebeach2026.es",
+      "featured": true
     }
   ],
   "about": {

@@ -317,4 +317,32 @@ export const PROJECTS: Project[] = [
       ],
     },
   },
+  {
+    n: "W/12",
+    slug: "phoenix-on-the-beach",
+    client: "Phoenix on the Beach",
+    tag: "CrossFit Competition Event Website",
+    type: "Full-stack · CMS · Real-time",
+    year: "2026",
+    cover: "/assets/images/portfolio/phoenix-on-the-beach/desktop/desktop-1.webp",
+    mobileCover: "/assets/images/portfolio/phoenix-on-the-beach/mobile/mobile-1.webp",
+    domain: "phoenixonthebeach2026.es",
+    kind: "web",
+    href: "https://phoenixonthebeach2026.es",
+    gallery: {
+      desktop: [
+        "/assets/images/portfolio/phoenix-on-the-beach/desktop/desktop-1.webp",
+        "/assets/images/portfolio/phoenix-on-the-beach/desktop/desktop-2.webp",
+        "/assets/images/portfolio/phoenix-on-the-beach/desktop/desktop-3.webp",
+      ],
+      mobile: [
+        "/assets/images/portfolio/phoenix-on-the-beach/mobile/mobile-1.webp",
+        "/assets/images/portfolio/phoenix-on-the-beach/mobile/mobile-2.webp",
+        "/assets/images/portfolio/phoenix-on-the-beach/mobile/mobile-3.webp",
+        "/assets/images/portfolio/phoenix-on-the-beach/mobile/mobile-4.webp",
+        "/assets/images/portfolio/phoenix-on-the-beach/mobile/mobile-5.webp",
+        "/assets/images/portfolio/phoenix-on-the-beach/mobile/mobile-6.webp",
+      ],
+    },
+  },
 ]

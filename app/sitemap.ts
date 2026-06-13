@@ -14,6 +14,7 @@ const WORK_SLUGS = [
   "areco-web",
   "charpente-menuiserie-durand",
   "adelante-business-consulting",
+  "phoenix-on-the-beach",
 ]
 
 function alternates(path: string) {
