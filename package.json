@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@google-analytics/data": "^5.2.2",
+    "@google/generative-ai": "^0.24.1",
+    "@marsidev/react-turnstile": "^1.5.3",
     "@gsap/react": "^2.1.2",
     "@next/third-parties": "^16.2.6",
     "@types/three": "^0.184.1",
