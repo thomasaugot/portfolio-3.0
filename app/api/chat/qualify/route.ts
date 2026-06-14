@@ -99,17 +99,29 @@ export async function POST(req: Request) {
   // Honeypot: silently reject if a bot filled the hidden field
   if (_hp) return new Response("bad_request", { status: 400 })
 
-  // Turnstile verification
+  // Turnstile verification — FAIL-OPEN.
+  // Turnstile is one bot signal, not a hard gate. It can fail for reasons outside
+  // a real user's control (network blocks Cloudflare, ad-blockers, expired token,
+  // transient 401s). Blocking the chat on that is a bad experience, so a failed /
+  // missing check is logged but the request proceeds — the honeypot and per-IP
+  // rate limit remain as the actual bot defenses.
   const tsSecret = process.env.TURNSTILE_SECRET_KEY
-  if (tsSecret) {
-    if (!_ts) return new Response("missing_captcha", { status: 403 })
-    const tsRes = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ secret: tsSecret, response: _ts }),
-    })
-    const tsData = await tsRes.json() as { success: boolean }
-    if (!tsData.success) return new Response("invalid_captcha", { status: 403 })
+  if (tsSecret && _ts) {
+    try {
+      const tsRes = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ secret: tsSecret, response: _ts }),
+      })
+      const tsData = await tsRes.json() as { success: boolean; "error-codes"?: string[] }
+      if (!tsData.success) {
+        console.warn("Turnstile check failed (proceeding):", tsData["error-codes"])
+      }
+    } catch (e) {
+      console.warn("Turnstile verify request errored (proceeding):", e)
+    }
+  } else if (tsSecret && !_ts) {
+    console.warn("Turnstile token missing (proceeding)")
   }
 
   // Cap conversation length and input size
