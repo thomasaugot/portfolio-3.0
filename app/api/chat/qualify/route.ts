@@ -4,7 +4,7 @@ import { TOM_SYSTEM_PROMPT } from "@/lib/tom-knowledge"
 // In-memory rate limiter (resets on server restart; upgrade to Redis/KV for multi-instance)
 const ipRequests = new Map<string, { count: number; windowStart: number }>()
 const WINDOW_MS = 60 * 60 * 1000 // 1 hour
-const MAX_REQUESTS = 20           // per IP per hour
+const MAX_REQUESTS = 60           // per IP per hour (~3-4 full conversations)
 const MAX_MESSAGES = 40           // max messages per conversation turn (adaptive qualify + free Q&A)
 const MAX_INPUT_LENGTH = 2000     // max chars per user message
 
@@ -82,13 +82,15 @@ export async function POST(req: Request) {
   const apiKey = process.env.GEMINI_API_KEY
   if (!apiKey) return new Response("GEMINI_API_KEY not configured", { status: 500 })
 
-  // Rate limit by IP
-  const ip =
-    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
-    req.headers.get("x-real-ip") ??
-    "unknown"
-  if (isRateLimited(ip)) {
-    return new Response("rate_limit", { status: 429 })
+  // Rate limit by IP (production only — keeps local dev/testing unthrottled).
+  if (process.env.NODE_ENV === "production") {
+    const ip =
+      req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
+      req.headers.get("x-real-ip") ??
+      "unknown"
+    if (isRateLimited(ip)) {
+      return new Response("rate_limit", { status: 429 })
+    }
   }
 
   const body = await req.json()
