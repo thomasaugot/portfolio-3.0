@@ -12,57 +12,45 @@ export interface Msg {
 }
 
 interface QualifyData {
+  stage:    string
   goal:     string
-  stack:    string
+  scope:    string
+  selling:  string
+  design:   string
   timeline: string
   budget:   string
   context:  string
 }
 
 const QUALIFY_LABELS: Record<keyof QualifyData, string> = {
+  stage:    "Stage",
   goal:     "Goal",
-  stack:    "Tech / stack",
+  scope:    "Scope",
+  selling:  "Sells",
+  design:   "Design",
   timeline: "Timeline",
   budget:   "Budget",
   context:  "Context",
 }
 
-export const QUALIFY_CHIPS: Record<string, string[][]> = {
-  en: [
-    ["Web design", "Web app / SaaS", "Marketing site", "API / backend", "AI integration", "Code audit", "Not sure yet"],
-    ["React / Next.js", "Node / Express", "Full-stack", "Flexible", "Skip"],
-    ["ASAP", "1–3 months", "3–6 months", "Just exploring", "Skip"],
-    ["< €3k", "€3k–8k", "€8k–20k", "> €20k", "Let's discuss", "Skip"],
-    ["Early-stage startup", "Established company", "Agency", "Personal project", "Skip"],
-  ],
-  fr: [
-    ["Web design", "Web app / SaaS", "Site marketing", "API / backend", "Intégration IA", "Audit de code", "Pas encore sûr"],
-    ["React / Next.js", "Node / Express", "Full-stack", "Flexible", "Passer"],
-    ["Dès que possible", "1–3 mois", "3–6 mois", "J'explore", "Passer"],
-    ["< €3k", "€3k–8k", "€8k–20k", "> €20k", "À discuter", "Passer"],
-    ["Startup", "Entreprise établie", "Agence", "Projet personnel", "Passer"],
-  ],
-  es: [
-    ["Web design", "Web app / SaaS", "Sitio marketing", "API / backend", "Integración IA", "Auditoría de código", "Aún no lo sé"],
-    ["React / Next.js", "Node / Express", "Full-stack", "Flexible", "Saltar"],
-    ["Lo antes posible", "1–3 meses", "3–6 meses", "Solo explorando", "Saltar"],
-    ["< €3k", "€3k–8k", "€8k–20k", "> €20k", "A discutir", "Saltar"],
-    ["Startup", "Empresa establecida", "Agencia", "Proyecto personal", "Saltar"],
-  ],
-}
-
+// Free-question chips shown once qualification is done.
 export const QA_CHIPS: Record<string, string[]> = {
   en: ["How do you work?", "What's your availability?", "Do you do design?", "Can you work with AI?", "Ready to connect"],
   fr: ["Comment travaillez-vous ?", "Quelles sont vos disponibilités ?", "Faites-vous du design ?", "Travaillez-vous avec l'IA ?", "Prêt à me contacter"],
   es: ["¿Cómo trabajas?", "¿Cuál es tu disponibilidad?", "¿Haces diseño?", "¿Trabajas con IA?", "Listo para conectar"],
 }
 
-const QUALIFY_NEXT_QUESTIONS = [
-  "What stack are you working with, or are you flexible?",
-  "What's your ideal timeline?",
-  "Do you have a rough budget in mind?",
-  "Last one — what's the context? Are you a startup, an agency, a solo founder?",
-]
+const SKIP_WORDS = ["Skip", "Passer", "Saltar"]
+
+// The AI appends quick-reply options as `[[chips: A | B | C]]` on the last line.
+// Pull them out and return both the parsed chips and the cleaned text.
+function parseChips(text: string): { text: string; chips: string[] } {
+  const m = text.match(/\[\[\s*chips\s*:([^\]]*)\]\]/i)
+  if (!m) return { text: text.trim(), chips: [] }
+  const chips = m[1].split("|").map(s => s.trim()).filter(Boolean)
+  const clean = text.replace(m[0], "").trim()
+  return { text: clean, chips }
+}
 
 function extractJson(text: string, start: number): string | null {
   let depth = 0
@@ -73,10 +61,19 @@ function extractJson(text: string, start: number): string | null {
   return null
 }
 
+// Bot-initiated, open-ended opening shown locally with no API call (so the chat
+// never errors on open and Turnstile has time to get a token). It does NOT assume
+// the visitor has a project — they might just have a question.
 const GREETINGS: Record<string, string> = {
-  en: "Hey, I want to tell you about a project.",
-  fr: "Bonjour, je voudrais vous parler d'un projet.",
-  es: "Hola, me gustaría contarle sobre un proyecto.",
+  en: "Hi — I'm Tom's assistant. How can I help?",
+  fr: "Bonjour — je suis l'assistant de Tom. Comment puis-je aider ?",
+  es: "Hola — soy el asistente de Tom. ¿En qué puedo ayudarte?",
+}
+
+const FIRST_CHIPS: Record<string, string[]> = {
+  en: ["I have a project", "Just a question", "Something else"],
+  fr: ["J'ai un projet", "Juste une question", "Autre chose"],
+  es: ["Tengo un proyecto", "Solo una pregunta", "Otra cosa"],
 }
 
 const ERROR_MSGS: Record<string, string> = {
@@ -119,7 +116,7 @@ export function useChatConversation(locale = "en") {
   const lang = ["en", "fr", "es"].includes(locale) ? locale : "en"
   const [msgs,          setMsgs]          = useState<Msg[]>([])
   const [phase,         setPhase]         = useState<Phase>("qualify")
-  const [answeredCount, setAnsweredCount] = useState(0)
+  const [aiChips,       setAiChips]       = useState<string[]>([])
   const [loading,       setLoading]       = useState(false)
   const [started,       setStarted]       = useState(false)
   const [input,         setInput]         = useState("")
@@ -131,52 +128,30 @@ export function useChatConversation(locale = "en") {
 
   const historyRef      = useRef<Array<{ role: "user" | "assistant"; content: string }>>([])
   const honeypotRef     = useRef("")
-  const turnstileToken  = useRef<string | null>(null)
-
-  const skip = useCallback(() => {
-    if (loading || phase !== "qualify") return
-    const nextCount = answeredCount + 1
-    setAnsweredCount(nextCount)
-    historyRef.current = [...historyRef.current, { role: "user", content: "—" }]
-    setMsgs(m => [...m, { role: "user", text: lang === "fr" ? "Passer" : lang === "es" ? "Saltar" : "Skip" }])
-
-    if (nextCount >= 5) {
-      const userMsgs = historyRef.current.filter(m => m.role === "user").slice(-5)
-      const keys: Array<keyof QualifyData> = ["goal", "stack", "timeline", "budget", "context"]
-      const q = Object.fromEntries(keys.map((k, i) => [k, userMsgs[i]?.content === "—" ? "—" : (userMsgs[i]?.content ?? "—")])) as unknown as QualifyData
-      setQualify(q)
-      setPhase("qa")
-      const rows = keys.filter(k => q[k] && q[k] !== "—").map(k => ({ label: QUALIFY_LABELS[k], value: q[k] }))
-      const summaryMsg: Msg = { role: "bot", type: "summary", text: "Project brief", rows }
-      const followupText = FOLLOWUP_MSGS[lang]
-      const followupMsg: Msg = { role: "bot", text: followupText }
-      historyRef.current = [...historyRef.current, { role: "assistant", content: followupText }]
-      setMsgs(m => [...m.filter(x => x.type !== "typing"), summaryMsg, followupMsg])
-    } else {
-      const nextQ = QUALIFY_NEXT_QUESTIONS[nextCount - 1]
-      historyRef.current = [...historyRef.current, { role: "assistant", content: nextQ }]
-      setMsgs(m => [...m, { role: "bot", text: nextQ }])
-    }
-  }, [loading, phase, answeredCount])
+  const turnstileTokenRef = useRef<string | null>(null)
 
   const enterContact = useCallback((botText?: string) => {
     const msg = botText || CONTACT_PROMPTS[lang]
     historyRef.current = [...historyRef.current, { role: "assistant", content: msg }]
     setMsgs(m => [...m.filter(x => x.type !== "typing"), { role: "bot", text: msg }])
+    setAiChips([])
     setPhase("contact")
-  }, [])
+  }, [lang])
 
-  const send = useCallback(async (text: string, isGreeting = false) => {
+  const send = useCallback(async (text: string) => {
     const trimmed = text.trim()
     if (!trimmed || loading) return
 
-    if (["Skip", "Passer", "Saltar"].includes(trimmed)) { skip(); return }
     if (["Ready to connect", "Prêt à me contacter", "Listo para conectar"].includes(trimmed) && phase === "qa") { enterContact(); return }
 
-    setInput("")
-    if (!isGreeting && phase === "qualify") setAnsweredCount(c => c + 1)
+    // "Skip" is sent to the AI as a real signal so it moves to the next question or wraps up.
+    const isSkip = SKIP_WORDS.includes(trimmed)
+    const payload = isSkip ? "I'd rather skip that one." : trimmed
 
-    historyRef.current = [...historyRef.current, { role: "user", content: trimmed }]
+    setInput("")
+    setAiChips([])
+
+    historyRef.current = [...historyRef.current, { role: "user", content: payload }]
     setMsgs(m => [...m, { role: "user", text: trimmed }])
     setLoading(true)
     setMsgs(m => [...m, { role: "bot", type: "typing", text: "" }])
@@ -192,7 +167,7 @@ export function useChatConversation(locale = "en") {
         body: JSON.stringify({
           messages: historyRef.current,
           _hp: honeypotRef.current,
-          _ts: turnstileToken.current,
+          _ts: turnstileTokenRef.current,
         }),
       })
       if (res.status === 429) {
@@ -227,22 +202,27 @@ export function useChatConversation(locale = "en") {
           .filter(k => q[k] && q[k] !== "—")
           .map(k => ({ label: QUALIFY_LABELS[k], value: q[k] }))
         const summaryMsg: Msg = { role: "bot", type: "summary", text: "Project brief", rows }
-        const followupText = cleanText || FOLLOWUP_MSGS[lang]
+        const followupText = parseChips(cleanText).text || FOLLOWUP_MSGS[lang]
         const followupMsg: Msg = { role: "bot", text: followupText }
         historyRef.current = [...historyRef.current, { role: "assistant", content: followupText }]
         setMsgs(m => [...m.filter(x => x.type !== "typing"), summaryMsg, followupMsg])
+        setAiChips([])
       } else if (ev?.event === "qa_done") {
         enterContact(cleanText)
       } else {
-        historyRef.current = [...historyRef.current, { role: "assistant", content: cleanText }]
-        setMsgs(m => [...m.filter(x => x.type !== "typing"), { role: "bot", text: cleanText }])
+        // Normal bot question/answer — pull any AI-suggested quick-reply chips off the last line.
+        const { text: botText, chips: parsedChips } = parseChips(cleanText)
+        historyRef.current = [...historyRef.current, { role: "assistant", content: botText }]
+        setMsgs(m => [...m.filter(x => x.type !== "typing"), { role: "bot", text: botText }])
+        if (phase === "qualify") setAiChips(parsedChips)
+        else setAiChips([])
       }
     } catch {
       setMsgs(m => [...m.filter(x => x.type !== "typing"), { role: "bot", text: ERROR_MSGS[lang] }])
     } finally {
       setLoading(false)
     }
-  }, [loading, phase, skip, enterContact])
+  }, [loading, phase, enterContact, lang])
 
   const submitContact = useCallback(async (qualify: QualifyData | null) => {
     const name    = cName.trim()
@@ -260,8 +240,11 @@ export function useChatConversation(locale = "en") {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name, contact,
+          stage:    qualify?.stage    ?? "—",
           goal:     qualify?.goal     ?? "—",
-          stack:    qualify?.stack    ?? "—",
+          scope:    qualify?.scope    ?? "—",
+          selling:  qualify?.selling  ?? "—",
+          design:   qualify?.design   ?? "—",
           timeline: qualify?.timeline ?? "—",
           budget:   qualify?.budget   ?? "—",
           context:  qualify?.context  ?? "—",
@@ -280,39 +263,42 @@ export function useChatConversation(locale = "en") {
     } finally {
       setSending(false)
     }
-  }, [cName, cContact, sending])
+  }, [cName, cContact, sending, lang])
 
   const startConv = useCallback(() => {
     if (started) return
     setStarted(true)
-    send(GREETINGS[lang], true)
-  }, [started, send, lang])
+    // Seed the opening bot turn locally — no API call. The greeting is recorded
+    // as an assistant message so the AI has context once the user replies.
+    const greeting = GREETINGS[lang]
+    historyRef.current = [{ role: "assistant", content: greeting }]
+    setMsgs([{ role: "bot", text: greeting }])
+    setAiChips(FIRST_CHIPS[lang] ?? FIRST_CHIPS.en)
+  }, [started, lang])
 
-  const PROG_LABELS: Record<string, [string, string, string, string]> = {
-    en: ["Free questions", "Contact info", "Done ✓", "Tom's assistant"],
-    fr: ["Questions libres", "Coordonnées", "Terminé ✓", "Assistant de Tom"],
-    es: ["Preguntas libres", "Datos de contacto", "Listo ✓", "Asistente de Tom"],
+  const PROG_LABELS: Record<string, [string, string, string, string, string]> = {
+    en: ["Free questions", "Contact info", "Done ✓", "Tom's assistant", "Project brief"],
+    fr: ["Questions libres", "Coordonnées", "Terminé ✓", "Assistant de Tom", "Brief projet"],
+    es: ["Preguntas libres", "Datos de contacto", "Listo ✓", "Asistente de Tom", "Brief del proyecto"],
   }
-  const [qaLabel, contactLabel, doneLabel] = PROG_LABELS[lang]
+  const [qaLabel, contactLabel, doneLabel, assistantLabel, qualifyLabel] = PROG_LABELS[lang]
 
   const prog = phase === "qualify"
-    ? `0${Math.min(answeredCount + 1, 5)} / 05`
+    ? qualifyLabel
     : phase === "qa"
     ? qaLabel
     : phase === "contact"
     ? contactLabel
     : doneLabel
 
-  const localizedQualifyChips = QUALIFY_CHIPS[lang] ?? QUALIFY_CHIPS.en
-  const qIdx = Math.min(answeredCount, localizedQualifyChips.length - 1)
+  const skipWord = lang === "fr" ? "Passer" : lang === "es" ? "Saltar" : "Skip"
   const qaChips = QA_CHIPS[lang] ?? QA_CHIPS.en
+  // Qualify chips come from the AI per question; always offer a skip alongside them.
   const chips = phase === "qualify"
-    ? localizedQualifyChips[qIdx] ?? []
+    ? (aiChips.length > 0 ? [...aiChips, skipWord] : [])
     : phase === "qa"
     ? qaChips
     : []
-
-  const [, , , assistantLabel] = PROG_LABELS[lang]
 
   return {
     msgs, phase, loading, input, setInput,
@@ -320,8 +306,8 @@ export function useChatConversation(locale = "en") {
     sending, sent, qualify, prog, chips,
     assistantLabel,
     honeypotRef,
-    turnstileToken,
-    send, skip, enterContact,
+    turnstileTokenRef,
+    send, enterContact,
     submitContact: () => submitContact(qualify),
     startConv,
   }

@@ -1,11 +1,20 @@
 "use client"
 import { useEffect } from "react"
-import { STORAGE_KEY } from "@/components/shared/CookieBanner"
+import { hasAnalyticsConsent } from "@/components/shared/CookieBanner"
 
 const GTM_ID = "GTM-M6GQ2N7Z"
 
+// Injects Google Tag Manager — ONLY ever called once the user has actively
+// consented to analytics cookies. Until then, GTM never loads and no analytics
+// network requests are made (GDPR / ePrivacy compliant: opt-in, not opt-out).
 function injectGTM() {
   if (document.getElementById("gtm-script")) return
+
+  // Standard GTM bootstrap: init dataLayer + push gtm.start before loading gtm.js.
+  const w = window as unknown as { dataLayer?: unknown[] }
+  w.dataLayer = w.dataLayer || []
+  w.dataLayer.push({ "gtm.start": Date.now(), event: "gtm.js" })
+
   const s = document.createElement("script")
   s.id = "gtm-script"
   s.async = true
@@ -24,14 +33,11 @@ function injectGTM() {
 
 export function ConsentGTM() {
   useEffect(() => {
-    if (localStorage.getItem(STORAGE_KEY) === "accepted") {
-      injectGTM()
-    }
+    // Load now if analytics was already accepted in a previous session.
+    if (hasAnalyticsConsent()) injectGTM()
 
-    const handler = (e: Event) => {
-      const detail = (e as CustomEvent).detail
-      if (detail === "accepted") injectGTM()
-    }
+    // Load the moment the user accepts analytics in the banner this session.
+    const handler = () => { if (hasAnalyticsConsent()) injectGTM() }
     window.addEventListener("cookie_consent", handler)
     return () => window.removeEventListener("cookie_consent", handler)
   }, [])

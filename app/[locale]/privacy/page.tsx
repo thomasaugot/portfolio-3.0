@@ -4,6 +4,7 @@ import { appConfig } from "@/config/app.config"
 import { ParticleHeading } from "@/components/ui/ParticleHeading"
 import { PageReadyMarker } from "@/components/blog/PageReadyMarker"
 import { Shell } from "@/components/layout/Shell"
+import { TransitionLink } from "@/components/ui/TransitionLink"
 
 export function generateStaticParams() {
   return [{ locale: "en" }, { locale: "fr" }, { locale: "es" }]
@@ -26,12 +27,14 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 const CONTENT: Record<Locale, {
   eyebrow: string
+  back: string
   title: string
   updated: string
   sections: Array<{ heading: string; body: Array<{ text: string; href?: string }> }>
 }> = {
   en: {
     eyebrow: "[ LEGAL ]",
+    back: "Back to home",
     title: "Privacy Policy.",
     updated: "Last updated: June 2026",
     sections: [
@@ -84,6 +87,7 @@ const CONTENT: Record<Locale, {
   },
   fr: {
     eyebrow: "[ LÉGAL ]",
+    back: "Retour à l'accueil",
     title: "Confidentialité.",
     updated: "Dernière mise à jour : juin 2026",
     sections: [
@@ -136,6 +140,7 @@ const CONTENT: Record<Locale, {
   },
   es: {
     eyebrow: "[ LEGAL ]",
+    back: "Volver al inicio",
     title: "Privacidad.",
     updated: "Última actualización: junio de 2026",
     sections: [
@@ -198,18 +203,26 @@ export default async function PrivacyPage({ params }: { params: Promise<{ locale
       <Shell>
         <PageReadyMarker />
 
-        <span className="text-caption font-mono text-text-subtle block mb-10">{c.eyebrow}</span>
+        <span className="text-body font-mono text-text-subtle block mb-6">{c.eyebrow}</span>
+
+        <TransitionLink
+          href={`/${safe}`}
+          className="btn inline-flex items-center gap-2 mb-10"
+        >
+          <span aria-hidden="true">←</span>
+          {c.back}
+        </TransitionLink>
 
         <ParticleHeading as="h1" className="font-display font-semibold tracking-tight text-[clamp(2.5rem,5.4vw,5.5rem)] leading-[0.95] mb-6">
           {c.title}
         </ParticleHeading>
 
-        <p className="text-caption font-mono text-text-subtle mb-16">{c.updated}</p>
+        <p className="text-body font-mono text-text-subtle mb-16">{c.updated}</p>
 
         <div className="border-t border-border max-w-3xl">
           {c.sections.map((section) => (
             <div key={section.heading} className="grid grid-cols-[200px_1fr] max-[640px]:grid-cols-1 gap-8 border-b border-border py-10">
-              <h2 className="text-caption font-mono text-text-subtle tracking-widest uppercase pt-1">
+              <h2 className="text-body font-mono text-text-subtle tracking-widest uppercase pt-1">
                 {section.heading}
               </h2>
               <div className="flex flex-col gap-3">
@@ -220,7 +233,7 @@ export default async function PrivacyPage({ params }: { params: Promise<{ locale
                       href={item.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-body text-primary font-mono text-sm no-underline transition-opacity duration-150 hover:opacity-70 keyboard-focus-ring"
+                      className="text-body text-primary font-mono no-underline transition-opacity duration-150 hover:opacity-70 keyboard-focus-ring"
                     >
                       {item.text}
                     </a>

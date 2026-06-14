@@ -18,15 +18,16 @@ export function HomeTestimonials() {
           <ParticleHeading className="font-display font-semibold tracking-tight text-[clamp(2.5rem,5.4vw,5.5rem)] leading-[0.95]">{t("sections.testimonials_title")}</ParticleHeading>
         </div>
 
-        <div className="grid grid-cols-2 border border-border max-[720px]:grid-cols-1 shadow-lg">
+        <div className="grid grid-cols-2 border border-border max-[720px]:grid-cols-1">
           {testimonials.map((item, idx) => {
             const isLastCol = (idx + 1) % cols === 0
             const isLastRow = idx >= lastRowStart
             return (
               <div
                 key={idx}
+                data-anim="testi-card"
                 className={[
-                  "p-8 border-r border-b border-border flex flex-col gap-5 transition-colors duration-300 hover:bg-surface",
+                  "card-hover p-8 border-r border-b border-border flex flex-col gap-5",
                   isLastCol ? "border-r-0" : "",
                   isLastRow ? "border-b-0" : "",
                 ].join(" ")}

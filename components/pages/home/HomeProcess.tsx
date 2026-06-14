@@ -22,7 +22,7 @@ export function HomeProcess() {
           <ParticleHeading className="font-display font-semibold tracking-tight text-[clamp(2.5rem,5.4vw,5.5rem)] leading-[0.95]">{t("sections.process_title")}</ParticleHeading>
         </div>
 
-        <div className="border border-border shadow-lg">
+        <div className="border border-border">
           {steps.map((step, idx) => (
             <div key={step.n} data-anim="proc-row" className={`proc-row border-r border-b border-border${idx === steps.length - 1 ? " border-b-0" : ""}`}>
               <span className="proc-num text-caption text-text-subtle">{step.n}</span>

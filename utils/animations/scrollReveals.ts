@@ -3,6 +3,8 @@
 import { gsap, ScrollTrigger } from "@/lib/gsap"
 
 function hide(selector: string, props: gsap.TweenVars = {}) {
+  // Guard against selectors with no matching elements — gsap.set warns otherwise.
+  if (typeof document !== "undefined" && document.querySelector(selector) === null) return
   gsap.set(selector, { opacity: 0, ...props })
 }
 

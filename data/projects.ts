@@ -294,31 +294,6 @@ export const PROJECTS: Project[] = [
   },
   {
     n: "W/11",
-    slug: "adelante-business-consulting",
-    client: "Adelante BC",
-    tag: "Adelante Business Consulting",
-    type: "WordPress · Elementor",
-    year: "2026",
-    cover: "/assets/images/portfolio/adelante/desktop/desktop-1.webp",
-    mobileCover: "/assets/images/portfolio/adelante/mobile/mobile-1.webp",
-    domain: "adelante-bc.com",
-    kind: "web",
-    href: "https://adelante-bc.com/",
-    gallery: {
-      desktop: [
-        "/assets/images/portfolio/adelante/desktop/desktop-1.webp",
-        "/assets/images/portfolio/adelante/desktop/desktop-2.webp",
-        "/assets/images/portfolio/adelante/desktop/desktop-3.webp",
-      ],
-      mobile: [
-        "/assets/images/portfolio/adelante/mobile/mobile-1.webp",
-        "/assets/images/portfolio/adelante/mobile/mobile-2.webp",
-        "/assets/images/portfolio/adelante/mobile/mobile-3.webp",
-      ],
-    },
-  },
-  {
-    n: "W/12",
     slug: "phoenix-on-the-beach",
     client: "Phoenix on the Beach",
     tag: "CrossFit Competition Event Website",

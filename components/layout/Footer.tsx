@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation"
 import { appConfig } from "@/config/app.config"
 import { useTranslationContext } from "@/contexts/TranslationContext"
 import { TransitionLink } from "@/components/ui/TransitionLink"
+import { openCookieSettings } from "@/components/shared/CookieBanner"
 import { Shell } from "@/components/layout/Shell"
 
 export function Footer() {
@@ -90,9 +91,18 @@ export function Footer() {
         {/* Bottom bar */}
         <div className="pt-6 border-t border-border flex flex-wrap items-center justify-between gap-4">
           <p className="text-body text-text-subtle">{t("footer.copy")}</p>
-          <TransitionLink href={`/${language}/privacy`} className="text-body font-mono text-text-subtle no-underline transition-colors duration-150 hover:text-primary">
-            {language === "fr" ? "Politique de confidentialité" : language === "es" ? "Política de privacidad" : "Privacy Policy"}
-          </TransitionLink>
+          <div className="flex flex-wrap items-center gap-5">
+            <button
+              type="button"
+              onClick={openCookieSettings}
+              className="keyboard-focus-ring text-body font-mono text-text-subtle bg-transparent border-0 cursor-pointer transition-colors duration-150 hover:text-primary"
+            >
+              {language === "fr" ? "Paramètres des cookies" : language === "es" ? "Configuración de cookies" : "Cookie settings"}
+            </button>
+            <TransitionLink href={`/${language}/privacy`} className="text-body font-mono text-text-subtle no-underline transition-colors duration-150 hover:text-primary">
+              {language === "fr" ? "Politique de confidentialité" : language === "es" ? "Política de privacidad" : "Privacy Policy"}
+            </TransitionLink>
+          </div>
         </div>
       </Shell>
     </footer>

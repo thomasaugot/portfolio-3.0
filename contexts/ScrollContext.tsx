@@ -1,6 +1,6 @@
 "use client"
 
-import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react"
+import { createContext, useContext, useEffect, useState, type ReactNode } from "react"
 import { usePathname } from "next/navigation"
 
 interface ScrollContextValue {
@@ -11,7 +11,6 @@ const ScrollContext = createContext<ScrollContextValue>({ lenis: null })
 
 export function ScrollProvider({ children }: { children: ReactNode }) {
   const [lenis, setLenis] = useState<import("lenis").default | null>(null)
-  const rafId = useRef<number | null>(null)
   const pathname = usePathname()
 
   useEffect(() => {
@@ -39,7 +38,6 @@ export function ScrollProvider({ children }: { children: ReactNode }) {
     init().catch(() => {})
 
     return () => {
-      if (rafId.current) cancelAnimationFrame(rafId.current)
       instance?.destroy()
       setLenis(null)
     }

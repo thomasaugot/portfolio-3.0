@@ -1,7 +1,10 @@
 import type { Metadata } from "next"
 import { JetBrains_Mono, Space_Grotesk, Instrument_Serif } from "next/font/google"
-import { ThemeInit } from "@/components/ui/ThemeInit"
 import "@/globals.css"
+
+// Runs before first paint to apply the saved theme — prevents the light-mode
+// flash on hard reload. Default is dark when no preference is stored.
+const THEME_INIT_SCRIPT = `(function(){try{var t=localStorage.getItem("theme");document.documentElement.setAttribute("data-theme",t==="light"?"light":"dark")}catch(e){document.documentElement.setAttribute("data-theme","dark")}})();`
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
@@ -52,12 +55,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en"
-      data-theme="light"
+      data-theme="dark"
       suppressHydrationWarning
       className={`${jetbrainsMono.variable} ${spaceGrotesk.variable} ${instrumentSerif.variable} bg-bg text-text font-mono text-base leading-[var(--leading-normal)] overflow-x-hidden antialiased [font-feature-settings:'ss01','ss02','cv01','cv02'] [text-rendering:optimizeLegibility]`}
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+      </head>
       <body className="min-h-svh overflow-x-hidden bg-[radial-gradient(1200px_800px_at_80%_-10%,rgba(212,255,58,0.04),transparent_60%),radial-gradient(1000px_700px_at_-10%_120%,rgba(212,255,58,0.025),transparent_60%)]">
-        <ThemeInit />
         {children}
       </body>
     </html>

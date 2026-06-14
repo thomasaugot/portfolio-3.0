@@ -68,9 +68,7 @@
   --radius-full: 9999px;
 
   /* ── Shadows ──────────────────────────────────── */
-  --shadow-sm: 0 1px 2px rgba(0,0,0,0.6);
   --shadow-md: 0 4px 12px rgba(0,0,0,0.7);
-  --shadow-lg: 0 8px 32px rgba(0,0,0,0.8);
   --shadow-terminal: 0 1px 0 rgba(255,255,255,0.04) inset, 0 30px 60px -20px rgba(0,0,0,0.5);
 
   /* ── Easing & Transitions ─────────────────────── */
@@ -90,7 +88,9 @@
   --z-modal:           70;
   --z-picker:          75;
   --z-overlay:         80;
+  --z-bot:             85;
   --z-toast:           90;
+  --z-cookie:          95;
   --z-loader:          100;
   --z-nav:             100;
   --z-cursor:          110;
@@ -124,9 +124,7 @@ html[data-theme="light"] {
   --accent-4: #0b0b0a;
   --accent-5: #0b0b0a;
 
-  --shadow-sm: 4px 4px 0 #0b0b0a;
   --shadow-md: 6px 6px 0 #0b0b0a;
-  --shadow-lg: 10px 10px 0 #0b0b0a;
   --shadow-terminal: 0 1px 0 rgba(255,255,255,0.6) inset, 8px 8px 0 #0b0b0a;
 }
 
@@ -567,6 +565,7 @@ html[data-theme="light"] .btn-filled {
 
 /* Card hover with lime border: thick lime border + black outline + offset shadow */
 html[data-theme="light"] .hover\:border-primary:hover,
+html[data-theme="light"] .card-hover:hover,
 html[data-theme="light"] .group:hover .group-hover\:border-primary {
   border-color: var(--color-primary-glow) !important;
   border-width: 2px !important;
@@ -647,9 +646,7 @@ html[data-contrast="high"] {
   --radius-lg:   var(--radius-lg);
   --radius-full: var(--radius-full);
 
-  --shadow-sm: var(--shadow-sm);
   --shadow-md: var(--shadow-md);
-  --shadow-lg: var(--shadow-lg);
 
   --maxw:            var(--maxw);
   --max-width-maxw:  92.5rem;

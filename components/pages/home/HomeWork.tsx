@@ -120,8 +120,7 @@ export function HomeWork() {
 
               <div
                 className={[
-                  "shadow-lg relative bg-surface-2 border border-border overflow-hidden cursor-pointer",
-                  "transition-[transform] duration-500 ease-snappy hover:-translate-y-1",
+                  "card-hover shadow-md relative bg-surface-2 border border-border overflow-hidden cursor-pointer",
                   mockup?.kind === "mobile" ? "aspect-3/4" : "aspect-5/3",
                   "min-[900px]:aspect-4/3",
                   "after:content-[''] after:absolute after:inset-0 after:pointer-events-none",

@@ -10,7 +10,8 @@ import { Footer } from "@/components/layout/Footer"
 import { PageShell } from "@/components/layout/PageShell"
 import { TransitionOverlay } from "@/components/layout/TransitionOverlay"
 import { TranslationProvider } from "@/contexts/TranslationContext"
-import { GoogleTagManager } from "@next/third-parties/google"
+import { CookieBanner } from "@/components/shared/CookieBanner"
+import { ConsentGTM } from "@/components/shared/ConsentGTM"
 import AnalyticsTracker from "@/components/AnalyticsTracker"
 import { verifySession } from "@/lib/admin-auth"
 import { JsonLd } from "@/components/seo/JsonLd"
@@ -49,7 +50,8 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
 
   return (
     <>
-      {!isAdmin && <GoogleTagManager gtmId="GTM-M6GQ2N7Z" />}
+      {/* GTM loads ONLY after the user accepts analytics cookies (see ConsentGTM). */}
+      {!isAdmin && <ConsentGTM />}
       <JsonLd locale={locale as Locale} />
       <Providers locale={locale} messages={messages as Record<string, unknown>}>
         <TranslationProvider locale={locale as Language}>
@@ -62,6 +64,7 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
             <Footer />
           </div>
           <TransitionOverlay />
+          <CookieBanner />
         </TranslationProvider>
       </Providers>
     </>

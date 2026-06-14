@@ -34,7 +34,7 @@ export function HomeSocials() {
           <ParticleHeading className="font-display font-semibold tracking-tight text-[clamp(2.5rem,5.4vw,5.5rem)] leading-[0.95]">{t("socials.section_title")}</ParticleHeading>
         </div>
 
-        <div className="grid gap-0.5 grid-cols-[2fr_1fr_1fr] max-[700px]:grid-cols-1 shadow-lg">
+        <div className="grid gap-0.5 grid-cols-[2fr_1fr_1fr] max-[700px]:grid-cols-1">
           {items.map((s) => (
             <a
               key={s.key}
@@ -42,7 +42,7 @@ export function HomeSocials() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`${s.label} — ${s.cta} (opens in new tab)`}
-              className={`group flex flex-col gap-3 p-7 border border-border no-underline text-inherit transition-[background,border-color] duration-150 hover:bg-surface-2 hover:border-primary keyboard-focus-ring${FEATURED[s.key] ? " bg-surface-2" : " bg-surface"}`}
+              className={`card-hover group flex flex-col gap-3 p-7 border border-border no-underline text-inherit keyboard-focus-ring${FEATURED[s.key] ? " bg-surface-2" : " bg-surface"}`}
               data-cta_click="true"
               data-cta_text={s.label}
               data-cta_url={HREFS[s.key] ?? "#"}

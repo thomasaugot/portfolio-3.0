@@ -89,6 +89,6 @@ export function useGSAPAnimations(
 
       return () => ctx.revert()
     },
-    [loaderGone, delay, ...dependencies] // eslint-disable-line react-hooks/exhaustive-deps
+    [loaderGone, delay, ...dependencies]
   )
 }

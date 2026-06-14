@@ -25,13 +25,14 @@ export function HomeServices() {
           <ParticleHeading className="font-display font-semibold tracking-tight text-[clamp(2.5rem,5.4vw,5.5rem)] leading-[0.95]">{t("sections.services_title")}</ParticleHeading>
         </div>
 
-        <div className="grid grid-cols-2 gap-0 border border-border max-[720px]:grid-cols-1 shadow-lg">
+        <div className="grid grid-cols-2 gap-0 border border-border max-[720px]:grid-cols-1">
           {services.map((svc, idx) => {
             const isLastCol = (idx + 1) % cols === 0
             const isLastRow = idx >= services.length - cols
             return (
               <div
                 key={svc.n}
+                data-anim="service-card"
                 className={[
                   "service-card",
                   isLastCol ? "border-r-0" : "",

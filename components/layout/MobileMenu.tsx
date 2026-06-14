@@ -6,15 +6,14 @@ import { TransitionLink } from "@/components/ui/TransitionLink"
 import { useTranslations } from "next-intl"
 import { usePathname } from "next/navigation"
 import { useTranslationContext } from "@/contexts/TranslationContext"
-import type { Language } from "@/config/i18n.config"
+import { LanguageToggle } from "@/components/ui/LanguageToggle"
 
 const MOBILE_GRID_ITEMS = ["services", "work", "process", "stack", "about", "blog"] as const
 const NAV_HREF: Record<string, string> = { work: "/work", blog: "/blog", home: "" }
-const LOCALES: Language[] = ["en", "fr", "es"]
 
 export function MobileMenu() {
   const t = useTranslations()
-  const { language, changeLanguage } = useTranslationContext()
+  const { language } = useTranslationContext()
   const pathname = usePathname()
   const isHome = pathname === `/${language}`
   const [open, setOpen] = useState(false)
@@ -74,7 +73,7 @@ export function MobileMenu() {
       {/* Hamburger */}
       <button
         ref={hamburgerRef}
-        className="navbar-hamburger fixed top-[14px] right-4 z-nav flex flex-col justify-center items-center gap-[5px] w-11 h-11 bg-bg border border-border-2 cursor-pointer md:hidden transition-[border-color] duration-normal ease-out hover:border-text-subtle keyboard-focus-ring"
+        className="navbar-hamburger fixed top-[14px] right-4 z-nav flex flex-col justify-center items-center gap-[5px] w-11 h-11 bg-bg border border-border-2 cursor-pointer lg:hidden transition-[border-color] duration-normal ease-out hover:border-text-subtle keyboard-focus-ring"
         onClick={() => setOpen((v) => !v)}
         aria-label={open ? "Close menu" : "Open menu"}
         aria-expanded={open}
@@ -156,23 +155,7 @@ export function MobileMenu() {
               <span className="w-[7px] h-[7px] rounded-full bg-ok shadow-[0_0_10px_var(--color-ok)] animate-[blip_2s_ease-in-out_infinite] shrink-0" />
               {t("status.available")}
             </div>
-            <div className="inline-flex border border-border-2" role="group" aria-label="Language selector">
-              {LOCALES.map((lang) => (
-                <button
-                  key={lang}
-                  onClick={() => { changeLanguage(lang as Language); close() }}
-                  className={[
-                    "bg-transparent border-0 text-text-muted py-[7px] px-[9px] font-mono text-[11px] tracking-[0.08em] cursor-pointer",
-                    "transition-[color,background] duration-fast ease-out keyboard-focus-ring",
-                    language === lang ? "active" : "hover:text-text",
-                  ].join(" ")}
-                  aria-current={language === lang ? "true" : undefined}
-                  aria-label={`Switch to ${lang.toUpperCase()}`}
-                >
-                  {lang.toUpperCase()}
-                </button>
-              ))}
-            </div>
+            <LanguageToggle onSelect={close} />
           </div>
           <TransitionLink
             href={`/${language}#contact`}

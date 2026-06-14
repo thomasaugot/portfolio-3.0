@@ -89,7 +89,7 @@ export function JsonLd({ locale }: Props) {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(person) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(website) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(professionalService) }} />
-      <meta name="thomas-locale" content={locale} aria-hidden="true" />
+      <meta name="thomas-locale" content={locale} />
     </>
   )
 }

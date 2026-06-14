@@ -3,7 +3,6 @@
 import {
   createContext, useContext, useCallback, useMemo, type ReactNode
 } from "react"
-import { useLocale } from "next-intl"
 import { useRouter, usePathname } from "next/navigation"
 import type { Language } from "@/config/i18n.config"
 import { routeTranslations } from "@/config/i18n.config"

@@ -283,11 +283,8 @@ export function TravelGlobe({ onHover }: Props) {
 
     // City pins + pulse rings (square in light, sphere in dark)
     const pinGeo     = isLight ? new THREE.PlaneGeometry(0.048, 0.048) : new THREE.SphereGeometry(0.026, 8, 8)
-    const pinOutGeo  = new THREE.SphereGeometry(0.030, 12, 12)
-    const pinShadGeo = new THREE.SphereGeometry(0.026, 8, 8)
     const ringGeo = new THREE.RingGeometry(0.034, 0.05, 16)
     const pinMat  = new THREE.MeshBasicMaterial({ color: 0xd4ff3a })
-    const pinOutMat = new THREE.MeshBasicMaterial({ color: 0x1a1a17 })
 
     const pinObjs = PINS.map((p, i) => {
       const pinPos = lonLatToVec3(p.lon, p.lat, R + 0.024)

@@ -56,7 +56,8 @@ export function HomeAbout() {
               {about.trip.map((pin, idx) => (
                 <div
                   key={idx}
-                  className="border border-border p-3.5 text-[11px] text-text-muted relative overflow-hidden transition-[border-color,color] duration-300 hover:border-primary hover:text-text shadow-sm"
+                  data-anim="trip-pin"
+                  className="card-hover border border-border p-3.5 text-[11px] text-text-muted relative overflow-hidden"
                 >
                   <div className="font-display text-[22px] font-semibold tracking-[-0.02em] text-text">{pin.yr}</div>
                   <div className="mt-1 tracking-[0.05em]">{pin.place}</div>
@@ -82,7 +83,7 @@ export function HomeAbout() {
 
             <div className="flex flex-col border-t border-border">
               {about.facts.map((f) => (
-                <div key={f.k} className="py-[18px] border-b border-border grid grid-cols-[1fr_2fr] gap-6 items-baseline">
+                <div key={f.k} data-anim="about-fact" className="py-4.5 border-b border-border grid grid-cols-[1fr_2fr] gap-6 items-baseline">
                   <span className="text-text-subtle text-[12px] tracking-[0.05em]">{f.k}</span>
                   <span className="text-[16px] text-text">{f.v}</span>
                 </div>

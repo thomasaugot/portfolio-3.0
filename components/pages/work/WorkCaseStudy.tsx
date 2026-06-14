@@ -21,6 +21,28 @@ interface WorkItem {
   slug: string
 }
 
+function NavDots({ images, imgIdx, setImgIdx }: { images: string[]; imgIdx: number; setImgIdx: (i: number) => void }) {
+  const goPrev = () => setImgIdx((imgIdx - 1 + images.length) % images.length)
+  const goNext = () => setImgIdx((imgIdx + 1) % images.length)
+  return (
+    <div className="inline-flex items-center border border-border bg-surface-2" role="group" aria-label="Image navigation">
+      <button onClick={goPrev} className="px-3 py-2 text-body font-mono text-text-subtle border-r border-border transition-colors hover:text-primary cursor-pointer leading-none keyboard-focus-ring" aria-label="Previous screen">
+        <span aria-hidden="true">←</span>
+      </button>
+      <div className="flex gap-2 items-center px-3">
+        {images.map((_, i) => (
+          <button key={i} onClick={() => setImgIdx(i)} aria-label={`Screen ${i + 1}`} aria-pressed={i === imgIdx}
+            className={`h-1.5 transition-all duration-200 cursor-pointer keyboard-focus-ring ${i === imgIdx ? "w-5 bg-primary" : "w-1.5 bg-border-2 hover:bg-text-subtle"}`}
+          />
+        ))}
+      </div>
+      <button onClick={goNext} className="px-3 py-2 text-body font-mono text-text-subtle border-l border-border transition-colors hover:text-primary cursor-pointer leading-none keyboard-focus-ring" aria-label="Next screen">
+        <span aria-hidden="true">→</span>
+      </button>
+    </div>
+  )
+}
+
 export function WorkCaseStudy({ slug }: { slug: string }) {
   usePageReady()
   const t = useTranslations("home")
@@ -41,30 +63,9 @@ export function WorkCaseStudy({ slug }: { slug: string }) {
   const images = project.kind === "mobile" ? gallery.mobile : gallery.desktop
   const canNav = images.length > 1
 
-  const goPrev = () => setImgIdx((i) => (i - 1 + images.length) % images.length)
-  const goNext = () => setImgIdx((i) => (i + 1) % images.length)
-
   const currentDesktop = gallery.desktop[imgIdx] ?? project.cover
   const currentMobile  = gallery.mobile[imgIdx] ?? project.mobileCover ?? project.cover
   const currentMobile2 = gallery.mobile[(imgIdx + 1) % Math.max(gallery.mobile.length, 1)] ?? project.cover2
-
-  const NavDots = () => (
-    <div className="inline-flex items-center border border-border bg-surface-2" role="group" aria-label="Image navigation">
-      <button onClick={goPrev} className="px-3 py-2 text-body font-mono text-text-subtle border-r border-border transition-colors hover:text-primary cursor-pointer leading-none keyboard-focus-ring" aria-label="Previous screen">
-        <span aria-hidden="true">←</span>
-      </button>
-      <div className="flex gap-2 items-center px-3">
-        {images.map((_, i) => (
-          <button key={i} onClick={() => setImgIdx(i)} aria-label={`Screen ${i + 1}`} aria-pressed={i === imgIdx}
-            className={`h-1.5 transition-all duration-200 cursor-pointer keyboard-focus-ring ${i === imgIdx ? "w-5 bg-primary" : "w-1.5 bg-border-2 hover:bg-text-subtle"}`}
-          />
-        ))}
-      </div>
-      <button onClick={goNext} className="px-3 py-2 text-body font-mono text-text-subtle border-l border-border transition-colors hover:text-primary cursor-pointer leading-none keyboard-focus-ring" aria-label="Next screen">
-        <span aria-hidden="true">→</span>
-      </button>
-    </div>
-  )
 
   return (
     <>
@@ -92,7 +93,7 @@ export function WorkCaseStudy({ slug }: { slug: string }) {
 
           {canNav && (
             <div className="absolute bottom-0 left-0 right-0 z-30 flex items-center justify-center pb-6">
-              <NavDots />
+              <NavDots images={images} imgIdx={imgIdx} setImgIdx={setImgIdx} />
             </div>
           )}
         </div>
@@ -170,7 +171,7 @@ export function WorkCaseStudy({ slug }: { slug: string }) {
 
             {canNav && (
               <div className="relative z-20 flex justify-center pb-4">
-                <NavDots />
+                <NavDots images={images} imgIdx={imgIdx} setImgIdx={setImgIdx} />
               </div>
             )}
           </div>

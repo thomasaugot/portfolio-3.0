@@ -21,19 +21,21 @@
   "sections": {
     "services_meta": "[ 01 / SERVICIOS ]",
     "services_title": "Lo que recibes cuando me contratas.",
-    "process_meta": "[ 02 / MÉTODO ]",
+    "difference_meta": "[ 02 / POR QUÉ YO ]",
+    "difference_title": "La diferencia.",
+    "process_meta": "[ 03 / MÉTODO ]",
     "process_title": "De « hablemos » a producción.",
-    "stack_meta": "[ 03 / STACK ]",
+    "stack_meta": "[ 04 / STACK ]",
     "stack_title": "Las herramientas con las que trabajo cada día.",
-    "work_meta": "[ 04 / PROYECTOS ]",
+    "work_meta": "[ 05 / PROYECTOS ]",
     "work_title": "Cosas reales, en producción.",
-    "testimonials_meta": "[ 05 / OPINIONES ]",
+    "testimonials_meta": "[ 06 / OPINIONES ]",
     "testimonials_title": "Lo que dicen las personas con las que he trabajado.",
-    "about_meta": "[ 06 / SOBRE MÍ ]",
+    "about_meta": "[ 07 / SOBRE MÍ ]",
     "about_title": "Programador de oficio. Alma viajera en busca de horizontes.",
-    "faq_meta": "[ 07 / FAQ ]",
+    "faq_meta": "[ 08 / FAQ ]",
     "faq_title": "Lo que la gente pregunta antes de empezar.",
-    "contact_meta": "[ 07 / CONTACTO ]",
+    "contact_meta": "[ 09 / CONTACTO ]",
     "contact_title": "Construyamos la cosa."
   },
   "services": [
@@ -127,6 +129,23 @@
         "RAG",
         "LLM"
       ]
+    }
+  ],
+  "difference": [
+    {
+      "n": "D/01",
+      "t": "Un solo perfil, todo el stack",
+      "d": "Frontend, backend, base de datos, infraestructura, dominios y DNS — gestionados por una sola persona que ve el conjunto. Sin traspasos entre tres freelances, sin «esa parte no es mía»."
+    },
+    {
+      "n": "D/02",
+      "t": "Transparencia total, sin trampas ocultas",
+      "d": "Alcance claro, precios claros, un progreso que ves mientras se construye. Sin desarrollo de caja negra, sin facturas sorpresa, sin un vago «ya casi está»."
+    },
+    {
+      "n": "D/03",
+      "t": "Eres dueño de todo, para siempre",
+      "d": "Código, hosting, dominio y base de datos viven en tus propias cuentas — incluso te creo tu GitHub para que el código sea tuyo de por vida. Si dejamos de trabajar juntos, te quedas el 100 % de tu producto."
     }
   ],
   "process": [
@@ -380,19 +399,6 @@
     },
     {
       "n": "W/11",
-      "client": "Adelante Business Consulting",
-      "tag": "Adelante BC — Sitio para consultoría empresarial",
-      "type": "WordPress · Elementor",
-      "year": "2026",
-      "role": "Full-stack",
-      "stack": "WordPress · Elementor · Custom CSS · SEO · Optimización de rendimiento",
-      "body": "Sitio profesional para una firma de asesoría para CEOs dirigida a directivos y fundadores. Arquitectura de servicios clara cubriendo orientación estratégica, mentoría ejecutiva, gestión de crisis y transición generacional. Totalmente editable por el cliente vía Elementor — sin necesidad de desarrollador para actualizaciones.",
-      "link": "adelante-bc.com →",
-      "slug": "adelante-business-consulting",
-      "href": "https://adelante-bc.com/"
-    },
-    {
-      "n": "W/12",
       "client": "Phoenix on the Beach",
       "tag": "Sitio web para competición de CrossFit",
       "type": "Full-stack · CMS · Tiempo real",

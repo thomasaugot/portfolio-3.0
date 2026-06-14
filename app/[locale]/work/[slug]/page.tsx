@@ -15,7 +15,6 @@ const SLUGS = [
   "reloj-laboral-galaga",
   "areco-web",
   "charpente-menuiserie-durand",
-  "adelante-business-consulting",
   "phoenix-on-the-beach",
 ] as const
 

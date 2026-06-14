@@ -20,13 +20,12 @@ interface Props {
   prog:           string
   chips:          string[]
   assistantLabel: string
-  honeypotRef:    React.MutableRefObject<string>
-  turnstileToken: React.MutableRefObject<string | null>
+  honeypotRef:       React.MutableRefObject<string>
+  turnstileTokenRef: React.MutableRefObject<string | null>
   send:           (text: string) => void
   enterContact:   () => void
   submitContact:  () => void
   startConv:      () => void
-  cappedThread?:  boolean
   className?:     string
   locale?:        string
 }
@@ -41,16 +40,15 @@ const avatarBot = "w-7 h-7 grid place-items-center shrink-0 rounded-full bg-prim
 const avatarUser = "w-7 h-7 grid place-items-center shrink-0 rounded-full bg-surface-2 border border-border-2 text-text-muted"
 const bubbleBot = "px-4 py-3 text-body leading-[1.6] bg-surface border border-border text-text"
 const bubbleUser = "px-4 py-3 text-body leading-[1.6] bg-primary text-black font-medium"
-const inputBase = "keyboard-focus-ring text-body font-mono px-3.5 py-2.5 bg-surface border border-border text-text outline-none focus:border-text transition-colors duration-200 placeholder:text-text-subtle disabled:opacity-50"
+const inputBase = "keyboard-focus-ring text-body font-mono px-3.5 py-2.5 bg-surface-2 border border-border-2 text-text outline-none focus:border-primary transition-colors duration-200 placeholder:text-text-muted disabled:opacity-50"
 const btnFilled = "inline-flex items-center gap-2.5 text-[16px] tracking-[0.02em] px-[22px] py-[14px] bg-primary text-black border border-primary font-medium cursor-pointer hover:bg-text hover:border-text transition-[border-color,color,background] duration-normal ease-out disabled:opacity-50"
 
 export function ChatConversationPanel({
   msgs, phase, loading, input, setInput,
   cName, setCName, cContact, setCContact,
   sending, sent, prog, chips, assistantLabel,
-  honeypotRef, turnstileToken,
+  honeypotRef, turnstileTokenRef,
   send, enterContact, submitContact, startConv,
-  cappedThread = false,
   className = "",
   locale = "en",
 }: Props) {
@@ -77,18 +75,18 @@ export function ChatConversationPanel({
   }, [startConv])
 
   return (
-    <div className={`shadow-(--shadow-terminal) border border-border bg-transparent flex flex-col overflow-hidden${className ? ` ${className}` : ""}`}>
+    <div className={`shadow-(--shadow-terminal) border border-border bg-bg flex flex-col overflow-hidden${className ? ` ${className}` : ""}`}>
 
       {/* Bar */}
       <div className="flex items-center justify-between px-5 py-3 border-b border-border">
-        <span className="flex items-center gap-2.5 text-caption font-mono tracking-[0.08em] uppercase text-text-muted">
+        <span className="flex items-center gap-2.5 text-caption font-mono tracking-[0.08em] uppercase text-text!">
           <span
             aria-hidden="true"
             className="w-2 h-2 rounded-full bg-primary shadow-[0_0_0_3px_color-mix(in_oklch,var(--color-primary)_20%,transparent)]"
           />
           {assistantLabel}
         </span>
-        <span className="text-caption font-mono text-text-subtle tracking-[0.08em] uppercase">{prog}</span>
+        <span className="text-caption font-mono text-text-muted! tracking-[0.08em] uppercase">{prog}</span>
       </div>
 
       {/* Thread */}
@@ -100,7 +98,7 @@ export function ChatConversationPanel({
         {msgs.map((msg, i) => {
           if (msg.type === "typing") return (
             <div key={`t${i}`} className="flex gap-3 max-w-[88%] animate-[chat-in_0.4s_var(--ease-out)_forwards]" aria-hidden="true">
-              <div className={`${avatarBot} text-caption font-mono font-bold`}>TA</div>
+              <div className={`${avatarBot} text-caption font-mono font-bold text-black!`}>TA</div>
               <div className="flex gap-1.5 px-4 py-3.5 bg-surface border border-border text-text">
                 <span className="w-1.5 h-1.5 rounded-full bg-text-subtle animate-[chat-dot_1.1s_infinite]" />
                 <span className="w-1.5 h-1.5 rounded-full bg-text-subtle animate-[chat-dot_1.1s_0.18s_infinite]" />
@@ -111,13 +109,13 @@ export function ChatConversationPanel({
 
           if (msg.type === "summary") return (
             <div key={`s${i}`} className="flex gap-3 max-w-[88%] animate-[chat-in_0.4s_var(--ease-out)_forwards]">
-              <div className={`${avatarBot} text-caption font-mono font-bold`} aria-hidden="true">TA</div>
+              <div className={`${avatarBot} text-caption font-mono font-bold text-black!`} aria-hidden="true">TA</div>
               <div className="border border-border bg-surface p-5 mt-1 flex-1">
-                <h4 className="text-caption font-mono tracking-[0.12em] uppercase text-text-subtle mb-4">{msg.text}</h4>
+                <h4 className="text-caption font-mono tracking-[0.12em] uppercase text-text-muted! mb-4">{msg.text}</h4>
                 <dl className="grid grid-cols-[auto_1fr] gap-y-2.5 gap-x-5">
                   {msg.rows?.map(r => (
                     <div key={r.label} className="contents">
-                      <dt className="text-caption font-mono text-text-subtle uppercase tracking-wider pt-0.5">{r.label}</dt>
+                      <dt className="text-caption font-mono text-text-muted! uppercase tracking-wider pt-0.5">{r.label}</dt>
                       <dd className="text-body font-mono text-text">{r.value}</dd>
                     </div>
                   ))}
@@ -146,46 +144,47 @@ export function ChatConversationPanel({
       {/* Done */}
       {phase === "done" && sent && (
         <div className="px-5 py-4 border-t border-border animate-[chat-in_0.4s_var(--ease-out)_forwards]">
-          <p className="text-caption font-mono text-text-subtle tracking-[0.08em] uppercase">{ui.sent}</p>
+          <p className="text-caption font-mono text-text-muted! tracking-[0.08em] uppercase">{ui.sent}</p>
         </div>
       )}
 
       {/* Controls — qualify + qa */}
       {(phase === "qualify" || phase === "qa") && (
         <div className="px-5 pb-5 pt-3 flex flex-col gap-3 border-t border-border">
-          {!loading && chips.length > 0 && msgs.at(-1)?.role === "bot" && (
+          {!loading && msgs.at(-1)?.role === "bot" && (
             <div className="flex flex-col gap-2.5 pt-1">
-              <div className="flex flex-wrap gap-2">
-                {chips.filter(c => !["Skip","Passer","Saltar","Ready to connect","Prêt à me contacter","Listo para conectar"].includes(c)).map(chip => (
-                  <button
-                    key={chip}
-                    type="button"
-                    onClick={() => send(chip)}
-                    className="keyboard-focus-ring text-caption font-mono px-3 py-2 border border-border-2 text-text-muted bg-transparent cursor-pointer transition-all duration-200 hover:border-text hover:text-text hover:bg-surface-2"
-                  >
-                    {chip}
-                  </button>
-                ))}
-                {phase === "qualify" && chips.find(c => ["Skip","Passer","Saltar"].includes(c)) && (
-                  <button
-                    key="skip"
-                    type="button"
-                    onClick={() => send(ui.skip)}
-                    className="keyboard-focus-ring text-caption font-mono italic text-text-subtle px-2 py-2 transition-colors duration-200 hover:text-text-muted"
-                  >
-                    {ui.skip}
-                  </button>
-                )}
-              </div>
-              {phase === "qa" && (
-                <button
-                  type="button"
-                  onClick={() => enterContact()}
-                  className={`keyboard-focus-ring w-full font-mono justify-center mt-1 ${btnFilled}`}
-                >
-                  {ui.ready}
-                </button>
+              {chips.length > 0 && (
+                <div className="flex flex-wrap gap-2">
+                  {chips.filter(c => !["Skip","Passer","Saltar","Ready to connect","Prêt à me contacter","Listo para conectar"].includes(c)).map(chip => (
+                    <button
+                      key={chip}
+                      type="button"
+                      onClick={() => send(chip)}
+                      className="keyboard-focus-ring text-[13px] leading-none font-mono px-3.5 py-2.5 border border-border-2 text-text! bg-surface-2 cursor-pointer transition-[color,background-color,border-color] duration-200 hover:border-primary hover:bg-[color-mix(in_oklch,var(--color-primary)_12%,transparent)]"
+                    >
+                      {chip}
+                    </button>
+                  ))}
+                  {phase === "qualify" && chips.find(c => ["Skip","Passer","Saltar"].includes(c)) && (
+                    <button
+                      key="skip"
+                      type="button"
+                      onClick={() => send(ui.skip)}
+                      className="keyboard-focus-ring text-[13px] leading-none font-mono px-3.5 py-2.5 border border-border-2 text-text-muted! bg-transparent cursor-pointer transition-[color,background-color,border-color] duration-200 hover:text-text! hover:bg-surface-2 hover:border-text-subtle"
+                    >
+                      {ui.skip}
+                    </button>
+                  )}
+                </div>
               )}
+              {/* Connect path is always available — whether they qualified a project or just had a question. */}
+              <button
+                type="button"
+                onClick={() => enterContact()}
+                className={`keyboard-focus-ring w-full font-mono justify-center mt-1 ${btnFilled}`}
+              >
+                {ui.ready}
+              </button>
             </div>
           )}
           <div className="flex gap-2">
@@ -226,8 +225,8 @@ export function ChatConversationPanel({
       {/* Turnstile — invisible bot detection, no UI shown to users */}
       <Turnstile
         siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
-        onSuccess={token => { turnstileToken.current = token }}
-        onExpire={() => { turnstileToken.current = null }}
+        onSuccess={token => { turnstileTokenRef.current = token }}
+        onExpire={() => { turnstileTokenRef.current = null }}
         options={{ appearance: "execute" }}
         className="hidden"
       />

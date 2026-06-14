@@ -9,18 +9,26 @@ const sans = "-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif"
 function buildChatEmail(data: {
   name: string
   contact: string
+  stage: string
   goal: string
-  stack: string
+  scope: string
+  selling: string
+  design: string
   timeline: string
   budget: string
   context: string
   conversation?: Array<{ role: string; text: string }>
 }) {
-  const row = (label: string, value: string) => `
+  // Skip rows that carry no real info (empty or "—") to keep the brief tight.
+  const row = (label: string, value: string) => {
+    const v = (value || "").trim()
+    if (!v || v === "—") return ""
+    return `
     <tr>
       <td style="padding:10px 16px;font-family:${sans};font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#6b685f;width:110px;vertical-align:top;border-bottom:1px solid #e8e6de;">${label}</td>
-      <td style="padding:10px 16px;font-family:${sans};font-size:14px;color:#1a1a17;border-bottom:1px solid #e8e6de;">${value || "—"}</td>
+      <td style="padding:10px 16px;font-family:${sans};font-size:14px;color:#1a1a17;border-bottom:1px solid #e8e6de;">${v}</td>
     </tr>`
+  }
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -58,8 +66,11 @@ function buildChatEmail(data: {
     <tr><td style="padding-bottom:8px;">
       <p style="margin:0 0 12px;font-family:${sans};font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#6b685f;">Project brief</p>
       <table cellpadding="0" cellspacing="0" width="100%" style="border:1px solid #1a1a17;border-collapse:collapse;">
+        ${row("Stage", data.stage)}
         ${row("Goal", data.goal)}
-        ${row("Stack", data.stack)}
+        ${row("Scope", data.scope)}
+        ${row("Sells", data.selling)}
+        ${row("Design", data.design)}
         ${row("Timeline", data.timeline)}
         ${row("Budget", data.budget)}
         ${row("Context", data.context)}
@@ -122,7 +133,7 @@ export async function POST(req: NextRequest) {
 
   // Chatbot flow (has 'name' + 'contact' + qualify fields)
   if (body.contact !== undefined && body.goal !== undefined) {
-    const { name, contact, goal, stack, timeline, budget, context, conversation } = body
+    const { name, contact, stage, goal, scope, selling, design, timeline, budget, context, conversation } = body
     if (!name || !contact) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 422 })
     }
@@ -131,7 +142,7 @@ export async function POST(req: NextRequest) {
       to: TO,
       replyTo: contact.includes("@") ? contact : undefined,
       subject: `New inquiry — ${goal || "project"} — ${name}`,
-      html: buildChatEmail({ name, contact, goal, stack, timeline, budget, context, conversation }),
+      html: buildChatEmail({ name, contact, stage, goal, scope, selling, design, timeline, budget, context, conversation }),
     })
     if (error) return NextResponse.json({ error: error.message }, { status: 500 })
     return NextResponse.json({ ok: true })

@@ -21,19 +21,21 @@
   "sections": {
     "services_meta": "[ 01 / SERVICES ]",
     "services_title": "What you get when you hire me.",
-    "process_meta": "[ 02 / PROCESS ]",
+    "difference_meta": "[ 02 / WHY ME ]",
+    "difference_title": "The difference.",
+    "process_meta": "[ 03 / PROCESS ]",
     "process_title": "From 'let’s talk' to live.",
-    "stack_meta": "[ 03 / STACK ]",
+    "stack_meta": "[ 04 / STACK ]",
     "stack_title": "The tools I lean on, daily.",
-    "work_meta": "[ 04 / WORK ]",
+    "work_meta": "[ 05 / WORK ]",
     "work_title": "Real stuff, in production.",
-    "testimonials_meta": "[ 05 / WORD-OF-MOUTH ]",
+    "testimonials_meta": "[ 06 / WORD-OF-MOUTH ]",
     "testimonials_title": "What the people I've shipped with say.",
-    "about_meta": "[ 06 / ABOUT ]",
+    "about_meta": "[ 07 / ABOUT ]",
     "about_title": "Coder by trade. Restless soul chasing horizons.",
-    "faq_meta": "[ 07 / FAQ ]",
+    "faq_meta": "[ 08 / FAQ ]",
     "faq_title": "Things people ask before we start.",
-    "contact_meta": "[ 07 / CONTACT ]",
+    "contact_meta": "[ 09 / CONTACT ]",
     "contact_title": "Let's build the thing."
   },
   "services": [
@@ -127,6 +129,23 @@
         "RAG",
         "LLM"
       ]
+    }
+  ],
+  "difference": [
+    {
+      "n": "D/01",
+      "t": "One profile, the whole stack",
+      "d": "Frontend, backend, database, infrastructure, domains and DNS — handled by one person who sees the whole picture. No hand-offs between three freelancers, no \"that's not my part.\""
+    },
+    {
+      "n": "D/02",
+      "t": "Total transparency, no hidden traps",
+      "d": "Clear scope, clear pricing, progress you can see as it's built. No black-box development, no surprise invoices, no vague \"it's almost done.\""
+    },
+    {
+      "n": "D/03",
+      "t": "You own everything, forever",
+      "d": "Code, hosting, domain and database all live in your own accounts — I'll even set up your GitHub so the codebase is yours for life. If we ever stop working together, you keep 100% of your product."
     }
   ],
   "process": [
@@ -380,19 +399,6 @@
     },
     {
       "n": "W/11",
-      "client": "Adelante Business Consulting",
-      "tag": "Adelante BC — Business Consulting Website",
-      "type": "WordPress · Elementor",
-      "year": "2026",
-      "role": "Full-stack",
-      "stack": "WordPress · Elementor · Custom CSS · SEO · Performance Optimization",
-      "body": "Professional website for a CEO advisory firm targeting executives and founders. Clear service architecture covering strategic guidance, executive mentoring, crisis management, and generational transition. Fully editable by the client via Elementor — no developer needed for updates.",
-      "link": "adelante-bc.com →",
-      "slug": "adelante-business-consulting",
-      "href": "https://adelante-bc.com/"
-    },
-    {
-      "n": "W/12",
       "client": "Phoenix on the Beach",
       "tag": "CrossFit Competition Event Website",
       "type": "Full-stack · CMS · Real-time",

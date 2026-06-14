@@ -10,11 +10,11 @@ import { PageLoader } from "@/components/layout/PageLoader"
 import { Toaster } from "@/components/ui/Toaster"
 import { LiveRegion } from "@/components/ui/LiveRegion"
 import { BackToTop } from "@/components/ui/BackToTop"
-import { ContrastToggle } from "@/components/ui/ContrastToggle"
 import { ThemeToggle } from "@/components/ui/ThemeToggle"
 import { CustomCursor } from "@/components/ui/CustomCursor"
 import { InputModalityTracker } from "@/components/layout/InputModalityTracker"
 import { ContrastProvider } from "@/contexts/ContrastContext"
+import { WalkingBot } from "@/components/shared/WalkingBot"
 
 // Syncs <html lang> to the active locale on the client.
 // The root layout defaults to "en"; this corrects it when the locale is fr/es.
@@ -47,8 +47,8 @@ export function Providers({ children, locale, messages }: ProvidersProps) {
                 <Toaster />
                 <LiveRegion />
                 <BackToTop />
-                <ContrastToggle />
                 <ThemeToggle />
+                <WalkingBot />
               <CustomCursor />
               </ContrastProvider>
             </MotionPreferenceProvider>

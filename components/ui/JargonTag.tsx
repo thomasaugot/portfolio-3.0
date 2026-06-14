@@ -165,7 +165,7 @@ function InlineTerm({ term, def }: TermProps) {
           ref={popRef}
           aria-hidden={!open}
           className={[
-            "absolute z-[200] bg-surface border border-border p-[14px_16px] shadow-lg pointer-events-none",
+            "absolute z-[200] bg-surface border border-border p-[14px_16px] shadow-md pointer-events-none",
             "opacity-0 translate-y-1 transition-[opacity,transform] duration-[180ms] ease-out",
             open ? "opacity-100 translate-y-0 pointer-events-auto" : "",
           ].join(" ")}

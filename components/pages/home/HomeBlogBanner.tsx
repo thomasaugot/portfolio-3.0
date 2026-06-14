@@ -91,7 +91,7 @@ export function HomeBlogBanner({ posts }: { posts: Post[] }) {
               <TransitionLink
                 key={p.slug}
                 href={`/${locale}/blog/${p.slug}`}
-                className="group shrink-0 w-[72vw] max-w-65 sm:w-56 flex flex-col border border-border bg-surface hover:border-primary transition-colors duration-200 shadow-lg"
+                className="card-hover group shrink-0 w-[72vw] max-w-65 sm:w-56 flex flex-col border border-border bg-surface shadow-md"
               >
                 <div className="relative w-full aspect-4/3 bg-surface-2 overflow-hidden shrink-0">
                   {p.cover ? (

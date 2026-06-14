@@ -1,14 +1,36 @@
 "use client"
 import { useState, useEffect } from "react"
+import { usePathname } from "next/navigation"
+import { FiSliders } from "react-icons/fi"
 import { TransitionLink } from "@/components/ui/TransitionLink"
 import { Button } from "@/components/ui/Button"
 import { useTranslationContext } from "@/contexts/TranslationContext"
 
 export const STORAGE_KEY = "cookie_consent"
+export const PREFS_KEY = "cookie_prefs"
 
 type Step = "main" | "customize"
 
 interface Prefs { analytics: boolean; security: boolean }
+
+// Re-open the cookie settings panel from anywhere (e.g. a footer link), so
+// consent can be reviewed or withdrawn at any time — required by GDPR.
+export function openCookieSettings() {
+  window.dispatchEvent(new CustomEvent("open_cookie_settings"))
+}
+
+// Single source of truth for whether analytics (GTM) is allowed to load.
+// Reads the granular prefs; defaults to FALSE (opt-in) when nothing is stored.
+export function hasAnalyticsConsent(): boolean {
+  if (typeof window === "undefined") return false
+  try {
+    const raw = localStorage.getItem(PREFS_KEY)
+    if (!raw) return false
+    return JSON.parse(raw)?.analytics === true
+  } catch {
+    return false
+  }
+}
 
 const COPY: Record<string, {
   eyebrow: string
@@ -72,8 +94,16 @@ const COPY: Record<string, {
   },
 }
 
+// Notify listeners (ConsentGTM) that consent changed — they re-read storage.
 function dispatchConsent() {
-  window.dispatchEvent(new CustomEvent("cookie_consent", { detail: "accepted" }))
+  window.dispatchEvent(new CustomEvent("cookie_consent"))
+}
+
+function persist(prefs: Prefs) {
+  const answered = prefs.analytics || prefs.security ? "accepted" : "declined"
+  localStorage.setItem(STORAGE_KEY, answered)
+  localStorage.setItem(PREFS_KEY, JSON.stringify(prefs))
+  dispatchConsent()
 }
 
 function Toggle({ checked, onChange, disabled }: { checked: boolean; onChange?: (v: boolean) => void; disabled?: boolean }) {
@@ -95,36 +125,55 @@ function Toggle({ checked, onChange, disabled }: { checked: boolean; onChange?: 
 
 export function CookieBanner() {
   const { language } = useTranslationContext()
+  const pathname = usePathname()
+  const onPrivacyPage = pathname?.includes("/privacy")
   const [visible, setVisible] = useState(false)
   const [step, setStep] = useState<Step>("main")
-  const [prefs, setPrefs] = useState<Prefs>({ analytics: true, security: true })
+  // Opt-in by default: analytics OFF until the user explicitly enables it.
+  // Security (Turnstile) is strictly necessary, so it's always on.
+  const [prefs, setPrefs] = useState<Prefs>({ analytics: false, security: true })
   const c = COPY[language] ?? COPY.en
 
+  // Until consent is recorded, keep the banner up everywhere EXCEPT the privacy
+  // page itself (so a visitor who clicked through can actually read the policy).
+  // It returns automatically when they navigate back.
   useEffect(() => {
-    const stored = localStorage.getItem(STORAGE_KEY)
-    if (!stored) {
+    if (localStorage.getItem(STORAGE_KEY)) return
+    setVisible(!onPrivacyPage)
+  }, [onPrivacyPage])
+
+  useEffect(() => {
+
+    // Allow re-opening it later (e.g. footer "Cookie settings") so consent
+    // can be reviewed or withdrawn at any time — required by GDPR.
+    const reopen = () => {
+      try {
+        const raw = localStorage.getItem(PREFS_KEY)
+        if (raw) setPrefs({ ...JSON.parse(raw), security: true })
+      } catch { /* keep defaults */ }
+      setStep("customize")
       setVisible(true)
-    } else if (stored === "accepted") {
-      dispatchConsent()
     }
+    window.addEventListener("open_cookie_settings", reopen)
+    return () => window.removeEventListener("open_cookie_settings", reopen)
   }, [])
 
+  // Helper other components can call to re-open the settings panel.
+  // (Exported as a standalone below for use outside this component.)
+
   function acceptAll() {
-    localStorage.setItem(STORAGE_KEY, "accepted")
-    dispatchConsent()
+    persist({ analytics: true, security: true })
     setVisible(false)
   }
 
   function declineAll() {
-    localStorage.setItem(STORAGE_KEY, "declined")
+    // Decline = no analytics. Security stays (necessary), but no GTM loads.
+    persist({ analytics: false, security: true })
     setVisible(false)
   }
 
   function savePrefs() {
-    const val = prefs.analytics || prefs.security ? "accepted" : "declined"
-    localStorage.setItem(STORAGE_KEY, val)
-    localStorage.setItem("cookie_prefs", JSON.stringify(prefs))
-    if (val === "accepted") dispatchConsent()
+    persist({ ...prefs, security: true })
     setVisible(false)
   }
 
@@ -132,12 +181,13 @@ export function CookieBanner() {
 
   return (
     <>
-      <div className="fixed inset-0 bg-black/40 backdrop-blur-[2px] z-70 animate-[chat-in_0.3s_var(--ease-out)_forwards]" aria-hidden="true" />
+      <div className="fixed inset-0 bg-black/40 backdrop-blur-[2px] animate-[chat-in_0.3s_var(--ease-out)_forwards]" style={{ zIndex: "var(--z-cookie)" }} aria-hidden="true" />
       <div
         role="dialog"
         aria-modal="true"
         aria-label="Cookie preferences"
-        className="fixed z-71 bottom-6 right-6 max-[520px]:bottom-0 max-[520px]:right-0 max-[520px]:left-0 w-full max-w-sm bg-bg border border-border shadow-lg flex flex-col animate-[chat-in_0.4s_var(--ease-out)_forwards]"
+        style={{ zIndex: "calc(var(--z-cookie) + 1)" }}
+        className="fixed bottom-6 right-6 max-[520px]:bottom-0 max-[520px]:right-0 max-[520px]:left-0 w-full max-w-sm bg-bg border border-border shadow-md flex flex-col animate-[chat-in_0.4s_var(--ease-out)_forwards]"
       >
 
           {/* Header */}
@@ -193,10 +243,7 @@ export function CookieBanner() {
                     <p className="text-body font-mono font-semibold text-text mb-1">{c.security.label}</p>
                     <p className="text-caption text-text-subtle leading-[1.6]">{c.security.desc}</p>
                   </div>
-                  <Toggle
-                    checked={prefs.security}
-                    onChange={v => setPrefs(p => ({ ...p, security: v }))}
-                  />
+                  <Toggle checked disabled />{/* Turnstile is strictly necessary — always on */}
                 </div>
               </div>
             )}
@@ -208,8 +255,9 @@ export function CookieBanner() {
               <>
                 <button
                   onClick={() => setStep("customize")}
-                  className="keyboard-focus-ring text-body font-mono text-text-subtle transition-colors duration-150 hover:text-text"
+                  className="keyboard-focus-ring inline-flex items-center gap-2 text-body font-mono px-3 py-2.5 border border-dashed border-border-2 text-text-muted transition-colors duration-200 hover:border-text-subtle hover:text-text"
                 >
+                  <FiSliders size={14} aria-hidden="true" />
                   {c.customize}
                 </button>
                 <div className="flex gap-3">
@@ -219,9 +267,12 @@ export function CookieBanner() {
                   >
                     {c.declineAll}
                   </button>
-                  <Button onClick={acceptAll} variant="filled">
+                  <button
+                    onClick={acceptAll}
+                    className="keyboard-focus-ring text-body font-mono font-medium px-5 py-2.5 bg-primary text-black border border-primary cursor-pointer transition-colors duration-200 hover:bg-primary-deep hover:border-primary-deep"
+                  >
                     {c.acceptAll}
-                  </Button>
+                  </button>
                 </div>
               </>
             ) : (
