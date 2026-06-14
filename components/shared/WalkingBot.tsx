@@ -118,14 +118,15 @@ export function WalkingBot() {
         <div
           onClick={() => setOpen(false)}
           aria-hidden="true"
-          className="fixed inset-0 bg-black/40 backdrop-blur-[2px] animate-[fade-in-up_0.3s_var(--ease-out)_both]"
+          className="fixed inset-0 bg-black/40 backdrop-blur-[2px] animate-[fade-in-up_0.3s_var(--ease-out)_both] in-data-menu-open:hidden"
           style={{ zIndex: "var(--z-toast)" }}
         />
       )}
 
       <div
         ref={rootRef}
-        className="fixed bottom-4 right-4 max-[520px]:right-3 max-[520px]:bottom-3 flex flex-col items-end gap-2.5 pointer-events-none"
+        // Hide entirely while the mobile menu is open (it owns the screen then).
+        className="fixed bottom-4 right-4 max-[520px]:right-3 max-[520px]:bottom-3 flex flex-col items-end gap-2.5 pointer-events-none in-data-menu-open:hidden"
         // When the chat is open it must sit above the theme toggle / back-to-top + backdrop.
         style={{ zIndex: open ? "calc(var(--z-toast) + 1)" : "var(--z-bot)" }}
       >
