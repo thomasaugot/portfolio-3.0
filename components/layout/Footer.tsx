@@ -95,7 +95,7 @@ export function Footer() {
             <button
               type="button"
               onClick={openCookieSettings}
-              className="keyboard-focus-ring text-body font-mono text-text-subtle bg-transparent border-0 cursor-pointer transition-colors duration-150 hover:text-primary"
+              className="keyboard-focus-ring text-body font-mono text-text-subtle bg-transparent border-0 shadow-none! cursor-pointer transition-colors duration-150 hover:text-primary"
             >
               {language === "fr" ? "Paramètres des cookies" : language === "es" ? "Configuración de cookies" : "Cookie settings"}
             </button>
