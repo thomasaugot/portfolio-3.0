@@ -1,5 +1,5 @@
 "use client"
-import { useState, useRef, useCallback } from "react"
+import { useState, useRef, useCallback, useEffect } from "react"
 import { appConfig } from "@/config/app.config"
 
 export type Phase = "qualify" | "qa" | "contact" | "done"
@@ -129,6 +129,61 @@ export function useChatConversation(locale = "en") {
   const historyRef      = useRef<Array<{ role: "user" | "assistant"; content: string }>>([])
   const honeypotRef     = useRef("")
   const turnstileTokenRef = useRef<string | null>(null)
+
+  // ── Abandoned-chat capture ──
+  // If the visitor has a meaningful conversation but leaves without giving contact
+  // details, send the transcript once (informational only) so Tom can see what
+  // people are asking about even when they don't fill in the contact form.
+  const sentRef          = useRef(false)
+  const qualifyRef       = useRef<QualifyData | null>(null)
+  const abandonedSentRef = useRef(false)
+
+  const flushAbandoned = useCallback(() => {
+    if (abandonedSentRef.current || sentRef.current) return
+    // "Meaningful" = at least 2 real user replies (skips drive-by opens).
+    const userTurns = historyRef.current.filter(m => m.role === "user").length
+    if (userTurns < 2) return
+    abandonedSentRef.current = true
+
+    const greetingValues = Object.values(GREETINGS)
+    const conversation = historyRef.current
+      .filter(m => !greetingValues.includes(m.content))
+      .map(m => ({ role: m.role === "user" ? "Visitor" : "Tom's assistant", text: m.content }))
+    const q = qualifyRef.current
+    const payload = JSON.stringify({
+      incomplete: true,
+      stage:    q?.stage    ?? "—",
+      goal:     q?.goal     ?? "—",
+      scope:    q?.scope    ?? "—",
+      selling:  q?.selling  ?? "—",
+      design:   q?.design   ?? "—",
+      timeline: q?.timeline ?? "—",
+      budget:   q?.budget   ?? "—",
+      context:  q?.context  ?? "—",
+      conversation,
+    })
+    // sendBeacon survives page unload; fall back to keepalive fetch otherwise.
+    if (typeof navigator !== "undefined" && navigator.sendBeacon) {
+      navigator.sendBeacon("/api/contact", new Blob([payload], { type: "application/json" }))
+    } else {
+      fetch("/api/contact", { method: "POST", headers: { "Content-Type": "application/json" }, body: payload, keepalive: true }).catch(() => {})
+    }
+  }, [])
+
+  useEffect(() => {
+    const onHide = () => { if (document.visibilityState === "hidden") flushAbandoned() }
+    window.addEventListener("pagehide", flushAbandoned)
+    document.addEventListener("visibilitychange", onHide)
+    return () => {
+      window.removeEventListener("pagehide", flushAbandoned)
+      document.removeEventListener("visibilitychange", onHide)
+      flushAbandoned()
+    }
+  }, [flushAbandoned])
+
+  // Keep refs in sync so the unload handler reads current values without stale closures.
+  useEffect(() => { sentRef.current = sent }, [sent])
+  useEffect(() => { qualifyRef.current = qualify }, [qualify])
 
   const enterContact = useCallback((botText?: string) => {
     const msg = botText || CONTACT_PROMPTS[lang]

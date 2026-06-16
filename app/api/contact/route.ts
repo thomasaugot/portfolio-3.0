@@ -18,6 +18,7 @@ function buildChatEmail(data: {
   budget: string
   context: string
   conversation?: Array<{ role: string; text: string }>
+  incomplete?: boolean
 }) {
   // Skip rows that carry no real info (empty or "—") to keep the brief tight.
   const row = (label: string, value: string) => {
@@ -46,7 +47,7 @@ function buildChatEmail(data: {
             <p style="margin:0;font-family:${sans};font-size:18px;font-weight:700;letter-spacing:-0.03em;color:#1a1a17;">helloimtom<span style="color:#6b685f;">.dev</span></p>
           </td>
           <td align="right">
-            <span style="display:inline-block;font-family:${sans};font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#1a1a17;background:#d4ff3a;padding:4px 10px;">New inquiry</span>
+            <span style="display:inline-block;font-family:${sans};font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#1a1a17;background:#d4ff3a;padding:4px 10px;">${data.incomplete ? "Unfinished chat" : "New inquiry"}</span>
           </td>
         </tr>
       </table>
@@ -55,12 +56,16 @@ function buildChatEmail(data: {
     <!-- Divider -->
     <tr><td style="padding-bottom:32px;"><div style="height:2px;background-color:#1a1a17;">&nbsp;</div></td></tr>
 
-    <!-- From -->
+    <!-- From / incomplete notice -->
+    ${data.incomplete ? `
+    <tr><td style="padding-bottom:32px;">
+      <p style="margin:0;font-family:${sans};font-size:14px;line-height:1.6;color:#6b685f;">A visitor chatted with the assistant but left without leaving contact details. This is informational only — so you can see what people are asking about.</p>
+    </td></tr>` : `
     <tr><td style="padding-bottom:32px;">
       <p style="margin:0 0 6px;font-family:${sans};font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#6b685f;">From</p>
       <p style="margin:0 0 4px;font-family:${sans};font-size:28px;font-weight:700;letter-spacing:-0.04em;color:#1a1a17;line-height:1;">${data.name}</p>
       <p style="margin:0;font-family:${sans};font-size:14px;color:#6b685f;">${data.contact}</p>
-    </td></tr>
+    </td></tr>`}
 
     <!-- Project brief -->
     <tr><td style="padding-bottom:8px;">
@@ -78,9 +83,10 @@ function buildChatEmail(data: {
     </td></tr>
 
     <!-- Reply CTA -->
+    ${data.incomplete ? "" : `
     <tr><td style="padding:28px 0;">
       <a href="mailto:${data.contact}" style="display:inline-block;font-family:${sans};font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#1a1a17;text-decoration:none;background:#d4ff3a;padding:12px 24px;border:2px solid #1a1a17;">Reply to ${data.name} →</a>
-    </td></tr>
+    </td></tr>`}
 
     ${data.conversation && data.conversation.length > 0 ? `
     <!-- Divider -->
@@ -130,6 +136,23 @@ ${data.message}`
 export async function POST(req: NextRequest) {
   const body = await req.json().catch(() => null)
   if (!body) return NextResponse.json({ error: "Invalid JSON" }, { status: 400 })
+
+  // Abandoned chat — visitor left without leaving contact details. Informational only.
+  if (body.incomplete) {
+    const { stage, goal, scope, selling, design, timeline, budget, context, conversation } = body
+    const { error } = await resend.emails.send({
+      from: "helloimtom.dev <onboarding@resend.dev>",
+      to: TO,
+      subject: `Unfinished chat${goal && goal !== "—" ? ` — ${goal}` : ""}`,
+      html: buildChatEmail({
+        name: "—", contact: "—",
+        stage, goal, scope, selling, design, timeline, budget, context,
+        conversation, incomplete: true,
+      }),
+    })
+    if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+    return NextResponse.json({ ok: true })
+  }
 
   // Chatbot flow (has 'name' + 'contact' + qualify fields)
   if (body.contact !== undefined && body.goal !== undefined) {
