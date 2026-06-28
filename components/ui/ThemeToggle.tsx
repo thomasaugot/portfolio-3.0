@@ -9,8 +9,13 @@ export function ThemeToggle() {
   const [theme, setTheme] = useState<"light" | "dark" | null>(null)
 
   useEffect(() => {
-    const current = document.documentElement.getAttribute("data-theme") as "light" | "dark" | null
-    setTheme(current ?? "dark")
+    const stored = (() => { try { return localStorage.getItem("theme") } catch { return null } })()
+    const current = (document.documentElement.getAttribute("data-theme") as "light" | "dark" | null)
+      ?? (stored === "light" ? "light" : "dark")
+    // Make sure the attribute is actually present (covers any case where the
+    // pre-paint script didn't apply it).
+    document.documentElement.setAttribute("data-theme", current)
+    setTheme(current)
   }, [])
 
   if (!theme) return null
@@ -20,7 +25,11 @@ export function ThemeToggle() {
   const Icon  = theme === "dark" ? IconSun : IconMoon
 
   const onClick = () => {
+    // Persist the choice, then fully reload — the pre-paint script in the layout
+    // re-applies the saved theme on load, so the whole app re-renders cleanly in
+    // the new theme (every component re-reads data-theme).
     try { localStorage.setItem("theme", next) } catch {}
+    document.documentElement.setAttribute("data-theme", next)
     window.location.reload()
   }
 

@@ -4,9 +4,13 @@ import { ParticleHeading } from "@/components/ui/ParticleHeading"
 import { PageReadyMarker } from "@/components/blog/PageReadyMarker"
 import { Shell } from "@/components/layout/Shell"
 import { appConfig } from "@/config/app.config"
-import { getAllPosts } from "@/lib/blog"
+import { getFeed } from "@/lib/blog"
 import { buildMetadata, BLOG_SEO, type Locale } from "@/lib/seo"
 import type { Metadata } from "next"
+
+// Regenerate the index hourly so newly published Medium posts appear
+// automatically without a rebuild.
+export const revalidate = 3600
 
 export function generateStaticParams() {
   return [{ locale: "en" }, { locale: "fr" }, { locale: "es" }]
@@ -49,7 +53,7 @@ const LABELS: Record<Locale, { eyebrow: string; title: string; intro: string; re
 export default async function BlogIndexPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   const safe: Locale = (["en", "fr", "es"] as const).includes(locale as Locale) ? (locale as Locale) : "en"
-  const posts = getAllPosts(safe)
+  const posts = await getFeed(safe)
   const t = LABELS[safe]
 
   return (
@@ -66,12 +70,9 @@ export default async function BlogIndexPage({ params }: { params: Promise<{ loca
         <p className="font-mono text-text-subtle">{t.empty}</p>
       ) : (
         <ul className="border-t border-border">
-          {posts.map((p) => (
-            <li key={p.slug} className="group border-b border-border">
-              <TransitionLink
-                href={`/${locale}/blog/${p.slug}`}
-                className="grid grid-cols-[160px_1fr] max-[640px]:grid-cols-1 gap-6 items-start py-7 pl-6 pr-2 transition-[padding-left,background] duration-300 hover:bg-surface relative overflow-hidden"
-              >
+          {posts.map((p) => {
+            const inner = (
+              <>
                 <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-primary origin-bottom scale-y-0 group-hover:scale-y-100 transition-transform duration-500" />
                 <div className="relative w-[160px] h-[100px] max-[640px]:w-full max-[640px]:h-[200px] shrink-0 border border-border bg-surface-2 overflow-hidden">
                   {p.cover ? (
@@ -91,18 +92,42 @@ export default async function BlogIndexPage({ params }: { params: Promise<{ loca
                 </div>
                 <div>
                   <div className="flex items-center gap-3 font-mono text-[11px] text-text-subtle tracking-[0.1em] uppercase mb-3">
-                    <time dateTime={p.date}>{new Date(p.date).toISOString().slice(0, 10)}</time>
-                    <span aria-hidden="true">·</span>
+                    {p.date && (
+                      <>
+                        <time dateTime={p.date}>{p.date}</time>
+                        <span aria-hidden="true">·</span>
+                      </>
+                    )}
                     <span>{t.readMin(p.readingMin)}</span>
+                    {p.external && (
+                      <>
+                        <span aria-hidden="true">·</span>
+                        <span className="text-primary">Medium ↗</span>
+                      </>
+                    )}
                   </div>
                   <p className="font-display text-[clamp(20px,2.4vw,30px)] font-semibold tracking-[-0.02em] leading-[1.15] text-text mb-2 max-w-[60ch]">
                     {p.title}
                   </p>
                   <p className="text-[15px] text-text-muted leading-[1.55] max-w-[68ch]">{p.description}</p>
                 </div>
-              </TransitionLink>
-            </li>
-          ))}
+              </>
+            )
+            const className = "grid grid-cols-[160px_1fr] max-[640px]:grid-cols-1 gap-6 items-start py-7 pl-6 pr-2 transition-[padding-left,background] duration-300 hover:bg-surface relative overflow-hidden no-underline"
+            return (
+              <li key={p.key} className="group border-b border-border">
+                {p.external ? (
+                  <a href={p.href} target="_blank" rel="noopener noreferrer" className={className}>
+                    {inner}
+                  </a>
+                ) : (
+                  <TransitionLink href={p.href} className={className}>
+                    {inner}
+                  </TransitionLink>
+                )}
+              </li>
+            )
+          })}
         </ul>
       )}
 

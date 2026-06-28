@@ -95,7 +95,7 @@ export function WorkPageClient() {
         <div ref={scrollRef} className="flex-1 min-h-0 overflow-y-auto scrollbar-none flex flex-col" data-lenis-prevent>
 
           {/* Header */}
-          <div className="px-gutter pt-10 pb-10 border-b border-border shrink-0 sticky top-0 bg-bg z-10">
+          <div className="theme-bg px-gutter pt-10 pb-10 border-b border-border shrink-0 sticky top-0 z-10">
             <TransitionLink
               href={`/${locale}`}
               className="text-body inline-flex items-center gap-2 font-mono text-text tracking-[0.08em] uppercase no-underline mb-10 py-2 px-3 -ml-3 border border-border bg-surface transition-colors hover:border-primary hover:text-primary keyboard-focus-ring"

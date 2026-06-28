@@ -32,7 +32,7 @@ export const Navbar = memo(function Navbar() {
   return (
     <header
       className={[
-        "fixed top-0 left-0 right-0 z-nav bg-bg border-b border-border",
+        "navbar-bar fixed top-0 left-0 right-0 z-nav border-b border-border",
         "translate-z-0 will-change-transform contain-layout contain-paint isolate",
         "transition-[border-color] duration-fast ease-out",
         scrolled ? "border-border-2" : "",

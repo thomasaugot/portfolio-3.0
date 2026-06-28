@@ -76,7 +76,7 @@ export function PageLoader() {
       role="status"
       aria-label="Loading"
       className={[
-        "fixed inset-0 bg-bg z-loader flex flex-col items-center justify-center gap-7",
+        "loader-screen fixed inset-0 z-loader flex flex-col items-center justify-center gap-7",
         "transition-transform duration-[0.8s] [transition-timing-function:cubic-bezier(0.16,1,0.3,1)]",
         exiting ? "-translate-y-full" : "translate-y-0",
         "before:content-[''] before:absolute before:inset-0 before:pointer-events-none",

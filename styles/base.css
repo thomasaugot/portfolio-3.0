@@ -1,5 +1,15 @@
 ::selection { background: var(--color-primary); color: #000; }
 
+/* Page background — solid color first (fallback prevents a white flash on load
+   before vars resolve), then the dark lime glows. Light theme overrides in theme.css. */
+body {
+  background-color: var(--color-bg, #0b0b0a);
+  background-image:
+    radial-gradient(1200px 800px at 80% -10%, rgba(212,255,58,0.04), transparent 60%),
+    radial-gradient(1000px 700px at -10% 120%, rgba(212,255,58,0.025), transparent 60%);
+  background-attachment: fixed;
+}
+
 ::-webkit-scrollbar { width: 10px; height: 10px; }
 ::-webkit-scrollbar-track { background: var(--color-bg); }
 ::-webkit-scrollbar-thumb { background: var(--color-border-2); border-radius: 0; }
@@ -7,7 +17,14 @@
 
 button, [role="button"], [type="button"], [type="submit"], [type="reset"] {
   cursor: pointer;
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-base);
+}
+
+/* Tailwind's `shadow-md` utility builds box-shadow from --tw-* ring/inset
+   composite vars, which can drop out on client-side navigation and kill the
+   shadow. Override with a plain, direct box-shadow that never breaks. */
+.shadow-md {
+  box-shadow: var(--shadow-base) !important;
 }
 
 input, textarea, select { font-size: 1rem; }
@@ -143,7 +160,7 @@ input, textarea, select { font-size: 1rem; }
   cursor: pointer;
   position: relative;
   overflow: hidden;
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-base);
   transition:
     border-color var(--duration-normal) var(--ease-out),
     color var(--duration-normal) var(--ease-out),
@@ -260,7 +277,7 @@ input, textarea, select { font-size: 1rem; }
   box-shadow: none;
   transition: color var(--duration-fast) var(--ease-out), background var(--duration-fast) var(--ease-out);
 }
-.lang-toggle button.active { background: var(--color-text); color: #000; box-shadow: var(--shadow-md); }
+.lang-toggle button.active { background: var(--color-text); color: #000; box-shadow: var(--shadow-base); }
 .lang-toggle button:hover:not(.active) { color: var(--color-text); }
 
 /* ── Services ── */

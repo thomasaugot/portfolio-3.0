@@ -6,9 +6,9 @@ const components: MDXComponents = {
   h1: (props) => <h1 className="font-display text-[clamp(28px,3.4vw,42px)] font-semibold tracking-[-0.03em] leading-[1.05] mt-12 mb-5" {...props} />,
   h2: (props) => <h2 className="font-display text-[clamp(22px,2.6vw,32px)] font-semibold tracking-[-0.02em] leading-[1.1] mt-10 mb-4" {...props} />,
   h3: (props) => <h3 className="font-display text-[clamp(18px,2vw,24px)] font-semibold tracking-[-0.01em] leading-[1.2] mt-8 mb-3" {...props} />,
-  p:  (props) => <p className="text-[16px] leading-[1.7] text-text-muted mb-5" {...props} />,
-  ul: (props) => <ul className="list-disc pl-6 mb-5 space-y-2 text-[16px] text-text-muted leading-[1.7]" {...props} />,
-  ol: (props) => <ol className="list-decimal pl-6 mb-5 space-y-2 text-[16px] text-text-muted leading-[1.7]" {...props} />,
+  p:  (props) => <p className="text-[18px] leading-[1.75] text-text-muted mb-6" {...props} />,
+  ul: (props) => <ul className="list-disc pl-6 mb-6 space-y-2 text-[18px] text-text-muted leading-[1.75]" {...props} />,
+  ol: (props) => <ol className="list-decimal pl-6 mb-6 space-y-2 text-[18px] text-text-muted leading-[1.75]" {...props} />,
   li: (props) => <li className="marker:text-text-subtle" {...props} />,
   a:  (props) => <a className="text-primary underline underline-offset-4 decoration-1 hover:opacity-75" {...props} />,
   blockquote: (props) => <blockquote className="border-l-2 border-primary pl-5 my-6 text-text font-serif italic text-[18px]" {...props} />,
@@ -18,8 +18,12 @@ const components: MDXComponents = {
     <img src={src} alt={alt ?? ""} className="my-8 border border-border w-full" />
   ),
   pre: (props) => <pre className="my-6 overflow-x-auto border border-border-2 bg-surface-2 text-[14px] font-mono p-5 leading-[1.6]" {...props} />,
-  code: ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => {
-    const isBlock = className?.includes("language-")
+  code: ({ className, ...props }: React.HTMLAttributes<HTMLElement> & { "data-language"?: string }) => {
+    // rehype-pretty-code marks block code with a data-language attribute (and a
+    // display:grid style). Only inline code should get the pill border/background;
+    // block code lives inside the styled <pre>, so adding a border here produces
+    // a double frame.
+    const isBlock = className?.includes("language-") || props["data-language"] != null
     return <code className={isBlock ? className : `${className ?? ""} bg-surface-2 border border-border py-px px-1.5 font-mono text-[14px]`} {...props} />
   },
 }

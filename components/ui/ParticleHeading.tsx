@@ -1,6 +1,7 @@
 "use client"
 
 import { ElementType, HTMLAttributes, ReactNode, useEffect, useRef } from "react"
+import { usePathname } from "next/navigation"
 
 // ─── Physics / rendering constants ───────────────────────────────────────────
 const SPRING       = 0.06
@@ -156,7 +157,8 @@ function captureViaCanvas(el: HTMLElement, dpr: number): Capture | null {
 
 function useParticleAnimation(
   headingRef: React.RefObject<HTMLElement | null>,
-  canvasRef:  React.RefObject<HTMLCanvasElement | null>
+  canvasRef:  React.RefObject<HTMLCanvasElement | null>,
+  pathname:   string,
 ) {
   useEffect(() => {
     const canvas = canvasRef.current; if (!canvas) return
@@ -173,6 +175,9 @@ function useParticleAnimation(
     let aborted   = false
     let rebuilding = false
     const mouse = { x: -9999, y: -9999, inside: false }
+    // The lime offset shadow is a light-mode-only flourish — checked live so it
+    // follows the current theme even if capture happened under a different one.
+    const isLightNow = () => document.documentElement.getAttribute("data-theme") === "light"
 
     async function rebuild() {
       if (rebuilding || aborted) return
@@ -193,10 +198,10 @@ function useParticleAnimation(
         const { canvas: bmp, pts, offX, offY } = cap
         bitmap = bmp
 
-        // Light-mode only: build a shadow bitmap containing just the lime pixels,
-        // tinted black. Drawn at +offset behind the main bitmap to give lime
-        // letters a chunky offset shadow. Dark mode skips this entirely.
-        if (document.documentElement.getAttribute("data-theme") === "light") {
+        // ALWAYS build the shadow bitmap (lime pixels tinted dark). Whether it's
+        // actually drawn is decided per-frame by the live theme — so it survives
+        // navigation/theme changes regardless of what the theme was at capture.
+        {
           const sbmp = document.createElement("canvas")
           sbmp.width = bmp.width; sbmp.height = bmp.height
           const sctx = sbmp.getContext("2d")!
@@ -211,8 +216,6 @@ function useParticleAnimation(
           }
           sctx.putImageData(out, 0, 0)
           shadowBitmap = sbmp
-        } else {
-          shadowBitmap = null
         }
 
         const bmpCssW = bmp.width  / dpr
@@ -228,7 +231,7 @@ function useParticleAnimation(
         const ctx = cv.getContext("2d")!
         ctx.scale(dpr, dpr)
         ctx.clearRect(0, 0, cvCssW, cvCssH)
-        if (shadowBitmap) {
+        if (shadowBitmap && isLightNow()) {
           ctx.drawImage(shadowBitmap, SCATTER_PAD + 4, SCATTER_PAD + 4, bmpCssW, bmpCssH)
           // Outline: draw shadow bitmap offset in 4 directions to stroke around lime letters
           ctx.drawImage(shadowBitmap, SCATTER_PAD - 1.5, SCATTER_PAD, bmpCssW, bmpCssH)
@@ -272,7 +275,7 @@ function useParticleAnimation(
 
       ctx.clearRect(0, 0, W, H)
       ctx.globalCompositeOperation = "source-over"
-      if (shadowBitmap) {
+      if (shadowBitmap && isLightNow()) {
         ctx.drawImage(shadowBitmap, SCATTER_PAD + 4, SCATTER_PAD + 4, bmpCssW, bmpCssH)
         ctx.drawImage(shadowBitmap, SCATTER_PAD - 1.5, SCATTER_PAD, bmpCssW, bmpCssH)
         ctx.drawImage(shadowBitmap, SCATTER_PAD + 1.5, SCATTER_PAD, bmpCssW, bmpCssH)
@@ -307,7 +310,7 @@ function useParticleAnimation(
       if (!mouse.inside && !anyActive) {
         rafId = null
         ctx.clearRect(0, 0, W, H)
-        if (shadowBitmap) {
+        if (shadowBitmap && isLightNow()) {
           ctx.drawImage(shadowBitmap, SCATTER_PAD + 4, SCATTER_PAD + 4, bmpCssW, bmpCssH)
           ctx.drawImage(shadowBitmap, SCATTER_PAD - 1.5, SCATTER_PAD, bmpCssW, bmpCssH)
           ctx.drawImage(shadowBitmap, SCATTER_PAD + 1.5, SCATTER_PAD, bmpCssW, bmpCssH)
@@ -332,19 +335,34 @@ function useParticleAnimation(
 
     window.addEventListener("mousemove", onMove, { passive: true })
 
-    document.fonts.ready.then(rebuild)
+    // Capture after the next paint so data-theme + layout are settled. On soft
+    // navigation back, document.fonts.ready is already resolved and fires before
+    // the theme attribute is applied — without this the light-mode shadow bitmap
+    // (which only builds when data-theme==="light") would be skipped.
+    const kick = () => requestAnimationFrame(() => requestAnimationFrame(rebuild))
+    document.fonts.ready.then(kick)
+    kick()
+
     const ro = new ResizeObserver(rebuild)
     ro.observe(el)
+
+    // Re-capture when the theme flips so the offset shadow is rebuilt correctly.
+    const themeObserver = new MutationObserver(rebuild)
+    themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] })
 
     return () => {
       aborted = true
       if (rafId !== null) cancelAnimationFrame(rafId)
       el.style.visibility = ""
       ro.disconnect()
+      themeObserver.disconnect()
       window.removeEventListener("mousemove", onMove)
     }
+  // Re-run on navigation so the canvas (and the light-mode offset shadow, which
+  // is baked at capture time) is rebuilt fresh on every page — soft navigation
+  // otherwise leaves a stale/empty capture.
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [pathname])
 }
 
 // ─── Public component ─────────────────────────────────────────────────────────
@@ -363,8 +381,9 @@ export function ParticleHeading({
 }: ParticleHeadingProps) {
   const headingRef = useRef<HTMLElement>(null)
   const canvasRef  = useRef<HTMLCanvasElement>(null)
+  const pathname   = usePathname()
 
-  useParticleAnimation(headingRef, canvasRef)
+  useParticleAnimation(headingRef, canvasRef, pathname)
 
   const Tag = as as ElementType
 

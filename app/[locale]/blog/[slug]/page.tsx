@@ -79,7 +79,7 @@ export default async function BlogPostPage({ params }: Props) {
         </TransitionLink>
 
         <header className="mb-12">
-          <div className="flex flex-wrap items-center gap-4 font-mono text-[11px] text-text-subtle tracking-[0.1em] uppercase mb-5">
+          <div className="flex flex-wrap items-center gap-4 font-mono text-[13px] text-text-subtle tracking-[0.1em] uppercase mb-5">
             <time dateTime={post.date}>{(() => { const d = new Date(post.date); return isNaN(d.getTime()) ? post.date : d.toISOString().slice(0, 10) })()}</time>
             <span>·</span>
             <span>{t.readMin(post.readingMin)}</span>
@@ -112,7 +112,7 @@ export default async function BlogPostPage({ params }: Props) {
           <div className="hr mt-16 mb-6" />
         )}
         {post.medium && (
-          <p className="font-mono text-[12px] text-text-subtle">
+          <p className="font-mono text-[14px] text-text-subtle">
             {t.alsoOn}{" "}
             <a href={post.medium} target="_blank" rel="noopener noreferrer" className="text-primary underline underline-offset-4">
               Medium
@@ -120,8 +120,8 @@ export default async function BlogPostPage({ params }: Props) {
           </p>
         )}
 
-        <p className="font-mono text-[12px] text-text-subtle mt-4">
-          Thomas Augot · <a href={appConfig.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-primary">LinkedIn</a> · <a href={appConfig.github} target="_blank" rel="noopener noreferrer" className="hover:text-primary">GitHub</a>
+        <p className="font-mono text-[14px] text-text-subtle mt-4">
+          Thomas Augot ·<a href={appConfig.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-primary">LinkedIn</a> · <a href={appConfig.github} target="_blank" rel="noopener noreferrer" className="hover:text-primary">GitHub</a>
         </p>
       </article>
       </section>
