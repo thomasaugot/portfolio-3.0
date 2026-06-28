@@ -75,7 +75,7 @@ export function ChatConversationPanel({
   }, [startConv])
 
   return (
-    <div className={`shadow-(--shadow-terminal) border border-border bg-bg flex flex-col overflow-hidden${className ? ` ${className}` : ""}`}>
+    <div className={`theme-bg shadow-(--shadow-terminal) border border-border flex flex-col overflow-hidden${className ? ` ${className}` : ""}`}>
 
       {/* Bar */}
       <div className="flex items-center justify-between px-5 py-3 border-b border-border">
