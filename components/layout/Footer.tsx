@@ -44,7 +44,7 @@ export function Footer() {
     <footer className="border-t border-border pt-14 pb-8 mt-20 text-text-muted">
       <Shell>
         {/* Wordmark */}
-        <div className="font-display font-semibold text-[clamp(32px,6vw,96px)] tracking-tighter leading-[0.85] text-surface-2 mb-12 whitespace-nowrap overflow-hidden select-none">
+        <div className="font-display font-semibold text-[clamp(32px,6vw,96px)] tracking-tighter leading-[0.85] text-watermark mb-12 whitespace-nowrap overflow-hidden select-none">
           helloimtom.dev
         </div>
 
