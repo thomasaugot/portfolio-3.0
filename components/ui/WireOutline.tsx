@@ -9,12 +9,11 @@ export function WireOutline({ className = "" }: { className?: string }) {
   return (
     <svg
       data-anim="wire-outline"
-      viewBox="0 0 100 100"
-      preserveAspectRatio="none"
       aria-hidden="true"
       className={`pointer-events-none absolute inset-0 z-[1] h-full w-full ${className}`}
     >
-      <rect data-wire x="0" y="0" width="100" height="100" className="fill-none stroke-primary [vector-effect:non-scaling-stroke]" strokeWidth="2" />
+      {/* Sized in px by initWireOutlines so the stroke length is measured correctly */}
+      <rect data-wire x="1" y="1" width="0" height="0" className="fill-none stroke-primary" strokeWidth="2" />
     </svg>
   )
 }

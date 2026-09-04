@@ -142,21 +142,44 @@ export function initFAQReveal() {
 }
 
 export function initHeroReveal() {
-  gsap.fromTo(
-    "[data-anim='hero-left-item']",
-    { opacity: 0, y: 30 },
-    { opacity: 1, y: 0, duration: 0.75, stagger: 0.13, ease: "power2.out" }
-  )
-  gsap.fromTo(
-    "[data-anim='hero-right']",
-    { opacity: 0 },
-    { opacity: 1, duration: 1.2, delay: 0.3, ease: "power1.out" }
-  )
-  gsap.fromTo(
-    "[data-anim='hero-meta']",
-    { opacity: 0, y: 20 },
-    { opacity: 1, y: 0, duration: 0.6, delay: 0.55, ease: "power2.out" }
-  )
+  const section = document.querySelector<HTMLElement>("[data-anim='hero']")
+  const scan    = section?.querySelector<HTMLElement>("[data-anim='hero-scan']")
+  const grid    = section?.querySelector<HTMLElement>("[data-anim='hero-grid']")
+  const glow    = section?.querySelector<HTMLElement>("[data-anim='hero-glow']")
+  const items   = gsap.utils
+    .toArray<HTMLElement>("[data-anim='hero-left-item'], [data-anim='hero-right'], [data-anim='hero-meta']")
+    .filter((el) => el.offsetHeight > 0)
+
+  // Fallback: plain fade-up (reduced motion, or markup without the scan line)
+  if (!section || !scan || prefersReducedMotion()) {
+    gsap.fromTo(items, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.7, stagger: 0.1, ease: "power2.out" })
+    return
+  }
+
+  // ── Boot: a lime scan line sweeps down the hero and "prints" each element as it passes ──
+  const sRect = section.getBoundingClientRect()
+  const DUR = 1.5
+  gsap.set(items, { clipPath: "inset(0 0 100% 0)", y: 16 })
+  const tl = gsap.timeline()
+  tl.set(scan, { opacity: 1, top: 0 })
+    .to(scan, { top: "100%", duration: DUR, ease: "power1.inOut" }, 0)
+    .to(scan, { opacity: 0, duration: 0.35 }, DUR - 0.15)
+  if (grid) tl.to(grid, { opacity: 1, duration: 1.4, ease: "power1.out" }, 0.3)
+  if (glow) tl.to(glow, { opacity: 0.5, duration: 1.2 }, 0.6)
+  items.forEach((el) => {
+    const r = el.getBoundingClientRect()
+    const at  = ((r.top - sRect.top) / sRect.height) * DUR * 0.92
+    const dur = Math.max(0.4, (r.height / sRect.height) * DUR + 0.3)
+    tl.to(el, { clipPath: "inset(0 0 0% 0)", y: 0, duration: dur, ease: "power2.out", clearProps: "clipPath" }, at)
+  })
+
+  // ── Exit: subtle parallax as the hero scrolls away ──
+  const left  = section.querySelector<HTMLElement>("[data-anim='hero-left']")
+  const right = section.querySelector<HTMLElement>("[data-anim='hero-right']")
+  const st = { trigger: section, start: "top top", end: "bottom top", scrub: true }
+  if (left)  gsap.to(left,  { y: -70, ease: "none", scrollTrigger: st })
+  if (right) gsap.to(right, { y: -30, scale: 0.96, opacity: 0.35, ease: "none", scrollTrigger: st })
+  if (grid)  gsap.to(grid,  { opacity: 0.25, ease: "none", scrollTrigger: st })
 }
 
 export function initAboutReveal() {
@@ -207,8 +230,15 @@ export function initSectionMeta() {
 
 /** Lime outline draws around cards, then fades to the normal border. */
 export function initWireOutlines() {
-  const wires = gsap.utils.toArray<SVGElement>("[data-anim='wire-outline'] [data-wire]")
+  const wires = gsap.utils.toArray<SVGRectElement>("[data-anim='wire-outline'] [data-wire]")
   if (!wires.length || prefersReducedMotion()) return
+  // Size each rect to its card in px so DrawSVG measures the real perimeter.
+  wires.forEach((rect) => {
+    const svg = rect.ownerSVGElement
+    if (!svg) return
+    rect.setAttribute("width", String(Math.max(0, svg.clientWidth - 2)))
+    rect.setAttribute("height", String(Math.max(0, svg.clientHeight - 2)))
+  })
   gsap.set(wires, { drawSVG: "0%" })
   ScrollTrigger.batch("[data-anim='wire-outline']", {
     onEnter: (els) => {
