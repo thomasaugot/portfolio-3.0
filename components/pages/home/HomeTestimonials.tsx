@@ -3,6 +3,7 @@ import { ParticleHeading } from "@/components/ui/ParticleHeading"
 import { useTranslations } from "next-intl"
 import { testimonials } from "@/data/testimonials"
 import { Shell } from "@/components/layout/Shell"
+import { WireOutline } from "@/components/ui/WireOutline"
 
 export function HomeTestimonials() {
   const t = useTranslations("home")
@@ -11,10 +12,10 @@ export function HomeTestimonials() {
   const lastRowStart = total - (total % cols || cols)
 
   return (
-    <section className="py-[clamp(80px,12vh,160px)] border-t border-border">
+    <section className="section-rule py-[clamp(80px,12vh,160px)]">
       <Shell>
-        <div className="grid grid-cols-[1fr_2fr] gap-(--gutter) mb-14 items-end max-[720px]:grid-cols-1 max-[720px]:gap-4">
-          <span className="font-mono text-[12px] text-text-subtle">{t("sections.testimonials_meta")}</span>
+        <div data-anim="section-head" className="grid grid-cols-[1fr_2fr] gap-(--gutter) mb-14 items-end max-[720px]:grid-cols-1 max-[720px]:gap-4">
+          <span data-anim="section-meta" className="font-mono text-[12px] text-text-subtle">{t("sections.testimonials_meta")}</span>
           <ParticleHeading className="font-display font-semibold tracking-tight text-[clamp(2.5rem,5.4vw,5.5rem)] leading-[0.95]">{t("sections.testimonials_title")}</ParticleHeading>
         </div>
 
@@ -27,13 +28,14 @@ export function HomeTestimonials() {
                 key={idx}
                 data-anim="testi-card"
                 className={[
-                  "card-hover p-8 border-r border-b border-border flex flex-col gap-5",
+                  "relative card-hover p-8 border-r border-b border-border flex flex-col gap-5",
                   isLastCol ? "border-r-0" : "",
                   isLastRow ? "border-b-0" : "",
                 ].join(" ")}
               >
+                <WireOutline />
                 <p className="text-body leading-normal flex-1 text-text">
-                  <span className="font-serif text-[56px] text-primary leading-0 align-[-16px] mr-1.5 italic" aria-hidden="true">&ldquo;</span>
+                  <span data-anim="quote-mark" className="inline-block font-serif text-[56px] text-primary leading-0 align-[-16px] mr-1.5 italic" aria-hidden="true">&ldquo;</span>
                   {item.q}
                 </p>
                 <div className="pt-4 border-t border-border">

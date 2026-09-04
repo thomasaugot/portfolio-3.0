@@ -85,3 +85,34 @@
   transition-delay: var(--delay, 0s);
 }
 .reveal-mask.in > span { transform: translateY(0); }
+
+/* ── Section rule: top border draws in left → right on scroll (see initSectionRules) ── */
+.section-rule { position: relative; --rule: 1; --rule-head: 0; }
+.section-rule::before {
+  content: "";
+  position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: var(--color-border);
+  transform: scaleX(var(--rule));
+  transform-origin: left;
+  pointer-events: none;
+}
+.section-rule::after {
+  content: "";
+  position: absolute; top: 0; height: 1px; width: 96px;
+  left: calc(var(--rule) * 100% - 96px);
+  background: linear-gradient(to right, transparent, var(--color-primary));
+  opacity: var(--rule-head);
+  pointer-events: none;
+}
+
+/* ── Typewriter caret for section meta labels (see initSectionMeta) ── */
+.typing::after {
+  content: "\258D";
+  color: var(--color-primary);
+  margin-left: 2px;
+  animation: blink 0.8s steps(1) infinite;
+}
+
+/* ── Process rail: step numbers light up as the lime rail passes them ── */
+.proc-num { transition: color 300ms var(--ease-out); }
+.proc-num.is-lit { color: var(--color-primary); }

@@ -11,6 +11,11 @@ import {
   initWorkReveal,
   initTestimonialsReveal,
   initAboutReveal,
+  initSectionRules,
+  initSectionMeta,
+  initWireOutlines,
+  initProcessRail,
+  initDifferenceReveal,
 } from "@/utils/animations/scrollReveals"
 import { HomeHero } from "@/components/pages/home/HomeHero"
 import { HomeClientMarquee } from "@/components/pages/home/HomeClientMarquee"
@@ -40,6 +45,11 @@ export function HomePageClient({ latestPosts }: { latestPosts: Post[] }) {
       initWorkReveal,
       initTestimonialsReveal,
       initAboutReveal,
+      initSectionRules,
+      initSectionMeta,
+      initWireOutlines,
+      initProcessRail,
+      initDifferenceReveal,
     ],
   }))
 

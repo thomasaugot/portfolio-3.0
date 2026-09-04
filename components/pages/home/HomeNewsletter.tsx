@@ -17,7 +17,7 @@ export function HomeNewsletter() {
   }
 
   return (
-    <section className="py-[clamp(80px,12vh,160px)] border-t border-border">
+    <section className="section-rule py-[clamp(80px,12vh,160px)]">
       <Shell>
         <div className="newsletter-card">
           <div className="newsletter-body">

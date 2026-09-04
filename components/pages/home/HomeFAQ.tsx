@@ -18,10 +18,10 @@ export function HomeFAQ() {
   const toggle = (idx: number) => setOpenIdx(openIdx === idx ? null : idx)
 
   return (
-    <section className="py-[clamp(80px,12vh,160px)] border-t border-border">
+    <section className="section-rule py-[clamp(80px,12vh,160px)]">
       <Shell>
         <div data-anim="section-head" className="grid grid-cols-[1fr_2fr] gap-gutter mb-14 items-end max-[720px]:grid-cols-1 max-[720px]:gap-4">
-          <span className="font-mono text-[12px] text-text-subtle">{t("sections.faq_meta")}</span>
+          <span data-anim="section-meta" className="font-mono text-[12px] text-text-subtle">{t("sections.faq_meta")}</span>
           <ParticleHeading className="font-display font-semibold tracking-tight text-[clamp(2.5rem,5.4vw,5.5rem)] leading-[0.95]">{t("sections.faq_title")}</ParticleHeading>
         </div>
 

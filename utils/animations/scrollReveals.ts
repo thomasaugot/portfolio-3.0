@@ -42,15 +42,33 @@ export function initProcessReveal() {
 export function initStackReveal() {
   hide("[data-anim='stack-bucket']", { y: 20 })
   hide("[data-anim='metric-card']", { scale: 0.9 })
+  hide("[data-anim='stack-bucket'] .flex-wrap > span", { y: 8 })
   ScrollTrigger.batch("[data-anim='stack-bucket']", {
-    onEnter: (els) =>
-      gsap.to(els, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out", stagger: 0.1 }),
+    onEnter: (els) => {
+      gsap.to(els, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out", stagger: 0.1 })
+      // chips "boot" in one by one
+      const chips = els.flatMap((el) => Array.from((el as HTMLElement).querySelectorAll(".flex-wrap > span")))
+      gsap.to(chips, { opacity: 1, y: 0, duration: 0.35, ease: "power2.out", stagger: 0.025, delay: 0.15 })
+    },
     start: "top 88%",
     once: true,
   })
   ScrollTrigger.batch("[data-anim='metric-card']", {
-    onEnter: (els) =>
-      gsap.to(els, { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.4)", stagger: 0.07 }),
+    onEnter: (els) => {
+      gsap.to(els, { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.4)", stagger: 0.07 })
+      // numbers count up from 0
+      els.forEach((el, i) => {
+        const num = (el as HTMLElement).querySelector<HTMLElement>("[data-anim='metric-num']")
+        if (!num) return
+        const target = parseFloat(num.dataset.value ?? "")
+        if (!Number.isFinite(target) || prefersReducedMotion()) return
+        const counter = { v: 0 }
+        gsap.to(counter, {
+          v: target, duration: 1.4, ease: "power3.out", delay: 0.1 + i * 0.07,
+          onUpdate: () => { num.textContent = String(Math.round(counter.v)) },
+        })
+      })
+    },
     start: "top 88%",
     once: true,
   })
@@ -99,9 +117,15 @@ export function initWorkReveal() {
 
 export function initTestimonialsReveal() {
   hide("[data-anim='testi-card']", { y: 24 })
+  if (document.querySelector("[data-anim='quote-mark']")) {
+    gsap.set("[data-anim='quote-mark']", { scale: 0, rotate: -25, transformOrigin: "left bottom" })
+  }
   ScrollTrigger.batch("[data-anim='testi-card']", {
-    onEnter: (els) =>
-      gsap.to(els, { opacity: 1, y: 0, duration: 0.65, ease: "power2.out", stagger: 0.1 }),
+    onEnter: (els) => {
+      gsap.to(els, { opacity: 1, y: 0, duration: 0.65, ease: "power2.out", stagger: 0.1 })
+      const marks = els.flatMap((el) => Array.from((el as HTMLElement).querySelectorAll("[data-anim='quote-mark']")))
+      gsap.to(marks, { scale: 1, rotate: 0, duration: 0.7, ease: "back.out(2.2)", stagger: 0.1, delay: 0.3 })
+    },
     start: "top 88%",
     once: true,
   })
@@ -148,6 +172,86 @@ export function initAboutReveal() {
     onEnter: (els) =>
       gsap.to(els, { opacity: 1, duration: 0.5, stagger: 0.07 }),
     start: "top 90%",
+    once: true,
+  })
+}
+
+/* ── Site-wide "blueprint" language ─────────────────────────────── */
+
+/** Top border of each section draws in left → right with a lime head. */
+export function initSectionRules() {
+  const sections = gsap.utils.toArray<HTMLElement>(".section-rule")
+  if (!sections.length || prefersReducedMotion()) return
+  sections.forEach((el) => {
+    gsap.set(el, { "--rule": 0, "--rule-head": 1 })
+    gsap.timeline({ scrollTrigger: { trigger: el, start: "top 92%", once: true } })
+      .to(el, { "--rule": 1, duration: 1.4, ease: "power3.inOut" })
+      .to(el, { "--rule-head": 0, duration: 0.4 }, "-=0.2")
+  })
+}
+
+/** Section meta labels ("[ 05 / WORK ]") type themselves in with a caret. */
+export function initSectionMeta() {
+  const metas = gsap.utils.toArray<HTMLElement>("[data-anim='section-meta']")
+  if (!metas.length || prefersReducedMotion()) return
+  metas.forEach((el) => {
+    // Remember the original text across StrictMode / context reverts.
+    const full = el.dataset.text ?? (el.dataset.text = el.textContent ?? "")
+    el.textContent = ""
+    el.classList.add("typing")
+    gsap.timeline({ scrollTrigger: { trigger: el, start: "top 90%", once: true } })
+      .to(el, { text: { value: full }, duration: Math.min(1.2, 0.045 * full.length + 0.2), ease: "none" })
+      .call(() => el.classList.remove("typing"), [], "+=0.9")
+  })
+}
+
+/** Lime outline draws around cards, then fades to the normal border. */
+export function initWireOutlines() {
+  const wires = gsap.utils.toArray<SVGElement>("[data-anim='wire-outline'] [data-wire]")
+  if (!wires.length || prefersReducedMotion()) return
+  gsap.set(wires, { drawSVG: "0%" })
+  ScrollTrigger.batch("[data-anim='wire-outline']", {
+    onEnter: (els) => {
+      els.forEach((svg, i) => {
+        const rect = (svg as SVGElement).querySelector("[data-wire]")
+        if (!rect) return
+        gsap.timeline({ delay: i * 0.08 })
+          .to(rect, { drawSVG: "100%", duration: 0.9, ease: "power2.inOut" })
+          .to(svg, { opacity: 0, duration: 0.6, ease: "power1.out" }, "+=0.15")
+      })
+    },
+    start: "top 85%",
+    once: true,
+  })
+}
+
+/** Process: lime rail grows down the list on scroll; step numbers light up as it passes. */
+export function initProcessRail() {
+  const list = document.querySelector<HTMLElement>("[data-anim='proc-list']")
+  const rail = list?.querySelector<HTMLElement>("[data-anim='proc-rail']")
+  if (!list || !rail || prefersReducedMotion()) return
+  gsap.fromTo(rail, { scaleY: 0 }, {
+    scaleY: 1, ease: "none",
+    scrollTrigger: { trigger: list, start: "top 65%", end: "bottom 65%", scrub: 0.4 },
+  })
+  list.querySelectorAll<HTMLElement>("[data-anim='proc-row']").forEach((row) => {
+    const num = row.querySelector<HTMLElement>("[data-anim='proc-num']")
+    if (!num) return
+    ScrollTrigger.create({
+      trigger: row, start: "top 65%",
+      onEnter: () => num.classList.add("is-lit"),
+      onLeaveBack: () => num.classList.remove("is-lit"),
+    })
+  })
+}
+
+/** Difference cards fade up with a stagger (outline draw handled by initWireOutlines). */
+export function initDifferenceReveal() {
+  hide("[data-anim='diff-card']", { y: 24 })
+  ScrollTrigger.batch("[data-anim='diff-card']", {
+    onEnter: (els) =>
+      gsap.to(els, { opacity: 1, y: 0, duration: 0.65, ease: "power2.out", stagger: 0.1 }),
+    start: "top 88%",
     once: true,
   })
 }

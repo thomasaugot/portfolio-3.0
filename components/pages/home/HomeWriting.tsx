@@ -33,7 +33,7 @@ export function HomeWriting({ locale, posts }: Props) {
   const t = LABELS[locale]
 
   return (
-    <section className="py-[clamp(80px,12vh,160px)] border-t border-border">
+    <section className="section-rule py-[clamp(80px,12vh,160px)]">
       <Shell>
         <div data-anim="section-head" className="grid grid-cols-[1fr_2fr] gap-gutter mb-14 items-end max-[720px]:grid-cols-1 max-[720px]:gap-4">
           <span className="text-caption font-mono text-text-subtle">{t.meta}</span>

@@ -57,7 +57,7 @@ export function HomeBlogBanner({ posts }: { posts: Post[] }) {
   }
 
   return (
-    <section className="border-t border-border py-[clamp(60px,10vh,160px)]">
+    <section className="section-rule py-[clamp(60px,10vh,160px)]">
       <Shell className="flex flex-col gap-10 md:flex-row md:items-stretch md:gap-10">
 
         {/* Left — eyebrow above title, stacked */}

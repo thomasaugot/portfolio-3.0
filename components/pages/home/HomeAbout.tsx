@@ -21,10 +21,10 @@ export function HomeAbout() {
   const [hoveredPin, setHoveredPin] = useState<{ city: string; country: string } | null>(null)
 
   return (
-    <section id="about" className="py-[clamp(80px,12vh,160px)] border-t border-border">
+    <section id="about" className="section-rule py-[clamp(80px,12vh,160px)]">
       <Shell>
-        <div className="grid grid-cols-[1fr_2fr] gap-(--gutter) mb-14 items-end max-[720px]:grid-cols-1 max-[720px]:gap-4">
-          <span className="font-mono text-[12px] text-text-subtle">{t("sections.about_meta")}</span>
+        <div data-anim="section-head" className="grid grid-cols-[1fr_2fr] gap-(--gutter) mb-14 items-end max-[720px]:grid-cols-1 max-[720px]:gap-4">
+          <span data-anim="section-meta" className="font-mono text-[12px] text-text-subtle">{t("sections.about_meta")}</span>
           <ParticleHeading className="font-display font-semibold tracking-tight text-[clamp(2.5rem,5.4vw,5.5rem)] leading-[0.95]">{t("sections.about_title")}</ParticleHeading>
         </div>
 
