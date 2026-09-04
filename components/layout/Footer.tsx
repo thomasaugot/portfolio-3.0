@@ -1,18 +1,46 @@
 "use client"
 
+import { useCallback, useRef, useState, type MouseEvent } from "react"
 import { useTranslations } from "next-intl"
 import { usePathname } from "next/navigation"
 import { appConfig } from "@/config/app.config"
 import { useTranslationContext } from "@/contexts/TranslationContext"
+import { useDevice } from "@/hooks/useDevice"
+import { useMotionPreference } from "@/hooks/useMotionPreference"
 import { TransitionLink } from "@/components/ui/TransitionLink"
 import { openCookieSettings } from "@/components/shared/CookieBanner"
 import { Shell } from "@/components/layout/Shell"
+import { FooterWordmark } from "@/components/layout/FooterWordmark"
+import { FooterPhysicsCanvas, useFooterPhysics } from "@/components/layout/FooterPhysics"
 
 export function Footer() {
   const t = useTranslations()
   const { language } = useTranslationContext()
   const pathname = usePathname()
   const isHome = pathname === `/${language}`
+
+  const footerRef = useRef<HTMLElement>(null)
+  const { isTouchDevice } = useDevice()
+  const { preference } = useMotionPreference()
+  const motionOk = preference === "full"
+  const physicsEnabled = motionOk && !isTouchDevice
+
+  const [pointerX, setPointerX] = useState<number | null>(null)
+  const physics = useFooterPhysics(footerRef, physicsEnabled)
+
+  const handleMouseMove = useCallback((e: MouseEvent<HTMLElement>) => {
+    if (motionOk) setPointerX(Math.round(e.clientX))
+    if (physicsEnabled) physics.onMouseMove(e)
+  }, [motionOk, physicsEnabled, physics])
+
+  const handleMouseLeave = useCallback(() => {
+    setPointerX(null)
+    if (physicsEnabled) physics.onMouseLeave()
+  }, [physicsEnabled, physics])
+
+  const handleClick = useCallback((e: MouseEvent<HTMLElement>) => {
+    if (physicsEnabled) physics.onClick(e)
+  }, [physicsEnabled, physics])
 
   function sectionHref(anchor: string) {
     return isHome ? `#${anchor}` : `/${language}#${anchor}`
@@ -38,15 +66,24 @@ export function Footer() {
   }
 
   const headingCls = "text-body font-mono text-text-subtle tracking-[0.12em] uppercase mb-4"
-  const linkCls    = "text-body text-text-muted no-underline block py-1 transition-colors duration-150 hover:text-primary"
+  // Hovering one link fades its siblings out (group) while the hovered one stays fully opaque.
+  const colCls     = "group/footer-links"
+  const linkCls    = "text-body text-text-muted no-underline block py-1 transition-[color,opacity] duration-150 hover:text-primary group-hover/footer-links:opacity-40 hover:opacity-100!"
 
   return (
-    <footer className="border-t border-border pt-14 pb-8 mt-20 text-text-muted">
-      <Shell>
-        {/* Wordmark */}
-        <div className="font-display font-semibold text-[clamp(32px,6vw,96px)] tracking-tighter leading-[0.85] text-watermark mb-12 whitespace-nowrap overflow-hidden select-none">
-          helloimtom.dev
-        </div>
+    <footer
+      ref={footerRef}
+      className="relative border-t border-border pt-14 pb-8 mt-20 text-text-muted"
+      onMouseMove={handleMouseMove}
+      onMouseEnter={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      onClick={handleClick}
+    >
+      {physicsEnabled && <FooterPhysicsCanvas canvasRef={physics.canvasRef} />}
+
+      <Shell className="relative">
+        {/* Wordmark — letters bolden near the cursor */}
+        <FooterWordmark pointerX={pointerX} animated={motionOk} />
 
         {/* Main row: tagline left, nav cols right */}
         <div className="flex gap-16 mb-16 max-[700px]:flex-col max-[700px]:gap-10">
@@ -64,25 +101,31 @@ export function Footer() {
           <div className="flex gap-16 shrink-0 max-[700px]:grid max-[700px]:grid-cols-2 max-[700px]:gap-8">
             <div>
               <h4 className={headingCls}>{t("footer.sitemap_heading")}</h4>
-              {links.sitemap.map((l) => (
-                <TransitionLink key={l.label} href={l.href} className={linkCls}>{l.label}</TransitionLink>
-              ))}
+              <div className={colCls}>
+                {links.sitemap.map((l) => (
+                  <TransitionLink key={l.label} href={l.href} className={linkCls}>{l.label}</TransitionLink>
+                ))}
+              </div>
             </div>
 
             <div>
               <h4 className={headingCls}>{t("footer.elsewhere_heading")}</h4>
-              {links.elsewhere.map((l) => (
-                <a key={l.label} href={l.href} target="_blank" rel="noopener noreferrer" className={linkCls} data-cta_click="true" data-cta_text={l.label} data-cta_url={l.href}>
-                  {l.label}<span className="sr-only"> (opens in new tab)</span>
-                </a>
-              ))}
+              <div className={colCls}>
+                {links.elsewhere.map((l) => (
+                  <a key={l.label} href={l.href} target="_blank" rel="noopener noreferrer" className={linkCls} data-cta_click="true" data-cta_text={l.label} data-cta_url={l.href}>
+                    {l.label}<span className="sr-only"> (opens in new tab)</span>
+                  </a>
+                ))}
+              </div>
             </div>
 
             <div>
               <h4 className={headingCls}>{t("footer.direct_heading")}</h4>
-              {links.direct.map((l) => (
-                <a key={l.label} href={l.href} className={linkCls}>{l.label}</a>
-              ))}
+              <div className={colCls}>
+                {links.direct.map((l) => (
+                  <a key={l.label} href={l.href} className={linkCls}>{l.label}</a>
+                ))}
+              </div>
             </div>
           </div>
 

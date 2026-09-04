@@ -1,6 +1,7 @@
 "use client"
 
 import { gsap, ScrollTrigger } from "@/lib/gsap"
+import { prefersReducedMotion } from "@/utils/animations/motionPrefs"
 
 function hide(selector: string, props: gsap.TweenVars = {}) {
   // Guard against selectors with no matching elements — gsap.set warns otherwise.
@@ -62,6 +63,21 @@ export function initWorkReveal() {
       gsap.to(els, { opacity: 1, y: 0, duration: 0.8, ease: "power2.out", stagger: 0.15 }),
     start: "top 88%",
     once: true,
+  })
+
+  // Visual cards: un-clip from the centre while the mockup zooms out 120% → 100%.
+  // Reverses when scrolling back above the card so it replays on the way down.
+  if (prefersReducedMotion()) return
+  gsap.utils.toArray<HTMLElement>("[data-anim='work-visual']").forEach((card) => {
+    const zoom = card.querySelector<HTMLElement>("[data-anim='work-zoom']")
+    gsap.set(card, { clipPath: "inset(50% round 0px)" })
+    if (zoom) gsap.set(zoom, { scale: 1.2 })
+    const tl = gsap.timeline({
+      scrollTrigger: { trigger: card, start: "top 75%", toggleActions: "play none none reverse" },
+      defaults: { ease: "power4.out", duration: 1.6 },
+    })
+    tl.to(card, { clipPath: "inset(0% round 0px)" })
+    if (zoom) tl.to(zoom, { scale: 1 }, "<")
   })
 }
 

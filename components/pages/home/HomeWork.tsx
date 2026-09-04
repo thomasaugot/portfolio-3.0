@@ -67,8 +67,8 @@ export function HomeWork() {
         {work.map((item) => {
           const mockup = MOCKUPS[item.slug]
           return (
-            <div key={item.n} data-anim="case-card" className="grid grid-cols-[1fr_1.2fr] gap-12 py-16 border-t border-b border-border items-start max-[900px]:grid-cols-1 max-[900px]:gap-6">
-              <div className="flex flex-col gap-4.5 py-3">
+            <div key={item.n} className="grid grid-cols-[1fr_1.2fr] gap-12 py-16 border-t border-b border-border items-start max-[900px]:grid-cols-1 max-[900px]:gap-6">
+              <div data-anim="case-card" className="flex flex-col gap-4.5 py-3">
                 <span className="text-caption text-text-subtle tracking-widest">{item.n}</span>
                 <h3 className="font-display font-semibold text-[clamp(32px,4vw,56px)] tracking-[-0.03em] leading-none text-text">{item.client}</h3>
                 <p className="text-body text-text-muted max-w-95 leading-[1.6]">{item.tag}</p>
@@ -118,25 +118,50 @@ export function HomeWork() {
                 )}
               </div>
 
-              <div
+              {/*
+                Visual card — Palomino-style:
+                • on scroll: un-clips from the centre while the mockup zooms out 120% → 100% (GSAP, see initWorkReveal)
+                • on hover/focus: mockup zooms in to 110% and a caption slides up from the bottom (CSS)
+              */}
+              <TransitionLink
+                href={`/${locale}/work/${item.slug}`}
+                aria-label={`${item.link} — ${item.client}`}
+                data-anim="work-visual"
                 className={[
-                  "card-hover shadow-md relative bg-surface-2 border border-border overflow-hidden cursor-pointer",
+                  "group/work card-hover shadow-md relative block bg-surface-2 border border-border overflow-hidden no-underline keyboard-focus-ring",
                   mockup?.kind === "mobile" ? "aspect-3/4" : "aspect-5/3",
                   "min-[900px]:aspect-4/3",
-                  "after:content-[''] after:absolute after:inset-0 after:pointer-events-none",
-                  "after:bg-[repeating-linear-gradient(45deg,rgba(212,255,58,0.007)_0_12px,transparent_12px_24px)]",
                 ].join(" ")}
               >
-                {mockup?.kind === "web" && mockup.desktop && mockup.mobile ? (
-                  <WebMockup desktop={mockup.desktop} mobile={mockup.mobile} />
-                ) : mockup?.kind === "mobile" && mockup.mobile ? (
-                  <MobileMockup mobile={mockup.mobile} mobile2={mockup.mobile2} />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center text-caption font-mono text-text-subtle tracking-widest">
-                    <span>{item.n} · {item.type}</span>
+                {/* Scroll zoom-out wrapper (driven by GSAP) */}
+                <div data-anim="work-zoom" className="absolute inset-0 will-change-transform">
+                  {/* Hover zoom-in (CSS) */}
+                  <div className="absolute inset-0 transition-transform duration-600 [transition-timing-function:var(--ease-out)] group-hover/work:scale-110 group-focus-visible/work:scale-110">
+                    {mockup?.kind === "web" && mockup.desktop && mockup.mobile ? (
+                      <WebMockup desktop={mockup.desktop} mobile={mockup.mobile} />
+                    ) : mockup?.kind === "mobile" && mockup.mobile ? (
+                      <MobileMockup mobile={mockup.mobile} mobile2={mockup.mobile2} />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-caption font-mono text-text-subtle tracking-widest">
+                        <span>{item.n} · {item.type}</span>
+                      </div>
+                    )}
                   </div>
-                )}
-              </div>
+                </div>
+
+                {/* Subtle diagonal stripes */}
+                <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[repeating-linear-gradient(45deg,rgba(212,255,58,0.007)_0_12px,transparent_12px_24px)]" />
+
+                {/* Bottom gradient + caption, revealed on hover */}
+                <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 h-36 bg-[linear-gradient(to_top,var(--color-bg),transparent)] opacity-0 transition-opacity duration-600 group-hover/work:opacity-100 group-focus-visible/work:opacity-100" />
+                <div className="absolute inset-x-0 bottom-0 z-10 p-5 translate-y-full transition-transform duration-600 [transition-timing-function:var(--ease-out)] group-hover/work:translate-y-0 group-focus-visible/work:translate-y-0">
+                  <span className="flex items-center gap-2.5 font-display font-semibold text-[clamp(20px,2vw,28px)] leading-none text-text">
+                    <span aria-hidden="true" className="size-2.5 shrink-0 rounded-full bg-primary" />
+                    {item.client}
+                  </span>
+                  <span className="block mt-2 text-body text-text-muted">{item.tag} · {item.link}</span>
+                </div>
+              </TransitionLink>
             </div>
           )
         })}
