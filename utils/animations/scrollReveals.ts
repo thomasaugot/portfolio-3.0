@@ -65,19 +65,35 @@ export function initWorkReveal() {
     once: true,
   })
 
-  // Visual cards: un-clip from the centre while the mockup zooms out 120% → 100%.
-  // Reverses when scrolling back above the card so it replays on the way down.
+  // Visual cards — "blueprint → production":
+  // card un-clips, lime wireframe draws itself, status ticks build → deploy → live,
+  // then the real mockup fades in over the wireframe. Reverses when scrolled back above.
   if (prefersReducedMotion()) return
   gsap.utils.toArray<HTMLElement>("[data-anim='work-visual']").forEach((card) => {
-    const zoom = card.querySelector<HTMLElement>("[data-anim='work-zoom']")
+    const zoom   = card.querySelector<HTMLElement>("[data-anim='work-zoom']")
+    const wire   = card.querySelector<HTMLElement>("[data-anim='work-wire']")
+    const grid   = card.querySelector<HTMLElement>("[data-anim='work-grid']")
+    const wires  = card.querySelectorAll<SVGElement>("[data-wire]")
+    const status = (k: string) => card.querySelector<HTMLElement>(`[data-status='${k}']`)
+    const build = status("build"), deploy = status("deploy"), live = status("live")
+
     gsap.set(card, { clipPath: "inset(50% round 0px)" })
-    if (zoom) gsap.set(zoom, { scale: 1.2 })
+    if (zoom) gsap.set(zoom, { opacity: 0, scale: 1.12 })
+    if (wires.length) gsap.set(wires, { drawSVG: "0%" })
+    if (wire) gsap.set(wire, { opacity: 1 })
+
     const tl = gsap.timeline({
       scrollTrigger: { trigger: card, start: "top 75%", toggleActions: "play none none reverse" },
-      defaults: { ease: "power4.out", duration: 1.6 },
     })
-    tl.to(card, { clipPath: "inset(0% round 0px)" })
-    if (zoom) tl.to(zoom, { scale: 1 }, "<")
+    tl.to(card, { clipPath: "inset(0% round 0px)", duration: 1, ease: "power4.out" })
+    if (grid)  tl.to(grid, { opacity: 1, duration: 0.5 }, "-=0.7")
+    if (build) tl.to(build, { opacity: 1, duration: 0.2 }, "<")
+    if (wires.length) tl.to(wires, { drawSVG: "100%", duration: 1.1, ease: "power2.inOut", stagger: 0.03 }, "-=0.4")
+    if (build && deploy) tl.to(build, { opacity: 0, duration: 0.15 }, "-=0.5").to(deploy, { opacity: 1, duration: 0.15 }, "<")
+    if (zoom)  tl.to(zoom, { opacity: 1, scale: 1, duration: 0.9, ease: "power3.out" }, "-=0.1")
+    if (wire)  tl.to(wire, { opacity: 0, duration: 0.6 }, "<+=0.25")
+    if (grid)  tl.to(grid, { opacity: 0, duration: 0.6 }, "<")
+    if (deploy && live) tl.to(deploy, { opacity: 0, duration: 0.15 }, "<").to(live, { opacity: 1, duration: 0.2 }, "<")
   })
 }
 

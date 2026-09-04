@@ -6,6 +6,7 @@ import { WebMockup, MobileMockup } from "@/components/ui/ProjectMockup"
 import { TransitionLink } from "@/components/ui/TransitionLink"
 import { Shell } from "@/components/layout/Shell"
 import { TechTag } from "@/components/ui/TechTag"
+import { WorkBlueprint } from "@/components/pages/home/WorkBlueprint"
 
 interface WorkItem {
   n: string
@@ -148,6 +149,9 @@ export function HomeWork() {
                     )}
                   </div>
                 </div>
+
+                {/* Blueprint → production reveal overlay */}
+                <WorkBlueprint kind={mockup?.kind === "mobile" ? "mobile" : "web"} />
 
                 {/* Subtle diagonal stripes */}
                 <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[repeating-linear-gradient(45deg,rgba(212,255,58,0.007)_0_12px,transparent_12px_24px)]" />
