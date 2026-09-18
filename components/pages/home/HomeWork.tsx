@@ -20,6 +20,7 @@ interface WorkItem {
   link: string
   slug: string
   href?: string
+  href2?: string
   featured?: boolean
 }
 
@@ -33,6 +34,11 @@ const MOCKUPS: Record<string, {
     kind: "web",
     desktop: "/assets/images/portfolio/materia-prima/desktop/desktop-1.webp",
     mobile:  "/assets/images/portfolio/materia-prima/mobile/mobile-1.webp",
+  },
+  "fronton-king": {
+    kind: "web",
+    desktop: "/assets/images/portfolio/fronton-king/desktop/desktop-1.webp",
+    mobile:  "/assets/images/portfolio/fronton-king/mobile/mobile-5.webp",
   },
   "binter-montajes-app": {
     kind: "web",
@@ -72,7 +78,7 @@ export function HomeWork() {
               <div data-anim="case-card" className="flex flex-col gap-4.5 py-3">
                 <span className="text-caption text-text-subtle tracking-widest">{item.n}</span>
                 <h3 className="font-display font-semibold text-[clamp(32px,4vw,56px)] tracking-[-0.03em] leading-none text-text">{item.client}</h3>
-                <p className="text-body text-text-muted max-w-95 leading-[1.6]">{item.tag}</p>
+                <p className="text-body text-text-muted font-bold! leading-[1.6]">{item.tag}</p>
                 <p className="text-body text-text-muted leading-[1.6]">{item.body}</p>
 
                 {/* Meta — type / year / role */}
@@ -99,6 +105,7 @@ export function HomeWork() {
                   </div>
                 </div>
 
+                <div className="flex flex-col gap-3 min-[900px]:flex-row min-[900px]:flex-wrap min-[900px]:items-center min-[900px]:gap-6">
                 <TransitionLink
                   href={`/${locale}/work/${item.slug}`}
                   aria-label={`${item.link} — ${item.client}`}
@@ -114,9 +121,21 @@ export function HomeWork() {
                     aria-label={`${item.client} live site (opens in new tab)`}
                     className="text-body inline-flex items-center gap-1.5 text-primary no-underline transition-opacity hover:opacity-75 keyboard-focus-ring"
                   >
-                    Live site ↗<span className="sr-only"> (opens in new tab)</span>
+                    {t("work_ui.live_site")}<span className="sr-only"> (opens in new tab)</span>
                   </a>
                 )}
+                {item.href2 && (
+                  <a
+                    href={item.href2}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`${item.client} live app (opens in new tab)`}
+                    className="text-body inline-flex items-center gap-1.5 text-primary no-underline transition-opacity hover:opacity-75 keyboard-focus-ring"
+                  >
+                    {t("work_ui.live_app")}<span className="sr-only"> (opens in new tab)</span>
+                  </a>
+                )}
+                </div>
               </div>
 
               {/*

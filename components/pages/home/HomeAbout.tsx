@@ -37,7 +37,7 @@ export function HomeAbout() {
                 alt="Thomas Augot"
                 fill
                 className="object-cover object-top"
-                sizes="80px"
+                sizes="160px"
               />
             </div>
 

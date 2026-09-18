@@ -114,12 +114,20 @@ export function WorkCaseStudy({ slug }: { slug: string }) {
             </ParticleHeading>
             <div className="flex items-center justify-between gap-3 flex-wrap">
               <p className="text-caption font-mono text-text-subtle tracking-[0.08em] uppercase">{item.client}</p>
-              {project.href && (
-                <a href={project.href} target="_blank" rel="noopener noreferrer"
-                  className="text-caption inline-flex items-center gap-2 font-mono tracking-[0.1em] uppercase text-primary no-underline transition-opacity hover:opacity-75 keyboard-focus-ring">
-                  {project.domain} ↗<span className="sr-only"> (opens in new tab)</span>
-                </a>
-              )}
+              <div className="flex items-center gap-5 flex-wrap">
+                {project.href && (
+                  <a href={project.href} target="_blank" rel="noopener noreferrer"
+                    className="text-caption inline-flex items-center gap-2 font-mono tracking-[0.1em] uppercase text-primary no-underline transition-opacity hover:opacity-75 keyboard-focus-ring">
+                    {project.domain} ↗<span className="sr-only"> (opens in new tab)</span>
+                  </a>
+                )}
+                {project.href2 && project.domain2 && (
+                  <a href={project.href2} target="_blank" rel="noopener noreferrer"
+                    className="text-caption inline-flex items-center gap-2 font-mono tracking-[0.1em] uppercase text-primary no-underline transition-opacity hover:opacity-75 keyboard-focus-ring">
+                    {project.domain2} ↗<span className="sr-only"> (opens in new tab)</span>
+                  </a>
+                )}
+              </div>
             </div>
           </div>
 

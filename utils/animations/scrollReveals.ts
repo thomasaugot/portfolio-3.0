@@ -160,7 +160,8 @@ export function initHeroReveal() {
   const sRect = section.getBoundingClientRect()
   const DUR = 1.5
   gsap.set(items, { clipPath: "inset(0 0 100% 0)", y: 16 })
-  const tl = gsap.timeline()
+  // Small delay so the page-enter blur has cleared before the scan starts
+  const tl = gsap.timeline({ delay: 0.3 })
   tl.set(scan, { opacity: 1, top: 0 })
     .to(scan, { top: "100%", duration: DUR, ease: "power1.inOut" }, 0)
     .to(scan, { opacity: 0, duration: 0.35 }, DUR - 0.15)

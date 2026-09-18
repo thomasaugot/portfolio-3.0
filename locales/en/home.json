@@ -282,6 +282,21 @@
     },
     {
       "n": "W/02",
+      "client": "Gran Canaria Frontón King",
+      "tag": "World Championship Site + Live Event PWA",
+      "type": "Full-stack · PWA",
+      "year": "2026",
+      "role": "Full-stack",
+      "stack": "Next.js 16 · React 19 · TypeScript · Tailwind CSS 4 · next-intl · Supabase · PostgreSQL · Web Push · PWA · MapLibre · GSAP · Lenis · Vitest · Docker",
+      "body": "Two products for the final stop of the IBC World Tour bodyboard championship in Gáldar. A five-language marketing site (programme, riders, travel guide with an interactive map, registration) and a PWA that answers \"is it on today?\" for a fourteen-day waiting period: live heats synced from SurfScores, a conditions engine fed by swell forecasts, push notifications, fantasy league, QR challenges, photo gallery with moderation, rider and sponsor areas with separate auth, and a full back office. Self-hosted Supabase, Docker on a private VPS.",
+      "link": "Case study →",
+      "slug": "fronton-king",
+      "href": "https://frontonking.com",
+      "href2": "https://app.frontonking.com",
+      "featured": true
+    },
+    {
+      "n": "W/03",
       "client": "Bea Miranda",
       "tag": "Editorial Site for a Food Journalist",
       "type": "Marketing site · Editorial",
@@ -294,7 +309,7 @@
       "href": "https://beamiranda.es"
     },
     {
-      "n": "W/03",
+      "n": "W/04",
       "client": "Binter Canarias",
       "tag": "Field Operations Platform",
       "type": "Full-stack · PWA",
@@ -304,10 +319,10 @@
       "body": "Full-stack PWA built for Binter's installation teams to coordinate advertising campaigns across Canary Islands. Real-time check-ins, photo uploads, incident reporting, and a three-tier approval workflow — with offline support via Workbox service worker.",
       "link": "Case study →",
       "slug": "binter-montajes-app",
-      "featured": true
+      "featured": false
     },
     {
-      "n": "W/04",
+      "n": "W/05",
       "client": "Dos × Dos Grupo Imagen",
       "tag": "Corporate Website 2.0 + Admin Panel",
       "type": "Full-stack · CMS",
@@ -321,7 +336,7 @@
       "featured": false
     },
     {
-      "n": "W/05",
+      "n": "W/06",
       "client": "Dos × Dos Grupo Imagen",
       "tag": "Montadores App — Field Worker Native App",
       "type": "React Native · iOS & Android",
@@ -334,7 +349,7 @@
       "featured": true
     },
     {
-      "n": "W/06",
+      "n": "W/07",
       "client": "Energía Solar Canarias",
       "tag": "Solar Plant Monitoring CRM",
       "type": "Full-stack platform · Mobile",
@@ -347,7 +362,7 @@
       "href": "https://app.energiasolarcanarias.com/"
     },
     {
-      "n": "W/07",
+      "n": "W/08",
       "client": "Galaga Agency",
       "tag": "Galaga Agency Website 2.0",
       "type": "Marketing site · Three.js",
@@ -360,7 +375,7 @@
       "href": "https://galagaagency.com/"
     },
     {
-      "n": "W/08",
+      "n": "W/09",
       "client": "Galaga Agency",
       "tag": "Reloj Laboral — Digital Time-Tracking System",
       "type": "Full-stack software platform",
@@ -372,7 +387,7 @@
       "slug": "reloj-laboral-galaga"
     },
     {
-      "n": "W/09",
+      "n": "W/10",
       "client": "ARECO España",
       "tag": "ARECO — Spanish Market Landing Site",
       "type": "Marketing site · Sanity CMS",
@@ -385,7 +400,7 @@
       "href": "https://areco-nextjs.galagaagency.com"
     },
     {
-      "n": "W/10",
+      "n": "W/11",
       "client": "Charpente Menuiserie Durand",
       "tag": "Business Website for Carpentry Company",
       "type": "Marketing site · SEO",
@@ -398,7 +413,7 @@
       "href": "https://cmdurand-2-0.vercel.app/"
     },
     {
-      "n": "W/11",
+      "n": "W/12",
       "client": "Phoenix on the Beach",
       "tag": "CrossFit Competition Event Website",
       "type": "Full-stack · CMS · Real-time",
@@ -579,6 +594,7 @@
     "meta_stack": "Stack",
     "private": "Private",
     "live_site": "Live site ↗",
+    "live_app": "Live app ↗",
     "view_all": "View selected work →"
   }
 }

@@ -5,6 +5,7 @@ import { getAllSlugs as getAllBlogSlugs, getPost as getBlogPost } from "@/lib/bl
 // Keep in sync with app/[locale]/work/[slug]/page.tsx SLUGS
 const WORK_SLUGS = [
   "materia-prima",
+  "fronton-king",
   "binter-montajes-app",
   "dosxdosgrupoimagen-web",
   "dosxdos-montadores-app",

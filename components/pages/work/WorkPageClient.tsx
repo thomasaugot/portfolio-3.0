@@ -85,6 +85,18 @@ export function WorkPageClient() {
                 {active.domain} ↗<span className="sr-only"> (opens in new tab)</span>
               </a>
             )}
+            {active.href2 && active.domain2 && (
+              <a
+                href={active.href2}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                aria-label={`${active.client} live app (opens in new tab)`}
+                className="text-caption inline-flex items-center gap-1 font-mono text-primary no-underline tracking-[0.1em] uppercase mt-3 ml-5 transition-opacity hover:opacity-75 keyboard-focus-ring"
+              >
+                {active.domain2} ↗<span className="sr-only"> (opens in new tab)</span>
+              </a>
+            )}
           </div>
         </div>
       </div>

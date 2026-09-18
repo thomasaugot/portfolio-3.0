@@ -11,6 +11,9 @@ export interface Project {
   domain: string
   kind: "web" | "mobile"
   href?: string
+  /** Optional second live URL (e.g. a companion app) */
+  href2?: string
+  domain2?: string
   gallery: {
     desktop: string[]
     mobile: string[]

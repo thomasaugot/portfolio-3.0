@@ -6,6 +6,7 @@ import type { Metadata } from "next"
 
 const SLUGS = [
   "materia-prima",
+  "fronton-king",
   // "bea-miranda", // hidden — re-enable later this year
   "binter-montajes-app",
   "dosxdosgrupoimagen-web",

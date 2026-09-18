@@ -282,6 +282,21 @@
     },
     {
       "n": "W/02",
+      "client": "Gran Canaria Frontón King",
+      "tag": "Web del Campeonato + PWA del evento en directo",
+      "type": "Full-stack · PWA",
+      "year": "2026",
+      "role": "Full-stack",
+      "stack": "Next.js 16 · React 19 · TypeScript · Tailwind CSS 4 · next-intl · Supabase · PostgreSQL · Web Push · PWA · MapLibre · GSAP · Lenis · Vitest · Docker",
+      "body": "Dos productos para la última prueba del IBC World Tour de bodyboard en Gáldar. Una web de marketing en cinco idiomas (programa, riders, guía de viaje con mapa interactivo, inscripción) y una PWA que responde a \"¿hoy se compite?\" durante una ventana de catorce días: heats en directo sincronizados con SurfScores, motor de condiciones alimentado por previsiones de oleaje, notificaciones push, liga fantasy, retos QR, galería con moderación, áreas de rider y patrocinador con autenticación separada y un back office completo. Supabase autoalojado, Docker en un VPS privado.",
+      "link": "Caso de estudio →",
+      "slug": "fronton-king",
+      "href": "https://frontonking.com",
+      "href2": "https://app.frontonking.com",
+      "featured": true
+    },
+    {
+      "n": "W/03",
       "client": "Bea Miranda",
       "tag": "Sitio editorial para periodista gastronómica",
       "type": "Marketing site · Editorial",
@@ -294,7 +309,7 @@
       "href": "https://beamiranda.es"
     },
     {
-      "n": "W/03",
+      "n": "W/04",
       "client": "Binter Canarias",
       "tag": "Plataforma de operaciones de campo",
       "type": "Full-stack · PWA",
@@ -304,10 +319,10 @@
       "body": "PWA full-stack construida para los equipos de instalación de Binter, para coordinar campañas publicitarias en Canarias. Check-ins en tiempo real, subida de fotos, reporte de incidencias y flujo de aprobación de tres niveles — con soporte offline mediante service worker Workbox.",
       "link": "Caso de estudio →",
       "slug": "binter-montajes-app",
-      "featured": true
+      "featured": false
     },
     {
-      "n": "W/04",
+      "n": "W/05",
       "client": "Dos × Dos Grupo Imagen",
       "tag": "Sitio corporativo 2.0 + Panel de administración",
       "type": "Full-stack · CMS",
@@ -321,7 +336,7 @@
       "featured": false
     },
     {
-      "n": "W/05",
+      "n": "W/06",
       "client": "Dos × Dos Grupo Imagen",
       "tag": "Montadores App — App nativa para técnicos de campo",
       "type": "React Native · iOS & Android",
@@ -334,7 +349,7 @@
       "featured": true
     },
     {
-      "n": "W/06",
+      "n": "W/07",
       "client": "Energía Solar Canarias",
       "tag": "CRM de monitorización de plantas solares",
       "type": "Plataforma full-stack · Móvil",
@@ -347,7 +362,7 @@
       "href": "https://app.energiasolarcanarias.com/"
     },
     {
-      "n": "W/07",
+      "n": "W/08",
       "client": "Galaga Agency",
       "tag": "Sitio Galaga Agency 2.0",
       "type": "Sitio de marketing · Three.js",
@@ -360,7 +375,7 @@
       "href": "https://galagaagency.com/"
     },
     {
-      "n": "W/08",
+      "n": "W/09",
       "client": "Galaga Agency",
       "tag": "Reloj Laboral — Sistema digital de registro horario",
       "type": "Plataforma de software full-stack",
@@ -372,7 +387,7 @@
       "slug": "reloj-laboral-galaga"
     },
     {
-      "n": "W/09",
+      "n": "W/10",
       "client": "ARECO España",
       "tag": "ARECO — Sitio para el mercado español",
       "type": "Sitio de marketing · Sanity CMS",
@@ -385,7 +400,7 @@
       "href": "https://areco-nextjs.galagaagency.com"
     },
     {
-      "n": "W/10",
+      "n": "W/11",
       "client": "Charpente Menuiserie Durand",
       "tag": "Sitio web para empresa de carpintería",
       "type": "Sitio de marketing · SEO",
@@ -398,7 +413,7 @@
       "href": "https://cmdurand-2-0.vercel.app/"
     },
     {
-      "n": "W/11",
+      "n": "W/12",
       "client": "Phoenix on the Beach",
       "tag": "Sitio web para competición de CrossFit",
       "type": "Full-stack · CMS · Tiempo real",
@@ -579,6 +594,7 @@
     "meta_stack": "Stack",
     "private": "Privado",
     "live_site": "Sitio en línea ↗",
+    "live_app": "App en línea ↗",
     "view_all": "Ver proyectos →"
   }
 }
