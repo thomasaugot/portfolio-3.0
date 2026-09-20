@@ -4,6 +4,7 @@ import { forwardRef, type AnchorHTMLAttributes, type MouseEvent } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useTransitionContext } from "@/contexts/TransitionContext"
+import { useScrollContext } from "@/contexts/ScrollContext"
 
 interface TransitionLinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   href: string
@@ -17,6 +18,7 @@ export const TransitionLink = forwardRef<HTMLAnchorElement, TransitionLinkProps>
     ref
   ) {
     const { navigateTo, isTransitioning } = useTransitionContext()
+    const { scrollToHash } = useScrollContext()
     const pathname = usePathname()
 
     const isExternal =
@@ -30,10 +32,23 @@ export const TransitionLink = forwardRef<HTMLAnchorElement, TransitionLinkProps>
     const targetPath = href.split(/[?#]/)[0]
     const isSamePage = !isExternal && !isAnchor && targetPath === pathname
 
+    const hash = href.includes("#") ? href.slice(href.indexOf("#") + 1) : ""
+
     const handleClick = (e: MouseEvent<HTMLAnchorElement>) => {
-      if (isExternal || isAnchor) { onClick?.(e); return }
+      if (isExternal) { onClick?.(e); return }
       if (target && target !== "_self") return
       if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return
+
+      // Same-page anchor (#section or /locale#section while on that page): take over from
+      // the browser so Lenis owns the scroll — a native jump gets overridden by any smooth
+      // scroll still in flight.
+      if (isAnchor || (isSamePage && hash)) {
+        e.preventDefault()
+        window.history.pushState(null, "", `#${hash}`)
+        scrollToHash(hash)
+        onClick?.(e)
+        return
+      }
 
       e.preventDefault()
       if (isTransitioning) return

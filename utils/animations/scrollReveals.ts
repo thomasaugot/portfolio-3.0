@@ -3,6 +3,20 @@
 import { gsap, ScrollTrigger } from "@/lib/gsap"
 import { prefersReducedMotion } from "@/utils/animations/motionPrefs"
 
+/**
+ * Run a batch onEnter only once per element, without ScrollTrigger's own once flag.
+ * That flag kills the trigger from inside its own first update; when that happens during
+ * creation on an already-scrolled page (hash navigation), ScrollTrigger's refresh loop
+ * hits a hole in its trigger list and throws — aborting every reveal after it.
+ */
+function onceEnter(fn: (els: Element[]) => void) {
+  return (els: Element[]) => {
+    const fresh = els.filter((el) => !(el as HTMLElement).dataset.revealed)
+    fresh.forEach((el) => { (el as HTMLElement).dataset.revealed = "1" })
+    if (fresh.length) fn(fresh)
+  }
+}
+
 function hide(selector: string, props: gsap.TweenVars = {}) {
   // Guard against selectors with no matching elements — gsap.set warns otherwise.
   if (typeof document !== "undefined" && document.querySelector(selector) === null) return
@@ -12,30 +26,27 @@ function hide(selector: string, props: gsap.TweenVars = {}) {
 export function initSectionReveals() {
   hide("[data-anim='section-head']", { y: 32 })
   ScrollTrigger.batch("[data-anim='section-head']", {
-    onEnter: (els) =>
-      gsap.to(els, { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" }),
+    onEnter: onceEnter((els) =>
+      gsap.to(els, { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" })),
     start: "top 88%",
-    once: true,
   })
 }
 
 export function initServiceCardsReveal() {
   hide("[data-anim='service-card']", { y: 24 })
   ScrollTrigger.batch("[data-anim='service-card']", {
-    onEnter: (els) =>
-      gsap.to(els, { opacity: 1, y: 0, duration: 0.65, ease: "power2.out", stagger: 0.08 }),
+    onEnter: onceEnter((els) =>
+      gsap.to(els, { opacity: 1, y: 0, duration: 0.65, ease: "power2.out", stagger: 0.08 })),
     start: "top 88%",
-    once: true,
   })
 }
 
 export function initProcessReveal() {
   hide("[data-anim='proc-row']", { x: -20 })
   ScrollTrigger.batch("[data-anim='proc-row']", {
-    onEnter: (els) =>
-      gsap.to(els, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out", stagger: 0.1 }),
+    onEnter: onceEnter((els) =>
+      gsap.to(els, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out", stagger: 0.1 })),
     start: "top 90%",
-    once: true,
   })
 }
 
@@ -44,17 +55,16 @@ export function initStackReveal() {
   hide("[data-anim='metric-card']", { scale: 0.9 })
   hide("[data-anim='stack-bucket'] .flex-wrap > span", { y: 8 })
   ScrollTrigger.batch("[data-anim='stack-bucket']", {
-    onEnter: (els) => {
+    onEnter: onceEnter((els) => {
       gsap.to(els, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out", stagger: 0.1 })
       // chips "boot" in one by one
       const chips = els.flatMap((el) => Array.from((el as HTMLElement).querySelectorAll(".flex-wrap > span")))
       gsap.to(chips, { opacity: 1, y: 0, duration: 0.35, ease: "power2.out", stagger: 0.025, delay: 0.15 })
-    },
+    }),
     start: "top 88%",
-    once: true,
   })
   ScrollTrigger.batch("[data-anim='metric-card']", {
-    onEnter: (els) => {
+    onEnter: onceEnter((els) => {
       gsap.to(els, { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.4)", stagger: 0.07 })
       // numbers count up from 0
       els.forEach((el, i) => {
@@ -68,19 +78,17 @@ export function initStackReveal() {
           onUpdate: () => { num.textContent = String(Math.round(counter.v)) },
         })
       })
-    },
+    }),
     start: "top 88%",
-    once: true,
   })
 }
 
 export function initWorkReveal() {
   hide("[data-anim='case-card']", { y: 40 })
   ScrollTrigger.batch("[data-anim='case-card']", {
-    onEnter: (els) =>
-      gsap.to(els, { opacity: 1, y: 0, duration: 0.8, ease: "power2.out", stagger: 0.15 }),
+    onEnter: onceEnter((els) =>
+      gsap.to(els, { opacity: 1, y: 0, duration: 0.8, ease: "power2.out", stagger: 0.15 })),
     start: "top 88%",
-    once: true,
   })
 
   // Visual cards — "blueprint → production":
@@ -121,23 +129,21 @@ export function initTestimonialsReveal() {
     gsap.set("[data-anim='quote-mark']", { scale: 0, rotate: -25, transformOrigin: "left bottom" })
   }
   ScrollTrigger.batch("[data-anim='testi-card']", {
-    onEnter: (els) => {
+    onEnter: onceEnter((els) => {
       gsap.to(els, { opacity: 1, y: 0, duration: 0.65, ease: "power2.out", stagger: 0.1 })
       const marks = els.flatMap((el) => Array.from((el as HTMLElement).querySelectorAll("[data-anim='quote-mark']")))
       gsap.to(marks, { scale: 1, rotate: 0, duration: 0.7, ease: "back.out(2.2)", stagger: 0.1, delay: 0.3 })
-    },
+    }),
     start: "top 88%",
-    once: true,
   })
 }
 
 export function initFAQReveal() {
   hide("[data-anim='faq-row']", { y: 16 })
   ScrollTrigger.batch("[data-anim='faq-row']", {
-    onEnter: (els) =>
-      gsap.to(els, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out", stagger: 0.06 }),
+    onEnter: onceEnter((els) =>
+      gsap.to(els, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out", stagger: 0.06 })),
     start: "top 90%",
-    once: true,
   })
 }
 
@@ -187,16 +193,14 @@ export function initAboutReveal() {
   hide("[data-anim='trip-pin']", { y: 12 })
   hide("[data-anim='about-fact']")
   ScrollTrigger.batch("[data-anim='trip-pin']", {
-    onEnter: (els) =>
-      gsap.to(els, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out", stagger: 0.05 }),
+    onEnter: onceEnter((els) =>
+      gsap.to(els, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out", stagger: 0.05 })),
     start: "top 90%",
-    once: true,
   })
   ScrollTrigger.batch("[data-anim='about-fact']", {
-    onEnter: (els) =>
-      gsap.to(els, { opacity: 1, duration: 0.5, stagger: 0.07 }),
+    onEnter: onceEnter((els) =>
+      gsap.to(els, { opacity: 1, duration: 0.5, stagger: 0.07 })),
     start: "top 90%",
-    once: true,
   })
 }
 
@@ -208,7 +212,7 @@ export function initSectionRules() {
   if (!sections.length || prefersReducedMotion()) return
   sections.forEach((el) => {
     gsap.set(el, { "--rule": 0, "--rule-head": 1 })
-    gsap.timeline({ scrollTrigger: { trigger: el, start: "top 92%", once: true } })
+    gsap.timeline({ scrollTrigger: { trigger: el, start: "top 92%" } })
       .to(el, { "--rule": 1, duration: 1.4, ease: "power3.inOut" })
       .to(el, { "--rule-head": 0, duration: 0.4 }, "-=0.2")
   })
@@ -223,7 +227,7 @@ export function initSectionMeta() {
     const full = el.dataset.text ?? (el.dataset.text = el.textContent ?? "")
     el.textContent = ""
     el.classList.add("typing")
-    gsap.timeline({ scrollTrigger: { trigger: el, start: "top 90%", once: true } })
+    gsap.timeline({ scrollTrigger: { trigger: el, start: "top 90%" } })
       .to(el, { text: { value: full }, duration: Math.min(1.2, 0.045 * full.length + 0.2), ease: "none" })
       .call(() => el.classList.remove("typing"), [], "+=0.9")
   })
@@ -242,7 +246,7 @@ export function initWireOutlines() {
   })
   gsap.set(wires, { drawSVG: "0%" })
   ScrollTrigger.batch("[data-anim='wire-outline']", {
-    onEnter: (els) => {
+    onEnter: onceEnter((els) => {
       els.forEach((svg, i) => {
         const rect = (svg as SVGElement).querySelector("[data-wire]")
         if (!rect) return
@@ -250,9 +254,8 @@ export function initWireOutlines() {
           .to(rect, { drawSVG: "100%", duration: 0.9, ease: "power2.inOut" })
           .to(svg, { opacity: 0, duration: 0.6, ease: "power1.out" }, "+=0.15")
       })
-    },
+    }),
     start: "top 85%",
-    once: true,
   })
 }
 
@@ -280,9 +283,8 @@ export function initProcessRail() {
 export function initDifferenceReveal() {
   hide("[data-anim='diff-card']", { y: 24 })
   ScrollTrigger.batch("[data-anim='diff-card']", {
-    onEnter: (els) =>
-      gsap.to(els, { opacity: 1, y: 0, duration: 0.65, ease: "power2.out", stagger: 0.1 }),
+    onEnter: onceEnter((els) =>
+      gsap.to(els, { opacity: 1, y: 0, duration: 0.65, ease: "power2.out", stagger: 0.1 })),
     start: "top 88%",
-    once: true,
   })
 }

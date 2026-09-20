@@ -34,7 +34,8 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
       await exitPage(pageRef.current)
     }
 
-    router.push(href)
+    // Scrolling (top or hash) is owned by ScrollProvider, after the page has entered.
+    router.push(href, { scroll: false })
 
     window.setTimeout(() => {
       setIsTransitioning(false)

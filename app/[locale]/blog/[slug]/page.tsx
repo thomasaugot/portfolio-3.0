@@ -67,7 +67,7 @@ export default async function BlogPostPage({ params }: Props) {
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
       <section className="pt-[160px] pb-[clamp(80px,12vh,160px)] px-(--gutter)">
       <article className="max-w-[1080px] mx-auto">
         <PageReadyMarker />

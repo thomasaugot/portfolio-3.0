@@ -44,6 +44,8 @@ export function PageShell({ children }: { children: React.ReactNode }) {
         isFirstRender.current = false
         resetTransition()
         ScrollTrigger.refresh()
+        // Let ScrollProvider scroll to a hash now that layout is final (no scale/blur on <main>).
+        window.dispatchEvent(new CustomEvent("page:entered"))
       })
     }
     const raf1 = requestAnimationFrame(() => {

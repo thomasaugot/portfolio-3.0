@@ -26,8 +26,13 @@ const runSchedule = (schedule: AnimationSchedule) => {
 
   const runActions = (actions: AnimationInit[] = []) => {
     actions.forEach((action) => {
-      const cleanup = action()
-      if (typeof cleanup === "function") cleanupFns.push(cleanup)
+      try {
+        const cleanup = action()
+        if (typeof cleanup === "function") cleanupFns.push(cleanup)
+      } catch (err) {
+        // A broken animation must never leave the page hidden — log and carry on.
+        console.error("[animations] init failed:", err)
+      }
     })
   }
 

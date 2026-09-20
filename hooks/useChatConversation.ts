@@ -41,6 +41,15 @@ export const QA_CHIPS: Record<string, string[]> = {
 }
 
 const SKIP_WORDS = ["Skip", "Passer", "Saltar"]
+const SKIP_PAYLOAD = "I'd rather skip that one."
+
+const CORE_FIELDS: Array<keyof QualifyData> = ["stage", "goal", "timeline", "budget", "context"]
+const CORE_TOPIC: Record<keyof QualifyData, string> = {
+  stage: "how far along the project is", goal: "what I'm building", scope: "the scope",
+  selling: "what I sell", design: "design status", timeline: "my timeline and deadline",
+  budget: "my rough budget", context: "who I am (startup, agency, solo founder, company)",
+}
+const MAX_NUDGES = 2
 
 // The AI appends quick-reply options as `[[chips: A | B | C]]` on the last line.
 // Pull them out and return both the parsed chips and the cleaned text.
@@ -51,6 +60,19 @@ function parseChips(text: string): { text: string; chips: string[] } {
   const clean = text.replace(m[0], "").trim()
   return { text: clean, chips }
 }
+
+// Find the AI's `{"event": ...}` block wherever it is (tolerates spaces and ``` fences).
+function findEvent(text: string): { jsonBlock: string; ev: { event: string; data?: Record<string, string> } } | null {
+  const unfenced = text.replace(/```(?:json)?/gi, "")
+  const m = unfenced.match(/\{\s*"event"\s*:/)
+  if (!m || m.index === undefined) return null
+  const jsonBlock = extractJson(unfenced, m.index)
+  if (!jsonBlock) return null
+  try { return { jsonBlock, ev: JSON.parse(jsonBlock) } } catch { return null }
+}
+
+// Core topics the AI must have covered before we accept a "qualify_done".
+const CORE_MIN_USER_TURNS = 4 // intent chip + at least three real answers
 
 function extractJson(text: string, start: number): string | null {
   let depth = 0
@@ -125,10 +147,12 @@ export function useChatConversation(locale = "en") {
   const [cContact,      setCContact]      = useState("")
   const [sending,       setSending]       = useState(false)
   const [sent,          setSent]          = useState(false)
+  const [qualifying,    setQualifying]    = useState(false)
 
   const historyRef      = useRef<Array<{ role: "user" | "assistant"; content: string }>>([])
   const honeypotRef     = useRef("")
   const turnstileTokenRef = useRef<string | null>(null)
+  const nudgesRef         = useRef(0) // how many times we've asked the model to keep qualifying
 
   // ── Abandoned-chat capture ──
   // If the visitor has a meaningful conversation but leaves without giving contact
@@ -201,7 +225,7 @@ export function useChatConversation(locale = "en") {
 
     // "Skip" is sent to the AI as a real signal so it moves to the next question or wraps up.
     const isSkip = SKIP_WORDS.includes(trimmed)
-    const payload = isSkip ? "I'd rather skip that one." : trimmed
+    const payload = isSkip ? SKIP_PAYLOAD : trimmed
 
     setInput("")
     setAiChips([])
@@ -211,8 +235,12 @@ export function useChatConversation(locale = "en") {
     setLoading(true)
     setMsgs(m => [...m, { role: "bot", type: "typing", text: "" }])
 
-    // Honeypot: bots fill hidden fields, humans don't
-    if (honeypotRef.current) return
+    // Honeypot: bots fill hidden fields, humans don't. Drop the turn quietly.
+    if (honeypotRef.current) {
+      setMsgs(m => m.filter(x => x.type !== "typing"))
+      setLoading(false)
+      return
+    }
 
     let accumulated = ""
     try {
@@ -240,16 +268,30 @@ export function useChatConversation(locale = "en") {
         accumulated += decoder.decode(value)
       }
 
-      const jsonStart = accumulated.indexOf('{"event":')
-      const jsonBlock = jsonStart !== -1 ? extractJson(accumulated, jsonStart) : null
-      const cleanText = jsonBlock ? accumulated.replace(jsonBlock, "").trim() : accumulated.trim()
+      const found = findEvent(accumulated)
+      const cleanText = found
+        ? accumulated.replace(/```(?:json)?/gi, "").replace(found.jsonBlock, "").trim()
+        : accumulated.trim()
+      const ev = found?.ev ?? null
 
-      let ev: { event: string; data?: Record<string, string> } | null = null
-      if (jsonBlock) {
-        try { ev = JSON.parse(jsonBlock) } catch { /* ignore */ }
-      }
+      // Guard against a premature "qualify_done": the model sometimes emits the JSON after the
+      // first rich answer, or mixes it with a follow-up question. Accept it only when the visitor
+      // has actually answered enough, and the reply is the JSON alone (no question attached).
+      const userTurns = historyRef.current.filter(m => m.role === "user").length
+      const visible = parseChips(cleanText).text
+      // Core topics the JSON left blank although the visitor never skipped anything.
+      const data = (ev?.data ?? {}) as Partial<QualifyData>
+      const userSkipped = historyRef.current.some(m => m.role === "user" && m.content === SKIP_PAYLOAD)
+      const missingCore = ev?.event === "qualify_done" && !userSkipped
+        ? CORE_FIELDS.filter(k => !data[k] || data[k] === "—")
+        : []
+      const premature = ev?.event === "qualify_done" && (
+        userTurns < CORE_MIN_USER_TURNS ||
+        /\?/.test(visible) ||
+        (missingCore.length > 0 && nudgesRef.current < MAX_NUDGES)
+      )
 
-      if (ev?.event === "qualify_done" && ev.data) {
+      if (ev?.event === "qualify_done" && ev.data && !premature) {
         const q = ev.data as unknown as QualifyData
         setQualify(q)
         setPhase("qa")
@@ -257,20 +299,51 @@ export function useChatConversation(locale = "en") {
           .filter(k => q[k] && q[k] !== "—")
           .map(k => ({ label: QUALIFY_LABELS[k], value: q[k] }))
         const summaryMsg: Msg = { role: "bot", type: "summary", text: "Project brief", rows }
-        const followupText = parseChips(cleanText).text || FOLLOWUP_MSGS[lang]
+        const followupText = visible || FOLLOWUP_MSGS[lang]
         const followupMsg: Msg = { role: "bot", text: followupText }
         historyRef.current = [...historyRef.current, { role: "assistant", content: followupText }]
         setMsgs(m => [...m.filter(x => x.type !== "typing"), summaryMsg, followupMsg])
         setAiChips([])
       } else if (ev?.event === "qa_done") {
-        enterContact(cleanText)
+        enterContact(visible)
+      } else if (premature && !visible) {
+        // JSON came alone but too early: keep what it learned and quietly ask the model to carry on.
+        const partial = (ev?.data ?? {}) as Partial<QualifyData>
+        setQualify(prev => ({ ...(prev ?? ({} as QualifyData)), ...partial }))
+        nudgesRef.current += 1
+        const topics = (missingCore.length ? missingCore : CORE_FIELDS).map(k => CORE_TOPIC[k]).join(", ")
+        const nudge = `Please continue the qualification: you still need to ask me about ${topics}. One question at a time, with chips. Do not send the JSON until those are answered.`
+        historyRef.current = [...historyRef.current, { role: "user", content: nudge }]
+        const res2 = await fetch("/api/chat/qualify", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ messages: historyRef.current, _hp: honeypotRef.current, _ts: turnstileTokenRef.current }),
+        })
+        if (!res2.ok || !res2.body) throw new Error("stream error")
+        const reader2 = res2.body.getReader()
+        let acc2 = ""
+        while (true) { const { done, value } = await reader2.read(); if (done) break; acc2 += decoder.decode(value) }
+        const found2 = findEvent(acc2)
+        const text2 = parseChips((found2 ? acc2.replace(found2.jsonBlock, "") : acc2).replace(/```(?:json)?/gi, "").trim())
+        const botText2 = text2.text || FOLLOWUP_MSGS[lang]
+        historyRef.current = [...historyRef.current, { role: "assistant", content: botText2 }]
+        setMsgs(m => [...m.filter(x => x.type !== "typing"), { role: "bot", text: botText2 }])
+        setAiChips(text2.chips)
+        setQualifying(true)
       } else {
-        // Normal bot question/answer — pull any AI-suggested quick-reply chips off the last line.
+        // Normal bot question/answer (or a premature JSON mixed with a question — the JSON is
+        // dropped, the question stands). Pull any AI-suggested quick-reply chips off the last line.
         const { text: botText, chips: parsedChips } = parseChips(cleanText)
+        if (premature && ev?.data) {
+          const partial = ev.data as Partial<QualifyData>
+          setQualify(prev => ({ ...(prev ?? ({} as QualifyData)), ...partial }))
+        }
         historyRef.current = [...historyRef.current, { role: "assistant", content: botText }]
         setMsgs(m => [...m.filter(x => x.type !== "typing"), { role: "bot", text: botText }])
-        if (phase === "qualify") setAiChips(parsedChips)
-        else setAiChips([])
+        if (phase === "qualify") {
+          setAiChips(parsedChips)
+          if (parsedChips.length > 0) setQualifying(true)
+        } else setAiChips([])
       }
     } catch {
       setMsgs(m => [...m.filter(x => x.type !== "typing"), { role: "bot", text: ERROR_MSGS[lang] }])
@@ -331,15 +404,17 @@ export function useChatConversation(locale = "en") {
     setAiChips(FIRST_CHIPS[lang] ?? FIRST_CHIPS.en)
   }, [started, lang])
 
-  const PROG_LABELS: Record<string, [string, string, string, string, string]> = {
-    en: ["Free questions", "Contact info", "Done ✓", "Tom's assistant", "Project brief"],
-    fr: ["Questions libres", "Coordonnées", "Terminé ✓", "Assistant de Tom", "Brief projet"],
-    es: ["Preguntas libres", "Datos de contacto", "Listo ✓", "Asistente de Tom", "Brief del proyecto"],
+  const PROG_LABELS: Record<string, [string, string, string, string, string, string]> = {
+    en: ["Free questions", "Contact info", "Done ✓", "Tom's assistant", "Project brief", "Chat"],
+    fr: ["Questions libres", "Coordonnées", "Terminé ✓", "Assistant de Tom", "Brief projet", "Discussion"],
+    es: ["Preguntas libres", "Datos de contacto", "Listo ✓", "Asistente de Tom", "Brief del proyecto", "Chat"],
   }
-  const [qaLabel, contactLabel, doneLabel, assistantLabel, qualifyLabel] = PROG_LABELS[lang]
+  const [qaLabel, contactLabel, doneLabel, assistantLabel, qualifyLabel, chatLabel] = PROG_LABELS[lang]
 
+  // "Project brief" only once the AI is actually qualifying (it sends chips with its questions);
+  // someone who just asked a question sees a neutral label instead.
   const prog = phase === "qualify"
-    ? qualifyLabel
+    ? (qualifying ? qualifyLabel : chatLabel)
     : phase === "qa"
     ? qaLabel
     : phase === "contact"
@@ -349,8 +424,9 @@ export function useChatConversation(locale = "en") {
   const skipWord = lang === "fr" ? "Passer" : lang === "es" ? "Saltar" : "Skip"
   const qaChips = QA_CHIPS[lang] ?? QA_CHIPS.en
   // Qualify chips come from the AI per question; always offer a skip alongside them.
+  const isIntentStep = !msgs.some(m => m.role === "user")
   const chips = phase === "qualify"
-    ? (aiChips.length > 0 ? [...aiChips, skipWord] : [])
+    ? (aiChips.length > 0 ? (isIntentStep ? aiChips : [...aiChips, skipWord]) : [])
     : phase === "qa"
     ? qaChips
     : []

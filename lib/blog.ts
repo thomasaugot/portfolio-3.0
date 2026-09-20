@@ -35,7 +35,13 @@ function listSlugs(): string[] {
     .map((d) => d.name)
 }
 
+// Slugs are directory names we control: lowercase words and digits joined by hyphens.
+// Anything else never touches the filesystem or the page (blocks traversal and injection).
+const SLUG_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
+export const isValidSlug = (slug: string) => SLUG_RE.test(slug)
+
 function localesAvailable(slug: string): Locale[] {
+  if (!isValidSlug(slug)) return []
   const dir = path.join(BLOG_DIR, slug)
   if (!fs.existsSync(dir)) return []
   return LOCALES.filter((l) => fs.existsSync(path.join(dir, `${l}.mdx`)))
@@ -55,6 +61,7 @@ export function getAllSlugs(): string[] {
 }
 
 export function getPost(slug: string, locale: Locale): BlogPost | null {
+  if (!isValidSlug(slug)) return null
   const resolved = resolveFile(slug, locale)
   if (!resolved) return null
   const raw = fs.readFileSync(resolved.file, "utf-8")
