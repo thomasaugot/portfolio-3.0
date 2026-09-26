@@ -18,7 +18,7 @@ Works at **Galaga Agency** (Las Palmas — digital transformation and immersive 
 ## Background — the part worth telling
 
 Born in **Nantes, France**. **Self-taught, then a bootcamp** — no CS degree. Before software:
-**kitchens, aviation, sales**. Has lived in **nine places** across France, Australia, Ireland,
+**kitchens, aviation, customer service**. Has lived in **nine places** across France, Australia, Ireland,
 Spain, New Zealand and Germany.
 
 Don't flatten this into "experienced developer", and never write it as an apology for a

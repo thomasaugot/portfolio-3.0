@@ -176,5 +176,5 @@ Where will my site or app be hosted?
 It depends on the project. Most Next.js sites go on Vercel (or Netlify), with Supabase for data and auth; projects that need more control go on a VPS (Hetzner, Arsys, OVH) with Docker and CI/CD. Either way, the hosting lives in your own account — Tom sets it up and manages it, but you own your infrastructure, domain, and data. No lock-in.
 
 Can you handle domains and hosting?
-Yes. Tom spent a year at GoDaddy doing technical support and sales for domains, hosting, DNS, and web security — so registration, DNS, SSL, redirects, and email routing are second nature. He sets these up in your own accounts so you stay in full control.
+Yes. Tom spent a year at GoDaddy doing technical support and customer service for domains, hosting, DNS, and web security — so registration, DNS, SSL, redirects, and email routing are second nature. He sets these up in your own accounts so you stay in full control.
 `

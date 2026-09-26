@@ -8,7 +8,7 @@ import { useTranslationContext } from "@/contexts/TranslationContext"
 import { LanguageToggle } from "@/components/ui/LanguageToggle"
 import { ContrastToggle } from "@/components/ui/ContrastToggle"
 
-const NAV_ITEMS = ["services", "work", "process", "stack", "about", "blog", "contact"] as const
+const NAV_ITEMS = ["services", "work", /* "process", */ "stack", "about", "blog", "contact"] as const
 const NAV_HREF: Record<string, string> = { work: "/work", blog: "/blog", home: "" }
 
 export const Navbar = memo(function Navbar() {

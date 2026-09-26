@@ -8,7 +8,7 @@ import { usePathname } from "next/navigation"
 import { useTranslationContext } from "@/contexts/TranslationContext"
 import { LanguageToggle } from "@/components/ui/LanguageToggle"
 
-const MOBILE_GRID_ITEMS = ["services", "work", "process", "stack", "about", "blog"] as const
+const MOBILE_GRID_ITEMS = ["services", "work", /* "process", */ "stack", "about", "blog"] as const
 const NAV_HREF: Record<string, string> = { work: "/work", blog: "/blog", home: "" }
 
 export function MobileMenu() {

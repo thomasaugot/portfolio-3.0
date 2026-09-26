@@ -25,7 +25,7 @@ export function PhoneFrame({
   priority = false,
 }: PhoneFrameProps) {
   return (
-    <div className={`drop-shadow-[0_12px_30px_rgba(0,0,0,0.7)] ${className}`}>
+    <div data-mockup-phone className={`drop-shadow-[0_12px_30px_rgba(0,0,0,0.7)] ${className}`}>
       <div className={`@container ${SHELL}`} style={{ borderRadius: "clamp(6px, 5cqw, 14px)" }}>
         <div className={NOTCH} style={{ height: "clamp(8px, 6cqw, 18px)" }} />
         <div className="relative bg-black aspect-9/18 overflow-hidden">

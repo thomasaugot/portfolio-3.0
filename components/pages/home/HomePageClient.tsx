@@ -21,7 +21,7 @@ import { HomeHero } from "@/components/pages/home/HomeHero"
 import { HomeClientMarquee } from "@/components/pages/home/HomeClientMarquee"
 import { HomeServices } from "@/components/pages/home/HomeServices"
 import { HomeDifference } from "@/components/pages/home/HomeDifference"
-import { HomeProcess } from "@/components/pages/home/HomeProcess"
+// import { HomeProcess } from "@/components/pages/home/HomeProcess" // hidden for now — not selling services
 import { HomeStack } from "@/components/pages/home/HomeStack"
 import { HomeWork } from "@/components/pages/home/HomeWork"
 import { HomeTestimonials } from "@/components/pages/home/HomeTestimonials"
@@ -59,7 +59,7 @@ export function HomePageClient({ latestPosts }: { latestPosts: Post[] }) {
       <HomeClientMarquee />
       <HomeServices />
       <HomeDifference />      
-      <HomeProcess />
+      {/* <HomeProcess /> — hidden for now, not selling services */}
       <HomeStack />
       <HomeWork />
       <HomeTestimonials />

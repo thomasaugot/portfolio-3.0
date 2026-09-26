@@ -50,7 +50,7 @@ export function Footer() {
     sitemap: [
       { label: t("footer.sitemap_links.0"), href: sectionHref("services") },
       { label: t("footer.sitemap_links.1"), href: sectionHref("work") },
-      { label: t("footer.sitemap_links.2"), href: sectionHref("process") },
+      // { label: t("footer.sitemap_links.2"), href: sectionHref("process") }, // hidden for now
       { label: t("footer.sitemap_links.3"), href: sectionHref("about") },
       { label: t("footer.sitemap_links.4"), href: sectionHref("contact") },
     ],

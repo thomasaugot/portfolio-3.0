@@ -148,66 +148,64 @@ export function ChatConversationPanel({
         </div>
       )}
 
-      {/* Controls — qualify + qa */}
+      {/* Controls — qualify + qa: chips, then the answer input (primary), then a quiet connect link */}
       {(phase === "qualify" || phase === "qa") && (
         <div className="px-5 pb-5 pt-3 flex flex-col gap-3 border-t border-border">
-          {!loading && msgs.at(-1)?.role === "bot" && (
-            <div className="flex flex-col gap-2.5 pt-1">
-              {chips.length > 0 && (
-                <div className="flex flex-wrap gap-2">
-                  {chips.filter(c => !["Skip","Passer","Saltar","Ready to connect","Prêt à me contacter","Listo para conectar"].includes(c)).map(chip => (
-                    <button
-                      key={chip}
-                      type="button"
-                      onClick={() => send(chip)}
-                      className="keyboard-focus-ring text-[13px] leading-none font-mono px-3.5 py-2.5 border border-border-2 text-text! bg-surface-2 cursor-pointer transition-[color,background-color,border-color] duration-200 hover:border-primary hover:bg-[color-mix(in_oklch,var(--color-primary)_12%,transparent)]"
-                    >
-                      {chip}
-                    </button>
-                  ))}
-                  {phase === "qualify" && chips.find(c => ["Skip","Passer","Saltar"].includes(c)) && (
-                    <button
-                      key="skip"
-                      type="button"
-                      onClick={() => send(ui.skip)}
-                      className="keyboard-focus-ring text-[13px] leading-none font-mono px-3.5 py-2.5 border border-border-2 text-text-muted! bg-transparent cursor-pointer transition-[color,background-color,border-color] duration-200 hover:text-text! hover:bg-surface-2 hover:border-text-subtle"
-                    >
-                      {ui.skip}
-                    </button>
-                  )}
-                </div>
+          {!loading && msgs.at(-1)?.role === "bot" && chips.length > 0 && (
+            <div className="flex flex-wrap gap-2 pt-1">
+              {chips.filter(c => !["Skip","Passer","Saltar","Ready to connect","Prêt à me contacter","Listo para conectar"].includes(c)).map(chip => (
+                <button
+                  key={chip}
+                  type="button"
+                  onClick={() => send(chip)}
+                  className="keyboard-focus-ring text-[13px] leading-none font-mono px-3.5 py-2.5 border border-border-2 text-text! bg-surface-2 cursor-pointer transition-[color,background-color,border-color] duration-200 hover:border-primary hover:bg-[color-mix(in_oklch,var(--color-primary)_12%,transparent)]"
+                >
+                  {chip}
+                </button>
+              ))}
+              {phase === "qualify" && chips.find(c => ["Skip","Passer","Saltar"].includes(c)) && (
+                <button
+                  key="skip"
+                  type="button"
+                  onClick={() => send(ui.skip)}
+                  className="keyboard-focus-ring text-[13px] leading-none font-mono px-3.5 py-2.5 border border-border-2 text-text-muted! bg-transparent cursor-pointer transition-[color,background-color,border-color] duration-200 hover:text-text! hover:bg-surface-2 hover:border-text-subtle"
+                >
+                  {ui.skip}
+                </button>
               )}
-              {/* Connect path is always available — whether they qualified a project or just had a question. */}
-              <button
-                type="button"
-                onClick={() => enterContact()}
-                className={`keyboard-focus-ring w-full font-mono justify-center mt-1 ${btnFilled}`}
-              >
-                {ui.ready}
-              </button>
             </div>
           )}
-          <div className="flex gap-2">
-            <input
-              type="text"
+          <div className="flex items-end gap-2 bg-surface-2 border border-border-2 focus-within:border-primary transition-colors duration-200 pl-3 pr-2 py-2">
+            <textarea
+              rows={1}
               placeholder={ui.placeholder}
               value={input}
-              onChange={e => setInput(e.target.value)}
-              onKeyDown={e => { if (e.key === "Enter" && input.trim()) send(input) }}
+              onChange={e => { setInput(e.target.value); e.target.style.height = "auto"; e.target.style.height = `${Math.min(e.target.scrollHeight, 132)}px` }}
+              onKeyDown={e => { if (e.key === "Enter" && !e.shiftKey && input.trim()) { e.preventDefault(); send(input); e.currentTarget.style.height = "auto" } }}
               disabled={loading}
               aria-label="Your answer"
-              className={`${inputBase} flex-1`}
+              className="flex-1 min-w-0 resize-none bg-transparent border-0 outline-none! ring-0 shadow-none focus:outline-none! text-body font-mono leading-[1.5] py-1.5 px-1 text-text placeholder:text-text-subtle disabled:opacity-50"
             />
             <button
               type="button"
               onClick={() => send(input)}
               disabled={loading || !input.trim()}
               aria-label="Send"
-              className="keyboard-focus-ring px-4 font-bold font-mono disabled:opacity-30 bg-primary text-black border border-primary cursor-pointer hover:bg-text hover:border-text hover:text-bg transition-[background,border-color,color] duration-normal ease-out"
+              className="keyboard-focus-ring shrink-0 w-9 h-9 grid place-items-center font-mono font-bold bg-primary text-black cursor-pointer disabled:opacity-25 disabled:cursor-default hover:bg-text transition-[background,opacity] duration-normal ease-out"
             >
               →
             </button>
           </div>
+          {/* Connect path appears once the chat has substance: brief done, or a couple of real replies. */}
+          {!loading && msgs.at(-1)?.role === "bot" && (phase === "qa" || msgs.filter(m => m.role === "user").length >= 2) && (
+            <button
+              type="button"
+              onClick={() => enterContact()}
+              className="keyboard-focus-ring self-end inline-flex items-center gap-2 text-[13px] leading-none font-mono px-3.5 py-2.5 border border-primary text-primary! bg-transparent cursor-pointer transition-[color,background-color,border-color] duration-200 hover:bg-primary hover:text-black!"
+            >
+              {ui.ready}
+            </button>
+          )}
         </div>
       )}
 

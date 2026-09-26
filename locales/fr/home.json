@@ -1,14 +1,14 @@
 {
   "hero": {
-    "eyebrow": "[ Développeur fullstack · à louer ]",
+    "eyebrow": "[ Développeur fullstack · Las Palmas ]",
     "h1a": "Je construis",
     "h1b": "des apps web",
     "h1b2": "",
     "h1c": "prêtes pour la prod",
-    "h1d": "—vite",
+    "h1d": "vite",
     "h1e": "et bien.",
-    "sub": "Salut, moi c'est Thomas. Je livre des produits web & mobile de A à Z — de l'idée à la prod. Quatre ans de React, Next.js et Node, à coder face à l'océan, aux Îles Canaries.",
-    "cta1": "Lancer un projet",
+    "sub": "Salut, moi c'est Thomas. Je livre des produits web & mobile de A à Z, de l'idée à la prod. Quatre ans de React, Next.js et Node, à coder face à l'océan, aux Îles Canaries.",
+    "cta1": "On en parle ?",
     "cta2": "Voir les projets",
     "meta1_k": "Basé",
     "meta1_v": "Las Palmas, GC",
@@ -19,30 +19,32 @@
   },
   "trusted_label": "Livré pour",
   "sections": {
-    "services_meta": "[ 01 / SERVICES ]",
-    "services_title": "Ce que vous obtenez quand vous m'engagez.",
-    "difference_meta": "[ 02 / POURQUOI MOI ]",
-    "difference_title": "La différence.",
+    "services_meta": "[ 01 / EXPERTISE ]",
+    "services_title": "Ce que je sais faire.",
+    "difference_meta": "[ 02 / QUI JE SUIS ]",
+    "difference_title": "Quelques trucs sur moi.",
     "process_meta": "[ 03 / MÉTHODE ]",
     "process_title": "De « on s'appelle ? » à la mise en ligne.",
-    "stack_meta": "[ 04 / STACK ]",
+    "stack_meta": "[ 03 / STACK ]",
     "stack_title": "Mes outils, au quotidien.",
-    "work_meta": "[ 05 / PROJETS ]",
+    "work_meta": "[ 04 / PROJETS ]",
     "work_title": "Du concret, en prod.",
-    "testimonials_meta": "[ 06 / RETOURS ]",
+    "testimonials_meta": "[ 05 / RETOURS ]",
     "testimonials_title": "Ce que disent celles et ceux avec qui j'ai bossé.",
-    "about_meta": "[ 07 / À PROPOS ]",
-    "about_title": "Codeur de métier. Âme nomade en quête d'horizons.",
-    "faq_meta": "[ 08 / FAQ ]",
+    "about_meta": "[ 06 / À PROPOS ]",
+    "about_title": "Codeur de métier. Nomade le reste du temps.",
+    "faq_meta": "[ 07 / FAQ ]",
     "faq_title": "Les questions qu'on me pose avant de commencer.",
-    "contact_meta": "[ 09 / CONTACT ]",
-    "contact_title": "Parlons de votre projet."
+    "contact_meta": "[ 08 / CONTACT ]",
+    "contact_title": "Un projet, une question ? Écrivez-moi.",
+    "difference_meta_legacy": "[ 02 / POURQUOI MOI ]",
+    "difference_title_legacy": "La différence."
   },
   "services": [
     {
       "n": "S/01",
       "t": "Apps web, de A à Z",
-      "d": "Du design à la mise en prod — applications Next.js & React sur mesure avec auth, dashboards, paiements et temps réel. Livrées vite, propres en production.",
+      "d": "Du design à la mise en prod : applications Next.js et React sur mesure, avec auth, dashboards, paiements et temps réel. Livrées vite, et propres.",
       "tags": [
         "Next.js 16",
         "React 19",
@@ -78,7 +80,7 @@
     {
       "n": "S/04",
       "t": "Perf, SEO & analytics",
-      "d": "Lighthouse 95+, Core Web Vitals à plat, SEO technique, GA4 + GTM. Des sites qui rankent et qui chargent.",
+      "d": "Lighthouse 95+, Core Web Vitals dans le vert, SEO technique, GA4 et GTM. Des sites qui se chargent vite et que Google indexe correctement.",
       "tags": [
         "Core Web Vitals",
         "Schema",
@@ -100,7 +102,7 @@
     {
       "n": "S/06",
       "t": "Motion & 3D",
-      "d": "GSAP, Three.js et WebGL pour les sites qui doivent se sentir vivants — animations hero, séquences scroll-driven, scènes 3D interactives. Quand le brief demande plus que de la fonction.",
+      "d": "GSAP, Three.js et WebGL pour la touche « wow » : animations d'entrée, séquences au scroll, scènes 3D. Pour les projets où le fonctionnel ne suffit pas.",
       "tags": [
         "GSAP",
         "Three.js",
@@ -110,7 +112,7 @@
     {
       "n": "S/07",
       "t": "Domaines, DNS & SSL",
-      "d": "Enregistrement de domaines, configuration DNS, certificats SSL, redirections, routage email. Background GoDaddy — c'est une seconde nature.",
+      "d": "Enregistrement de domaines, configuration DNS, certificats SSL, redirections, routage email. J'ai passé un an chez GoDaddy à faire exactement ça, donc je connais.",
       "tags": [
         "DNS",
         "SSL/TLS",
@@ -121,7 +123,7 @@
     {
       "n": "S/08",
       "t": "Intégration IA",
-      "d": "LLMs, pipelines RAG, agents IA, interfaces de chat — intégrés à votre produit ou construits from scratch. OpenAI, Gemini, LangChain. Quand ça a du sens, pas juste parce que c'est à la mode.",
+      "d": "LLMs, pipelines RAG, agents IA, interfaces de chat : intégrés à votre produit ou construits de zéro. OpenAI, Gemini, LangChain. Quand ça a du sens, pas juste parce que c'est à la mode.",
       "tags": [
         "OpenAI",
         "Gemini",
@@ -134,18 +136,18 @@
   "difference": [
     {
       "n": "D/01",
-      "t": "Un seul profil, toute la stack",
-      "d": "Frontend, backend, base de données, infrastructure, domaines et DNS — gérés par une seule personne qui voit l'ensemble. Pas de transferts entre trois freelances, pas de « ce n'est pas ma partie »."
+      "t": "Le code, je m'y suis mis tard. Et volontairement.",
+      "d": "Avant ça : la cuisine, l'aéronautique, la relation client. Puis un bootcamp, pas d'école d'ingé. J'ai appris à livrer sous pression bien avant d'écrire une ligne de code, et ça se sent dans ma manière de bosser : posé, franc, et ça sort."
     },
     {
       "n": "D/02",
-      "t": "Transparence totale, aucun piège caché",
-      "d": "Périmètre clair, tarifs clairs, une progression que vous voyez en temps réel. Pas de développement opaque, pas de factures surprises, pas de « c'est presque fini » vague."
+      "t": "Je veux comprendre toute la machine",
+      "d": "Je n'aime pas dépendre d'un service que je ne comprends pas. Alors j'héberge moi-même mon serveur, ma base de données et ma CI. Pas pour faire joli sur un CV : pour savoir exactement ce qui tient quoi, et pouvoir le réparer moi-même."
     },
     {
       "n": "D/03",
-      "t": "Vous possédez tout, pour toujours",
-      "d": "Code, hébergement, domaine et base de données vivent dans vos propres comptes — je crée même votre GitHub pour que le code soit à vous à vie. Si nous arrêtons de travailler ensemble, vous gardez 100 % de votre produit."
+      "t": "Que ça marche, c'est le minimum. Je veux que ça se sente.",
+      "d": "Le rythme, le poids, la façon dont une page réagit quand on la fait défiler. C'est vers ça que je reviens toujours, l'animation et la 3D. Et oui, je vais passer une heure de plus sur une transition que personne n'avait demandée."
     }
   ],
   "process": [
@@ -274,7 +276,7 @@
       "year": "2026",
       "role": "Full-stack",
       "stack": "Next.js 16 · React 19 · Payload CMS v3 · SQLite · Lexical · Tailwind CSS 4 · GSAP · Lenis · MailerSend · Sharp · Docker",
-      "body": "Magazine numérique indépendant de gastronomie lancé de zéro. Payload CMS v3 embarqué dans Next.js 16 — un seul codebase, un seul conteneur — pour que la rédaction publie les articles, gère catégories, tags, contributrices et newsletter en autonomie. Optimisation automatique en WebP, temps de lecture calculé, éditeur Lexical avec images inline et embeds YouTube, et zéro coût SaaS : self-hosted sur VPS privé avec volumes Docker persistants.",
+      "body": "Magazine numérique indépendant de gastronomie lancé de zéro. Payload CMS v3 embarqué dans Next.js 16 (un seul code, un seul conteneur) pour que la rédaction publie les articles, gère catégories, tags, contributrices et newsletter en autonomie. Optimisation automatique en WebP, temps de lecture calculé, éditeur Lexical avec images inline et embeds YouTube, et zéro coût SaaS : self-hosted sur VPS privé avec volumes Docker persistants.",
       "link": "Étude de cas →",
       "slug": "materia-prima",
       "href": "https://materiaprimamagazine.com/",
@@ -303,7 +305,7 @@
       "year": "2026",
       "role": "Full-stack",
       "stack": "Next.js 16 · React 19 · TypeScript · Tailwind CSS 4 · GSAP · Lenis · React Hook Form · Nodemailer · Docker",
-      "body": "Site éditorial sur mesure pour une journaliste gastronomique formée au Basque Culinary Center. Esthétique print-first, typographie expressive, animations GSAP discrètes et scroll fluide Lenis. Centralise parcours, publications (Materia Prima, Cuadernos en Crudo) et un canal direct de contact pour sponsorings et collaborations — avec conformité légale complète (mentions légales, politique de confidentialité).",
+      "body": "Site éditorial sur mesure pour une journaliste gastronomique formée au Basque Culinary Center. Esthétique print-first, typographie expressive, animations GSAP discrètes et scroll fluide Lenis. Centralise parcours, publications (Materia Prima, Cuadernos en Crudo) et un canal direct de contact pour sponsorings et collaborations, avec conformité légale complète (mentions légales, politique de confidentialité).",
       "link": "beamiranda.es →",
       "slug": "bea-miranda",
       "href": "https://beamiranda.es"
@@ -316,7 +318,7 @@
       "year": "2026",
       "role": "Full-stack",
       "stack": "React 19 · TypeScript · Vite · Tailwind CSS 4 · Zustand · GSAP · Leaflet · Node.js · Express · PostgreSQL · Socket.io · JWT · PWA",
-      "body": "PWA full-stack pour les équipes d'installation de Binter, conçue pour coordonner les campagnes publicitaires aux Canaries. Check-ins temps réel, uploads photo, signalement d'incidents et workflow d'approbation à trois niveaux — avec support hors ligne via service worker Workbox.",
+      "body": "PWA full-stack pour les équipes d'installation de Binter, conçue pour coordonner les campagnes publicitaires aux Canaries. Check-ins temps réel, uploads photo, signalement d'incidents et workflow d'approbation à trois niveaux, avec support hors ligne via service worker Workbox.",
       "link": "Étude de cas →",
       "slug": "binter-montajes-app",
       "featured": false
@@ -338,12 +340,12 @@
     {
       "n": "W/06",
       "client": "Dos × Dos Grupo Imagen",
-      "tag": "Montadores App — App native pour techniciens terrain",
+      "tag": "Montadores App : app native pour techniciens terrain",
       "type": "React Native · iOS & Android",
       "year": "2026",
       "role": "Lead mobile",
       "stack": "React Native · Expo · TypeScript · Node.js · Express · PostgreSQL · SQLite · MMKV · Socket.io · Google Maps · Zoho CRM",
-      "body": "App native iOS et Android pour les équipes d'installation terrain. Couvre tout le workflow : routes assignées, arrivées validées par GPS, captures photo et signature numérique, signalement d'incidents et notifications push — offline-first avec sync auto au retour du réseau.",
+      "body": "App native iOS et Android pour les équipes d'installation terrain. Couvre tout le workflow : routes assignées, arrivées validées par GPS, captures photo et signature numérique, signalement d'incidents et notifications push. Offline-first, avec synchronisation automatique au retour du réseau.",
       "link": "Étude de cas →",
       "slug": "dosxdos-montadores-app",
       "featured": true
@@ -356,7 +358,7 @@
       "year": "2024",
       "role": "Full-stack",
       "stack": "Next.js · TypeScript · Tailwind CSS · Redux Toolkit · WebView · iOS/Android",
-      "body": "Plateforme unifiée consolidant les données de Victron, SolarEdge, GoodWe et 4 autres fournisseurs dans un seul dashboard client — production, consommation, état des batteries et économies en un seul endroit. Couplée à un CRM admin pour la gestion des centrales et des utilisateurs. Livrée en apps iOS et Android natives via WebView.",
+      "body": "Plateforme unifiée consolidant les données de Victron, SolarEdge, GoodWe et 4 autres fournisseurs dans un seul dashboard client : production, consommation, état des batteries et économies au même endroit. Couplée à un CRM admin pour la gestion des centrales et des utilisateurs. Livrée en apps iOS et Android natives via WebView.",
       "link": "Étude de cas →",
       "slug": "energia-solar-canarias",
       "href": "https://app.energiasolarcanarias.com/"
@@ -369,7 +371,7 @@
       "year": "2025",
       "role": "Full-stack",
       "stack": "Next.js 15 · TypeScript · Tailwind CSS · GSAP · Three.js · GA4 · Tag Manager",
-      "body": "Reconstruction complète de la présence en ligne de l'agence, partant de zéro. Environnements 3D temps réel immersifs, animations au scroll cinématographiques et scènes réactives au mouvement, construites avec Three.js et GSAP. Le site positionne Galaga à la fois comme un leader technique et créatif. Intègre également Google Analytics et Tag Manager pour des insights marketing data-driven.",
+      "body": "Refonte complète du site de l'agence, en partant de zéro. Environnements 3D en temps réel, animations au scroll et scènes qui réagissent à la souris, le tout en Three.js et GSAP. Google Analytics et Tag Manager branchés pour suivre ce qui marche.",
       "link": "galagaagency.com →",
       "slug": "galaga-agency-website",
       "href": "https://galagaagency.com/"
@@ -377,24 +379,24 @@
     {
       "n": "W/09",
       "client": "Galaga Agency",
-      "tag": "Reloj Laboral — Système de pointage numérique",
+      "tag": "Reloj Laboral : système de pointage numérique",
       "type": "Plateforme logicielle full-stack",
       "year": "2025",
       "role": "Full-stack",
       "stack": "React 19 · TypeScript · Vite · Tailwind CSS · Node.js · Express · PostgreSQL · WebSockets · GSAP",
-      "body": "Plateforme PERN aidant les entreprises espagnoles à se conformer à la loi 2025 sur le pointage numérique. Dashboards séparés pour employés, admins et inspecteurs officiels — suivi temps réel, exports PDF mensuels, workflows de correction et journal d'audit complet.",
+      "body": "Plateforme PERN aidant les entreprises espagnoles à se conformer à la loi 2025 sur le pointage numérique. Dashboards séparés pour employés, admins et inspecteurs officiels, suivi temps réel, exports PDF mensuels, workflows de correction et journal d'audit complet.",
       "link": "Étude de cas →",
       "slug": "reloj-laboral-galaga"
     },
     {
       "n": "W/10",
       "client": "ARECO España",
-      "tag": "ARECO — Site pour le marché espagnol",
+      "tag": "ARECO : site pour le marché espagnol",
       "type": "Site marketing · Sanity CMS",
       "year": "2026",
       "role": "Full-stack",
       "stack": "Next.js 16 · React 19 · TypeScript · Sanity CMS · Tailwind CSS · GSAP · Lenis · Resend · Docker",
-      "body": "Site dédié au marché hispanophone pour le leader mondial de la nébulisation. Chaque section — hero, secteurs, stats, témoignages — est adossée à un schéma Sanity et éditable depuis le studio sans aide développeur. GSAP ScrollTrigger pour parallaxe, compteurs, marquees et carrousels vidéo.",
+      "body": "Site dédié au marché hispanophone pour le leader mondial de la nébulisation. Chaque section (hero, secteurs, stats, témoignages) est adossée à un schéma Sanity et éditable depuis le studio sans aide développeur. GSAP ScrollTrigger pour parallaxe, compteurs, marquees et carrousels vidéo.",
       "link": "areco-nextjs.galagaagency.com →",
       "slug": "areco-web",
       "href": "https://areco-nextjs.galagaagency.com"
@@ -407,7 +409,7 @@
       "year": "2023",
       "role": "Full-stack",
       "stack": "Next.js · TypeScript · Tailwind CSS · EmailJS",
-      "body": "Site SEO-optimisé pour une entreprise française de charpenterie sans aucune présence en ligne au départ. SEO technique avec schémas adaptés, formulaires de contact via EmailJS, et un design responsive épuré conçu pour ranker localement et générer des leads.",
+      "body": "Site pour une entreprise française de charpenterie qui n'avait aucune présence en ligne. SEO technique avec les bons schémas, formulaire de contact via EmailJS, design sobre et responsive, pensé pour être trouvé localement.",
       "link": "cmdurand.com →",
       "slug": "charpente-menuiserie-durand",
       "href": "https://cmdurand-2-0.vercel.app/"
@@ -420,7 +422,7 @@
       "year": "2026",
       "role": "Full-stack",
       "stack": "Next.js · TypeScript · Tailwind CSS · Supabase · GSAP · Lenis · next-intl",
-      "body": "Site bilingue complet pour une compétition CrossFit de 3 jours à Playa de Melenara, Gran Canaria. CMS complet via Supabase — les organisateurs gèrent équipes, séries, classements, planning, sponsors, standards de mouvement et galerie photo depuis un espace admin sécurisé, sans toucher au code. Le site public propose un classement en temps réel, une grille de séries, une bibliothèque de standards avec vidéos, un compte à rebours et un système de transition de pages type rideau d'encre avec animations GSAP.",
+      "body": "Site bilingue complet pour une compétition CrossFit de 3 jours à Playa de Melenara, Gran Canaria. CMS complet via Supabase : les organisateurs gèrent équipes, séries, classements, planning, sponsors, standards de mouvement et galerie photo depuis un espace admin sécurisé, sans toucher au code. Le site public propose un classement en temps réel, une grille de séries, une bibliothèque de standards avec vidéos, un compte à rebours et un système de transition de pages type rideau d'encre avec animations GSAP.",
       "link": "phoenixonthebeach2026.es →",
       "slug": "phoenix-on-the-beach",
       "href": "https://phoenixonthebeach2026.es",
@@ -430,10 +432,10 @@
   "about": {
     "lede1": "Thomas, la trentaine, ",
     "lede_accent": "développeur fullstack",
-    "lede2": " basé aux Îles Canaries — ",
+    "lede2": " basé aux Îles Canaries, ",
     "lede_italic": "là où l'été ne finit jamais.",
     "lede3": "",
-    "body": "Originaire de Nantes, expatrié en Espagne depuis 6 ans. Plusieurs vies avant le code — cuisine, aviation, ventes, un peu partout dans le monde — jusqu'à tomber dedans pour de bon. Autodidacte, puis bootcamp, puis du concret livré chaque semaine. Je bosse en remote, peu importe le fuseau.",
+    "body": "Originaire de Nantes, expatrié en Espagne depuis 6 ans. Plusieurs vies avant le code (cuisine, aviation, relation client, un peu partout dans le monde), jusqu'à tomber dedans pour de bon. Autodidacte, puis bootcamp, puis du concret livré chaque semaine. Je bosse en remote, peu importe le fuseau.",
     "facts": [
       {
         "k": "Origine",
@@ -449,15 +451,15 @@
       },
       {
         "k": "TJM",
-        "v": "Sur demande — selon le périmètre"
+        "v": "Sur demande, selon le périmètre"
       },
       {
         "k": "Avec",
-        "v": "Galaga Agency · freelance sélectif"
+        "v": "Galaga Agency"
       },
       {
         "k": "Hors-bureau",
-        "v": "Toujours en mouvement, allergique à la routine, en quête du prochain horizon"
+        "v": "Pas fait pour rester en place."
       }
     ],
     "trip": [
@@ -506,7 +508,7 @@
   "faq": [
     {
       "q": "Tu peux démarrer quand ?",
-      "a": "En général sous 1 à 2 semaines. Pour les launches serrés j'ai parfois un créneau plus tôt — fais signe."
+      "a": "En général sous 1 à 2 semaines. Pour les launches serrés j'ai parfois un créneau plus tôt : faites signe."
     },
     {
       "q": "Tu bosses seul ou en équipe ?",
@@ -518,11 +520,11 @@
     },
     {
       "q": "Tu peux reprendre un projet existant ?",
-      "a": "Oui — audits, refacto, reprises. Je vous dis franchement si c'est récupérable ou s'il vaut mieux refondre."
+      "a": "Oui : audits, refacto, reprises. Je vous dis franchement si c'est récupérable ou s'il vaut mieux refondre."
     },
     {
       "q": "Tu es où, sur quels fuseaux ?",
-      "a": "Las Palmas, Espagne (UTC+0 / WET). Les fuseaux ne m'arrêtent pas — Europe, Amériques, Asie, on s'adapte."
+      "a": "Las Palmas, Espagne (UTC+0 / WET). Les fuseaux ne m'arrêtent pas. Europe, Amériques, Asie, on s'adapte."
     },
     {
       "q": "Tu codes, ou tu chapeautes ?",
@@ -533,7 +535,7 @@
     "heading1": "Dites-moi",
     "heading_accent": "tout.",
     "heading_italic": "j'écoute.",
-    "body": "Dites-moi ce que vous mijotez. Je lis chaque message moi-même. Si je ne suis pas le bon profil je vous le dis sous 24h et je vous oriente.",
+    "body": "Dites-moi ce que vous avez en tête. Je lis tout moi-même et je réponds sous 24h.",
     "direct": "Ou écrivez directement :",
     "call_label": "Vous préférez un appel ?",
     "call_cta": "Réserver 30 min ↗",
@@ -559,7 +561,7 @@
         "key": "medium",
         "label": "Medium",
         "handle": "@thomasaugot",
-        "desc": "Articles sur la création de produits, l'apprentissage du code après une reconversion, et ce qui dure.",
+        "desc": "Ce que j'apprends en construisant des produits, et en ayant appris le code sur le tard.",
         "cta": "Lire mes articles →"
       },
       {
@@ -583,7 +585,7 @@
     "h1a": "Projets",
     "h1b": "sélectionnés.",
     "count_suffix": "projets",
-    "years": "2023 — 2026",
+    "years": "2023 à 2026",
     "footer_cta": "Envie de construire quelque chose ?",
     "footer_link": "Parlons-en →",
     "scroll_more": "plus ↓",
@@ -596,5 +598,22 @@
     "live_site": "Site en ligne ↗",
     "live_app": "App en ligne ↗",
     "view_all": "Voir les projets →"
-  }
+  },
+  "difference_legacy": [
+    {
+      "n": "D/01",
+      "t": "Un seul profil, toute la stack",
+      "d": "Frontend, backend, base de données, infrastructure, domaines et DNS, gérés par une seule personne qui voit l'ensemble. Pas de transferts entre trois freelances, pas de « ce n'est pas ma partie »."
+    },
+    {
+      "n": "D/02",
+      "t": "Transparence totale, aucun piège caché",
+      "d": "Périmètre clair, tarifs clairs, une progression que vous voyez en temps réel. Pas de développement opaque, pas de factures surprises, pas de « c'est presque fini » vague."
+    },
+    {
+      "n": "D/03",
+      "t": "Vous possédez tout, pour toujours",
+      "d": "Code, hébergement, domaine et base de données vivent dans vos propres comptes, je crée même votre GitHub pour que le code soit à vous à vie. Si nous arrêtons de travailler ensemble, vous gardez 100 % de votre produit."
+    }
+  ]
 }

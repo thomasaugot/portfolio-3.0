@@ -1,7 +1,7 @@
 {
   "nav": {
     "home": "Inicio",
-    "services": "Servicios",
+    "services": "Especialidades",
     "work": "Portfolio",
     "process": "Método",
     "stack": "Stack",
@@ -17,11 +17,11 @@
     "to_dark":  "apaga la luz"
   },
   "footer": {
-    "tagline": "Dev full-stack en alquiler.",
+    "tagline": "Dev full-stack, Las Palmas.",
     "sitemap_heading": "Mapa",
     "elsewhere_heading": "En otros sitios",
     "direct_heading": "Directo",
-    "sitemap_links": ["Servicios", "Proyectos", "Método", "Sobre mí", "Contacto"],
+    "sitemap_links": ["Especialidades", "Proyectos", "Método", "Sobre mí", "Contacto"],
     "elsewhere_links": ["LinkedIn", "GitHub", "X / Twitter", "Instagram"],
     "direct_links": ["thomas.augot@gmail.com", "Reservar llamada"],
     "copy": "© 2026 Thomas Augot · Codeado y desplegado a mano desde Las Palmas."
@@ -30,8 +30,8 @@
     "eyebrow": "[ ERR / 404 ]",
     "title_a": "Esta página",
     "title_b": "no existe",
-    "title_c": "— al menos no aquí.",
-    "sub": "La URL es incorrecta, la página se movió, o nunca llegó a producción. Nada que renderizar. Prueba una de las rutas de abajo — o vuelve al inicio.",
+    "title_c":  "al menos no aquí.",
+    "sub": "La URL es incorrecta, la página se movió, o nunca llegó a producción. Nada que renderizar. Prueba una de las rutas de abajo, o vuelve al inicio.",
     "terminal_user": "thomas@las-palmas",
     "terminal_path": "~/site",
     "log_1_cmd": "curl -I $REQUEST_URL",
@@ -52,17 +52,17 @@
     "report_subject": "Enlace roto en helloimtom.dev",
     "suggested_heading": "Rutas sugeridas",
     "suggested": [
-      { "label": "Inicio", "href": "/", "desc": "La página de inicio — servicios, proyectos, contacto." },
+      { "label": "Inicio", "href": "/", "desc": "La página de inicio: especialidades, proyectos, contacto." },
       { "label": "Proyectos", "href": "/work", "desc": "Proyectos entregados, casos de estudio, código." },
       { "label": "Contacto", "href": "/#contact", "desc": "Contratame, pregunta algo, saluda." }
     ],
-    "meta_title": "404 — Página no encontrada",
+    "meta_title": "404 · Página no encontrada",
     "meta_desc": "Esta página no existe en helloimtom.dev. Vuelve al inicio o explora los proyectos."
   },
   "newsletter": {
     "title": "Notas",
     "title_italic": " del Atlántico.",
-    "body": "Una vez al mes. Código que entrego, lo que aprendo, proyectos en los que estoy contratando. Sin spam.",
+    "body": "Una vez al mes: lo que construyo, lo que aprendo. Sin spam.",
     "placeholder": "tu@email.com",
     "btn": "Suscribirse"
   }

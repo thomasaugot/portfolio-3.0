@@ -1,7 +1,7 @@
 {
   "nav": {
     "home": "Home",
-    "services": "Services",
+    "services": "Expertise",
     "work": "Portfolio",
     "process": "Process",
     "stack": "Stack",
@@ -17,11 +17,11 @@
     "to_dark":  "kill the lights"
   },
   "footer": {
-    "tagline": "Full-stack dev for hire.",
+    "tagline": "Full-stack dev, Las Palmas.",
     "sitemap_heading": "Sitemap",
     "elsewhere_heading": "Elsewhere",
     "direct_heading": "Direct",
-    "sitemap_links": ["Services", "Work", "Process", "About", "Contact"],
+    "sitemap_links": ["Expertise", "Work", "Process", "About", "Contact"],
     "elsewhere_links": ["LinkedIn", "GitHub", "X / Twitter", "Instagram"],
     "direct_links": ["thomas.augot@gmail.com", "Book a call"],
     "copy": "© 2026 Thomas Augot · Built and deployed by hand from Las Palmas."
@@ -30,8 +30,8 @@
     "eyebrow": "[ ERR / 404 ]",
     "title_a": "This page",
     "title_b": "doesn't exist",
-    "title_c": "— at least not here.",
-    "sub": "The URL is wrong, the page moved, or it never shipped. Either way, nothing to render. Try one of the routes below — or head back home.",
+    "title_c":  "at least not here.",
+    "sub": "The URL is wrong, the page moved, or it never shipped. Either way, nothing to render. Try one of the routes below, or head back home.",
     "terminal_user": "thomas@las-palmas",
     "terminal_path": "~/site",
     "log_1_cmd": "curl -I $REQUEST_URL",
@@ -52,17 +52,17 @@
     "report_subject": "Broken link on helloimtom.dev",
     "suggested_heading": "Suggested routes",
     "suggested": [
-      { "label": "Home", "href": "/", "desc": "The landing page — services, work, contact." },
+      { "label": "Home", "href": "/", "desc": "The landing page: expertise, work, contact." },
       { "label": "Work", "href": "/work", "desc": "Shipped projects, case studies, code." },
       { "label": "Contact", "href": "/#contact", "desc": "Hire me, ask a question, say hi." }
     ],
-    "meta_title": "404 — Page not found",
+    "meta_title": "404 · Page not found",
     "meta_desc": "This page doesn't exist on helloimtom.dev. Head back home or browse the work."
   },
   "newsletter": {
     "title": "Notes",
     "title_italic": " from the Atlantic.",
-    "body": "Once a month. Code I shipped, things I learned, projects I'm hiring for. No spam, easy unsubscribe.",
+    "body": "Once a month: what I'm building, what I'm learning. No spam.",
     "placeholder": "your@email.com",
     "btn": "Subscribe"
   }

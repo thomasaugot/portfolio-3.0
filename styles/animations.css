@@ -139,3 +139,9 @@
   background: var(--color-primary);
   box-shadow: 0 0 24px 2px color-mix(in srgb, var(--color-primary) 70%, transparent), 0 0 80px 8px color-mix(in srgb, var(--color-primary) 25%, transparent);
 }
+
+/* ── Case study carousel: active dot fills over the auto-advance interval ── */
+@keyframes carousel-fill {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
