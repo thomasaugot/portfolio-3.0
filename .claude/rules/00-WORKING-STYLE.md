@@ -41,6 +41,7 @@ different code path proves nothing.
 
 ## Never
 
+- **Never run tests, scripts or queries against production data unless Thomas explicitly says so for that case** — not even read-only ones (prod APIs, prod databases, the datawarehouse, the live site). When a test is allowed, create dedicated test data first ("TEST - …") and play only with that. Local copies, fixtures and mocks are the default.
 - **NEVER revert, undo, or `git checkout` my work.** Not when I reject a design, not when
   something looks broken, not to "clean up". A rejection means the NEXT attempt is different,
   never that the current one gets thrown away. If reverting seems right, say so and wait.

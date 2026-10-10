@@ -6,6 +6,8 @@
  * Parent must be `relative`.
  */
 export function WireOutline({ className = "" }: { className?: string }) {
+  // Toned down: the outline laser was too much next to the blueprint reveal. Kept for later.
+  if (className !== "__enabled__") return null
   return (
     <svg
       data-anim="wire-outline"

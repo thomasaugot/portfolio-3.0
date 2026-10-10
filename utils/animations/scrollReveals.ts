@@ -149,7 +149,6 @@ export function initFAQReveal() {
 
 export function initHeroReveal() {
   const section = document.querySelector<HTMLElement>("[data-anim='hero']")
-  const scan    = section?.querySelector<HTMLElement>("[data-anim='hero-scan']")
   const grid    = section?.querySelector<HTMLElement>("[data-anim='hero-grid']")
   const glow    = section?.querySelector<HTMLElement>("[data-anim='hero-glow']")
   const items   = gsap.utils
@@ -157,26 +156,22 @@ export function initHeroReveal() {
     .filter((el) => el.offsetHeight > 0)
 
   // Fallback: plain fade-up (reduced motion, or markup without the scan line)
-  if (!section || !scan || prefersReducedMotion()) {
+  if (!section || prefersReducedMotion()) {
     gsap.fromTo(items, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.7, stagger: 0.1, ease: "power2.out" })
     return
   }
 
-  // ── Boot: a lime scan line sweeps down the hero and "prints" each element as it passes ──
+  // ── Boot: elements print in from the top down, no scan line ──
   const sRect = section.getBoundingClientRect()
-  const DUR = 1.5
+  const DUR = 1.2
   gsap.set(items, { clipPath: "inset(0 0 100% 0)", y: 16 })
-  // Small delay so the page-enter blur has cleared before the scan starts
-  const tl = gsap.timeline({ delay: 0.3 })
-  tl.set(scan, { opacity: 1, top: 0 })
-    .to(scan, { top: "100%", duration: DUR, ease: "power1.inOut" }, 0)
-    .to(scan, { opacity: 0, duration: 0.35 }, DUR - 0.15)
-  if (grid) tl.to(grid, { opacity: 1, duration: 1.4, ease: "power1.out" }, 0.3)
-  if (glow) tl.to(glow, { opacity: 0.5, duration: 1.2 }, 0.6)
+  const tl = gsap.timeline({ delay: 0.2 })
+  if (grid) tl.to(grid, { opacity: 1, duration: 1.4, ease: "power1.out" }, 0.2)
+  if (glow) tl.to(glow, { opacity: 0.5, duration: 1.2 }, 0.5)
   items.forEach((el) => {
     const r = el.getBoundingClientRect()
-    const at  = ((r.top - sRect.top) / sRect.height) * DUR * 0.92
-    const dur = Math.max(0.4, (r.height / sRect.height) * DUR + 0.3)
+    const at  = ((r.top - sRect.top) / sRect.height) * DUR * 0.8
+    const dur = Math.max(0.45, (r.height / sRect.height) * DUR + 0.3)
     tl.to(el, { clipPath: "inset(0 0 0% 0)", y: 0, duration: dur, ease: "power2.out", clearProps: "clipPath" }, at)
   })
 
@@ -211,10 +206,9 @@ export function initSectionRules() {
   const sections = gsap.utils.toArray<HTMLElement>(".section-rule")
   if (!sections.length || prefersReducedMotion()) return
   sections.forEach((el) => {
-    gsap.set(el, { "--rule": 0, "--rule-head": 1 })
+    gsap.set(el, { "--rule": 0, "--rule-head": 0 })
     gsap.timeline({ scrollTrigger: { trigger: el, start: "top 92%" } })
-      .to(el, { "--rule": 1, duration: 1.4, ease: "power3.inOut" })
-      .to(el, { "--rule-head": 0, duration: 0.4 }, "-=0.2")
+      .to(el, { "--rule": 1, duration: 1.2, ease: "power3.inOut" })
   })
 }
 

@@ -25,7 +25,6 @@ export function HomeHero() {
       {/* Blueprint backdrop: cursor-lit grid + glow, and the boot scan line */}
       <div data-anim="hero-grid" aria-hidden="true" className="hero-grid pointer-events-none absolute inset-0 opacity-0" />
       <div data-anim="hero-glow" aria-hidden="true" className="hero-glow pointer-events-none absolute left-0 top-0 opacity-0 will-change-transform" />
-      <div data-anim="hero-scan" aria-hidden="true" className="hero-scan pointer-events-none absolute left-0 right-0 top-0 opacity-0" />
 
       <Shell className="relative z-[1] flex flex-col gap-10">
         <div className="grid grid-cols-[1fr_1fr] gap-14 items-stretch max-[900px]:grid-cols-1">
