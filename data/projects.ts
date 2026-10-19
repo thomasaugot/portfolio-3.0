@@ -47,6 +47,8 @@ export const PROJECTS: Project[] = [
       desktop: [
         "/assets/images/portfolio/fronton-king/desktop/desktop-1.webp",
         "/assets/images/portfolio/fronton-king/desktop/desktop-7.webp",
+        "/assets/images/portfolio/fronton-king/desktop/desktop-8.webp",
+        "/assets/images/portfolio/fronton-king/desktop/desktop-9.webp",
         "/assets/images/portfolio/fronton-king/desktop/desktop-2.webp",
         "/assets/images/portfolio/fronton-king/desktop/desktop-3.webp",
         "/assets/images/portfolio/fronton-king/desktop/desktop-4.webp",
