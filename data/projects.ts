@@ -3,6 +3,64 @@ import type { Project } from "@/types/project"
 export const PROJECTS: Project[] = [
   {
     n: "W/01",
+    slug: "cinder",
+    client: "Cinder",
+    tag: "Concept · Scroll-driven Restaurant Site",
+    type: "Concept · Restaurant site",
+    year: "2026",
+    cover: "/assets/images/portfolio/cinder/desktop/desktop-1.webp",
+    mobileCover: "/assets/images/portfolio/cinder/mobile/mobile-1.webp",
+    domain: "cinder-rouge.vercel.app",
+    kind: "web",
+    href: "https://cinder-rouge.vercel.app",
+    video: {
+      src: "/assets/videos/cinder-live.mp4",
+      poster: "/assets/videos/cinder-live-poster.jpg",
+      mobile: { src: "/assets/videos/cinder-live-mobile.mp4", poster: "/assets/videos/cinder-live-mobile-poster.jpg" },
+      label: "The live Cinder site being scrolled: the CINDER letters open into the smash on the flat-top, the burger builds itself, island producers are labelled on the layers, then the menu, ordering and opening hours slide over the film",
+    },
+    gallery: {
+      desktop: [1, 2, 3, 4, 5, 6].map((i) => `/assets/images/portfolio/cinder/desktop/desktop-${i}.webp`),
+      mobile: [1, 2, 3, 4].map((i) => `/assets/images/portfolio/cinder/mobile/mobile-${i}.webp`),
+    },
+  },
+  {
+    n: "W/02",
+    slug: "halden",
+    client: "Halden",
+    tag: "Concept · Scroll-driven 3D Site",
+    type: "Concept · 3D scroll site",
+    year: "2026",
+    cover: "/assets/images/portfolio/halden/desktop/desktop-1.webp",
+    mobileCover: "/assets/images/portfolio/halden/mobile/mobile-1.webp",
+    domain: "halden-opal.vercel.app",
+    kind: "web",
+    href: "https://halden-opal.vercel.app",
+    video: {
+      src: "/assets/videos/halden-live.mp4",
+      poster: "/assets/videos/halden-live-poster.jpg",
+      mobile: { src: "/assets/videos/halden-live-mobile.mp4", poster: "/assets/videos/halden-live-mobile-poster.jpg" },
+      label: "The live Halden site being scrolled: down the cabin aisle, out through the window, alongside the jet above the clouds, back through the cabin, the route globe and the booking form",
+    },
+    gallery: {
+      desktop: [
+        "/assets/images/portfolio/halden/desktop/desktop-1.webp",
+        "/assets/images/portfolio/halden/desktop/desktop-2.webp",
+        "/assets/images/portfolio/halden/desktop/desktop-3.webp",
+        "/assets/images/portfolio/halden/desktop/desktop-4.webp",
+        "/assets/images/portfolio/halden/desktop/desktop-5.webp",
+        "/assets/images/portfolio/halden/desktop/desktop-6.webp",
+      ],
+      mobile: [
+        "/assets/images/portfolio/halden/mobile/mobile-1.webp",
+        "/assets/images/portfolio/halden/mobile/mobile-2.webp",
+        "/assets/images/portfolio/halden/mobile/mobile-3.webp",
+        "/assets/images/portfolio/halden/mobile/mobile-4.webp",
+      ],
+    },
+  },
+  {
+    n: "W/03",
     slug: "materia-prima",
     client: "Materia Prima",
     tag: "Editorial Magazine + Headless CMS",
@@ -30,7 +88,7 @@ export const PROJECTS: Project[] = [
     },
   },
   {
-    n: "W/02",
+    n: "W/04",
     slug: "fronton-king",
     client: "Gran Canaria Frontón King",
     tag: "World Championship Site + Live Event PWA",
@@ -64,9 +122,9 @@ export const PROJECTS: Project[] = [
       ],
     },
   },
-  /* Hidden — re-enable later this year
+  /* Hidden — re-enable later this year,
   {
-    n: "W/03",
+    n: "W/05",
     slug: "bea-miranda",
     client: "Bea Miranda",
     tag: "Editorial Portfolio Site",
@@ -95,7 +153,7 @@ export const PROJECTS: Project[] = [
   },
   */
   {
-    n: "W/04",
+    n: "W/05",
     slug: "binter-montajes-app",
     client: "Binter Canarias",
     tag: "Field Operations Platform",
@@ -124,7 +182,7 @@ export const PROJECTS: Project[] = [
     },
   },
   {
-    n: "W/05",
+    n: "W/06",
     slug: "dosxdosgrupoimagen-web",
     client: "Dos × Dos Grupo Imagen",
     tag: "Corporate Website 2.0 + Admin Panel",
@@ -155,7 +213,7 @@ export const PROJECTS: Project[] = [
     },
   },
   {
-    n: "W/06",
+    n: "W/07",
     slug: "dosxdos-montadores-app",
     client: "Dos × Dos Grupo Imagen",
     tag: "Montadores App",
@@ -177,7 +235,7 @@ export const PROJECTS: Project[] = [
     },
   },
   {
-    n: "W/07",
+    n: "W/08",
     slug: "energia-solar-canarias",
     client: "Energía Solar Canarias",
     tag: "Solar Plant Monitoring CRM",
@@ -206,7 +264,7 @@ export const PROJECTS: Project[] = [
     },
   },
   {
-    n: "W/08",
+    n: "W/09",
     slug: "galaga-agency-website",
     client: "Galaga Agency",
     tag: "Galaga Agency Website 2.0",
@@ -237,7 +295,7 @@ export const PROJECTS: Project[] = [
     },
   },
   {
-    n: "W/09",
+    n: "W/10",
     slug: "reloj-laboral-galaga",
     client: "Galaga Agency",
     tag: "Reloj Laboral",
@@ -267,7 +325,7 @@ export const PROJECTS: Project[] = [
     },
   },
   {
-    n: "W/10",
+    n: "W/11",
     slug: "areco-web",
     client: "ARECO España",
     tag: "ARECO España",
@@ -293,7 +351,7 @@ export const PROJECTS: Project[] = [
     },
   },
   {
-    n: "W/11",
+    n: "W/12",
     slug: "charpente-menuiserie-durand",
     client: "CM Durand",
     tag: "Charpente Menuiserie Durand",
@@ -324,7 +382,7 @@ export const PROJECTS: Project[] = [
     },
   },
   {
-    n: "W/12",
+    n: "W/13",
     slug: "phoenix-on-the-beach",
     client: "Phoenix on the Beach",
     tag: "CrossFit Competition Event Website",
@@ -350,39 +408,5 @@ export const PROJECTS: Project[] = [
         "/assets/images/portfolio/phoenix-on-the-beach/mobile/mobile-6.webp",
       ],
     },
-  },
-  {
-    n: "W/13",
-    slug: "halden",
-    client: "Halden",
-    tag: "Concept · Scroll-driven 3D Site",
-    type: "Concept · 3D scroll site",
-    year: "2026",
-    cover: "/assets/images/portfolio/halden/desktop/desktop-1.webp",
-    mobileCover: "/assets/images/portfolio/halden/mobile/mobile-1.webp",
-    domain: "halden-opal.vercel.app",
-    kind: "web",
-    href: "https://halden-opal.vercel.app",
-    video: {
-      src: "/assets/videos/halden-flight.mp4",
-      poster: "/assets/videos/halden-flight-poster.jpg",
-      label: "Halden in motion: down the cabin aisle, out through the window, alongside the jet above the clouds, then back inside through the club suite, dining room and stateroom",
-    },
-    gallery: {
-      desktop: [
-        "/assets/images/portfolio/halden/desktop/desktop-1.webp",
-        "/assets/images/portfolio/halden/desktop/desktop-2.webp",
-        "/assets/images/portfolio/halden/desktop/desktop-3.webp",
-        "/assets/images/portfolio/halden/desktop/desktop-4.webp",
-        "/assets/images/portfolio/halden/desktop/desktop-5.webp",
-        "/assets/images/portfolio/halden/desktop/desktop-6.webp",
-      ],
-      mobile: [
-        "/assets/images/portfolio/halden/mobile/mobile-1.webp",
-        "/assets/images/portfolio/halden/mobile/mobile-2.webp",
-        "/assets/images/portfolio/halden/mobile/mobile-3.webp",
-        "/assets/images/portfolio/halden/mobile/mobile-4.webp",
-      ],
-    },
-  },
+  }
 ]

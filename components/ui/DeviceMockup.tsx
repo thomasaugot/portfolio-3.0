@@ -11,8 +11,10 @@ const HOME_BAR = "h-[14px] flex items-center justify-center bg-[#0d0d0d] after:c
 // ─── PhoneFrame ───────────────────────────────────────────────────────────────
 
 type PhoneFrameProps = {
-  src: string
-  alt: string
+  src?: string
+  alt?: string
+  /** Replaces the screenshot with live content (a video). */
+  children?: ReactNode
   sizes?: string
   className?: string
   priority?: boolean
@@ -20,7 +22,8 @@ type PhoneFrameProps = {
 
 export function PhoneFrame({
   src,
-  alt,
+  alt = "",
+  children,
   sizes = "200px",
   className = "",
   priority = false,
@@ -30,7 +33,9 @@ export function PhoneFrame({
       <div className={`@container ${SHELL}`} style={{ borderRadius: "clamp(6px, 5cqw, 14px)" }}>
         <div className={NOTCH} style={{ height: "clamp(8px, 6cqw, 18px)" }} />
         <div className="relative bg-black aspect-9/18 overflow-hidden">
-          <Image src={src} alt={alt} width={390} height={844} className="img-fade absolute top-0 left-0 w-full h-auto" sizes={sizes} priority={priority} onLoad={(e) => e.currentTarget.classList.add("is-loaded")} />
+          {children ?? (src && (
+            <Image src={src} alt={alt} width={390} height={844} className="img-fade absolute top-0 left-0 w-full h-auto" sizes={sizes} priority={priority} onLoad={(e) => e.currentTarget.classList.add("is-loaded")} />
+          ))}
         </div>
         <div className={HOME_BAR} style={{ height: "clamp(6px, 4.5cqw, 14px)" }} />
       </div>

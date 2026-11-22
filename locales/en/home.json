@@ -282,7 +282,7 @@
   },
   "work": [
     {
-      "n": "W/01",
+      "n": "W/03",
       "client": "Materia Prima",
       "tag": "Editorial Magazine + Headless CMS",
       "type": "Full-stack · CMS",
@@ -296,7 +296,7 @@
       "featured": true
     },
     {
-      "n": "W/02",
+      "n": "W/04",
       "client": "Gran Canaria Frontón King",
       "tag": "World Championship Site + Live Event PWA",
       "type": "Full-stack · PWA",
@@ -311,7 +311,7 @@
       "featured": true
     },
     {
-      "n": "W/03",
+      "n": "W/05",
       "client": "Bea Miranda",
       "tag": "Editorial Site for a Food Journalist",
       "type": "Marketing site · Editorial",
@@ -324,7 +324,7 @@
       "href": "https://beamiranda.es"
     },
     {
-      "n": "W/04",
+      "n": "W/05",
       "client": "Binter Canarias",
       "tag": "Field Operations Platform",
       "type": "Full-stack · PWA",
@@ -337,7 +337,7 @@
       "featured": false
     },
     {
-      "n": "W/05",
+      "n": "W/06",
       "client": "Dos × Dos Grupo Imagen",
       "tag": "Corporate Website 2.0 + Admin Panel",
       "type": "Full-stack · CMS",
@@ -351,7 +351,7 @@
       "featured": false
     },
     {
-      "n": "W/06",
+      "n": "W/07",
       "client": "Dos × Dos Grupo Imagen",
       "tag": "Montadores App: Field Worker Native App",
       "type": "React Native · iOS & Android",
@@ -364,7 +364,7 @@
       "featured": true
     },
     {
-      "n": "W/07",
+      "n": "W/08",
       "client": "Energía Solar Canarias",
       "tag": "Solar Plant Monitoring CRM",
       "type": "Full-stack platform · Mobile",
@@ -377,7 +377,7 @@
       "href": "https://app.energiasolarcanarias.com/"
     },
     {
-      "n": "W/08",
+      "n": "W/09",
       "client": "Galaga Agency",
       "tag": "Galaga Agency Website 2.0",
       "type": "Marketing site · Three.js",
@@ -390,7 +390,7 @@
       "href": "https://galagaagency.com/"
     },
     {
-      "n": "W/09",
+      "n": "W/10",
       "client": "Galaga Agency",
       "tag": "Reloj Laboral: Digital Time-Tracking System",
       "type": "Full-stack software platform",
@@ -402,7 +402,7 @@
       "slug": "reloj-laboral-galaga"
     },
     {
-      "n": "W/10",
+      "n": "W/11",
       "client": "ARECO España",
       "tag": "ARECO: Spanish Market Landing Site",
       "type": "Marketing site · Sanity CMS",
@@ -415,7 +415,7 @@
       "href": "https://areco-nextjs.galagaagency.com"
     },
     {
-      "n": "W/11",
+      "n": "W/12",
       "client": "Charpente Menuiserie Durand",
       "tag": "Business Website for Carpentry Company",
       "type": "Marketing site · SEO",
@@ -428,7 +428,7 @@
       "href": "https://cmdurand-2-0.vercel.app/"
     },
     {
-      "n": "W/12",
+      "n": "W/13",
       "client": "Phoenix on the Beach",
       "tag": "CrossFit Competition Event Website",
       "type": "Full-stack · CMS · Real-time",
@@ -442,7 +442,7 @@
       "featured": false
     },
     {
-      "n": "W/13",
+      "n": "W/02",
       "client": "Halden",
       "tag": "Concept · Scroll-driven 3D Site",
       "type": "Concept · 3D scroll site",
@@ -453,6 +453,20 @@
       "link": "halden-opal.vercel.app →",
       "slug": "halden",
       "href": "https://halden-opal.vercel.app",
+      "featured": false
+    },
+    {
+      "n": "W/01",
+      "client": "Cinder",
+      "tag": "Concept · Scroll-driven Restaurant Site",
+      "type": "Concept · Restaurant site",
+      "year": "2026",
+      "role": "Design + Front-end",
+      "stack": "Vite · React 19 · TypeScript · Tailwind CSS 4 · GSAP ScrollTrigger · Lenis · Gemini Omni · Vitest",
+      "body": "Concept project for a fictional smash-burger restaurant in Corralejo, Fuerteventura, built as a restaurant site a real owner could use, running on one film. Five chained AI-generated 1080p clips from Gemini Omni (the smash on the flat-top, the build, the layers lifting apart, the cut, the pass) play as frame sequences behind the content as you scroll. The CINDER letters open into the footage, a kitchen ticket prints the order with rubber stamps, island producers are labelled on the burger, and the menu, delivery and click-and-collect links, opening hours and map sit over the film. English, Spanish and French. Cinder is not a real restaurant and not client work.",
+      "link": "cinder-rouge.vercel.app →",
+      "slug": "cinder",
+      "href": "https://cinder-rouge.vercel.app",
       "featured": false
     }
   ],

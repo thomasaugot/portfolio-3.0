@@ -18,6 +18,7 @@ const SLUGS = [
   "charpente-menuiserie-durand",
   "phoenix-on-the-beach",
   "halden",
+  "cinder",
 ] as const
 
 interface Props {

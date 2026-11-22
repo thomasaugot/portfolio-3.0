@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef } from "react"
-import { BrowserFrame } from "@/components/ui/DeviceMockup"
+import { BrowserFrame, PhoneFrame } from "@/components/ui/DeviceMockup"
 import { useMotionPreference } from "@/hooks/useMotionPreference"
 import type { Project } from "@/types/project"
 
@@ -11,29 +11,32 @@ interface Props {
 }
 
 /**
- * Video variant of the project mockup: the browser frame plays a muted loop of
- * the site instead of swapping screenshots. Used for work whose point is
- * motion. With reduced motion the loop stays on its poster frame.
+ * Video variant of the project mockup: the browser frame (and, when there is one, a phone frame
+ * over it) plays a muted recording of the live site being scrolled instead of swapping
+ * screenshots. Used for work whose point is motion. With reduced motion both stay on their poster.
  */
 export function VideoMockup({ project, priority = false }: Props) {
-  const ref = useRef<HTMLVideoElement>(null)
+  const desktop = useRef<HTMLVideoElement>(null)
+  const phone = useRef<HTMLVideoElement>(null)
   const { preference } = useMotionPreference()
   const reduced = preference === "reduced"
+  const mobile = project.video.mobile
 
   useEffect(() => {
-    const v = ref.current
-    if (!v) return
+    const vids = [desktop.current, phone.current].filter((v): v is HTMLVideoElement => !!v)
+    if (!vids.length) return
     if (reduced) {
-      v.pause()
-      v.currentTime = 0
+      vids.forEach((v) => {
+        v.pause()
+        v.currentTime = 0
+      })
       return
     }
-    // play only while visible; a 38 s loop has no business decoding off screen
+    // play only while visible; long loops have no business decoding off screen
     const io = new IntersectionObserver(([e]) => {
-      if (e.isIntersecting) void v.play().catch(() => undefined)
-      else v.pause()
+      vids.forEach((v) => (e.isIntersecting ? void v.play().catch(() => undefined) : v.pause()))
     })
-    io.observe(v)
+    io.observe(vids[0])
     return () => io.disconnect()
   }, [reduced])
 
@@ -42,7 +45,7 @@ export function VideoMockup({ project, priority = false }: Props) {
       <div className="relative w-[78%] shrink-0 max-[900px]:w-full">
         <BrowserFrame domain={project.domain}>
           <video
-            ref={ref}
+            ref={desktop}
             src={project.video.src}
             poster={project.video.poster}
             muted
@@ -53,6 +56,21 @@ export function VideoMockup({ project, priority = false }: Props) {
             className="absolute inset-0 h-full w-full object-cover"
           />
         </BrowserFrame>
+        {mobile && (
+          <PhoneFrame className="absolute right-2 -bottom-2 w-[24%] sm:right-4 sm:bottom-6 sm:w-[20%] z-[2]">
+            <video
+              ref={phone}
+              src={mobile.src}
+              poster={mobile.poster}
+              muted
+              loop
+              playsInline
+              preload={priority ? "auto" : "metadata"}
+              aria-hidden="true"
+              className="absolute inset-0 h-full w-full object-cover object-top"
+            />
+          </PhoneFrame>
+        )}
       </div>
     </div>
   )

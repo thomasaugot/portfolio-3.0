@@ -282,7 +282,7 @@
   },
   "work": [
     {
-      "n": "W/01",
+      "n": "W/03",
       "client": "Materia Prima",
       "tag": "Revista editorial + CMS headless",
       "type": "Full-stack · CMS",
@@ -296,7 +296,7 @@
       "featured": true
     },
     {
-      "n": "W/02",
+      "n": "W/04",
       "client": "Gran Canaria Frontón King",
       "tag": "Web del Campeonato + PWA del evento en directo",
       "type": "Full-stack · PWA",
@@ -311,7 +311,7 @@
       "featured": true
     },
     {
-      "n": "W/03",
+      "n": "W/05",
       "client": "Bea Miranda",
       "tag": "Sitio editorial para periodista gastronómica",
       "type": "Marketing site · Editorial",
@@ -324,7 +324,7 @@
       "href": "https://beamiranda.es"
     },
     {
-      "n": "W/04",
+      "n": "W/05",
       "client": "Binter Canarias",
       "tag": "Plataforma de operaciones de campo",
       "type": "Full-stack · PWA",
@@ -337,7 +337,7 @@
       "featured": false
     },
     {
-      "n": "W/05",
+      "n": "W/06",
       "client": "Dos × Dos Grupo Imagen",
       "tag": "Sitio corporativo 2.0 + Panel de administración",
       "type": "Full-stack · CMS",
@@ -351,7 +351,7 @@
       "featured": false
     },
     {
-      "n": "W/06",
+      "n": "W/07",
       "client": "Dos × Dos Grupo Imagen",
       "tag": "Montadores App: app nativa para técnicos de campo",
       "type": "React Native · iOS & Android",
@@ -364,7 +364,7 @@
       "featured": true
     },
     {
-      "n": "W/07",
+      "n": "W/08",
       "client": "Energía Solar Canarias",
       "tag": "CRM de monitorización de plantas solares",
       "type": "Plataforma full-stack · Móvil",
@@ -377,7 +377,7 @@
       "href": "https://app.energiasolarcanarias.com/"
     },
     {
-      "n": "W/08",
+      "n": "W/09",
       "client": "Galaga Agency",
       "tag": "Sitio Galaga Agency 2.0",
       "type": "Sitio de marketing · Three.js",
@@ -390,7 +390,7 @@
       "href": "https://galagaagency.com/"
     },
     {
-      "n": "W/09",
+      "n": "W/10",
       "client": "Galaga Agency",
       "tag": "Reloj Laboral: sistema digital de registro horario",
       "type": "Plataforma de software full-stack",
@@ -402,7 +402,7 @@
       "slug": "reloj-laboral-galaga"
     },
     {
-      "n": "W/10",
+      "n": "W/11",
       "client": "ARECO España",
       "tag": "ARECO: sitio para el mercado español",
       "type": "Sitio de marketing · Sanity CMS",
@@ -415,7 +415,7 @@
       "href": "https://areco-nextjs.galagaagency.com"
     },
     {
-      "n": "W/11",
+      "n": "W/12",
       "client": "Charpente Menuiserie Durand",
       "tag": "Sitio web para empresa de carpintería",
       "type": "Sitio de marketing · SEO",
@@ -428,7 +428,7 @@
       "href": "https://cmdurand-2-0.vercel.app/"
     },
     {
-      "n": "W/12",
+      "n": "W/13",
       "client": "Phoenix on the Beach",
       "tag": "Sitio web para competición de CrossFit",
       "type": "Full-stack · CMS · Tiempo real",
@@ -442,7 +442,7 @@
       "featured": false
     },
     {
-      "n": "W/13",
+      "n": "W/02",
       "client": "Halden",
       "tag": "Concepto · Sitio 3D con scroll",
       "type": "Concepto · Sitio 3D con scroll",
@@ -453,6 +453,20 @@
       "link": "halden-opal.vercel.app →",
       "slug": "halden",
       "href": "https://halden-opal.vercel.app",
+      "featured": false
+    },
+    {
+      "n": "W/01",
+      "client": "Cinder",
+      "tag": "Concepto · Web de restaurante con scroll",
+      "type": "Concepto · Web de restaurante",
+      "year": "2026",
+      "role": "Diseño + Front-end",
+      "stack": "Vite · React 19 · TypeScript · Tailwind CSS 4 · GSAP ScrollTrigger · Lenis · Gemini Omni · Vitest",
+      "body": "Proyecto conceptual para un restaurante ficticio de smash burgers en Corralejo, Fuerteventura, planteado como una web que un dueño real podría usar y que funciona sobre una sola película. Cinco clips de 1080p generados con IA en Gemini Omni y encadenados (el smash en la plancha, el montaje, las capas que se separan, el corte, el pase) se reproducen como secuencias de imágenes detrás del contenido mientras se hace scroll. Las letras de CINDER se abren hacia el vídeo, un ticket de cocina imprime la comanda con sellos de tinta, los productores de la isla aparecen etiquetados sobre la hamburguesa, y la carta, los enlaces de delivery y recogida, el horario y el mapa van por encima de la película. En inglés, español y francés. Cinder no es un restaurante real ni un trabajo para un cliente.",
+      "link": "cinder-rouge.vercel.app →",
+      "slug": "cinder",
+      "href": "https://cinder-rouge.vercel.app",
       "featured": false
     }
   ],

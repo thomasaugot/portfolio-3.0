@@ -22,6 +22,8 @@ export interface Project {
   video?: {
     src: string
     poster: string
+    /** the same scroll recorded on a phone, played in a phone frame over the browser */
+    mobile?: { src: string; poster: string }
     /** what the loop shows, for screen readers */
     label: string
   }

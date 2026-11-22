@@ -16,6 +16,7 @@ const WORK_SLUGS = [
   "charpente-menuiserie-durand",
   "phoenix-on-the-beach",
   "halden",
+  "cinder",
 ]
 
 function alternates(path: string) {
