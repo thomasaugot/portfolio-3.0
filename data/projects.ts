@@ -351,4 +351,38 @@ export const PROJECTS: Project[] = [
       ],
     },
   },
+  {
+    n: "W/13",
+    slug: "halden",
+    client: "Halden",
+    tag: "Concept · Scroll-driven 3D Site",
+    type: "Concept · 3D scroll site",
+    year: "2026",
+    cover: "/assets/images/portfolio/halden/desktop/desktop-1.webp",
+    mobileCover: "/assets/images/portfolio/halden/mobile/mobile-1.webp",
+    domain: "halden-opal.vercel.app",
+    kind: "web",
+    href: "https://halden-opal.vercel.app",
+    video: {
+      src: "/assets/videos/halden-flight.mp4",
+      poster: "/assets/videos/halden-flight-poster.jpg",
+      label: "Halden in motion: down the cabin aisle, out through the window, alongside the jet above the clouds, then back inside through the club suite, dining room and stateroom",
+    },
+    gallery: {
+      desktop: [
+        "/assets/images/portfolio/halden/desktop/desktop-1.webp",
+        "/assets/images/portfolio/halden/desktop/desktop-2.webp",
+        "/assets/images/portfolio/halden/desktop/desktop-3.webp",
+        "/assets/images/portfolio/halden/desktop/desktop-4.webp",
+        "/assets/images/portfolio/halden/desktop/desktop-5.webp",
+        "/assets/images/portfolio/halden/desktop/desktop-6.webp",
+      ],
+      mobile: [
+        "/assets/images/portfolio/halden/mobile/mobile-1.webp",
+        "/assets/images/portfolio/halden/mobile/mobile-2.webp",
+        "/assets/images/portfolio/halden/mobile/mobile-3.webp",
+        "/assets/images/portfolio/halden/mobile/mobile-4.webp",
+      ],
+    },
+  },
 ]

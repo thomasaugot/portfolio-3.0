@@ -5,6 +5,7 @@ import { useTranslations, useLocale } from "next-intl"
 import { usePageReady } from "@/hooks/usePageReady"
 import { PROJECTS } from "@/data/projects"
 import { MockupCarousel } from "@/components/ui/MockupCarousel"
+import { VideoMockup } from "@/components/ui/VideoMockup"
 import { ParticleHeading } from "@/components/ui/ParticleHeading"
 import { TransitionLink } from "@/components/ui/TransitionLink"
 import { TechTag } from "@/components/ui/TechTag"
@@ -82,7 +83,8 @@ export function WorkCaseStudy({ slug }: { slug: string }) {
   const next = PROJECTS[projectIdx + 1]
 
   const images = project.kind === "mobile" ? gallery.mobile : gallery.desktop
-  const canNav = images.length > 1
+  // a video project shows one loop, so there is nothing to page through
+  const canNav = !project.video && images.length > 1
 
   return (
     <>
@@ -95,7 +97,11 @@ export function WorkCaseStudy({ slug }: { slug: string }) {
         <div className="relative w-full h-full bg-surface-2 px-10 pt-8 pb-24">
           <div className="absolute inset-0 pointer-events-none z-10 bg-[repeating-linear-gradient(45deg,rgba(212,255,58,0.007)_0_12px,transparent_12px_24px)]" />
 
-          <MockupCarousel project={project} index={imgIdx} priority />
+          {project.video ? (
+            <VideoMockup project={{ ...project, video: project.video }} priority />
+          ) : (
+            <MockupCarousel project={project} index={imgIdx} priority />
+          )}
 
           {canNav && (
             <div className="absolute bottom-0 left-0 right-0 z-30 flex items-center justify-center pb-6">
@@ -170,7 +176,11 @@ export function WorkCaseStudy({ slug }: { slug: string }) {
           <div className="hidden max-[900px]:block relative bg-surface-2">
             <div className="absolute inset-0 pointer-events-none bg-[repeating-linear-gradient(45deg,rgba(212,255,58,0.007)_0_12px,transparent_12px_24px)]" />
             <div className={project.kind === "mobile" ? "relative aspect-3/4" : "relative aspect-4/3"}>
-              <MockupCarousel project={project} index={imgIdx} />
+              {project.video ? (
+                <VideoMockup project={{ ...project, video: project.video }} />
+              ) : (
+                <MockupCarousel project={project} index={imgIdx} />
+              )}
             </div>
 
             {canNav && (

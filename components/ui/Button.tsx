@@ -15,7 +15,8 @@ const BASE = [
 
 const VARIANTS: Record<ButtonVariant, string> = {
   filled: [
-    "bg-primary text-black border-primary font-medium",
+    // btn-filled (styles/base.css) wins over BASE's bg-transparent, which bg-primary alone does not
+    "btn-filled bg-primary text-black border-primary font-medium",
     "hover:bg-text hover:border-text",
     "after:content-[''] after:absolute after:inset-0",
     "after:bg-[linear-gradient(120deg,transparent_30%,rgba(255,255,255,0.6)_50%,transparent_70%)]",

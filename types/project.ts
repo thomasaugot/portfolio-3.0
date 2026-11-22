@@ -18,4 +18,11 @@ export interface Project {
     desktop: string[]
     mobile: string[]
   }
+  /** Motion work: the case study plays this loop in the browser frame instead of the gallery */
+  video?: {
+    src: string
+    poster: string
+    /** what the loop shows, for screen readers */
+    label: string
+  }
 }

@@ -1,0 +1,147 @@
+---
+title: "Comment j'ai transformé de la vidéo IA en un scroll continu"
+description: "J'ai vu un reel d'un site à scroll 3D pour une compagnie d'aviation et je me suis dit : ça, je peux le faire. Ma première version faisait cheap. Voici ce que j'ai dû jeter pour que ça marche."
+date: "2026-11-22"
+tags: ["gsap","threejs","ai-video","scroll-animation"]
+cover: "/assets/images/portfolio/halden/desktop/desktop-1.webp"
+---
+
+_Ce que j'ai appris en construisant un site piloté par le scroll qui t'emmène de la cabine d'un jet jusqu'aux nuages et retour, sans que ça fasse cheap_
+
+![Hero de Halden : l'intérieur de la cabine d'un jet privé avec le titre au-dessus du hublot](/assets/images/portfolio/halden/desktop/desktop-1.webp)
+
+Voici la situation : un soir, je scrollais des reels et je suis tombé sur un de ces "client : je ne veux pas d'un site basique, moi : ça te va ?". Un site d'aviation privée. Tu scrolles et tu entres dans la cabine, tu sors par le hublot, tu tournes autour du jet, un globe avec des routes, tout le package.
+
+Ma première réaction a été "ça, je peux le faire". Ma deuxième réaction, environ deux heures plus tard, a été "ok, peut-être pas comme ça".
+
+Alors j'ai construit Halden, une compagnie de jets privés fictive basée à Genève, juste pour prouver le truc. Tu peux le scroller en live ici : [halden-opal.vercel.app](https://halden-opal.vercel.app). Cet article parle des trois choses que j'ai ratées en chemin, parce que franchement, c'est là que se trouve la partie utile.
+
+### Tentative 1 : construire le jet en code
+
+Je suis développeur, donc évidemment ma première idée a été de tout construire moi-même.
+
+J'ai écrit un script Python pour Blender qui génère l'avion entier : un fuselage en loft, de vrais profils d'aile, un empennage en T, des moteurs arrière, des winglets, et même un intérieur de cabine avec des sièges, une table et un lit. Ensuite je l'ai exporté en GLB, chargé dans three.js, peint une livrée sur une texture canvas et ajouté une coupe qui retire le toit pendant le scroll pour qu'on voie les pièces à l'intérieur.
+
+Techniquement, j'étais plutôt fier de moi.
+
+**Problème :** à côté de n'importe quoi de photoréaliste, ça avait l'air d'un jouet. La peinture faisait plastique, les nuages faisaient brouillard, et dès que j'ai mis une vraie vidéo dans le hero, le jet 3D en dessous paraissait encore pire en comparaison. Le polir n'a rien changé. Une livrée, des lignes de panneaux et des reflets de ciel l'ont amélioré, mais ça ne convainquait toujours pas.
+
+Voilà la vraie leçon de ce projet : **si une partie de la page est photoréaliste, tout ce qu'il y a à côté doit l'être aussi.** Tu ne peux pas mélanger les deux en espérant que personne ne remarque. Tout le monde remarque.
+
+### La solution : tout ce qui doit avoir l'air réel passe en footage
+
+Alors j'ai inversé. Tout ce qui touche à l'avion est devenu de la vidéo, et je n'ai gardé du WebGL en live que pour les parties où des graphismes nets valent mieux que du réalisme (plus sur le globe plus loin).
+
+Je n'avais ni équipe de tournage ni jet sous la main, donc le footage est généré avec Gemini Omni de Google. Petit détour : j'étais sûr d'avoir besoin de Veo pour la vidéo, mais ma clé n'y avait pas accès. Omni est disponible, il ne passe simplement pas par l'endpoint habituel `generateContent`, seulement par l'Interactions API.
+
+L'astuce qui fait tout marcher, c'est le **chaînage**. Chaque clip démarre exactement sur la dernière frame du précédent. Je récupère cette frame avec ffmpeg :
+
+```bash
+ffmpeg -sseof -0.1 -i c2-flyby.mp4 -frames:v 1 -q:v 2 c2-flyby-last.jpg
+```
+
+Et je l'envoie comme première entrée de la requête suivante :
+
+```python
+body = {
+    "model": "gemini-omni-1.2-flash",
+    "input": [
+        {"type": "image", "data": last_frame_b64, "mime_type": "image/jpeg"},
+        {"type": "text", "text": "Use the image as the exact first frame. "
+                                 "The camera arcs around the jet from its side profile "
+                                 "to a front three-quarter view..."},
+    ],
+    "response_format": {
+        "type": "video",
+        "aspect_ratio": "16:9",
+        "resolution": "1080p",  # par défaut c'est du 720p, qui paraît flou en plein écran
+        "duration": "8s",
+    },
+}
+# POST https://generativelanguage.googleapis.com/v1beta/interactions
+```
+
+Six clips chaînés comme ça te donnent la cabine, le hublot, le flyby, l'orbite autour de l'appareil, le retour à l'intérieur par la cabine, puis la montée vers l'obscurité. Comme chacun reprend exactement là où le précédent s'est arrêté, ça se lit comme **un seul mouvement de caméra continu**. C'est ça, la sensation "3D" de ces sites... la plupart du temps, ce n'est même pas de la 3D :)
+
+Deux choses qui m'ont coûté du temps :
+
+-   **Demande du 1080p.** J'ai livré la première version avec les 720p par défaut et c'était flou sur un grand écran. La doc le mentionne, mais c'est très facile à rater.
+-   **Tu vas te faire rate limiter.** Un HTTP 429 arrive au milieu d'une chaîne, donc le script réessaie avec une pause au lieu de mourir au clip quatre.
+
+![Section flyby de Halden : le jet qui vole à côté de la caméra au-dessus des nuages](/assets/images/portfolio/halden/desktop/desktop-4.webp)
+
+### Tentative 2 : piloter la vidéo avec le scroll
+
+J'avais le footage. La façon évidente de le lier au scroll :
+
+```ts
+// Ne fais pas ça : ça saccade
+ScrollTrigger.create({
+  trigger: section,
+  scrub: true,
+  onUpdate: (self) => {
+    video.currentTime = self.progress * video.duration
+  },
+})
+```
+
+**Problème :** c'était saccadé. Même avec une keyframe sur chaque frame, faire des seeks dans une vidéo compressée des dizaines de fois par seconde, ce n'est pas ce pour quoi le navigateur est fait. Sur un scroll rapide, ça traîne, puis ça saute.
+
+### La solution : des séquences de frames sur un canvas
+
+C'est ce que font vraiment les gros sites d'agences. Tu exportes les clips en images (15 fps, JPEG de 1600 px de large) et tu les dessines toi-même sur un canvas. Ensuite, deux petits détails donnent un rendu haut de gamme :
+
+1.  **La tête de lecture ne saute jamais à la position du scroll.** Elle s'en rapproche en douceur à chaque animation frame, donc un coup de molette devient un glissement fluide.
+2.  **Les deux frames voisines sont mélangées** selon la position fractionnaire, de sorte qu'un footage à 15 fps se lit quand même comme un mouvement fluide.
+
+```ts
+private loop = () => {
+  const step = () => {
+    this.current += (this.target - this.current) * 0.14 // se rapprocher en douceur du scroll
+    const pos = this.current * (this.frames.length - 1)
+    const i = Math.floor(pos)
+    this.draw(this.frames[i], 1)
+    if (pos - i > 0.01) this.draw(this.frames[i + 1], pos - i) // mélanger la frame suivante
+    if (this.current !== this.target) requestAnimationFrame(step)
+  }
+  requestAnimationFrame(step)
+}
+```
+
+Je charge aussi les frames du grossier au fin : une sur 16 d'abord, puis une sur 8, et ainsi de suite. Comme ça, toute la timeline est scrubbable au bout de quelques secondes et elle devient juste plus nette au fur et à mesure que le reste arrive.
+
+Un piège dans lequel je suis tombé plus tard : ce mélange ne marche que parce que les frames voisines sont séparées de 1/15e de seconde. Quand j'ai réutilisé le même moteur sur mon portfolio avec des captures d'écran prises très loin les unes des autres, le mélange est devenu une horrible double exposition. Même code, autre entrée, résultat complètement différent. Je l'ai donc désactivé là-bas et j'affiche une seule frame propre à la fois.
+
+### Tentative 3 : les téléphones (ou où est passé mon avion ?)
+
+Tout était superbe sur mon laptop. Puis je l'ai ouvert sur mon téléphone et le jet avait disparu. Littéralement.
+
+**Problème :** le footage est en 16:9, le téléphone est quasiment en 9:16. Si tu recadres la vidéo pour couvrir l'écran, tu gardes environ un tiers de la largeur, et le nez et la queue de l'avion disparaissent tout simplement.
+
+La vraie solution, c'est une version verticale du film, que le même pipeline peut générer. En attendant, sur les écrans en hauteur, je dessine la frame entière sur toute la largeur et je remplis l'espace au-dessus et en dessous avec une copie floutée et assombrie de la même frame. La façon pas chère de la flouter : réduire la frame à 32 px de large et la remettre à l'échelle.
+
+### Le globe reste en live
+
+Tout ne doit pas être de la vidéo. La section des routes est une vraie scène three.js : des points de terre échantillonnés depuis une texture, des arcs de route en tubes avec un petit shader qui les dessine, et un tableau de départs split-flap à côté. Des graphismes comme ça restent parfaitement nets en temps réel, et ils réagissent au scroll d'une façon qu'une vidéo ne pourra jamais.
+
+![Section routes de Halden : un globe en points avec des arcs de route depuis Genève et un tableau de départs split-flap](/assets/images/portfolio/halden/desktop/desktop-5.webp)
+
+La règle que j'en ai tirée est donc simple : **du footage pour le réalisme, du WebGL pour les graphismes.**
+
+### Ce qu'il faut retenir
+
+-   Ne mélange pas de la 3D photoréaliste et de la 3D construite en code dans la même vue. La partie en code va perdre.
+-   Chaîne tes clips IA par leur dernière frame et tu obtiens un plan continu gratuitement.
+-   Demande du 1080p, la valeur par défaut ne suffit pas.
+-   Ne scrube pas un MP4. Dessine des séquences de frames sur un canvas, adoucis la tête de lecture et mélange les frames voisines.
+-   Teste sur un téléphone tôt, un footage en 16:9 va recadrer ton sujet hors de l'écran.
+
+Et pour être clair : le footage et les photos sont générés avec Gemini, et Halden n'est pas une vraie entreprise. C'est un concept que j'ai construit pour montrer ce que ce genre de site peut faire, et tu peux aussi le scroller sur ma page d'accueil.
+
+_Tu as construit quelque chose de similaire ou tu ferais autrement ? Écris-moi :)_
+
+[https://www.helloimtom.dev/](https://www.helloimtom.dev/fr)
+
+**GitHub :** [https://github.com/thomasaugot](https://github.com/thomasaugot)
+
+**LinkedIn :** [https://www.linkedin.com/in/thomas-augot/](https://www.linkedin.com/in/thomas-augot/)

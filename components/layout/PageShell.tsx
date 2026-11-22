@@ -25,6 +25,9 @@ export function PageShell({ children }: { children: React.ReactNode }) {
   useIsomorphicLayoutEffect(() => {
     if (!ref.current || isFirstRender.current) return
     const el = ref.current
+    // the compositing hint lives only for the transition: a permanent will-change: transform
+    // makes <main> the containing block for every position: fixed descendant (ScrollTrigger pins)
+    el.style.willChange = "opacity, transform, filter"
     el.style.opacity = "0"
     el.style.transform = "scale(1.04) translateZ(0)"
     el.style.filter = "blur(12px)"
@@ -41,6 +44,7 @@ export function PageShell({ children }: { children: React.ReactNode }) {
     const start = () => {
       void enterPage(el).then(() => {
         if (cancelled) return
+        el.style.willChange = ""
         isFirstRender.current = false
         resetTransition()
         ScrollTrigger.refresh()
@@ -68,10 +72,7 @@ export function PageShell({ children }: { children: React.ReactNode }) {
       id="main-content"
       tabIndex={-1}
       className="flex-1"
-      style={{
-        willChange: "opacity, transform, filter",
-        backfaceVisibility: "hidden",
-      }}
+      style={{ backfaceVisibility: "hidden" }}
     >
       {children}
     </main>

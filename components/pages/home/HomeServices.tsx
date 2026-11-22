@@ -11,6 +11,8 @@ interface Service {
   t: string
   d: string
   tags: string[]
+  /** in-page anchor for a service with its own section, e.g. #showcase */
+  href?: string
 }
 
 export function HomeServices() {
@@ -45,7 +47,15 @@ export function HomeServices() {
                   <span>{svc.n}</span>
                   <span className="arrow-icon"><IconArrowOut size={14} /></span>
                 </div>
-                <h3 className="font-display text-[28px] font-semibold tracking-[-0.02em] mb-3.5 text-text">{svc.t}</h3>
+                <h3 className="font-display text-[28px] font-semibold tracking-[-0.02em] mb-3.5 text-text">
+                  {svc.href ? (
+                    <a href={svc.href} className="keyboard-focus-ring after:absolute after:inset-0 after:content-['']">
+                      {svc.t}
+                    </a>
+                  ) : (
+                    svc.t
+                  )}
+                </h3>
                 <p className="text-text-muted mb-6 flex-1 max-w-110 text-[16px] leading-[1.6]">{svc.d}</p>
                 <div className="flex flex-wrap gap-2 pb-1 pr-1">
                   {svc.tags.map((tag) => (

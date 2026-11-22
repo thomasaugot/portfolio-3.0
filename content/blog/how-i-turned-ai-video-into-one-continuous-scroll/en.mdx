@@ -1,0 +1,147 @@
+---
+title: "How I Turned AI Video into One Continuous Scroll"
+description: "I saw a reel of a 3D scroll website for an aviation company and thought: I can build that. My first version looked cheap. Here is what I had to throw away to get it right."
+date: "2026-11-22"
+tags: ["gsap","threejs","ai-video","scroll-animation"]
+cover: "/assets/images/portfolio/halden/desktop/desktop-1.webp"
+---
+
+_What I learned building a scroll-driven site that flies you from a jet cabin to the clouds and back, without it looking cheap_
+
+![Halden hero: the inside of a private jet cabin with the headline over the window](/assets/images/portfolio/halden/desktop/desktop-1.webp)
+
+Here is the situation: I was scrolling through reels one evening and landed on one of those "client: I don't want a basic website, me: how's this?" videos. A private aviation site. You scroll and you fly into the cabin, out of the window, around the jet, a globe with routes, the whole thing.
+
+My first reaction was "I can build that". My second reaction, about two hours later, was "ok, maybe not like that".
+
+So I built Halden, a fictional private jet company based in Geneva, just to prove the point. You can scroll it live here: [halden-opal.vercel.app](https://halden-opal.vercel.app). This article is about the three things I got wrong on the way, because honestly that's where the useful part is.
+
+### Attempt 1: Build the Jet in Code
+
+I am a developer, so obviously my first idea was to build everything myself.
+
+I wrote a Python script for Blender that generates the whole aircraft: a lofted fuselage, real airfoil sections for the wings, T-tail, rear engines, winglets, even a cabin interior with seats, a dining table and a bed. Then I exported it to GLB, loaded it in three.js, painted a livery on a canvas texture and added a cutaway that removes the roof as you scroll so you can see the rooms inside.
+
+Technically, I was pretty proud of it.
+
+**Problem:** next to anything photoreal, it looked like a toy. The paint looked like plastic, the clouds looked like fog, and the moment I put a real video in the hero, the 3D jet underneath looked even worse by comparison. Polishing it didn't help. A livery, panel lines and sky reflections made it better, but still not convincing.
+
+That was the real lesson of this project: **if one part of the page is photoreal, everything next to it has to be too.** You can't mix the two and hope nobody notices. Everybody notices.
+
+### The Fix: Make Everything That Has to Look Real Out of Footage
+
+So I flipped it. Everything aircraft-related became video, and I kept live WebGL only for the parts where crisp graphics are better than realism (more on the globe later).
+
+I didn't have a film crew and a jet lying around, so the footage is generated with Google's Gemini Omni. Small detour here: I was sure I needed Veo for video, but my key didn't have access to it. Omni is available, it just doesn't go through the usual `generateContent` endpoint, only through the Interactions API.
+
+The trick that makes the whole thing work is **chaining**. Every clip starts on the exact last frame of the previous one. I grab that frame with ffmpeg:
+
+```bash
+ffmpeg -sseof -0.1 -i c2-flyby.mp4 -frames:v 1 -q:v 2 c2-flyby-last.jpg
+```
+
+And send it as the first input of the next request:
+
+```python
+body = {
+    "model": "gemini-omni-1.2-flash",
+    "input": [
+        {"type": "image", "data": last_frame_b64, "mime_type": "image/jpeg"},
+        {"type": "text", "text": "Use the image as the exact first frame. "
+                                 "The camera arcs around the jet from its side profile "
+                                 "to a front three-quarter view..."},
+    ],
+    "response_format": {
+        "type": "video",
+        "aspect_ratio": "16:9",
+        "resolution": "1080p",  # the default is 720p, which looks soft full screen
+        "duration": "8s",
+    },
+}
+# POST https://generativelanguage.googleapis.com/v1beta/interactions
+```
+
+Six clips chained like this give you cabin, window, flyby, orbit around the aircraft, back inside through the cabin, then the climb into the dark. Because each one picks up exactly where the last one stopped, it reads as **one continuous camera move**. That is the "3D" feeling people get from these sites... most of the time it's not 3D at all :)
+
+Two things that cost me time:
+
+-   **Ask for 1080p.** I shipped the first version at the default 720p and it looked blurry on a big screen. The docs mention it, but it's very easy to miss.
+-   **You will get rate limited.** HTTP 429 shows up in the middle of a chain, so the script retries with a pause instead of dying at clip four.
+
+![Halden flyby section: the jet flying alongside the camera above the clouds](/assets/images/portfolio/halden/desktop/desktop-4.webp)
+
+### Attempt 2: Scrub the Video With the Scroll
+
+Now I had the footage. The obvious way to tie it to the scroll:
+
+```ts
+// Don't do this: it stutters
+ScrollTrigger.create({
+  trigger: section,
+  scrub: true,
+  onUpdate: (self) => {
+    video.currentTime = self.progress * video.duration
+  },
+})
+```
+
+**Problem:** it was jerky. Even with a keyframe on every frame, seeking a compressed video dozens of times per second is not what the browser is built for. On a fast scroll it lags, then jumps.
+
+### The Fix: Frame Sequences on a Canvas
+
+This is what the big agency sites actually do. Export the clips as images (15 fps, 1600 px wide JPEGs), and draw them on a canvas yourself. Then two small details make it feel expensive:
+
+1.  **The playhead never jumps to the scroll position.** It eases toward it on every animation frame, so a flick of the mouse wheel becomes a glide.
+2.  **The two neighbouring frames are blended** by the fractional position, so 15 fps footage still reads as smooth motion.
+
+```ts
+private loop = () => {
+  const step = () => {
+    this.current += (this.target - this.current) * 0.14 // ease toward the scroll
+    const pos = this.current * (this.frames.length - 1)
+    const i = Math.floor(pos)
+    this.draw(this.frames[i], 1)
+    if (pos - i > 0.01) this.draw(this.frames[i + 1], pos - i) // blend the next frame
+    if (this.current !== this.target) requestAnimationFrame(step)
+  }
+  requestAnimationFrame(step)
+}
+```
+
+I also load the frames coarse to fine: every 16th frame first, then every 8th, and so on. That way the whole timeline can be scrubbed after a couple of seconds and it just gets sharper as the rest arrives.
+
+One trap I fell into later: that blending only works because neighbouring frames are 1/15th of a second apart. When I reused the same engine on my portfolio with screenshots taken far apart, the blend turned into a horrible double exposure. Same code, different input, completely different result. So I switched it off there and show one clean frame at a time.
+
+### Attempt 3: Phones (a.k.a. Where Is My Aircraft?)
+
+Everything looked great on my laptop. Then I opened it on my phone and the jet was gone. Literally.
+
+**Problem:** the footage is 16:9, the phone is basically 9:16. If you crop the video to cover the screen, you keep about a third of the width, so the nose and the tail of the aircraft just disappear.
+
+The proper fix is a vertical cut of the film, which the same pipeline can generate. In the meantime, on tall screens I draw the whole frame across the width and fill the space above and below with a blurred, darkened copy of the same frame. The cheap way to blur it: shrink the frame to 32 px wide and scale it back up.
+
+### The Globe Stays Live
+
+Not everything should be video. The routes section is a real three.js scene: land points sampled from a texture, route arcs as tubes with a little shader that draws them in, and a split-flap departure board next to it. Graphics like that stay perfectly sharp in real time, and they react to the scroll in a way a video never could.
+
+![Halden routes section: a dotted globe with route arcs from Geneva and a split-flap departure board](/assets/images/portfolio/halden/desktop/desktop-5.webp)
+
+So the rule I ended up with is simple: **footage for realism, WebGL for graphics.**
+
+### Key Takeaways
+
+-   Don't mix photoreal and code-built 3D in the same view. The code-built part will lose.
+-   Chain your AI clips through their last frame and you get one continuous shot for free.
+-   Ask for 1080p, the default is not enough.
+-   Don't scrub an MP4. Draw frame sequences on a canvas, ease the playhead and blend neighbouring frames.
+-   Test on a phone early, 16:9 footage will crop your subject away.
+
+Also, to be clear: the footage and photos are generated with Gemini, and Halden is not a real company. It's a concept I built to show what this kind of site can do, and you can scroll it on my homepage too.
+
+_Did you build something similar or would you do it differently? Please reach out :)_
+
+[https://www.helloimtom.dev/](https://www.helloimtom.dev/en)
+
+**GitHub:** [https://github.com/thomasaugot](https://github.com/thomasaugot)
+
+**LinkedIn:** [https://www.linkedin.com/in/thomas-augot/](https://www.linkedin.com/in/thomas-augot/)

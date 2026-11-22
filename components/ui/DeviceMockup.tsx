@@ -1,6 +1,7 @@
 "use client"
 
 import Image from "next/image"
+import type { ReactNode } from "react"
 
 // ─── Shared shell constants ───────────────────────────────────────────────────
 const SHELL    = "bg-[#0d0d0d] [border:1.5px_solid_#2d2d2d] rounded-[14px] overflow-hidden shadow-[0_16px_48px_rgba(0,0,0,0.85),inset_0_1px_0_rgba(255,255,255,0.06)]"
@@ -40,8 +41,12 @@ export function PhoneFrame({
 // ─── BrowserFrame ─────────────────────────────────────────────────────────────
 
 type BrowserFrameProps = {
-  src: string
-  alt: string
+  src?: string
+  alt?: string
+  /** Replaces the screenshot with live content (a canvas, a video). */
+  children?: ReactNode
+  /** Screen aspect ratio class, aspect-video by default. */
+  aspect?: string
   sizes?: string
   domain?: string
   priority?: boolean
@@ -54,7 +59,9 @@ type BrowserFrameProps = {
 
 export function BrowserFrame({
   src,
-  alt,
+  alt = "",
+  children,
+  aspect = "aspect-video",
   sizes = "50vw",
   domain,
   priority = false,
@@ -77,8 +84,10 @@ export function BrowserFrame({
             </div>
           )}
         </div>
-        <div className="relative overflow-hidden aspect-video [border-left:1.5px_solid_#2d2d2d] [border-right:1.5px_solid_#2d2d2d] bg-black">
-          <Image key={src} src={src} alt={alt} width={1920} height={1080} className="img-fade absolute top-0 left-0 w-full h-auto" sizes={sizes} priority={priority} onLoad={(e) => e.currentTarget.classList.add("is-loaded")} />
+        <div className={`relative overflow-hidden ${aspect} [border-left:1.5px_solid_#2d2d2d] [border-right:1.5px_solid_#2d2d2d] bg-black`}>
+          {children ?? (src && (
+            <Image key={src} src={src} alt={alt} width={1920} height={1080} className="img-fade absolute top-0 left-0 w-full h-auto" sizes={sizes} priority={priority} onLoad={(e) => e.currentTarget.classList.add("is-loaded")} />
+          ))}
         </div>
         <div className="bg-[linear-gradient(180deg,#1c1c1c,#131313)] [border:1.5px_solid_#2d2d2d] [border-top:1px_solid_#0d0d0d] rounded-b-[4px]" style={{ height: "clamp(3px, 1.4cqw, 10px)" }} />
         <div className="hidden @[400px]:block w-[28%] bg-[#161616] mx-auto [border:1.5px_solid_#2d2d2d] border-t-0 rounded-b-[5px]" style={{ height: "clamp(3px, 0.7cqw, 5px)" }} />

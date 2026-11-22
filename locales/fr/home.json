@@ -21,24 +21,34 @@
   "sections": {
     "services_meta": "[ 01 / EXPERTISE ]",
     "services_title": "Ce que je sais faire.",
-    "difference_meta": "[ 02 / QUI JE SUIS ]",
+    "showcase_meta": "[ 02 / EN MOUVEMENT ]",
+    "showcase_title": "Des sites qui se regardent comme un film.",
+    "difference_meta": "[ 03 / QUI JE SUIS ]",
     "difference_title": "Quelques trucs sur moi.",
-    "process_meta": "[ 03 / MÉTHODE ]",
+    "process_meta": "[ 04 / MÉTHODE ]",
     "process_title": "De « on s'appelle ? » à la mise en ligne.",
-    "stack_meta": "[ 03 / STACK ]",
+    "stack_meta": "[ 04 / STACK ]",
     "stack_title": "Mes outils, au quotidien.",
-    "work_meta": "[ 04 / PROJETS ]",
+    "work_meta": "[ 05 / PROJETS ]",
     "work_title": "Du concret, en prod.",
-    "testimonials_meta": "[ 05 / RETOURS ]",
+    "testimonials_meta": "[ 06 / RETOURS ]",
     "testimonials_title": "Ce que disent celles et ceux avec qui j'ai bossé.",
-    "about_meta": "[ 06 / À PROPOS ]",
+    "about_meta": "[ 07 / À PROPOS ]",
     "about_title": "Codeur de métier. Nomade le reste du temps.",
-    "faq_meta": "[ 07 / FAQ ]",
+    "faq_meta": "[ 08 / FAQ ]",
     "faq_title": "Les questions qu'on me pose avant de commencer.",
-    "contact_meta": "[ 08 / CONTACT ]",
+    "contact_meta": "[ 09 / CONTACT ]",
     "contact_title": "Un projet, une question ? Écrivez-moi.",
     "difference_meta_legacy": "[ 02 / POURQUOI MOI ]",
     "difference_title_legacy": "La différence."
+  },
+  "showcase": {
+    "sub": "Des sites 3D pilotés par le scroll : une seule histoire continue qui avance au fil du scroll, avec des images de cinéma là où le réalisme fait vendre et du WebGL en direct là où les graphismes doivent rester nets. Voici Halden, un concept que j'ai construit pour montrer ce que ça donne.",
+    "caption": "Enregistré sur le site en ligne. C'est votre scroll qui le fait avancer.",
+    "cta_demo": "Tester la démo en ligne",
+    "cta_case": "Comment c'est fait",
+    "concept": "Projet concept. Halden est une compagnie fictive.",
+    "canvas_label": "Un enregistrement du site Halden au scroll : la cabine, le hublot, le jet au-dessus des nuages, les espaces de la cabine, puis la montée dans la nuit"
   },
   "services": [
     {
@@ -101,12 +111,15 @@
     },
     {
       "n": "S/06",
-      "t": "Motion & 3D",
-      "d": "GSAP, Three.js et WebGL pour la touche « wow » : animations d'entrée, séquences au scroll, scènes 3D. Pour les projets où le fonctionnel ne suffit pas.",
+      "t": "Sites 3D pilotés au scroll",
+      "d": "Des sites qui se déroulent comme un film au scroll : images de cinéma, séquences d'images, scènes Three.js et WebGL en direct. Pour les projets où le fonctionnel ne suffit pas.",
+      "href": "#showcase",
       "tags": [
         "GSAP",
         "Three.js",
-        "WebGL"
+        "WebGL",
+        "Scroll-driven",
+        "AI footage"
       ]
     },
     {
@@ -427,6 +440,20 @@
       "slug": "phoenix-on-the-beach",
       "href": "https://phoenixonthebeach2026.es",
       "featured": false
+    },
+    {
+      "n": "W/13",
+      "client": "Halden",
+      "tag": "Concept · Site 3D au scroll",
+      "type": "Concept · Site 3D au scroll",
+      "year": "2026",
+      "role": "Design + Front-end",
+      "stack": "Vite · React 19 · TypeScript · Tailwind CSS 4 · GSAP ScrollTrigger · Lenis · three.js · Gemini Omni · Gemini 3 Pro Image · Blender",
+      "body": "Projet conceptuel pour une compagnie fictive de jets privés basée à Genève, conçu pour pousser la narration pilotée par le scroll. Un seul film de vol continu (six clips 1080p générés par IA avec Gemini Omni, chacun démarrant sur la dernière image du précédent) se joue en séquence d'images JPEG sur un canvas au fil du scroll, avec un altimètre qui monte jusqu'à 15 500 m puis revient à 0. Un globe en points three.js avec arcs de routes et un tableau des départs à palettes, un formulaire de réservation, et sur mobile le plan large cadré sur un fond flouté. Halden n'est pas une vraie entreprise ni une commande client.",
+      "link": "halden-opal.vercel.app →",
+      "slug": "halden",
+      "href": "https://halden-opal.vercel.app",
+      "featured": false
     }
   ],
   "about": {
@@ -554,7 +581,7 @@
     ]
   },
   "socials": {
-    "section_meta": "[ 09 / ME TROUVER ]",
+    "section_meta": "[ 10 / ME TROUVER ]",
     "section_title": "Sur internet.",
     "items": [
       {

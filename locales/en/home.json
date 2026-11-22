@@ -21,24 +21,34 @@
   "sections": {
     "services_meta": "[ 01 / EXPERTISE ]",
     "services_title": "What I'm good at.",
-    "difference_meta": "[ 02 / WHO I AM ]",
+    "showcase_meta": "[ 02 / IN MOTION ]",
+    "showcase_title": "Websites that play like film.",
+    "difference_meta": "[ 03 / WHO I AM ]",
     "difference_title": "A few things about me.",
-    "process_meta": "[ 03 / PROCESS ]",
+    "process_meta": "[ 04 / PROCESS ]",
     "process_title": "From 'let’s talk' to live.",
-    "stack_meta": "[ 03 / STACK ]",
+    "stack_meta": "[ 04 / STACK ]",
     "stack_title": "The tools I lean on, daily.",
-    "work_meta": "[ 04 / WORK ]",
+    "work_meta": "[ 05 / WORK ]",
     "work_title": "Real stuff, in production.",
-    "testimonials_meta": "[ 05 / WORD-OF-MOUTH ]",
+    "testimonials_meta": "[ 06 / WORD-OF-MOUTH ]",
     "testimonials_title": "What the people I've shipped with say.",
-    "about_meta": "[ 06 / ABOUT ]",
+    "about_meta": "[ 07 / ABOUT ]",
     "about_title": "Coder by trade. Nomad the rest of the time.",
-    "faq_meta": "[ 07 / FAQ ]",
+    "faq_meta": "[ 08 / FAQ ]",
     "faq_title": "Things people ask before we start.",
-    "contact_meta": "[ 08 / CONTACT ]",
+    "contact_meta": "[ 09 / CONTACT ]",
     "contact_title": "A project, a question? Write to me.",
     "difference_meta_legacy": "[ 02 / WHY ME ]",
     "difference_title_legacy": "The difference."
+  },
+  "showcase": {
+    "sub": "Scroll-driven 3D sites: one continuous story that plays as people scroll, with cinematic footage where realism sells and live WebGL where graphics need to stay sharp. This is Halden, a concept I built to show how it feels.",
+    "caption": "Recorded from the live site. Your scroll is driving it.",
+    "cta_demo": "Scroll the live demo",
+    "cta_case": "How it's built",
+    "concept": "Concept project. Halden is a fictional airline.",
+    "canvas_label": "A recording of the Halden site being scrolled: the cabin, the window, the jet above the clouds, the cabin rooms, then the climb into the dark"
   },
   "services": [
     {
@@ -101,12 +111,15 @@
     },
     {
       "n": "S/06",
-      "t": "Motion & 3D interactions",
-      "d": "GSAP, Three.js and WebGL for the \"wow\" factor: entrance animations, scroll sequences, 3D scenes. For the projects where working isn't enough.",
+      "t": "3D & scroll-driven sites",
+      "d": "Sites that play like film as you scroll: cinematic footage, frame-sequence scrubbing, live Three.js and WebGL scenes. For the projects where working isn't enough.",
+      "href": "#showcase",
       "tags": [
         "GSAP",
         "Three.js",
-        "WebGL"
+        "WebGL",
+        "Scroll-driven",
+        "AI footage"
       ]
     },
     {
@@ -427,6 +440,20 @@
       "slug": "phoenix-on-the-beach",
       "href": "https://phoenixonthebeach2026.es",
       "featured": false
+    },
+    {
+      "n": "W/13",
+      "client": "Halden",
+      "tag": "Concept · Scroll-driven 3D Site",
+      "type": "Concept · 3D scroll site",
+      "year": "2026",
+      "role": "Design + Front-end",
+      "stack": "Vite · React 19 · TypeScript · Tailwind CSS 4 · GSAP ScrollTrigger · Lenis · three.js · Gemini Omni · Gemini 3 Pro Image · Blender",
+      "body": "Concept project with a fictional private-jet company based in Geneva, built to push scroll-driven storytelling. One continuous flight film (six chained AI-generated 1080p clips from Gemini Omni, each starting on the last frame of the previous one) plays as a JPEG frame sequence on a canvas as you scroll, with an altimeter that climbs to 15,500 m and back to 0. A live three.js dotted globe with route arcs and a split-flap departure board, a booking form, and mobile handled by framing the widescreen shot over a blurred fill. Halden is not a real company and not client work.",
+      "link": "halden-opal.vercel.app →",
+      "slug": "halden",
+      "href": "https://halden-opal.vercel.app",
+      "featured": false
     }
   ],
   "about": {
@@ -554,7 +581,7 @@
     ]
   },
   "socials": {
-    "section_meta": "[ 09 / FIND ME ]",
+    "section_meta": "[ 10 / FIND ME ]",
     "section_title": "On the internet.",
     "items": [
       {
