@@ -182,8 +182,10 @@ export function HeroBackdrop() {
     const canvas = canvasRef.current
     if (!canvas) return
 
-    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true })
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+    // The canvas spans 180% x 130% of the hero, so every pixel of density is
+    // expensive. Soft additive points gain nothing from MSAA or a 2x buffer.
+    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: false, powerPreference: "high-performance" })
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5))
 
     const scene = new THREE.Scene()
     const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100)
@@ -245,14 +247,12 @@ export function HeroBackdrop() {
     const ro = new ResizeObserver(resize)
     ro.observe(canvas)
 
-    const mouse = { x: 0, y: 0 }
+    const mouse = { x: 0, y: 0, cx: 0, cy: 0, dirty: false }
     const targetMouse = new THREE.Vector2()
     const onMouseMove = (e: MouseEvent) => {
-      const rect = canvas.getBoundingClientRect()
-      mouse.x =  ((e.clientX - rect.left) / rect.width)  * 2 - 1
-      mouse.y = -((e.clientY - rect.top)  / rect.height) * 2 + 1
+      mouse.cx = e.clientX; mouse.cy = e.clientY; mouse.dirty = true
     }
-    window.addEventListener("mousemove", onMouseMove)
+    window.addEventListener("mousemove", onMouseMove, { passive: true })
 
     let shapeIdx    = 0
     let morphing    = false
@@ -262,12 +262,19 @@ export function HeroBackdrop() {
     const MORPH_DUR   = 2.5
     const MORPH_PAUSE = 3.5
 
-    let rafId: number
+    let rafId: number | null = null
     let last = performance.now()
     let elapsed = 0
+    let onScreen = true
 
     const tick = (now: number) => {
       rafId = requestAnimationFrame(tick)
+      if (mouse.dirty) {
+        mouse.dirty = false
+        const rect = canvas.getBoundingClientRect()
+        mouse.x =  ((mouse.cx - rect.left) / rect.width)  * 2 - 1
+        mouse.y = -((mouse.cy - rect.top)  / rect.height) * 2 + 1
+      }
       const dt = Math.min(0.05, (now - last) / 1000); last = now
       elapsed += dt
 
@@ -301,10 +308,31 @@ export function HeroBackdrop() {
 
       renderer.render(scene, camera)
     }
-    rafId = requestAnimationFrame(tick)
+    // Render only while the hero is on screen and the tab is visible: this
+    // loop used to run at full rate for the whole visit, under every section.
+    const play = () => {
+      if (rafId !== null || !onScreen || document.hidden) return
+      last = performance.now()
+      rafId = requestAnimationFrame(tick)
+    }
+    const pause = () => {
+      if (rafId !== null) cancelAnimationFrame(rafId)
+      rafId = null
+    }
+    const io = new IntersectionObserver(([entry]) => {
+      onScreen = entry.isIntersecting
+      if (onScreen) play()
+      else pause()
+    })
+    io.observe(canvas)
+    const onVisibility = () => (document.hidden ? pause() : play())
+    document.addEventListener("visibilitychange", onVisibility)
+    play()
 
     return () => {
-      cancelAnimationFrame(rafId)
+      pause()
+      io.disconnect()
+      document.removeEventListener("visibilitychange", onVisibility)
       ro.disconnect()
       window.removeEventListener("mousemove", onMouseMove)
       geo.dispose(); mat.dispose(); renderer.dispose()

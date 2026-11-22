@@ -331,17 +331,18 @@ export function TravelGlobe({ onHover }: Props) {
       return { mesh, ring }
     })
 
+    const pinMeshes = pinObjs.map((p) => p.mesh)
+
     // Hover via raycaster
     const raycaster = new THREE.Raycaster()
     const mouse = new THREE.Vector2(-10, -10)
     let hovered: typeof PINS[0] | null = null
 
+    const pointer = { cx: 0, cy: 0, dirty: false }
     const onPointerMove = (e: PointerEvent) => {
-      const rect = canvas.getBoundingClientRect()
-      mouse.x =  ((e.clientX - rect.left) / rect.width)  * 2 - 1
-      mouse.y = -((e.clientY - rect.top)  / rect.height) * 2 + 1
+      pointer.cx = e.clientX; pointer.cy = e.clientY; pointer.dirty = true
     }
-    window.addEventListener("pointermove", onPointerMove)
+    window.addEventListener("pointermove", onPointerMove, { passive: true })
 
     // Drag to rotate
     const drag = { vx: 0, vy: 0, dragging: false, lx: 0, ly: 0, manual: false }
@@ -358,10 +359,19 @@ export function TravelGlobe({ onHover }: Props) {
     window.addEventListener("pointermove", onMove)
     window.addEventListener("pointerup", onUp)
 
-    let rafId: number, elapsed = 0, last = performance.now()
+    let rafId: number | null = null, elapsed = 0, last = performance.now()
+    let onScreen = false
+    let hoverDirty = true
 
     const tick = (now: number) => {
       rafId = requestAnimationFrame(tick)
+      if (pointer.dirty) {
+        pointer.dirty = false
+        hoverDirty = true
+        const rect = canvas.getBoundingClientRect()
+        mouse.x =  ((pointer.cx - rect.left) / rect.width)  * 2 - 1
+        mouse.y = -((pointer.cy - rect.top)  / rect.height) * 2 + 1
+      }
       const dt = Math.min(0.05, (now - last) / 1000); last = now
       elapsed += dt
 
@@ -385,20 +395,45 @@ export function TravelGlobe({ onHover }: Props) {
         }
       })
 
-      raycaster.setFromCamera(mouse, camera)
-      const hits = raycaster.intersectObjects(pinObjs.map((p) => p.mesh))
-      const hit = (hits[0]?.object?.userData as typeof PINS[0] | undefined) ?? null
-      if ((hit?.city ?? null) !== (hovered?.city ?? null)) {
-        hovered = hit
-        onHover?.(hit ? { city: hit.city, country: hit.country } : null)
+      // The globe turns under a still pointer, so hover is re-tested while the
+      // pointer is over the canvas, not only when it moves.
+      const overCanvas = Math.abs(mouse.x) <= 1 && Math.abs(mouse.y) <= 1
+      if (overCanvas || hoverDirty) {
+        hoverDirty = false
+        raycaster.setFromCamera(mouse, camera)
+        const hits = raycaster.intersectObjects(pinMeshes)
+        const hit = (hits[0]?.object?.userData as typeof PINS[0] | undefined) ?? null
+        if ((hit?.city ?? null) !== (hovered?.city ?? null)) {
+          hovered = hit
+          onHover?.(hit ? { city: hit.city, country: hit.country } : null)
+        }
       }
 
       renderer.render(scene, camera)
     }
-    rafId = requestAnimationFrame(tick)
+    const play = () => {
+      if (rafId !== null || !onScreen || document.hidden) return
+      last = performance.now()
+      rafId = requestAnimationFrame(tick)
+    }
+    const pause = () => {
+      if (rafId !== null) cancelAnimationFrame(rafId)
+      rafId = null
+    }
+    // Far down the page: render only while it is actually visible.
+    const io = new IntersectionObserver(([entry]) => {
+      onScreen = entry.isIntersecting
+      if (onScreen) play()
+      else pause()
+    })
+    io.observe(canvas)
+    const onVisibility = () => (document.hidden ? pause() : play())
+    document.addEventListener("visibilitychange", onVisibility)
 
     return () => {
-      cancelAnimationFrame(rafId)
+      pause()
+      io.disconnect()
+      document.removeEventListener("visibilitychange", onVisibility)
       ro.disconnect()
       canvas.removeEventListener("pointerdown", onDown)
       window.removeEventListener("pointermove", onMove)

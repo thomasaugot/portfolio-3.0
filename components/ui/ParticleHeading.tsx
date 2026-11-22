@@ -12,6 +12,7 @@ const REST_SPD     = 0.25
 const REST_DIST    = 1.0
 const BLEED_TOP    = 24   // px above layout box to capture ascender ink overflow
 const SCATTER_PAD  = 150  // transparent margin so scattered particles never clip
+const BUCKETS      = 6    // speed levels: moving particles are drawn one path per level
 
 type Particle = {
   x: number; y: number; hx: number; hy: number; vx: number; vy: number
@@ -45,7 +46,11 @@ function serializeEl(el: Element, injectStyle = ""): string {
   return `<${(el as HTMLElement).tagName.toLowerCase()} xmlns="http://www.w3.org/1999/xhtml" style="${sty}">${kids}</${(el as HTMLElement).tagName.toLowerCase()}>`
 }
 
+// Every heading inlines the same @font-face rules into its SVG; walking all
+// stylesheets once per capture (12 headings on the home page) was pure waste.
+let fontCSSCache: string | null = null
 function fontFaceCSS(): string {
+  if (fontCSSCache !== null) return fontCSSCache
   const rules: string[] = []
   for (const sheet of Array.from(document.styleSheets)) {
     try {
@@ -58,7 +63,8 @@ function fontFaceCSS(): string {
           ))
     } catch { /* cross-origin */ }
   }
-  return rules.join("\n")
+  fontCSSCache = rules.join("\n")
+  return fontCSSCache
 }
 
 async function captureViaSVG(
@@ -175,6 +181,11 @@ function useParticleAnimation(
     let aborted   = false
     let rebuilding = false
     const mouse = { x: -9999, y: -9999, inside: false }
+    const buckets: Particle[][] = Array.from({ length: BUCKETS }, () => [])
+    let inView = false
+    let captured = false
+    let lastW = 0, lastH = 0
+    let resizeTimer: number | undefined
     // The lime offset shadow is a light-mode-only flourish — checked live so it
     // follows the current theme even if capture happened under a different one.
     const isLightNow = () => document.documentElement.getAttribute("data-theme") === "light"
@@ -187,6 +198,8 @@ function useParticleAnimation(
         dpr = Math.min(window.devicePixelRatio || 1, 2)
 
         const heading = el as HTMLElement
+        lastW = heading.offsetWidth; lastH = heading.offsetHeight
+        captured = true
         let cap: Capture | null = await captureViaSVG(heading, dpr)
         if (!cap) cap = captureViaCanvas(heading, dpr)
         if (aborted) { heading.style.visibility = ""; return }
@@ -284,25 +297,40 @@ function useParticleAnimation(
       }
       ctx.drawImage(bitmap, SCATTER_PAD, SCATTER_PAD, bmpCssW, bmpCssH)
 
+      // One pass sorts moving particles into speed buckets; each bucket is then
+      // filled as a single path. Thousands of beginPath/fill calls with a fresh
+      // fillStyle string per particle were what made the hover stutter.
+      for (const b of buckets) b.length = 0
       ctx.globalCompositeOperation = "destination-out"
-      for (const p of particles)
-        if (Math.hypot(p.x - p.hx, p.y - p.hy) > REST_DIST)
-          ctx.clearRect(p.hx - 1, p.hy - 1, 3, 3)
-
-      ctx.globalCompositeOperation = "lighter"
-      const isLight = document.documentElement.getAttribute("data-theme") === "light"
+      ctx.beginPath()
       let anyActive = false
       for (const p of particles) {
-        const spd  = Math.hypot(p.vx, p.vy)
-        const dist = Math.hypot(p.x - p.hx, p.y - p.hy)
-        if (spd <= REST_SPD && dist <= REST_DIST) continue
+        const dx = p.x - p.hx, dy = p.y - p.hy
+        const dist2 = dx * dx + dy * dy
+        const spd2  = p.vx * p.vx + p.vy * p.vy
+        if (dist2 > REST_DIST * REST_DIST) ctx.rect(p.hx - 1, p.hy - 1, 3, 3)
+        if (spd2 <= REST_SPD * REST_SPD && dist2 <= REST_DIST * REST_DIST) continue
         anyActive = true
-        const t = Math.min(spd / 9, 1)
-        ctx.beginPath()
-        ctx.arc(p.x, p.y, 1.5 + t * 2, 0, Math.PI * 2)
+        const t = Math.min(Math.sqrt(spd2) / 9, 1)
+        buckets[Math.min(BUCKETS - 1, Math.floor(t * BUCKETS))].push(p)
+      }
+      ctx.fill()
+
+      ctx.globalCompositeOperation = "lighter"
+      const isLight = isLightNow()
+      for (let b = 0; b < BUCKETS; b++) {
+        const list = buckets[b]
+        if (!list.length) continue
+        const t = (b + 0.5) / BUCKETS
+        const r = 1.5 + t * 2
         ctx.fillStyle = isLight
           ? `rgba(${Math.round(26+t*10)},${Math.round(26+t*10)},${Math.round(23+t*10)},${0.5+t*0.5})`
           : `rgba(${Math.round(100+t*132)},${Math.round(185+t*70)},${Math.round(10+t*48)},${0.5+t*0.5})`
+        ctx.beginPath()
+        for (const p of list) {
+          ctx.moveTo(p.x + r, p.y)
+          ctx.arc(p.x, p.y, r, 0, Math.PI * 2)
+        }
         ctx.fill()
       }
 
@@ -326,6 +354,7 @@ function useParticleAnimation(
     function startLoop() { if (rafId === null) rafId = requestAnimationFrame(tick) }
 
     const onMove = (e: MouseEvent) => {
+      if (!inView || !bitmap) return
       const r = canvas.getBoundingClientRect()
       mouse.x = e.clientX - r.left
       mouse.y = e.clientY - r.top
@@ -339,21 +368,35 @@ function useParticleAnimation(
     // navigation back, document.fonts.ready is already resolved and fires before
     // the theme attribute is applied — without this the light-mode shadow bitmap
     // (which only builds when data-theme==="light") would be skipped.
+    // Capture lazily: only once the heading comes near the viewport, and only
+    // after fonts have settled. Capturing every heading on load blocked the
+    // main thread for the first seconds of the page.
     const kick = () => requestAnimationFrame(() => requestAnimationFrame(rebuild))
-    document.fonts.ready.then(kick)
-    kick()
+    const io = new IntersectionObserver(([entry]) => {
+      inView = entry.isIntersecting
+      if (inView && !captured) document.fonts.ready.then(kick)
+      if (!inView && mouse.inside) { mouse.inside = false; startLoop() }
+    }, { rootMargin: "300px 0px" })
+    io.observe(el)
 
-    const ro = new ResizeObserver(rebuild)
+    const ro = new ResizeObserver(() => {
+      if (!captured) return
+      if (el.offsetWidth === lastW && el.offsetHeight === lastH) return
+      window.clearTimeout(resizeTimer)
+      resizeTimer = window.setTimeout(rebuild, 150)
+    })
     ro.observe(el)
 
     // Re-capture when the theme flips so the offset shadow is rebuilt correctly.
-    const themeObserver = new MutationObserver(rebuild)
+    const themeObserver = new MutationObserver(() => { if (captured) rebuild() })
     themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] })
 
     return () => {
       aborted = true
       if (rafId !== null) cancelAnimationFrame(rafId)
       el.style.visibility = ""
+      window.clearTimeout(resizeTimer)
+      io.disconnect()
       ro.disconnect()
       themeObserver.disconnect()
       window.removeEventListener("mousemove", onMove)
@@ -390,8 +433,7 @@ export function ParticleHeading({
   return (
     <Tag
       ref={headingRef}
-      className={className}
-      style={{ position: "relative" }}
+      className={`relative ${className ?? ""}`}
       {...rest}
     >
       {children}

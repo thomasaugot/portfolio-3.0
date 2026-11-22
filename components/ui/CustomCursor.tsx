@@ -62,12 +62,19 @@ export function CustomCursor() {
 
     const sparks: Spark[] = []
 
-    const onEnter = (e: MouseEvent) => { fx = mx = pmx = e.clientX; fy = my = pmy = e.clientY; visible = true }
-    const onLeave = () => { visible = false }
+    let raf: number | null = null
+    // The loop sleeps once the ring has caught up and every spark has died,
+    // and any mouse event wakes it. It used to repaint the full-screen canvas
+    // every frame of the visit, cursor moving or not.
+    const wake = () => { if (raf === null) raf = requestAnimationFrame(tick) }
+
+    const onEnter = (e: MouseEvent) => { fx = mx = pmx = e.clientX; fy = my = pmy = e.clientY; visible = true; wake() }
+    const onLeave = () => { visible = false; wake() }
     const onMove  = (e: MouseEvent) => {
       pmx = mx; pmy = my
       mx = e.clientX; my = e.clientY
       if (!visible) { fx = mx; fy = my; visible = true }
+      wake()
     }
     const onDown  = () => { clickLife = 1 }
     const SELECTORS = "a,button,[role='button'],label,input,textarea,select"
@@ -75,6 +82,7 @@ export function CustomCursor() {
       const el = e.target as Element
       isHovering = !!el.closest(SELECTORS)
       isGrab     = !!el.closest(".cursor-grab")
+      wake()
     }
 
     document.addEventListener("mouseenter", onEnter, { passive: true })
@@ -87,12 +95,10 @@ export function CustomCursor() {
     styleEl.textContent = `*:not(.cursor-grab):not(.cursor-grabbing),*::before,*::after{cursor:none!important}`
     document.head.appendChild(styleEl)
 
-    let raf: number
-
     const tick = () => {
       raf = requestAnimationFrame(tick)
       ctx.clearRect(0, 0, W, H)
-      if (!visible) return
+      if (!visible) { raf = sleep(raf); return }
 
       const LIME = document.documentElement.getAttribute("data-theme") === "light"
         ? CURSOR_LIGHT_MODE
@@ -103,6 +109,7 @@ export function CustomCursor() {
       // Lerp follower for ring
       fx += (mx - fx) * 0.14
       fy += (my - fy) * 0.14
+      const settled = Math.abs(mx - fx) < 0.1 && Math.abs(my - fy) < 0.1 && mx === pmx && my === pmy
 
       if (!reducedMotion) {
         // Emit sparks proportional to cursor speed
@@ -150,7 +157,11 @@ export function CustomCursor() {
         ctx.globalAlpha = 1
       }
 
-      if (isGrab) return
+      if (isGrab) {
+        pmx = mx; pmy = my
+        if (settled && !sparks.length) raf = sleep(raf)
+        return
+      }
 
       // ── Follower ring ─────────────────────────────────────
       const ringR = isHovering ? 14 : 9
@@ -189,12 +200,21 @@ export function CustomCursor() {
       ctx.arc(mx, my, dotR, 0, Math.PI * 2)
       ctx.fillStyle = `rgba(${LIME},${isHovering ? 0.8 : 1})`
       ctx.fill()
+
+      // speed is measured between frames, so a still pointer must read as still
+      pmx = mx; pmy = my
+      if (settled && !sparks.length) raf = sleep(raf)
     }
 
-    raf = requestAnimationFrame(tick)
+    function sleep(id: number | null): null {
+      if (id !== null) cancelAnimationFrame(id)
+      return null
+    }
+
+    wake()
 
     return () => {
-      cancelAnimationFrame(raf)
+      raf = sleep(raf)
       ro.disconnect()
       document.removeEventListener("mouseenter", onEnter)
       document.removeEventListener("mouseleave", onLeave)

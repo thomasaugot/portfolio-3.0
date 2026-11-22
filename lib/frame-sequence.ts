@@ -22,8 +22,12 @@ export class FrameSequence {
   private started = false
   onFrame?: (index: number) => void
 
-  constructor(canvas: HTMLCanvasElement, urls: string[]) {
+  private maxWidth: number
+
+  /** maxWidth: the frames' own pixel width. A backing store wider than that adds no detail, only fill cost. */
+  constructor(canvas: HTMLCanvasElement, urls: string[], maxWidth = Infinity) {
     this.canvas = canvas
+    this.maxWidth = maxWidth
     this.urls = urls
     this.images = urls.map(() => null)
     this.ready = urls.map(() => false)
@@ -86,8 +90,9 @@ export class FrameSequence {
 
   private resize = () => {
     const r = this.canvas.getBoundingClientRect()
-    this.canvas.width = Math.max(1, Math.round(r.width * this.dpr))
-    this.canvas.height = Math.max(1, Math.round(r.height * this.dpr))
+    const scale = Math.min(this.dpr, this.maxWidth / Math.max(1, r.width))
+    this.canvas.width = Math.max(1, Math.round(r.width * scale))
+    this.canvas.height = Math.max(1, Math.round(r.height * scale))
     this.lastDrawn = -1
     this.draw()
   }

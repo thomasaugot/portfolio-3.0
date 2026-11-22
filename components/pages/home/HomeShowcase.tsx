@@ -17,7 +17,7 @@ import {
 /**
  * Scroll-driven sites, shown rather than described: while the browser frame is
  * pinned (GSAP pin: the root layout's overflow-x-hidden rules out CSS sticky), the reader's own scroll plays a recording of the Halden site being
- * scrolled (utils/animations/showcaseScrub.ts drives the canvas).
+ * scrolled (utils/animations/showcase-scrub.ts drives the canvas).
  */
 export function HomeShowcase() {
   const t = useTranslations("home")
@@ -32,17 +32,17 @@ export function HomeShowcase() {
               <span data-anim="section-meta" className="font-mono text-xs text-text-subtle">
                 {t("sections.showcase_meta")}
               </span>
-              <ParticleHeading className="mt-6 font-display font-semibold tracking-tight text-[clamp(2.5rem,4.6vw,4.75rem)] leading-[0.95]">
+              <ParticleHeading className="mt-[clamp(1rem,2.5vh,1.5rem)] font-display font-semibold tracking-tight text-[clamp(2.25rem,min(4.6vw,7.2vh),4.75rem)] leading-[0.95]">
                 {t("sections.showcase_title")}
               </ParticleHeading>
             </div>
-            <p className="mt-8 max-w-[46ch] text-text-muted text-md leading-[1.6]">{t("showcase.sub")}</p>
+            <p className="mt-[clamp(1rem,3vh,2rem)] max-w-[46ch] text-text-muted text-md leading-[1.6]">{t("showcase.sub")}</p>
             <div className="mt-6 flex flex-wrap gap-2">
               {SHOWCASE_TAGS.map((tag) => (
                 <TechTag key={tag} tag={tag} />
               ))}
             </div>
-            <div className="mt-10 flex flex-wrap gap-3">
+            <div className="mt-[clamp(1.25rem,4vh,2.5rem)] flex flex-wrap gap-3">
               <Button variant="filled" href={SHOWCASE_LIVE_URL} target="_blank" rel="noopener noreferrer">
                 {t("showcase.cta_demo")}
                 <IconArrowOut size={14} />
@@ -51,7 +51,7 @@ export function HomeShowcase() {
                 {t("showcase.cta_case")}
               </Button>
             </div>
-            <p className="mt-8 font-mono text-xs text-text-subtle">{t("showcase.concept")}</p>
+            <p className="mt-[clamp(1rem,3vh,2rem)] font-mono text-xs text-text-subtle">{t("showcase.concept")}</p>
           </div>
 
           <div className="max-[900px]:mt-12">
@@ -67,7 +67,7 @@ export function HomeShowcase() {
               <figcaption className="mt-5 flex items-baseline justify-between gap-6 font-mono text-xs text-text-subtle">
                 <span>{t("showcase.caption")}</span>
                 <span data-showcase="frame" className="shrink-0 tabular-nums" aria-hidden="true">
-                  001 / {SHOWCASE_FRAME_COUNT}
+                  001 / {String(SHOWCASE_FRAME_COUNT).padStart(3, "0")}
                 </span>
               </figcaption>
             </figure>

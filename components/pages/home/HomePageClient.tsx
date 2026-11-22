@@ -21,7 +21,7 @@ import { HomeHero } from "@/components/pages/home/HomeHero"
 import { HomeClientMarquee } from "@/components/pages/home/HomeClientMarquee"
 import { HomeServices } from "@/components/pages/home/HomeServices"
 import { HomeShowcase } from "@/components/pages/home/HomeShowcase"
-import { initShowcaseScrub } from "@/utils/animations/showcaseScrub"
+import { initShowcaseScrub } from "@/utils/animations/showcase-scrub"
 import { HomeDifference } from "@/components/pages/home/HomeDifference"
 // import { HomeProcess } from "@/components/pages/home/HomeProcess" // hidden for now — not selling services
 import { HomeStack } from "@/components/pages/home/HomeStack"
