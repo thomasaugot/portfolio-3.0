@@ -1,6 +1,6 @@
 {
   "hero": {
-    "eyebrow": "[ Développeur fullstack · Las Palmas ]",
+    "eyebrow": "[ Développeur fullstack · Fuerteventura ]",
     "h1a": "Je construis",
     "h1b": "des apps web",
     "h1b2": "",
@@ -11,7 +11,7 @@
     "cta1": "On en parle ?",
     "cta2": "Voir les projets",
     "meta1_k": "Basé",
-    "meta1_v": "Las Palmas, GC",
+    "meta1_v": "Fuerteventura, ES",
     "meta2_k": "Fuseau",
     "meta2_v": "UTC+0 · GMT/WET",
     "meta3_k": "Réponse",
@@ -443,7 +443,7 @@
       },
       {
         "k": "Lieu",
-        "v": "Îles Canaries · ES"
+        "v": "Fuerteventura · Îles Canaries"
       },
       {
         "k": "Langues",
@@ -524,7 +524,7 @@
     },
     {
       "q": "Tu es où, sur quels fuseaux ?",
-      "a": "Las Palmas, Espagne (UTC+0 / WET). Les fuseaux ne m'arrêtent pas. Europe, Amériques, Asie, on s'adapte."
+      "a": "Fuerteventura, Espagne (UTC+0 / WET). Les fuseaux ne m'arrêtent pas. Europe, Amériques, Asie, on s'adapte."
     },
     {
       "q": "Tu codes, ou tu chapeautes ?",

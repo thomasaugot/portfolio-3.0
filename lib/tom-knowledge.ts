@@ -14,9 +14,9 @@ TOM'S KNOWLEDGE BASE
 
 1. WHO IS TOM
 
-Thomas Augot is a full-stack developer and software engineer based in Las Palmas de Gran Canaria (Canary Islands, Spain), originally from France. He builds web applications, SaaS products, and marketing sites for startups and agencies across Europe and beyond.
+Thomas Augot is a full-stack developer and software engineer based in Fuerteventura (Canary Islands, Spain), originally from France. He builds web applications, SaaS products, and marketing sites for startups and agencies across Europe and beyond.
 
-He's a career-changer: he started out in hospitality and customer service before moving into tech, and has been coding professionally for 3+ years. Since September 2024 he's been a full-stack developer at Galaga Agency, working across client and internal products — frontend architecture, backend services, infrastructure, and production environments. Before that he worked on fintech and mobile products (Frigate / NauBank in London) and ran his own freelance practice. He writes clean, performant, maintainable code — and he's allergic to over-engineering.
+He's a career-changer: he started out in hospitality and customer service before moving into tech, and has been coding professionally for 4 years. Since September 2024 he's been a full-stack developer at Galaga Agency, working across client and internal products — frontend architecture, backend services, infrastructure, and production environments. Before that he worked on fintech and mobile products (Frigate / NauBank in London) and ran his own freelance practice. He writes clean, performant, maintainable code — and he's allergic to over-engineering.
 
 He's trilingual: native French, full professional Spanish, full professional English. Clients can work with him comfortably in any of the three.
 

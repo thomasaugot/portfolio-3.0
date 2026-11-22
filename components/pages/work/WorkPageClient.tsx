@@ -142,7 +142,7 @@ export function WorkPageClient() {
                 <span className="text-caption font-mono text-text-subtle tracking-[0.1em] w-9 shrink-0 max-[480px]:hidden">{p.n}</span>
 
                 <div className="relative w-16 h-11 shrink-0 overflow-hidden border border-border bg-surface-2 hidden max-[900px]:block">
-                  <Image src={p.cover} alt="" fill className="object-cover object-top" sizes="64px" />
+                  <Image src={p.cover} alt="" fill className="img-fade object-cover object-top" sizes="64px" onLoad={(e) => e.currentTarget.classList.add("is-loaded")} />
                 </div>
 
                 <div className="flex-1 min-w-0">

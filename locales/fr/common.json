@@ -17,14 +17,14 @@
     "to_dark":  "éteins la lumière"
   },
   "footer": {
-    "tagline": "Dév fullstack, Las Palmas.",
+    "tagline": "Dév fullstack, Fuerteventura.",
     "sitemap_heading": "Plan",
     "elsewhere_heading": "Ailleurs",
     "direct_heading": "Direct",
     "sitemap_links": ["Expertise", "Projets", "Méthode", "À propos", "Contact"],
     "elsewhere_links": ["LinkedIn", "GitHub", "X / Twitter", "Instagram"],
     "direct_links": ["thomas.augot@gmail.com", "Réserver un appel"],
-    "copy": "© 2026 Thomas Augot · Codé et déployé à la main depuis Las Palmas."
+    "copy": "© 2026 Thomas Augot · Codé et déployé à la main depuis Fuerteventura."
   },
   "not_found": {
     "eyebrow": "[ ERR / 404 ]",

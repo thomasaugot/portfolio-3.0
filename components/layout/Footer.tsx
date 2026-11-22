@@ -68,7 +68,7 @@ export function Footer() {
   const headingCls = "text-body font-mono text-text-subtle tracking-[0.12em] uppercase mb-4"
   // Hovering one link fades its siblings out (group) while the hovered one stays fully opaque.
   const colCls     = "group/footer-links"
-  const linkCls    = "text-body text-text-muted no-underline block py-1 transition-[color,opacity] duration-150 hover:text-primary group-hover/footer-links:opacity-40 hover:opacity-100!"
+  const linkCls    = "u-draw w-fit text-body text-text-muted no-underline block py-1 transition-[color,opacity] duration-150 hover:text-primary group-hover/footer-links:opacity-40 hover:opacity-100!"
 
   return (
     <footer
@@ -92,7 +92,7 @@ export function Footer() {
           <div className="flex-1 min-w-0">
             <p className="font-display font-medium text-subheading text-text tracking-[-0.01em] mb-3">{t("footer.tagline")}</p>
             <p className="text-body text-text-subtle leading-[1.6]">
-              Las Palmas de Gran Canaria, ES.<br />
+              Fuerteventura, ES.<br />
               UTC+0 · GMT/WET
             </p>
           </div>

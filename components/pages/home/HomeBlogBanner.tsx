@@ -95,7 +95,7 @@ export function HomeBlogBanner({ posts }: { posts: Post[] }) {
               >
                 <div className="relative w-full aspect-4/3 bg-surface-2 overflow-hidden shrink-0">
                   {p.cover ? (
-                    <Image src={p.cover} alt="" fill sizes="(max-width: 640px) 72vw, 224px" className="object-cover transition-transform duration-500 group-hover:scale-105" unoptimized />
+                    <Image src={p.cover} alt="" fill sizes="(max-width: 640px) 72vw, 224px" className="img-fade object-cover transition-[transform,opacity] duration-500 group-hover:scale-105" unoptimized onLoad={(e) => e.currentTarget.classList.add("is-loaded")} />
                   ) : (
                     <div className="absolute inset-0 grid place-items-center text-caption font-mono text-text-subtle tracking-widest uppercase">no cover</div>
                   )}

@@ -36,8 +36,9 @@ export function HomeAbout() {
                 src="/assets/images/portrait.webp"
                 alt="Thomas Augot"
                 fill
-                className="object-cover object-top"
+                className="img-fade object-cover object-top"
                 sizes="160px"
+                onLoad={(e) => e.currentTarget.classList.add("is-loaded")}
               />
             </div>
 

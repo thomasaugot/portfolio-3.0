@@ -48,7 +48,7 @@ export default async function OgImage({ params }: Props) {
 
         <div style={{ display: "flex", justifyContent: "space-between", fontSize: 18, color: "#6b685f" }}>
           <span>Thomas Augot — full-stack developer</span>
-          <span>Las Palmas · Nantes · Remote</span>
+          <span>Fuerteventura · Nantes · Remote</span>
         </div>
       </div>
     ),

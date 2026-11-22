@@ -14,7 +14,7 @@ export const HOME_SEO: Record<Locale, { title: string; description: string; ogTi
   en: {
     title: "Thomas Augot — Full-stack developer (React, Next.js, Node) for hire",
     description:
-      "Full-stack developer for hire. I ship production-ready web and mobile apps with React, Next.js, and Node. Based in Las Palmas de Gran Canaria — working with clients across the Canary Islands, Spain, and France.",
+      "Full-stack developer for hire. I ship production-ready web and mobile apps with React, Next.js, and Node. Based in Fuerteventura, Canary Islands — working with clients across the Canary Islands, Spain, and France.",
     ogTitle: "Thomas Augot — Full-stack developer for hire",
   },
   fr: {
@@ -26,7 +26,7 @@ export const HOME_SEO: Record<Locale, { title: string; description: string; ogTi
   es: {
     title: "Thomas Augot — Desarrollador full-stack freelance (React, Next.js, Node)",
     description:
-      "Desarrollador full-stack freelance. Construyo aplicaciones web y móviles con React, Next.js y Node. Con base en Las Palmas de Gran Canaria, trabajo con clientes en Canarias y toda España.",
+      "Desarrollador full-stack freelance. Construyo aplicaciones web y móviles con React, Next.js y Node. Con base en Fuerteventura, trabajo con clientes en Canarias y toda España.",
     ogTitle: "Thomas Augot — Desarrollador full-stack freelance",
   },
 }

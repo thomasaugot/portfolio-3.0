@@ -34,9 +34,13 @@ export function initSectionReveals() {
 
 export function initServiceCardsReveal() {
   hide("[data-anim='service-card']", { y: 24 })
+  hide("[data-anim='service-card'] .flex-wrap > span", { y: 6 })
   ScrollTrigger.batch("[data-anim='service-card']", {
-    onEnter: onceEnter((els) =>
-      gsap.to(els, { opacity: 1, y: 0, duration: 0.65, ease: "power2.out", stagger: 0.08 })),
+    onEnter: onceEnter((els) => {
+      gsap.to(els, { opacity: 1, y: 0, duration: 0.65, ease: "power2.out", stagger: 0.08 })
+      const chips = els.flatMap((el) => Array.from((el as HTMLElement).querySelectorAll(".flex-wrap > span")))
+      gsap.to(chips, { opacity: 1, y: 0, duration: 0.3, ease: "power2.out", stagger: 0.02, delay: 0.25 })
+    }),
     start: "top 88%",
   })
 }
@@ -74,7 +78,7 @@ export function initStackReveal() {
         if (!Number.isFinite(target) || prefersReducedMotion()) return
         const counter = { v: 0 }
         gsap.to(counter, {
-          v: target, duration: 1.4, ease: "power3.out", delay: 0.1 + i * 0.07,
+          v: target, duration: 1.1, ease: "steps(" + Math.max(6, Math.min(target, 24)) + ")", delay: 0.1 + i * 0.07,
           onUpdate: () => { num.textContent = String(Math.round(counter.v)) },
         })
       })

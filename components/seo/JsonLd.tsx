@@ -26,7 +26,7 @@ export function JsonLd({ locale }: Props) {
     ],
     "address": {
       "@type": "PostalAddress",
-      "addressLocality": "Las Palmas de Gran Canaria",
+      "addressLocality": "Fuerteventura",
       "addressRegion": "Canarias",
       "addressCountry": "ES",
     },
@@ -64,7 +64,7 @@ export function JsonLd({ locale }: Props) {
     "priceRange": "€€",
     "address": {
       "@type": "PostalAddress",
-      "addressLocality": "Las Palmas de Gran Canaria",
+      "addressLocality": "Fuerteventura",
       "addressRegion": "Canarias",
       "addressCountry": "ES",
     },
@@ -74,6 +74,7 @@ export function JsonLd({ locale }: Props) {
       { "@type": "Country", "name": "France" },
       { "@type": "City", "name": "Nantes" },
       { "@type": "City", "name": "Las Palmas de Gran Canaria" },
+      { "@type": "AdministrativeArea", "name": "Fuerteventura" },
     ],
     "serviceType": [
       "Full-stack web development",

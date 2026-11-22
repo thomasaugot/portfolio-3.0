@@ -109,7 +109,7 @@ export function HomeWork() {
                 <TransitionLink
                   href={`/${locale}/work/${item.slug}`}
                   aria-label={`${item.link} — ${item.client}`}
-                  className="text-body inline-flex items-center gap-1.5 text-primary no-underline transition-opacity hover:opacity-75 keyboard-focus-ring"
+                  className="u-draw text-body inline-flex items-center gap-1.5 text-primary no-underline keyboard-focus-ring"
                 >
                   {item.link}
                 </TransitionLink>
@@ -119,7 +119,7 @@ export function HomeWork() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`${item.client} live site (opens in new tab)`}
-                    className="text-body inline-flex items-center gap-1.5 text-primary no-underline transition-opacity hover:opacity-75 keyboard-focus-ring"
+                    className="u-draw text-body inline-flex items-center gap-1.5 text-primary no-underline keyboard-focus-ring"
                   >
                     {t("work_ui.live_site")}<span className="sr-only"> (opens in new tab)</span>
                   </a>
@@ -130,7 +130,7 @@ export function HomeWork() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`${item.client} live app (opens in new tab)`}
-                    className="text-body inline-flex items-center gap-1.5 text-primary no-underline transition-opacity hover:opacity-75 keyboard-focus-ring"
+                    className="u-draw text-body inline-flex items-center gap-1.5 text-primary no-underline keyboard-focus-ring"
                   >
                     {t("work_ui.live_app")}<span className="sr-only"> (opens in new tab)</span>
                   </a>

@@ -17,14 +17,14 @@
     "to_dark":  "kill the lights"
   },
   "footer": {
-    "tagline": "Full-stack dev, Las Palmas.",
+    "tagline": "Full-stack dev, Fuerteventura.",
     "sitemap_heading": "Sitemap",
     "elsewhere_heading": "Elsewhere",
     "direct_heading": "Direct",
     "sitemap_links": ["Expertise", "Work", "Process", "About", "Contact"],
     "elsewhere_links": ["LinkedIn", "GitHub", "X / Twitter", "Instagram"],
     "direct_links": ["thomas.augot@gmail.com", "Book a call"],
-    "copy": "© 2026 Thomas Augot · Built and deployed by hand from Las Palmas."
+    "copy": "© 2026 Thomas Augot · Built and deployed by hand from Fuerteventura."
   },
   "not_found": {
     "eyebrow": "[ ERR / 404 ]",

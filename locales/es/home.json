@@ -1,6 +1,6 @@
 {
   "hero": {
-    "eyebrow": "[ Desarrollador full-stack · Las Palmas ]",
+    "eyebrow": "[ Desarrollador full-stack · Fuerteventura ]",
     "h1a": "Construyo",
     "h1b": "apps web",
     "h1b2": "",
@@ -11,7 +11,7 @@
     "cta1": "¿Hablamos?",
     "cta2": "Ver proyectos",
     "meta1_k": "Ubicación",
-    "meta1_v": "Las Palmas, GC",
+    "meta1_v": "Fuerteventura, ES",
     "meta2_k": "Zona horaria",
     "meta2_v": "UTC+0 · GMT/WET",
     "meta3_k": "Respuesta",
@@ -443,7 +443,7 @@
       },
       {
         "k": "Ubicación",
-        "v": "Islas Canarias · ES"
+        "v": "Fuerteventura · Islas Canarias"
       },
       {
         "k": "Idiomas",
@@ -524,7 +524,7 @@
     },
     {
       "q": "¿Dónde estás, qué zonas horarias cubres?",
-      "a": "Las Palmas, España (UTC+0 / WET). Las zonas horarias no me frenan. Europa, las Américas, Asia, nos adaptamos."
+      "a": "Fuerteventura, España (UTC+0 / WET). Las zonas horarias no me frenan. Europa, las Américas, Asia, nos adaptamos."
     },
     {
       "q": "¿Codeas o supervisas?",

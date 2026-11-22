@@ -41,7 +41,7 @@ const CONTENT: Record<Locale, {
       {
         heading: "Who I am",
         body: [
-          { text: `This site is operated by Thomas Augot, a freelance full-stack developer based in Las Palmas de Gran Canaria, Spain. Contact: ${appConfig.email}` },
+          { text: `This site is operated by Thomas Augot, a freelance full-stack developer based in Fuerteventura, Canary Islands, Spain. Contact: ${appConfig.email}` },
         ],
       },
       {
@@ -94,7 +94,7 @@ const CONTENT: Record<Locale, {
       {
         heading: "Qui je suis",
         body: [
-          { text: `Ce site est géré par Thomas Augot, développeur full-stack freelance basé à Las Palmas de Gran Canaria, Espagne. Contact : ${appConfig.email}` },
+          { text: `Ce site est géré par Thomas Augot, développeur full-stack freelance basé à Fuerteventura, Îles Canaries, Espagne. Contact : ${appConfig.email}` },
         ],
       },
       {
@@ -147,7 +147,7 @@ const CONTENT: Record<Locale, {
       {
         heading: "Quién soy",
         body: [
-          { text: `Este sitio está gestionado por Thomas Augot, desarrollador full-stack freelance con base en Las Palmas de Gran Canaria, España. Contacto: ${appConfig.email}` },
+          { text: `Este sitio está gestionado por Thomas Augot, desarrollador full-stack freelance con base en Fuerteventura, Islas Canarias, España. Contacto: ${appConfig.email}` },
         ],
       },
       {

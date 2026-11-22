@@ -138,9 +138,6 @@ input, textarea, select { font-size: 1rem; }
   transition: color var(--duration-fast) var(--ease-out);
 }
 .nav-link:hover { color: var(--color-text); }
-.nav-link::before { content: "[ "; opacity: 0; transition: opacity var(--duration-fast) var(--ease-out); }
-.nav-link::after  { content: " ]"; opacity: 0; transition: opacity var(--duration-fast) var(--ease-out); }
-.nav-link:hover::before, .nav-link:hover::after { opacity: 1; color: var(--color-primary); }
 
 
 

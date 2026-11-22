@@ -29,7 +29,7 @@ const instrumentSerif = Instrument_Serif({
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://helloimtom.dev"),
   title: { default: "Thomas Augot — Full-stack developer for hire", template: "%s | Thomas Augot" },
-  description: "Full-stack developer (React, Next.js, Node) for hire. I ship production-ready web & mobile apps from Las Palmas de Gran Canaria.",
+  description: "Full-stack developer (React, Next.js, Node) for hire. I ship production-ready web & mobile apps from Fuerteventura, Canary Islands.",
   robots: {
     index: true, follow: true,
     googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 },
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     type: "website", locale: "en_US",
     url: "https://helloimtom.dev",
     title: "Thomas Augot — Full-stack developer for hire",
-    description: "Full-stack developer for hire. React, Next.js, Node.js. Based in Las Palmas, Gran Canaria.",
+    description: "Full-stack developer for hire. React, Next.js, Node.js. Based in Fuerteventura, Canary Islands.",
     images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "Thomas Augot — Full-stack developer" }],
     siteName: "Thomas Augot",
   },

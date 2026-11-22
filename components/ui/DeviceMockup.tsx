@@ -29,7 +29,7 @@ export function PhoneFrame({
       <div className={`@container ${SHELL}`} style={{ borderRadius: "clamp(6px, 5cqw, 14px)" }}>
         <div className={NOTCH} style={{ height: "clamp(8px, 6cqw, 18px)" }} />
         <div className="relative bg-black aspect-9/18 overflow-hidden">
-          <Image src={src} alt={alt} width={390} height={844} className="absolute top-0 left-0 w-full h-auto" sizes={sizes} priority={priority} />
+          <Image src={src} alt={alt} width={390} height={844} className="img-fade absolute top-0 left-0 w-full h-auto" sizes={sizes} priority={priority} onLoad={(e) => e.currentTarget.classList.add("is-loaded")} />
         </div>
         <div className={HOME_BAR} style={{ height: "clamp(6px, 4.5cqw, 14px)" }} />
       </div>
@@ -78,7 +78,7 @@ export function BrowserFrame({
           )}
         </div>
         <div className="relative overflow-hidden aspect-video [border-left:1.5px_solid_#2d2d2d] [border-right:1.5px_solid_#2d2d2d] bg-black">
-          <Image key={src} src={src} alt={alt} width={1920} height={1080} className="absolute top-0 left-0 w-full h-auto" sizes={sizes} priority={priority} />
+          <Image key={src} src={src} alt={alt} width={1920} height={1080} className="img-fade absolute top-0 left-0 w-full h-auto" sizes={sizes} priority={priority} onLoad={(e) => e.currentTarget.classList.add("is-loaded")} />
         </div>
         <div className="bg-[linear-gradient(180deg,#1c1c1c,#131313)] [border:1.5px_solid_#2d2d2d] [border-top:1px_solid_#0d0d0d] rounded-b-[4px]" style={{ height: "clamp(3px, 1.4cqw, 10px)" }} />
         <div className="hidden @[400px]:block w-[28%] bg-[#161616] mx-auto [border:1.5px_solid_#2d2d2d] border-t-0 rounded-b-[5px]" style={{ height: "clamp(3px, 0.7cqw, 5px)" }} />

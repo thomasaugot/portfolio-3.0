@@ -37,7 +37,7 @@ export function ContrastToggle() {
         viewBox="0 0 18 18"
         fill="none"
         aria-hidden="true"
-        className="transition-colors duration-300"
+        className={`transition-[color,transform] duration-500 [transition-timing-function:var(--ease-out)] ${isHigh ? "rotate-180" : "rotate-0"}`}
       >
         {/* circle outline */}
         <circle cx="9" cy="9" r="7" stroke="currentColor" strokeWidth="1.5" />

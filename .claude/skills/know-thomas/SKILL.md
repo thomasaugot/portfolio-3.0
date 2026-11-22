@@ -5,7 +5,7 @@ description: Who Thomas Augot is and how he works — background, stack, clients
 
 # Thomas Augot
 
-Full-stack developer. **Las Palmas de Gran Canaria**, Canary Islands, Spain (UTC+0).
+Full-stack developer. **Fuerteventura**, Canary Islands, Spain (UTC+0).
 Works at **Galaga Agency** (Las Palmas — digital transformation and immersive marketing).
 
 - Portfolio: https://www.helloimtom.dev · LinkedIn: https://www.linkedin.com/in/thomas-augot/

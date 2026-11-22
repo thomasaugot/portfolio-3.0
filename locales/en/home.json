@@ -1,6 +1,6 @@
 {
   "hero": {
-    "eyebrow": "[ Full-stack developer · Las Palmas ]",
+    "eyebrow": "[ Full-stack developer · Fuerteventura ]",
     "h1a": "I build",
     "h1b": "production-",
     "h1b2": "ready",
@@ -11,7 +11,7 @@
     "cta1": "Let's talk",
     "cta2": "View work",
     "meta1_k": "Based",
-    "meta1_v": "Las Palmas, GC",
+    "meta1_v": "Fuerteventura, ES",
     "meta2_k": "Timezone",
     "meta2_v": "UTC+0 · GMT/WET",
     "meta3_k": "Response",
@@ -443,7 +443,7 @@
       },
       {
         "k": "Location",
-        "v": "Canary Islands · ES"
+        "v": "Fuerteventura · Canary Islands"
       },
       {
         "k": "Languages",
@@ -524,7 +524,7 @@
     },
     {
       "q": "Where are you, and which timezones do you cover?",
-      "a": "Las Palmas, Spain (UTC+0 / WET). Time zones don't stop me. Europe, the Americas, Asia, we make it work."
+      "a": "Fuerteventura, Spain (UTC+0 / WET). Time zones don't stop me. Europe, the Americas, Asia, we make it work."
     },
     {
       "q": "Do you write code, or oversee?",

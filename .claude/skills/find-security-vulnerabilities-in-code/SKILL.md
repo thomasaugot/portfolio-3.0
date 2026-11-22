@@ -9,6 +9,25 @@ metadata:
 
 # Find security vulnerabilities in code
 
+## Default here: manual review, no Strix, no question
+
+Thomas decided (2026-10-28): **do not ask whether to run Strix, and do not ask for an
+LLM key.** Strix bills his API account and ships the source to an LLM provider, and he
+prefers the manual review. Go straight to it:
+
+1. Split the code into two or three areas (authentication / sessions / signed tokens;
+   data routes / authorization / injection / files; anything else that is large) and run
+   one read-only reviewer per area in parallel.
+2. Brief each with the tenancy model (where the company or tenant id comes from, any
+   per-account limits), what is attacker-controlled, and what was already fixed.
+3. They read the code, prove each bug offline (a small script against the pure helpers
+   with fake secrets, or exact reasoning from the code), and never send a request to
+   production or any live service.
+4. Verify every finding yourself before fixing it, then fix the root cause, run
+   `tsc`/lint/tests, and report fixed vs needs-a-decision.
+
+Use the Strix sections below **only if Thomas explicitly asks for Strix** in that request.
+
 White-box security review with Strix: the agents read the source to build a model of routes, sinks, and authorization checks, then attempt real exploitation. Findings come with a proof-of-concept, so the output is a short list of proven issues rather than the hundreds of "potential" hits a pattern-matching scanner produces.
 
 Install, LLM setup, all flags, and the managed-cloud path are in the **run-penetration-test** skill.

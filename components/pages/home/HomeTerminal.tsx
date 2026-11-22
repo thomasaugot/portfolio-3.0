@@ -5,7 +5,7 @@ import { useAppReadyContext } from "@/contexts/AppReadyContext"
 
 const LINES = [
   { type: "prompt", text: "whoami" },
-  { type: "out", text: "thomas_augot  # fullstack dev · las palmas, ES" },
+  { type: "out", text: "thomas_augot  # fullstack dev · fuerteventura, ES" },
   { type: "blank", text: "" },
   { type: "prompt", text: "cat stack.json" },
   { type: "key", text: "{" },
@@ -32,10 +32,33 @@ const LINES = [
   { type: "blank", text: "" },
 ]
 
+const IDLE_CMDS = ["git status", "npm run build", "docker compose ps", "git log --oneline -3", "npx tsc --noEmit"]
+
 export function HomeTerminal() {
   const { loaderGone } = useAppReadyContext()
   const [visibleCount, setVisibleCount] = useState(0)
+  const [idle, setIdle] = useState("")
   const bodyRef = useRef<HTMLDivElement>(null)
+
+  // Once the intro has played, the prompt occasionally types a command, pauses, and clears.
+  useEffect(() => {
+    if (visibleCount < LINES.length) return
+    let timer = 0, cancelled = false, n = 0
+    const run = () => {
+      const cmd = IDLE_CMDS[n++ % IDLE_CMDS.length]
+      let i = 0
+      const type = () => {
+        if (cancelled) return
+        i++
+        setIdle(cmd.slice(0, i))
+        if (i < cmd.length) timer = window.setTimeout(type, 55 + Math.random() * 60)
+        else timer = window.setTimeout(() => { setIdle(""); timer = window.setTimeout(run, 12000 + Math.random() * 6000) }, 2600)
+      }
+      type()
+    }
+    timer = window.setTimeout(run, 6000)
+    return () => { cancelled = true; window.clearTimeout(timer) }
+  }, [visibleCount])
 
   useEffect(() => {
     if (!loaderGone) return
@@ -106,6 +129,7 @@ export function HomeTerminal() {
         })}
         <div className={`whitespace-pre min-h-[1.5em]${visibleCount >= LINES.length ? "" : " invisible"}`}>
           <span className="text-primary">❯ </span>
+          <span className="text-text">{idle}</span>
           <span className="inline-block w-2 h-[1em] bg-primary align-[-2px] animate-[blink_1s_steps(2)_infinite] ml-0.5" />
         </div>
       </div>

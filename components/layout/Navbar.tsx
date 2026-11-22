@@ -17,6 +17,21 @@ export const Navbar = memo(function Navbar() {
   const pathname = usePathname()
   const isHome = pathname === `/${language}`
   const [scrolled, setScrolled] = useState(false)
+  const [active, setActive] = useState<string | null>(null)
+
+  // Track which home section is in view so its nav link gets the dot.
+  useEffect(() => {
+    if (!isHome) { setActive(null); return }
+    const ids = NAV_ITEMS.filter((k) => !(k in NAV_HREF))
+    const els = ids.map((id) => document.getElementById(id)).filter(Boolean) as HTMLElement[]
+    if (!els.length) return
+    const io = new IntersectionObserver((entries) => {
+      const visible = entries.filter((e) => e.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]
+      if (visible) setActive(visible.target.id)
+    }, { rootMargin: "-40% 0px -50% 0px", threshold: [0, 0.1, 0.3] })
+    els.forEach((el) => io.observe(el))
+    return () => io.disconnect()
+  }, [isHome, pathname])
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 30)
@@ -64,14 +79,11 @@ export const Navbar = memo(function Navbar() {
               key={key}
               href={navHref(key)}
               className={[
-                "nav-link keyboard-focus-ring",
+                "nav-link u-draw keyboard-focus-ring",
                 "text-[16px] text-text-muted no-underline px-3 py-2 tracking-[0.02em] relative",
                 "transition-colors duration-fast ease-out hover:text-text",
-                "before:content-['[_'] before:opacity-0 before:transition-opacity before:duration-fast",
-                "after:content-['_]'] after:opacity-0 after:transition-opacity after:duration-fast",
-                "hover:before:opacity-100 hover:before:text-primary",
-                "hover:after:opacity-100 hover:after:text-primary",
               ].join(" ")}
+              aria-current={active === key ? "location" : undefined}
             >
               {t(`nav.${key}`)}
             </TransitionLink>
