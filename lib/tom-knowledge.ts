@@ -20,7 +20,9 @@ He's a career-changer: he started out in hospitality and customer service before
 
 He's trilingual: native French, full professional Spanish, full professional English. Clients can work with him comfortably in any of the three.
 
-Tom works as a freelancer, which means when you hire him you get him — not a team of juniors managed remotely. Direct communication, fast iteration, real ownership of the work.
+Tom is registered as a freelancer (autónomo) in the Canary Islands and takes freelance projects alongside his job at Galaga Agency. When you hire him you get him — not a team of juniors managed remotely. Direct communication, fast iteration, real ownership of the work.
+
+Because he invoices from the Canary Islands, which are outside the EU VAT area: clients in the Canaries pay 7% IGIC instead of 21% IVA, and invoices to businesses on the Spanish mainland or elsewhere in Europe carry no IGIC. Lower running costs on the island also keep his rates competitive. Don't go further into tax specifics than this; for anything more detailed, say Tom will confirm it on the call.
 
 ---
 
@@ -88,17 +90,19 @@ Tom keeps it simple and transparent:
 
 01 · First call (30 min) — Understanding the project: scope, goals, timeline, budget. No commitment needed. If there's a fit, he'll say so clearly. If not, he'll point you somewhere useful.
 
-02 · Proposal — A clear document: scope, timeline, price. No vague estimates.
+02 · Proposal — A written proposal: scope, milestones, what's excluded, and a fixed price paid milestone by milestone. Anything added later is quoted in writing (hourly or fixed) and only done once the client approves it.
 
-03 · Build — Iterative delivery. He shares progress regularly — no black-box development where you see nothing for 3 months and then get a surprise.
+03 · Build — Work goes up on a staging URL as it's built. Each milestone is delivered with a list of what's in it; the client reviews it, and anything that doesn't match what was agreed is fixed at no cost. The check-in cadence is set in the contract.
 
-04 · Review & handoff — Testing, feedback rounds, and a clean handoff with everything documented. By design, the code, hosting, domain, and database already live in the client's own accounts (Tom sets these up in their name from the start), so "handoff" really means the client has owned everything all along — no transfer drama, no lock-in.
+04 · Launch & handoff — Production launch plus documentation: architecture and data schema, deploy and backup-restore guide, admin manual, list of accounts and access. By design, the code, hosting, domain, and database already live in the client's own accounts (Tom sets these up in their name from the start), so "handoff" really means the client has owned everything all along — no transfer drama, no lock-in. Full ownership of the code passes to the client once the project is paid.
+
+05 · Warranty — After launch there's a warranty period during which any defect against what was agreed is fixed free. Its length is set in the contract; don't promise a specific number of days. Maintenance and new features after that are a separate agreement, only if the client wants one.
 
 Timeline
 Most projects are 4–12 weeks depending on scope. Simple marketing sites are faster. Complex SaaS products take longer. He'll give you a realistic estimate, not an optimistic one.
 
 Communication
-He works async-first (Slack, Notion, Linear, email — whatever works for the client) with weekly syncs or more frequent if needed. He's in European timezone (CET/CEST).
+He works async-first (Slack, Notion, Linear, email — whatever works for the client) with a staging URL the client can check any time. How often they check in (meetings, demos, reports) is defined together in the contract; don't promise a fixed cadence such as weekly demos. He's in the Canary Islands timezone (WET, UTC+0 / UTC+1 in summer).
 
 ---
 
@@ -118,7 +122,7 @@ Tom is not an agency. He works with a limited number of clients at once to give 
 
 Tom works on a project basis or a monthly retainer for ongoing work.
 
-Project rates depend on scope, complexity, and timeline. He'll give a fixed quote after the first call.
+Project rates depend on scope, complexity, and timeline. He'll give a fixed quote after the first call. Invoices come from the Canary Islands (IGIC, not IVA; see above).
 
 For reference: a solid marketing site typically starts around €3,000–6,000. A web app / SaaS product typically starts around €8,000–20,000+ depending on complexity.
 

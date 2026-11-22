@@ -1,6 +1,6 @@
 {
   "hero": {
-    "eyebrow": "[ Full-stack developer · Fuerteventura ]",
+    "eyebrow": "[ Freelance full-stack developer · Fuerteventura ]",
     "h1a": "I build",
     "h1b": "production-",
     "h1b2": "ready",
@@ -8,7 +8,7 @@
     "h1d": "fast",
     "h1e": "and well.",
     "sub": "Hi, I'm Thomas. I ship modern web & mobile products end-to-end, from idea to staging to scale. Four years deep in React, Next.js and Node, coding by the ocean in the Canary Islands.",
-    "cta1": "Let's talk",
+    "cta1": "Start a project",
     "cta2": "View work",
     "meta1_k": "Based",
     "meta1_v": "Fuerteventura, ES",
@@ -19,36 +19,36 @@
   },
   "trusted_label": "Shipped for",
   "sections": {
-    "services_meta": "[ 01 / EXPERTISE ]",
-    "services_title": "What I'm good at.",
+    "services_meta": "[ 01 / SERVICES ]",
+    "services_title": "What you get when you hire me.",
     "showcase_meta": "[ 02 / IN MOTION ]",
     "showcase_title": "Websites that play like film.",
-    "difference_meta": "[ 03 / WHO I AM ]",
-    "difference_title": "A few things about me.",
+    "difference_meta": "[ 03 / WHY ME ]",
+    "difference_title": "The difference.",
     "process_meta": "[ 04 / PROCESS ]",
     "process_title": "From 'let’s talk' to live.",
-    "stack_meta": "[ 04 / STACK ]",
+    "stack_meta": "[ 05 / STACK ]",
     "stack_title": "The tools I lean on, daily.",
-    "work_meta": "[ 05 / WORK ]",
+    "work_meta": "[ 06 / WORK ]",
     "work_title": "Real stuff, in production.",
-    "testimonials_meta": "[ 06 / WORD-OF-MOUTH ]",
+    "testimonials_meta": "[ 07 / WORD-OF-MOUTH ]",
     "testimonials_title": "What the people I've shipped with say.",
-    "about_meta": "[ 07 / ABOUT ]",
+    "about_meta": "[ 08 / ABOUT ]",
     "about_title": "Coder by trade. Nomad the rest of the time.",
     "faq_meta": "[ 08 / FAQ ]",
     "faq_title": "Things people ask before we start.",
     "contact_meta": "[ 09 / CONTACT ]",
     "contact_title": "A project, a question? Write to me.",
-    "difference_meta_legacy": "[ 02 / WHY ME ]",
-    "difference_title_legacy": "The difference."
+    "difference_personal_meta": "[ 03 / WHO I AM ]",
+    "difference_personal_title": "A few things about me."
   },
   "showcase": {
-    "sub": "Scroll-driven 3D sites: one continuous story that plays as people scroll, with cinematic footage where realism sells and live WebGL where graphics need to stay sharp. This is Halden, a concept I built to show how it feels.",
+    "sub": "Scroll-driven sites: one continuous film that plays as people scroll, with the content laid over it. This is Cinder, a concept smash-burger spot in Corralejo I built to show how it feels: the burger builds itself layer by layer as you scroll.",
     "caption": "Recorded from the live site. Your scroll is driving it.",
     "cta_demo": "Scroll the live demo",
     "cta_case": "How it's built",
-    "concept": "Concept project. Halden is a fictional airline.",
-    "canvas_label": "A recording of the Halden site being scrolled: the cabin, the window, the jet above the clouds, the cabin rooms, then the climb into the dark"
+    "concept": "Concept project. Cinder is a fictional restaurant.",
+    "canvas_label": "A recording of the Cinder site being scrolled: two patties take the cheese, the bun lands, then the burger stacks up with every layer and its island producer labelled"
   },
   "services": [
     {
@@ -149,18 +149,23 @@
   "difference": [
     {
       "n": "D/01",
-      "t": "I came to code late, and on purpose",
-      "d": "Kitchens, aviation, customer service, then a bootcamp. No CS degree. I learned to ship under pressure before I learned to program, and it shows in how I work: calm, direct, done."
+      "t": "One profile, the whole stack",
+      "d": "Frontend, backend, database, infrastructure, domains and DNS, handled by one person who sees the whole picture. No hand-offs between three freelancers, no \"that's not my part.\""
     },
     {
       "n": "D/02",
-      "t": "I want to understand the whole machine",
-      "d": "I don't like depending on a service I don't understand. So I host my own server, my own database and my own CI. Not for the résumé, to know exactly what holds what, and to be able to fix it myself."
+      "t": "Invoiced from the Canary Islands",
+      "d": "I'm registered in the Canaries, which sit outside the EU VAT area. Clients in the islands pay 7% IGIC instead of 21% IVA, and invoices to businesses on the mainland or elsewhere in Europe carry no IGIC at all. Island overheads are lower too, and so are my rates."
     },
     {
       "n": "D/03",
-      "t": "I care how it feels, not just that it works",
-      "d": "Timing, weight, the way a page moves when you scroll it. Motion and 3D are the part I keep coming back to, and I'll spend the extra hour on a transition nobody asked for."
+      "t": "Total transparency, no hidden traps",
+      "d": "Clear scope, clear pricing, progress you can see as it's built. No black-box development, no surprise invoices, no vague \"it's almost done.\""
+    },
+    {
+      "n": "D/04",
+      "t": "You own everything, forever",
+      "d": "Code, hosting, domain and database all live in your own accounts. I'll even set up your GitHub so the codebase is yours for life. If we ever stop working together, you keep 100% of your product."
     }
   ],
   "process": [
@@ -172,27 +177,27 @@
     },
     {
       "n": "02",
-      "t": "Scope & estimate",
-      "d": "I send a written scope, milestones, and a fixed timeline within 48h. Clear deliverables, clear price, no surprises.",
-      "time": "48h"
+      "t": "Proposal & fixed price",
+      "d": "A written proposal: scope, milestones, what's not included, and a fixed price paid milestone by milestone. Anything added later is quoted in writing before I start on it.",
+      "time": "In writing"
     },
     {
       "n": "03",
-      "t": "Build sprints",
-      "d": "Weekly demos on a staging URL. You see progress every Friday and can redirect at any point. Slack/email async, calls only when useful.",
-      "time": "Weekly"
+      "t": "Build",
+      "d": "Work goes up on a staging URL as it's built, so you can follow it whenever you like. Each milestone comes with a list of what it includes: you review it, and anything that doesn't match what we agreed gets fixed at no cost. How often we check in is set together in the contract.",
+      "time": "Per milestone"
     },
     {
       "n": "04",
-      "t": "Launch",
-      "d": "Production deploy, DNS cutover, analytics dialed in. I run a 7-day burn-in to catch what only real traffic can show.",
-      "time": "Day 1"
+      "t": "Launch & handover",
+      "d": "Production goes live on accounts in your name, with the code in your own repository from day one. You get the documentation: architecture, deploy and restore guide, admin manual, and the list of accounts and access.",
+      "time": "Handover"
     },
     {
       "n": "05",
-      "t": "Aftercare",
-      "d": "30 days of bugfixes & small adjustments included. After that, retainers or per-feature. Whichever you prefer.",
-      "time": "30 days"
+      "t": "Warranty",
+      "d": "After launch, any defect against what we agreed is fixed free during a warranty period whose length is set in the contract. Ongoing maintenance and new features are a separate agreement, only if you want one.",
+      "time": "As agreed"
     }
   ],
   "stack": {
@@ -496,7 +501,7 @@
       },
       {
         "k": "Working with",
-        "v": "Galaga Agency"
+        "v": "Galaga Agency · freelance on the side"
       },
       {
         "k": "Off-hours",
@@ -640,21 +645,21 @@
     "live_app": "Live app ↗",
     "view_all": "View selected work →"
   },
-  "difference_legacy": [
+  "difference_personal": [
     {
       "n": "D/01",
-      "t": "One profile, the whole stack",
-      "d": "Frontend, backend, database, infrastructure, domains and DNS, handled by one person who sees the whole picture. No hand-offs between three freelancers, no \"that's not my part.\""
+      "t": "I came to code late, and on purpose",
+      "d": "Kitchens, aviation, customer service, then a bootcamp. No CS degree. I learned to ship under pressure before I learned to program, and it shows in how I work: calm, direct, done."
     },
     {
       "n": "D/02",
-      "t": "Total transparency, no hidden traps",
-      "d": "Clear scope, clear pricing, progress you can see as it's built. No black-box development, no surprise invoices, no vague \"it's almost done.\""
+      "t": "I want to understand the whole machine",
+      "d": "I don't like depending on a service I don't understand. So I host my own server, my own database and my own CI. Not for the résumé, to know exactly what holds what, and to be able to fix it myself."
     },
     {
       "n": "D/03",
-      "t": "You own everything, forever",
-      "d": "Code, hosting, domain and database all live in your own accounts. I'll even set up your GitHub so the codebase is yours for life. If we ever stop working together, you keep 100% of your product."
+      "t": "I care how it feels, not just that it works",
+      "d": "Timing, weight, the way a page moves when you scroll it. Motion and 3D are the part I keep coming back to, and I'll spend the extra hour on a transition nobody asked for."
     }
   ]
 }

@@ -26,5 +26,7 @@ export interface Project {
     mobile?: { src: string; poster: string }
     /** what the loop shows, for screen readers */
     label: string
+    /** playback speed; recordings of a slow scroll read better sped up */
+    rate?: number
   }
 }

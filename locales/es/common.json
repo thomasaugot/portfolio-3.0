@@ -1,7 +1,7 @@
 {
   "nav": {
     "home": "Inicio",
-    "services": "Especialidades",
+    "services": "Servicios",
     "work": "Portfolio",
     "process": "Método",
     "stack": "Stack",
@@ -17,11 +17,11 @@
     "to_dark":  "apaga la luz"
   },
   "footer": {
-    "tagline": "Dev full-stack, Fuerteventura.",
+    "tagline": "Dev full-stack freelance, Fuerteventura.",
     "sitemap_heading": "Mapa",
     "elsewhere_heading": "En otros sitios",
     "direct_heading": "Directo",
-    "sitemap_links": ["Especialidades", "Proyectos", "Método", "Sobre mí", "Contacto"],
+    "sitemap_links": ["Servicios", "Proyectos", "Método", "Sobre mí", "Contacto"],
     "elsewhere_links": ["LinkedIn", "GitHub", "X / Twitter", "Instagram"],
     "direct_links": ["thomas.augot@gmail.com", "Reservar llamada"],
     "copy": "© 2026 Thomas Augot · Codeado y desplegado a mano desde Fuerteventura."

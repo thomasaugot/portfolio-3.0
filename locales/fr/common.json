@@ -1,7 +1,7 @@
 {
   "nav": {
     "home": "Accueil",
-    "services": "Expertise",
+    "services": "Services",
     "work": "Portfolio",
     "process": "Méthode",
     "stack": "Stack",
@@ -17,11 +17,11 @@
     "to_dark":  "éteins la lumière"
   },
   "footer": {
-    "tagline": "Dév fullstack, Fuerteventura.",
+    "tagline": "Dév fullstack freelance, Fuerteventura.",
     "sitemap_heading": "Plan",
     "elsewhere_heading": "Ailleurs",
     "direct_heading": "Direct",
-    "sitemap_links": ["Expertise", "Projets", "Méthode", "À propos", "Contact"],
+    "sitemap_links": ["Services", "Projets", "Méthode", "À propos", "Contact"],
     "elsewhere_links": ["LinkedIn", "GitHub", "X / Twitter", "Instagram"],
     "direct_links": ["thomas.augot@gmail.com", "Réserver un appel"],
     "copy": "© 2026 Thomas Augot · Codé et déployé à la main depuis Fuerteventura."

@@ -27,7 +27,7 @@ export function initSectionReveals() {
   hide("[data-anim='section-head']", { y: 32 })
   ScrollTrigger.batch("[data-anim='section-head']", {
     onEnter: onceEnter((els) =>
-      gsap.to(els, { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" })),
+      gsap.to(els, { autoAlpha: 1, y: 0, duration: 0.8, ease: "power2.out" })),
     start: "top 88%",
   })
 }
@@ -219,6 +219,8 @@ export function initSectionRules() {
 /** Section meta labels ("[ 05 / WORK ]") type themselves in with a caret. */
 export function initSectionMeta() {
   const metas = gsap.utils.toArray<HTMLElement>("[data-anim='section-meta']")
+  // some labels ship `invisible` to avoid a flash before typing starts
+  gsap.set(metas, { autoAlpha: 1 })
   if (!metas.length || prefersReducedMotion()) return
   metas.forEach((el) => {
     // Remember the original text across StrictMode / context reverts.
@@ -282,7 +284,7 @@ export function initDifferenceReveal() {
   hide("[data-anim='diff-card']", { y: 24 })
   ScrollTrigger.batch("[data-anim='diff-card']", {
     onEnter: onceEnter((els) =>
-      gsap.to(els, { opacity: 1, y: 0, duration: 0.65, ease: "power2.out", stagger: 0.1 })),
+      gsap.to(els, { autoAlpha: 1, y: 0, duration: 0.65, ease: "power2.out", stagger: 0.1 })),
     start: "top 88%",
   })
 }

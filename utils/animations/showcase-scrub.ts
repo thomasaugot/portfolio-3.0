@@ -66,7 +66,9 @@ export function initShowcaseScrub(): (() => void) | void {
       trigger: stage,
       pin: true,
       anticipatePin: 1,
-      start: `top top+=${NAV_CLEARANCE}`,
+      // centred in the space under the navbar, like the desktop row
+      start: () => `center ${NAV_CLEARANCE + (window.innerHeight - NAV_CLEARANCE) / 2}px`,
+      invalidateOnRefresh: true,
       end: `+=${SHOWCASE_PIN_LENGTH}%`,
       scrub: true,
       onUpdate: (self) => seq.seek(self.progress),

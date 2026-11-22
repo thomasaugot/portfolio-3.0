@@ -16,7 +16,7 @@ import {
 
 /**
  * Scroll-driven sites, shown rather than described: while the browser frame is
- * pinned (GSAP pin: the root layout's overflow-x-hidden rules out CSS sticky), the reader's own scroll plays a recording of the Halden site being
+ * pinned (GSAP pin: the root layout's overflow-x-hidden rules out CSS sticky), the reader's own scroll plays a recording of the Cinder site being
  * scrolled (utils/animations/showcase-scrub.ts drives the canvas).
  */
 export function HomeShowcase() {

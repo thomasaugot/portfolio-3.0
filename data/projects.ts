@@ -15,6 +15,7 @@ export const PROJECTS: Project[] = [
     href: "https://cinder-rouge.vercel.app",
     video: {
       src: "/assets/videos/cinder-live.mp4",
+      rate: 1.75,
       poster: "/assets/videos/cinder-live-poster.jpg",
       mobile: { src: "/assets/videos/cinder-live-mobile.mp4", poster: "/assets/videos/cinder-live-mobile-poster.jpg" },
       label: "The live Cinder site being scrolled: the CINDER letters open into the smash on the flat-top, the burger builds itself, island producers are labelled on the layers, then the menu, ordering and opening hours slide over the film",

@@ -15,7 +15,7 @@ const LINES = [
   { type: "pair", key: "  \"animation\"", value: " [\"GSAP\", \"Three.js\"]" },
   { type: "key", text: "}" },
   { type: "blank", text: "" },
-  { type: "prompt", text: "ls -1 expertise/" },
+  { type: "prompt", text: "ls -1 services/" },
   { type: "ok", text: "web-apps          # SaaS, dashboards, portals, PWAs ✓" },
   { type: "ok", text: "websites          # editorial, SEO, headless CMS ✓" },
   { type: "ok", text: "mobile-apps       # React Native · iOS + Android ✓" },
@@ -27,7 +27,8 @@ const LINES = [
   { type: "pair", key: "  \"role\"", value: " \"full-stack developer\"," },
   { type: "pair", key: "  \"reply_in\"", value: " \"< 24h\"," },
   { type: "pair", key: "  \"tz\"", value: " \"Atlantic/Canary\"," },
-  { type: "pair", key: "  \"status\"", value: " \"employed @ Galaga Agency\"" },
+  { type: "pair", key: "  \"open\"", value: " true," },
+  { type: "pair", key: "  \"status\"", value: " \"freelance + Galaga Agency\"" },
   { type: "key", text: "}" },
   { type: "blank", text: "" },
 ]

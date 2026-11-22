@@ -21,10 +21,15 @@ export function VideoMockup({ project, priority = false }: Props) {
   const { preference } = useMotionPreference()
   const reduced = preference === "reduced"
   const mobile = project.video.mobile
+  const rate = project.video.rate ?? 1
 
   useEffect(() => {
     const vids = [desktop.current, phone.current].filter((v): v is HTMLVideoElement => !!v)
     if (!vids.length) return
+    vids.forEach((v) => {
+      v.defaultPlaybackRate = rate
+      v.playbackRate = rate
+    })
     if (reduced) {
       vids.forEach((v) => {
         v.pause()
@@ -38,7 +43,7 @@ export function VideoMockup({ project, priority = false }: Props) {
     })
     io.observe(vids[0])
     return () => io.disconnect()
-  }, [reduced])
+  }, [reduced, rate])
 
   return (
     <div className="relative w-full h-full flex items-center justify-center px-6">
